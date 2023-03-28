@@ -21,6 +21,8 @@ class CheckTest
     assertTrue(Check.forContains(haystack, "Cat"));
     
     assertFalse(Check.forContains(haystack, "Aardvark"));
+    assertFalse(Check.forContains(haystack, "HORSE"));
+
   }
 
   @Test
