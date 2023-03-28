@@ -34,5 +34,6 @@ class CheckTest
   void forContainsTest_null()
   {
     assertFalse(Check.forContains((List<String>) null, "Aardvark"));
+    assertFalse(Check.forContains((Iterable) null, "Aardvark"));
   }
 }
