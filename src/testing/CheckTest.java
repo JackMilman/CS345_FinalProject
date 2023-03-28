@@ -32,5 +32,6 @@ class CheckTest
   void forContainsTest_null()
   {
     assertFalse(Check.forContains(null, "Aardvark"));
+    assertFalse(Check.forContains(null, null));
   }
 }
