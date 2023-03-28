@@ -2,6 +2,8 @@ package testing;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import utilities.Check;
@@ -19,6 +21,8 @@ class CheckTest
     assertTrue(Check.forContains(haystack, "Cat"));
     
     assertFalse(Check.forContains(haystack, "Aardvark"));
+    assertFalse(Check.forContains(haystack, "HORSE"));
+
   }
 
   @Test
@@ -31,6 +35,7 @@ class CheckTest
   @Test
   void forContainsTest_null()
   {
+    assertFalse(Check.forContains((List<String>) null, "Aardvark"));
     assertFalse(Check.forContains((Iterable) null, "Aardvark"));
   }
 }
