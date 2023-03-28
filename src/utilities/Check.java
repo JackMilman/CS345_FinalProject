@@ -17,11 +17,9 @@ public class Check
    *          The array of String objects to search through
    * @param needle
    *          The String object to search for
-=======
    *                   The array of String objects to search through
    * @param needle
    *                   The String object to search for
->>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A
    * @return true if haystack contains needle; false otherwise
    */
   public static boolean forContains(final String[] haystack, final String needle)
