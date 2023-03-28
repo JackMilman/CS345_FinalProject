@@ -1,5 +1,7 @@
 package utilities;
 
+import java.util.List;
+
 /**
  * A utility class that performs checks of various kinds.
  * 
@@ -12,9 +14,14 @@ public class Check
    * Check to see if an array of String objects contains a particular String.
    * 
    * @param haystack
+   *          The array of String objects to search through
+   * @param needle
+   *          The String object to search for
+=======
    *                   The array of String objects to search through
    * @param needle
    *                   The String object to search for
+>>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A
    * @return true if haystack contains needle; false otherwise
    */
   public static boolean forContains(final String[] haystack, final String needle)
@@ -25,6 +32,19 @@ public class Check
     for (int i = 0; i < haystack.length; i++)
     {
       if (haystack[i].equals(needle))
+        return true;
+    }
+    return false;
+  }
+
+  public static boolean forContains(final List<String> haystack, final String needle)
+  {
+    if (haystack == null)
+      return false;
+    
+    for (String straw : haystack)
+    {
+      if (straw.equals(needle))
         return true;
     }
     return false;
