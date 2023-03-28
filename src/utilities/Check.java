@@ -1,5 +1,9 @@
 package utilities;
 
+import java.util.List;
+
+import 
+
 /**
  * A utility class that performs checks of various kinds.
  * 
@@ -25,5 +29,15 @@ public class Check
       if (haystack[i].equals(needle)) return true;
     }
     return false;
+  }
+  
+  public static boolean forContainsIgnoreCase(final List<String> haystack, final String needle) {
+	  if (haystack == null) return false;
+
+	    for (int i=0; i<haystack.size(); i++)
+	    {
+	      if (haystack.get(i).equalsIgnoreCase(needle)) return true;
+	    }
+	    return false;
   }
 }
