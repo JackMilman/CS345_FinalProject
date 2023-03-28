@@ -42,4 +42,14 @@ public class Check
     }
     return false;
   }
+  
+  public static boolean forContains(Iterable<String> haystack, String needle)
+  {
+	  if (haystack == null) return false;
+	  for (String str : haystack)
+	  {
+		  if (str.equals(needle)) return true;
+	  }
+	  return false;
+  }
 }
