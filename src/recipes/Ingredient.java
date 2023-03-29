@@ -6,7 +6,7 @@ package recipes;
  * the unit that amount is being measured in.
  * 
  * @version 3/28/2023 Version 1
- * @author Jack Milman
+ * @author Jack Milman, KichIntel
  *
  */
 public class Ingredient

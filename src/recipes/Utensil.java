@@ -5,7 +5,7 @@ package recipes;
  * (i.e. how it is used and what it looks like).
  * 
  * @version 3/28/2023 Version 1
- * @author Jack Milman
+ * @author Jack Milman, KichIntel
  *
  */
 public class Utensil

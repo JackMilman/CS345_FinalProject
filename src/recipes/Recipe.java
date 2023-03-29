@@ -8,7 +8,7 @@ import java.util.List;
  * utensils are to be used to make the meal.
  * 
  * @version 3/28/2023 Version 1
- * @author Jack Milman
+ * @author Jack Milman, KichIntel
  *
  */
 public class Recipe

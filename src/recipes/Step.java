@@ -7,7 +7,7 @@ package recipes;
  * Ingredient will go.
  * 
  * @version 3/28/2023 Version 1
- * @author Jack Milman
+ * @author Jack Milman, KichIntel
  *
  */
 public class Step
