@@ -28,5 +28,11 @@ public class KitchIntelButton extends JButton
   public KitchIntelButton(String buttonImage)
   {
     super(new ImageIcon(buttonImage));
+    setBorderPainted(false);
+    setContentAreaFilled(false);
+    setFocusPainted(false);
+    setOpaque(false);
+    
+    setPressedIcon(new ImageIcon("white_"+buttonImage));
   }
 }
