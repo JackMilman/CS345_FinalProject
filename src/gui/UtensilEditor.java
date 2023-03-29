@@ -22,7 +22,11 @@ public class UtensilEditor extends JComponent
   {
     super();
     setLayout(new BorderLayout());
-    add(new TextArea("utensil editor"));
+    
+    TextArea utensilDisplay = new TextArea("Utensil editor");
+    utensilDisplay.setEditable(false);
+    add(utensilDisplay);
+    
     setVisible(true);
   }
 }

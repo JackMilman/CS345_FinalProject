@@ -22,7 +22,11 @@ public class StepEditor extends JComponent
   {
     super();
     setLayout(new BorderLayout());
-    add(new TextArea("Step editor"));
+    
+    TextArea stepDisplay = new TextArea("Step editor");
+    stepDisplay.setEditable(false);
+    add(stepDisplay);
+    
     setVisible(true);
   }
 

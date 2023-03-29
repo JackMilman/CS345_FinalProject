@@ -7,7 +7,7 @@ import javax.swing.*;
 public class MainWindow extends JFrame
 {
   private static final long serialVersionUID = 1L;
-  private static final String PATH = "/S23Team2A/images/KILowBites_Logo.png";
+  private static final String PATH = "images/KILowBites_Logo.png";
 
   public MainWindow()
   {
@@ -75,6 +75,13 @@ public class MainWindow extends JFrame
 
     // add the company logo to the window
     ImageIcon logo = new ImageIcon(PATH);
+    
+    JLabel logoLabel = new JLabel(logo);
+
+    add(logoLabel, BorderLayout.CENTER);
+    
+    logoLabel.setVisible(true);
+
     
   }
 

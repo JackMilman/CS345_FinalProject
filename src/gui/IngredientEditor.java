@@ -22,7 +22,11 @@ public class IngredientEditor extends JComponent
   {
     super();
     setLayout(new BorderLayout());
-    add(new TextArea("ingredient editor"));
+    
+    TextArea ingredientDisplay = new TextArea("Ingredient editor");
+    ingredientDisplay.setEditable(false);
+    add(ingredientDisplay);
+    
     setVisible(true);
   }
 }
