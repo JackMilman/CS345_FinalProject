@@ -12,32 +12,24 @@ package recipes;
  */
 public class Step
 {
-  private final  String action;
+  private String action;
 
-  private final  String details;
+  private String details;
 
-  private final  Ingredient ingredient;
+  private Ingredient ingredient;
 
-  private final  Utensil source;
+  private Utensil source;
 
-  private final  Utensil destination;
+  private Utensil destination;
 
   /**
-   * Constructs a new Step.
+   * Sets the details of the Step.
    * 
-   * @param action
-   * @param ingredient
-   * @param source
-   * @param destination
    * @param details
+   *          the details to be set
    */
-  public Step(final String action, final Ingredient ingredient, final Utensil source,
-      final Utensil destination, final String details)
+  public void setDetails(final String details)
   {
-    this.action = action;
-    this.ingredient = ingredient;
-    this.source = source;
-    this.destination = destination;
     this.details = details;
   }
 
@@ -52,6 +44,17 @@ public class Step
   }
 
   /**
+   * Sets the action of the Step.
+   * 
+   * @param action
+   *          the action to be set
+   */
+  public void setAction(final String action)
+  {
+    this.action = action;
+  }
+
+  /**
    * Gets the action of the Step.
    * 
    * @return the action of the Step
@@ -62,6 +65,17 @@ public class Step
   }
 
   /**
+   * Sets the Ingredient of the Step.
+   * 
+   * @param ingredient
+   *          the Ingredient to be set
+   */
+  public void setIngredient(final Ingredient ingredient)
+  {
+    this.ingredient = ingredient;
+  }
+
+  /**
    * Gets the Ingredient of the Step.
    * 
    * @return the Ingredient of the Step
@@ -69,6 +83,17 @@ public class Step
   public Ingredient getIngredient()
   {
     return ingredient;
+  }
+
+  /**
+   * Sets the source Utensil of the Step.
+   * 
+   * @param source
+   *          the source Utensil to be set
+   */
+  public void setSource(final Utensil source)
+  {
+    this.source = source;
   }
 
   /**
@@ -89,6 +114,36 @@ public class Step
   public Utensil getDestination()
   {
     return destination;
+  }
+
+  /**
+   * Sets the destination Utensil of the Step.
+   * 
+   * @param destination
+   *          the destination Utensil to be set
+   */
+  public void setDestination(final Utensil destination)
+  {
+    this.destination = destination;
+  }
+
+  /**
+   * Constructs a new Step.
+   * 
+   * @param action
+   * @param ingredient
+   * @param source
+   * @param destination
+   * @param details
+   */
+  public Step(final String action, final Ingredient ingredient, final Utensil source,
+      final Utensil destination, final String details)
+  {
+    this.action = action;
+    this.ingredient = ingredient;
+    this.source = source;
+    this.destination = destination;
+    this.details = details;
   }
 
 }

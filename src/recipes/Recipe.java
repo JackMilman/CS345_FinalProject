@@ -13,9 +13,9 @@ import java.util.List;
  */
 public class Recipe
 {
-  private final String name;
+  private String name;
 
-  private final int servings;
+  private int servings;
 
   private final List<Ingredient> ingredients;
 
@@ -60,6 +60,53 @@ public class Recipe
     this.steps = steps;
   }
 
+  // NOT YET IMPLEMENTED
+  public void addIngredient()
+  {
+
+  }
+
+  // NOT YET IMPLEMENTED
+  public void removeIngredient()
+  {
+
+  }
+
+  // NOT YET IMPLEMENTED
+  public void addUtensil()
+  {
+
+  }
+
+  // NOT YET IMPLEMENTED
+  public void removeUtensil()
+  {
+
+  }
+
+  // NOT YET IMPLEMENTED
+  public void addStep()
+  {
+
+  }
+
+  // NOT YET IMPLEMENTED
+  public void removeStep()
+  {
+
+  }
+
+  /**
+   * Sets the name of the Recipe.
+   * 
+   * @param name
+   *          the name to be set
+   */
+  public void setName(final String name)
+  {
+    this.name = name;
+  }
+
   /**
    * Gets the name of the Recipe.
    * 
@@ -68,6 +115,17 @@ public class Recipe
   public String getName()
   {
     return name;
+  }
+  
+  /**
+   * Sets the number of servings of the Recipe.
+   * 
+   * @param servings
+   *          the servings to be set
+   */
+  public void setServings(final int servings)
+  {
+    this.servings = servings;
   }
 
   /**

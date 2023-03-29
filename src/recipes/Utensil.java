@@ -10,9 +10,9 @@ package recipes;
  */
 public class Utensil
 {
-  private final String name;
+  private String name;
 
-  private final String details;
+  private String details;
 
   /**
    * Constructs a new Utensil.
@@ -27,6 +27,16 @@ public class Utensil
   }
 
   /**
+   * Sets the name of the Utensil.
+   * 
+   * @param name the name to be set
+   */
+  public void setName(final String name)
+  {
+    this.name = name;
+  }
+
+  /**
    * Gets the name of the Utensil.
    * 
    * @return the name of the Utensil
@@ -34,6 +44,16 @@ public class Utensil
   public String getName()
   {
     return name;
+  }
+  
+  /**
+   * Sets the details of the Utensil.
+   * 
+   * @param details the details to be set
+   */
+  public void setDetails(final String details)
+  {
+    this.details = details;
   }
 
   /**
@@ -62,12 +82,12 @@ public class Utensil
       return false;
     if (other.getClass() != this.getClass())
       return false;
-    
+
     Utensil that = (Utensil) other;
     if (this.name.equals(that.name))
       if (this.details.equals(that.details))
         return true;
-    
+
     return false;
   }
 
