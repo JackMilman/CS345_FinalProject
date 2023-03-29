@@ -76,4 +76,42 @@ public class Ingredient
     return unit;
   }
 
+  /**
+   * Compares two Ingredients to see if they are equal. Two Ingredients are considered equal when
+   * they have the same name and details.
+   * 
+   * @param other
+   *          the object being compared to this Ingredient
+   * @return true if the two Ingredients have the same name, or false if they do not
+   */
+  public boolean equals(final Object other)
+  {
+    if (other == this)
+      return true;
+    if (other == null)
+      return false;
+    if (other.getClass() != this.getClass())
+      return false;
+    
+    Ingredient that = (Ingredient) other;
+    if (this.name.equals(that.name))
+      if (this.details.equals(that.details))
+        return true;
+    
+    return false;
+  }
+
+  /**
+   * This operation is not supported because Ingredients are mutable.
+   * 
+   * @return does not return a value
+   * @throws UnsupportedOperationException
+   *           if called
+   */
+  public int hashCode()
+  {
+    throw new UnsupportedOperationException(
+        "hashCode() is not supported because Ingredients are mutable");
+  }
+
 }

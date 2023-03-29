@@ -24,7 +24,9 @@ public class Recipe
   private final List<Step> steps;
 
   /**
-   * Constructs a new Recipe.
+   * Constructs a new Recipe. The name of a recipe may not be null and must be at least 1 character
+   * long. The serving size must be greater than 0, and if a non-positive number is passed the
+   * default number of servings is 1.
    * 
    * @param name
    * @param servings
@@ -35,8 +37,24 @@ public class Recipe
   public Recipe(final String name, final int servings, final List<Ingredient> ingredients,
       final List<Utensil> utensils, final List<Step> steps)
   {
-    this.name = name;
-    this.servings = servings;
+    if (name == null || name.equals(""))
+    {
+      this.name = "DefaultRecipeName";
+    }
+    else
+    {
+      this.name = name;
+    }
+
+    if (servings < 1)
+    {
+      this.servings = 1;
+    }
+    else
+    {
+      this.servings = servings;
+    }
+
     this.ingredients = ingredients;
     this.utensils = utensils;
     this.steps = steps;
