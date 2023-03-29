@@ -1,8 +1,17 @@
 package gui;
 
-import javax.swing.JDialog;
-import javax.swing.JFrame;
+import java.awt.FlowLayout;
+import java.awt.Window;
 
+import javax.swing.JDialog;
+
+/**
+ * The class for the meal editor window. All that another class needs to do is call
+ * the constructor.
+ * @author Josiah Leach, KitchIntel
+ * @version 03.29.2023
+ *
+ */
 public class MealEditor extends JDialog
 {
 
@@ -16,9 +25,10 @@ public class MealEditor extends JDialog
    * @param owner The JFrame which created this MealEditor. This should probably be
    * the Main Window.
    */
-  public MealEditor(JFrame owner)
+  public MealEditor(Window owner)
   {
-    
+    setLayout(new FlowLayout());
+    add(new UtensilEditor());
   }
 
   
