@@ -8,6 +8,8 @@ public class MainWindow extends JFrame
 
   public MainWindow()
   {
+    setDefaultCloseOperation(EXIT_ON_CLOSE);
+    
     // set the size of the frame
     setSize(500, 500);
     setVisible(true);
