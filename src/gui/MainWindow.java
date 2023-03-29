@@ -1,18 +1,22 @@
 package gui;
 
+import java.awt.BorderLayout;
+
 import javax.swing.*;
 
 public class MainWindow extends JFrame
 {
   private static final long serialVersionUID = 1L;
+  private static final String PATH = "/S23Team2A/images/KILowBites_Logo.png";
 
   public MainWindow()
   {
-    setDefaultCloseOperation(EXIT_ON_CLOSE);
-    
+    super();
     // set the size of the frame
-    setSize(500, 500);
-    setVisible(true);
+    setTitle("KiLowBites Main Window");
+    setLayout(new BorderLayout());
+    setSize(700, 500);
+    setDefaultCloseOperation(EXIT_ON_CLOSE);
 
     // create a menu bar and add the items
     JMenuBar menuBar = new JMenuBar();
@@ -26,49 +30,57 @@ public class MainWindow extends JFrame
     JMenu Edit = new JMenu("Edit");
     menuBar.add(Edit);
     JMenuItem Recipe = new JMenuItem("Recipe");
-    File.add(Recipe);
+    Edit.add(Recipe);
     JMenuItem Meal = new JMenuItem("Meal");
-    File.add(Meal);
+    Edit.add(Meal);
 
     JMenu Search = new JMenu("Search");
     menuBar.add(Search);
     JMenuItem Recipes = new JMenuItem("Recipes");
-    File.add(Recipes);
+    Search.add(Recipes);
     JMenuItem Meals = new JMenuItem("Meals");
-    File.add(Meals);
+    Search.add(Meals);
 
     JMenu View = new JMenu("View");
     menuBar.add(View);
     JMenuItem shoppingList = new JMenuItem("ShoppingList");
-    File.add(shoppingList);
+    View.add(shoppingList);
     JMenuItem Process = new JMenuItem("Process");
-    File.add(Process);
+    View.add(Process);
 
     JMenu Tools = new JMenu("Tools");
     menuBar.add(Tools);
     JMenuItem calorieCalculator = new JMenuItem("Calorie Calculator");
-    File.add(calorieCalculator);
+    Tools.add(calorieCalculator);
     JMenuItem unitsConverter = new JMenuItem("Units Converter");
-    File.add(unitsConverter);
+    Tools.add(unitsConverter);
 
     JMenu Configure = new JMenu("Configure");
     menuBar.add(Configure);
     JMenuItem Preferences = new JMenuItem("Preferencesr");
-    File.add(Preferences);
+    Configure.add(Preferences);
     JMenuItem Shortcuts = new JMenuItem("Shortcuts");
-    File.add(Shortcuts);
+    Configure.add(Shortcuts);
     JMenuItem Nutrition = new JMenuItem("Nutrition");
-    File.add(Nutrition);
+    Configure.add(Nutrition);
 
     JMenu Help = new JMenu("Help");
     menuBar.add(Help);
     JMenuItem About = new JMenuItem("About");
-    File.add(About);
+    Help.add(About);
     JMenuItem userGuide = new JMenuItem("User Guide");
-    File.add(userGuide);
-    
+    Help.add(userGuide);
+
+    setVisible(true);
+
     // add the company logo to the window
+    ImageIcon logo = new ImageIcon(PATH);
     
+  }
+
+  public static void main(String[] args)
+  {
+    new MainWindow();
   }
 
 }
