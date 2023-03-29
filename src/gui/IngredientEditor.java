@@ -1,5 +1,8 @@
 package gui;
 
+import java.awt.BorderLayout;
+import java.awt.TextArea;
+
 import javax.swing.JComponent;
 
 /**
@@ -15,4 +18,11 @@ public class IngredientEditor extends JComponent
    */
   private static final long serialVersionUID = 1L;
 
+  public IngredientEditor()
+  {
+    super();
+    setLayout(new BorderLayout());
+    add(new TextArea("ingredient editor"));
+    setVisible(true);
+  }
 }
