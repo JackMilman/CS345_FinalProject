@@ -23,16 +23,18 @@ public class KitchIntelButton extends JButton
   public static final String RESET_IMAGE = "reset.png";
   public static final String SAVE_IMAGE = "save.png";
   public static final String SAVE_AS_IMAGE = "save_as.png";
+  
+  private static final String PATH = "images/";
 
   
   public KitchIntelButton(String buttonImage)
   {
-    super(new ImageIcon(buttonImage));
+    super(new ImageIcon(PATH + buttonImage));
     setBorderPainted(false);
     setContentAreaFilled(false);
     setFocusPainted(false);
     setOpaque(false);
     
-    setPressedIcon(new ImageIcon("white_"+buttonImage));
+    setPressedIcon(new ImageIcon(PATH + "white_" + buttonImage));
   }
 }
