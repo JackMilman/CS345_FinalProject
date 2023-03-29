@@ -1,7 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
-
+import java.awt.Color;
 import javax.swing.*;
 
 public class MainWindow extends JFrame
@@ -13,8 +13,9 @@ public class MainWindow extends JFrame
   {
     super();
     // set the size of the frame
+    getContentPane().setBackground(new Color(254, 255, 255));
     setTitle("KiLowBites Main Window");
-    setLayout(new BorderLayout());
+    getContentPane().setLayout(new BorderLayout());
     setSize(700, 500);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -71,18 +72,12 @@ public class MainWindow extends JFrame
     JMenuItem userGuide = new JMenuItem("User Guide");
     Help.add(userGuide);
 
-    setVisible(true);
-
     // add the company logo to the window
     ImageIcon logo = new ImageIcon(PATH);
-    
     JLabel logoLabel = new JLabel(logo);
+    getContentPane().add(logoLabel, BorderLayout.CENTER);
+    setVisible(true);
 
-    add(logoLabel, BorderLayout.CENTER);
-    
-    logoLabel.setVisible(true);
-
-    
   }
 
   public static void main(String[] args)
