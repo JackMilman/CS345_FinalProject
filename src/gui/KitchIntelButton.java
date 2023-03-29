@@ -1,7 +1,6 @@
 package gui;
 
-import java.awt.Image;
-
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
 /**
@@ -11,18 +10,23 @@ import javax.swing.JButton;
  */
 public class KitchIntelButton extends JButton
 {
-  public static final Image CALCULATE_IMAGE = null;
-  public static final Image CLOSE_IMAGE = null;
-  public static final Image NEW_IMAGE = null;
-  public static final Image OPEN_IMAGE = null;
-  public static final Image PRINT_IMAGE = null;
-  public static final Image RESET_IMAGE = null;
-  public static final Image SAVE_IMAGE = null;
-  public static final Image SAVE_AS_IMAGE = null;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
+  
+  public static final String CALCULATE_IMAGE = "calculate.png";
+  public static final String CLOSE_IMAGE = "close.png";
+  public static final String NEW_IMAGE = "new.png";
+  public static final String OPEN_IMAGE = "open.png";
+  public static final String PRINT_IMAGE = "print.png";
+  public static final String RESET_IMAGE = "reset.png";
+  public static final String SAVE_IMAGE = "save.png";
+  public static final String SAVE_AS_IMAGE = "save_as.png";
 
   
-  public KitchIntelButton(Image buttonImage)
+  public KitchIntelButton(String buttonImage)
   {
-    
+    super(new ImageIcon(buttonImage));
   }
 }

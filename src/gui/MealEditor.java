@@ -7,7 +7,6 @@ import java.awt.Window;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
@@ -42,10 +41,15 @@ public class MealEditor extends JDialog
     mainEditors.add(new StepEditor(), BorderLayout.SOUTH);
     
     add(mainEditors, BorderLayout.SOUTH);
-    
+        
     Container icons = new Container();
     icons.setLayout(new FlowLayout());
-    icons.add(new JTextField("Buttons go here"));
+    icons.add(new KitchIntelButton(KitchIntelButton.NEW_IMAGE));
+    icons.add(new KitchIntelButton(KitchIntelButton.OPEN_IMAGE));
+    icons.add(new KitchIntelButton(KitchIntelButton.SAVE_IMAGE));
+    icons.add(new KitchIntelButton(KitchIntelButton.SAVE_AS_IMAGE));
+    icons.add(new KitchIntelButton(KitchIntelButton.CLOSE_IMAGE));
+
     
     add(icons, BorderLayout.NORTH);
     
@@ -66,6 +70,9 @@ public class MealEditor extends JDialog
   public static void main(String[] args)
   {
     Window main = new MainWindow();
+    
+    new KitchIntelButton(KitchIntelButton.NEW_IMAGE);
+
     
     new MealEditor(main);
   }
