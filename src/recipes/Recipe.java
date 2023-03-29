@@ -41,4 +41,54 @@ public class Recipe
     this.utensils = utensils;
     this.steps = steps;
   }
+
+  /**
+   * Gets the name of the Recipe.
+   * 
+   * @return the name of the Recipe.
+   */
+  public String getName()
+  {
+    return name;
+  }
+
+  /**
+   * Gets the number of servings of the Recipe.
+   * 
+   * @return the number of servings of the Recipe.
+   */
+  public int getServings()
+  {
+    return servings;
+  }
+
+  /**
+   * Gets the Ingredients used in the Recipe.
+   * 
+   * @return the Ingredients used in the Recipe.
+   */
+  public List<Ingredient> getIngredients()
+  {
+    return ingredients;
+  }
+
+  /**
+   * Gets the Utensils used in the Recipe.
+   * 
+   * @return the Utensils used in the Recipe.
+   */
+  public List<Utensil> getUtensils()
+  {
+    return utensils;
+  }
+
+  /**
+   * Gets the Steps to follow in order to make the Recipe.
+   * 
+   * @return the Steps to follow in order to make the Recipe.
+   */
+  public List<Step> getSteps()
+  {
+    return steps;
+  }
 }
