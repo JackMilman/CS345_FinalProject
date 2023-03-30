@@ -18,6 +18,9 @@ public class UtensilEditor extends JComponent
    */
   private static final long serialVersionUID = 1L;
 
+  /**
+   * 
+   */
   public UtensilEditor()
   {
     super();

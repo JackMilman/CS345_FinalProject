@@ -22,9 +22,13 @@ public class KiLowBitesController implements ActionListener
   public static final String PROCESS = "Process";
 
 
-  public JFrame main;
-  public Recipe recipe;
+  private JFrame main;
+  private Recipe recipe;
 
+  /**
+   * 
+   * @param main
+   */
   public KiLowBitesController(final JFrame main)
   {
     this.main = main;
@@ -32,7 +36,7 @@ public class KiLowBitesController implements ActionListener
   }
 
   @Override
-  public void actionPerformed(ActionEvent e)
+  public void actionPerformed(final ActionEvent e)
   {
     if (e.getActionCommand().equals(EXIT))
     {

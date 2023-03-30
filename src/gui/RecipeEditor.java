@@ -5,11 +5,15 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Window;
 
-import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 
+/**
+ * 
+ * @author shelseyvega
+ *
+ */
 public class RecipeEditor extends JDialog
 {
 
@@ -23,7 +27,7 @@ public class RecipeEditor extends JDialog
    * @param owner The JFrame which created this RecipeEditor. This should probably be
    * the Main Window.
    */
-  public RecipeEditor(Window owner)
+  public RecipeEditor(final Window owner)
   {
     super(owner, "KiLowBites Recipe Editor");
     getContentPane().setLayout(new BorderLayout());
@@ -57,11 +61,11 @@ public class RecipeEditor extends JDialog
     nameAndServings.add(textField);
     //nameAndServings.add(new JButton());
     
-    JLabel lblNewLabel_1 = new JLabel("Serves:");
-    nameAndServings.add(lblNewLabel_1);
-    JTextField textField_1 = new JTextField();
-    textField_1.setColumns(10);
-    nameAndServings.add(textField_1);
+    JLabel lblNewLabel1 = new JLabel("Serves:");
+    nameAndServings.add(lblNewLabel1);
+    JTextField textField1 = new JTextField();
+    textField1.setColumns(10);
+    nameAndServings.add(textField1);
    // nameAndServings.add(new JButton());
     
     getContentPane().add(nameAndServings, BorderLayout.CENTER);

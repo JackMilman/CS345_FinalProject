@@ -1,11 +1,19 @@
 package recipes;
 
-import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * 
+ * @author shelseyvega
+ *
+ */
 public class SortLists
 {
-  public static void sortIngredients(List<Ingredient> ingredients)
+  /**
+   * 
+   * @param ingredients
+   */
+  public static void sortIngredients(final List<Ingredient> ingredients)
   {
     for (int i = 1; i < ingredients.size(); ++i)
     {
@@ -20,7 +28,11 @@ public class SortLists
     }
   }
 
-  public static void sortUtensils(List<Utensil> utensils)
+  /**
+   * 
+   * @param utensils
+   */
+  public static void sortUtensils(final List<Utensil> utensils)
   {
     for (int i = 1; i < utensils.size(); ++i)
     {

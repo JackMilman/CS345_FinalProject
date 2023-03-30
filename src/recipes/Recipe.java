@@ -9,7 +9,6 @@ import java.util.List;
  * 
  * @version 3/28/2023 Version 1
  * @author Jack Milman, KichIntel
- * @param <T>
  *
  */
 public class Recipe
@@ -62,36 +61,55 @@ public class Recipe
   }
 
   // NOT YET IMPLEMENTED
-  public void addIngredient(Ingredient ingredient)
+  /**
+   * 
+   * @param ingredient
+   */
+  public void addIngredient(final Ingredient ingredient)
   {
     ingredients.add(ingredient);
   }
 
   // NOT YET IMPLEMENTED
+  /**
+   * 
+   */
   public void removeIngredient()
   {
 
   }
 
   // NOT YET IMPLEMENTED
+  /**
+   * 
+   */
   public void addUtensil()
   {
 
   }
 
   // NOT YET IMPLEMENTED
+  /**
+   * 
+   */
   public void removeUtensil()
   {
 
   }
 
   // NOT YET IMPLEMENTED
+  /**
+   * 
+   */
   public void addStep()
   {
 
   }
 
   // NOT YET IMPLEMENTED
+  /**
+   * 
+   */
   public void removeStep()
   {
 

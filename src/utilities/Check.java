@@ -35,6 +35,12 @@ public class Check
     return false;
   }
 
+  /**
+   * 
+   * @param haystack
+   * @param needle
+   * @return
+   */
   public static boolean forContains(final List<String> haystack, final String needle)
   {
     if (haystack == null)
@@ -61,7 +67,8 @@ public class Check
     return false;
   }
   
-  public static boolean forContainsIgnoreCase(final List<String> haystack, final String needle) {
+  public static boolean forContainsIgnoreCase(final List<String> haystack, final String needle)
+  {
 	  if (haystack == null) return false;
 
 	    for (int i=0; i<haystack.size(); i++)

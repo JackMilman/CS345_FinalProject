@@ -2,9 +2,9 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import javax.swing.*;
+import java.lang.reflect.InvocationTargetException;
 
-import recipes.Recipe;
+import javax.swing.*;
 
 /**
  * Main Window of the GUI for the KiLowBites application.
@@ -13,7 +13,7 @@ import recipes.Recipe;
  * @author Shelsey Vega
  *
  */
-public class MainWindow extends JFrame
+public class MainWindow extends JFrame implements Runnable
 {
   private static final long serialVersionUID = 1L;
   private static final String PATH = "images/KILowBites_Logo.png";
@@ -22,6 +22,24 @@ public class MainWindow extends JFrame
    * Main Window of the KiLowBites application.
    */
   public MainWindow()
+  {
+
+  }
+
+  /**
+   * 
+   * @param args
+   * @throws InvocationTargetException
+   * @throws InterruptedException
+   */
+  public static void main(final String[] args)
+      throws InvocationTargetException, InterruptedException
+  {
+    SwingUtilities.invokeAndWait(new MainWindow());
+  }
+
+  @Override
+  public void run()
   {
     // set the the frame
     getContentPane().setBackground(Color.WHITE);
@@ -37,75 +55,71 @@ public class MainWindow extends JFrame
     JMenuBar menuBar = new JMenuBar();
     setJMenuBar(menuBar);
 
-    JMenu File = new JMenu("File");
-    menuBar.add(File);
+    JMenu file = new JMenu("File");
+    menuBar.add(file);
     // Exit: All windows are closed
-    JMenuItem Exit = new JMenuItem("Exit");
-    Exit.addActionListener(controller);
-    File.add(Exit);
+    JMenuItem exit = new JMenuItem("Exit");
+    exit.addActionListener(controller);
+    file.add(exit);
 
-    JMenu Edit = new JMenu("Edit");
-    menuBar.add(Edit);
+    JMenu edit = new JMenu("Edit");
+    menuBar.add(edit);
     // Recipe: A RecipeEditor is opened
-    JMenuItem Recipe = new JMenuItem("Recipe");
-    Recipe.addActionListener(controller);
-    Edit.add(Recipe);
+    JMenuItem recipe = new JMenuItem("Recipe");
+    recipe.addActionListener(controller);
+    edit.add(recipe);
     // Meal: A MealEditor is opened
-    JMenuItem Meal = new JMenuItem("Meal");
-    Meal.addActionListener(controller);
-    Edit.add(Meal);
+    JMenuItem meal = new JMenuItem("Meal");
+    meal.addActionListener(controller);
+    edit.add(meal);
 
-    JMenu Search = new JMenu("Search");
-    menuBar.add(Search);
+    JMenu search = new JMenu("Search");
+    menuBar.add(search);
     // Recipes: The user is prompted for the ingredients of interest
-    JMenuItem Recipes = new JMenuItem("Recipes");
-    Search.add(Recipes);
+    JMenuItem recipes = new JMenuItem("Recipes");
+    search.add(recipes);
     // Meals: The user is prompted for the ingredients of interest
-    JMenuItem Meals = new JMenuItem("Meals");
-    Search.add(Meals);
+    JMenuItem meals = new JMenuItem("Meals");
+    search.add(meals);
 
-    JMenu View = new JMenu("View");
-    menuBar.add(View);
+    JMenu view = new JMenu("View");
+    menuBar.add(view);
     // Shopping List: A ShoppingListViewer is opened
     JMenuItem shoppingList = new JMenuItem("Shopping List");
     shoppingList.addActionListener(controller);
-    View.add(shoppingList);
+    view.add(shoppingList);
     // Process: A ProcessViewer is opened
-    JMenuItem Process = new JMenuItem("Process");
-    View.add(Process);
+    JMenuItem process = new JMenuItem("Process");
+    view.add(process);
 
-    JMenu Tools = new JMenu("Tools");
-    menuBar.add(Tools);
+    JMenu tools = new JMenu("Tools");
+    menuBar.add(tools);
     JMenuItem calorieCalculator = new JMenuItem("Calorie Calculator");
-    Tools.add(calorieCalculator);
+    tools.add(calorieCalculator);
     JMenuItem unitsConverter = new JMenuItem("Units Converter");
-    Tools.add(unitsConverter);
+    tools.add(unitsConverter);
 
-    JMenu Configure = new JMenu("Configure");
-    menuBar.add(Configure);
-    JMenuItem Preferences = new JMenuItem("Preferences");
-    Configure.add(Preferences);
-    JMenuItem Shortcuts = new JMenuItem("Shortcuts");
-    Configure.add(Shortcuts);
-    JMenuItem Nutrition = new JMenuItem("Nutrition");
-    Configure.add(Nutrition);
+    JMenu configure = new JMenu("Configure");
+    menuBar.add(configure);
+    JMenuItem preferences = new JMenuItem("Preferences");
+    configure.add(preferences);
+    JMenuItem shortcuts = new JMenuItem("Shortcuts");
+    configure.add(shortcuts);
+    JMenuItem nutrition = new JMenuItem("Nutrition");
+    configure.add(nutrition);
 
-    JMenu Help = new JMenu("Help");
-    menuBar.add(Help);
-    JMenuItem About = new JMenuItem("About");
-    Help.add(About);
+    JMenu help = new JMenu("Help");
+    menuBar.add(help);
+    JMenuItem about = new JMenuItem("About");
+    help.add(about);
     JMenuItem userGuide = new JMenuItem("User Guide");
-    Help.add(userGuide);
+    help.add(userGuide);
 
     // add the company logo to the window
     ImageIcon logo = new ImageIcon(PATH);
     JLabel logoLabel = new JLabel(logo);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
     setVisible(true);
-  }
 
-  public static void main(String[] args)
-  {
-    new MainWindow();
   }
 }
