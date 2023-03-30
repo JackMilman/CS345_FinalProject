@@ -23,6 +23,25 @@ public class Step
   private Utensil destination;
 
   /**
+   * Constructs a new Step.
+   * 
+   * @param action
+   * @param ingredient
+   * @param source
+   * @param destination
+   * @param details
+   */
+  public Step(final String action, final Ingredient ingredient, final Utensil source,
+      final Utensil destination, final String details)
+  {
+    this.action = action;
+    this.ingredient = ingredient;
+    this.source = source;
+    this.destination = destination;
+    this.details = details;
+  }
+
+  /**
    * Sets the details of the Step.
    * 
    * @param details
@@ -125,25 +144,6 @@ public class Step
   public void setDestination(final Utensil destination)
   {
     this.destination = destination;
-  }
-
-  /**
-   * Constructs a new Step.
-   * 
-   * @param action
-   * @param ingredient
-   * @param source
-   * @param destination
-   * @param details
-   */
-  public Step(final String action, final Ingredient ingredient, final Utensil source,
-      final Utensil destination, final String details)
-  {
-    this.action = action;
-    this.ingredient = ingredient;
-    this.source = source;
-    this.destination = destination;
-    this.details = details;
   }
 
 }

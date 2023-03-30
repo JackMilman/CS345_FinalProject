@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.util.List;
 
 import javax.swing.BoxLayout;
@@ -31,22 +30,23 @@ public class ShoppingListViewer
     
     /**
      * UNFINISHED:
-     * Doesn't display anything, just creates an empty frame.
+     * Text field shows up, doesn't save information
+     * List of ingredients does not work
      */
     
     JFrame frame = new JFrame("KiLowBites Shopping List Viewer");
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     JPanel contentPane = (JPanel) frame.getContentPane();
-    contentPane.setLayout(new BorderLayout()); // might change, I'm just copying HW6
+    contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
     
     // A text field so the user can input the number of people
     JPanel numPeople = new JPanel();
-    numPeople.setLayout(new BoxLayout(numPeople, BoxLayout.Y_AXIS));
     numPeople.add(new JLabel("Number of People:"));
-    numPeople.add(new JTextField());
+    JTextField textField = new JTextField("\t\t");
+    numPeople.add(textField);
     contentPane.add(numPeople);
     
-    // Displays a scrollable, alphabetized list of ingredients in a recipe with prices
+    // A scrollable, alphabetized list of ingredients in a recipe with prices
     List<Ingredient> ingredients = recipe.getIngredients();
     JScrollPane scroll = new JScrollPane();
     scroll.createVerticalScrollBar();
@@ -56,6 +56,7 @@ public class ShoppingListViewer
     }
     contentPane.add(scroll);
     
+    frame.setSize(600, 400);
     frame.setVisible(true);
 
   }

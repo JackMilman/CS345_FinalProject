@@ -25,6 +25,9 @@ public class IngredientEditor extends JComponent
    */
   private static final long serialVersionUID = 1L;
 
+  /**
+   * 
+   */
   public IngredientEditor()
   {
     super();

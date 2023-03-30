@@ -24,13 +24,17 @@ public class MealEditor extends JDialog
    * @param owner The JFrame which created this MealEditor. This should probably be
    * the Main Window.
    */
-  public MealEditor(Window owner)
+  public MealEditor(final Window owner)
   {
     super(owner, "KiLowBites Meal Editor");
 
   }
   
-  public static void main(String[] args)
+  /**
+   * 
+   * @param args
+   */
+  public static void main(final String[] args)
   {
     Window main = new MainWindow();
 

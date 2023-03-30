@@ -15,15 +15,21 @@ class RecipeTest
   final String recipeNameNotValid = "";
   final String recipeNameNull = null;
   final String recipeNameDefault = "DefaultRecipeName";
-  
-  final String ingredientName = "NamedIngredient";
+
+  final String ingredientName1 = "Cabbage";
   final String ingredientDetails = "Basic Details for an Ingredient";
   final String ingredientUnit = "lbs";
-  
-  final String utensilName = "NamedUtensil";
+  final String ingredientName2 = "Apple";
+  final String ingredientName3 = "Chicken";
+
+  final String utensilName1 = "Spoon";
   final String utensilNameDest = "NamedUtensilDestination";
   final String utensilDetails = "Basic Details for a Utensil";
-  
+  final String utensilName2 = "Fork";
+  final String utensilName3 = "Knife";
+
+
+
   final String stepAction = "The Action to be performed in a Step";
   final String stepDetails = "Basic details of a Step";
 
@@ -69,30 +75,40 @@ class RecipeTest
   public void testGetIngredients()
   {
     List<Ingredient> expected = new ArrayList<Ingredient>();
-    expected.add(new Ingredient(ingredientName, ingredientDetails, 50, ingredientUnit));
-    List<Ingredient> temp = new ArrayList<Ingredient>(expected);
+    expected.add(new Ingredient(ingredientName2, ingredientDetails, 50, ingredientUnit));
+    expected.add(new Ingredient(ingredientName1, ingredientDetails, 50, ingredientUnit));
+    expected.add(new Ingredient(ingredientName3, ingredientDetails, 50, ingredientUnit));
+    List<Ingredient> temp = new ArrayList<Ingredient>();
+    temp.add(new Ingredient(ingredientName1, ingredientDetails, 50, ingredientUnit));
+    temp.add(new Ingredient(ingredientName2, ingredientDetails, 50, ingredientUnit));
+    temp.add(new Ingredient(ingredientName3, ingredientDetails, 50, ingredientUnit));
     Recipe recipe = new Recipe(recipeNameValid, 500, temp, null, null);
     List<Ingredient> actual = recipe.getIngredients();
     assertEquals(expected, actual);
   }
-  
+
   @Test
   public void testGetUtensils()
   {
     List<Utensil> expected = new ArrayList<Utensil>();
-    expected.add(new Utensil(utensilName, utensilDetails));
-    List<Utensil> temp = new ArrayList<Utensil>(expected);
+    expected.add(new Utensil(utensilName2, utensilDetails));
+    expected.add(new Utensil(utensilName3, utensilDetails));
+    expected.add(new Utensil(utensilName1, utensilDetails));
+    List<Utensil> temp = new ArrayList<Utensil>();
+    temp.add(new Utensil(utensilName1, utensilDetails));
+    temp.add(new Utensil(utensilName2, utensilDetails));
+    temp.add(new Utensil(utensilName3, utensilDetails));
     Recipe recipe = new Recipe(recipeNameValid, 500, null, temp, null);
     List<Utensil> actual = recipe.getUtensils();
     assertEquals(expected, actual);
   }
-  
+
   @Test
   public void testGetSteps()
   {
     List<Step> expected = new ArrayList<Step>();
-    Ingredient ingr = new Ingredient(ingredientName, ingredientDetails, 5, ingredientUnit);
-    Utensil utensilSource = new Utensil(utensilName, utensilDetails);
+    Ingredient ingr = new Ingredient(ingredientName1, ingredientDetails, 5, ingredientUnit);
+    Utensil utensilSource = new Utensil(utensilName1, utensilDetails);
     Utensil utensilDestination = new Utensil(utensilNameDest, utensilDetails);
     expected.add(new Step(stepAction, ingr, utensilSource, utensilDestination, stepDetails));
     List<Step> temp = new ArrayList<Step>(expected);

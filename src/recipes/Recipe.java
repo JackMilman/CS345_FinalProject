@@ -61,36 +61,55 @@ public class Recipe
   }
 
   // NOT YET IMPLEMENTED
-  public void addIngredient()
+  /**
+   * 
+   * @param ingredient
+   */
+  public void addIngredient(final Ingredient ingredient)
   {
-
+    ingredients.add(ingredient);
   }
 
   // NOT YET IMPLEMENTED
+  /**
+   * 
+   */
   public void removeIngredient()
   {
 
   }
 
   // NOT YET IMPLEMENTED
+  /**
+   * 
+   */
   public void addUtensil()
   {
 
   }
 
   // NOT YET IMPLEMENTED
+  /**
+   * 
+   */
   public void removeUtensil()
   {
 
   }
 
   // NOT YET IMPLEMENTED
+  /**
+   * 
+   */
   public void addStep()
   {
 
   }
 
   // NOT YET IMPLEMENTED
+  /**
+   * 
+   */
   public void removeStep()
   {
 
@@ -116,7 +135,7 @@ public class Recipe
   {
     return name;
   }
-  
+
   /**
    * Sets the number of servings of the Recipe.
    * 
@@ -145,6 +164,7 @@ public class Recipe
    */
   public List<Ingredient> getIngredients()
   {
+    SortLists.sortIngredients(ingredients);
     return ingredients;
   }
 
@@ -155,6 +175,7 @@ public class Recipe
    */
   public List<Utensil> getUtensils()
   {
+    SortLists.sortUtensils(utensils);
     return utensils;
   }
 

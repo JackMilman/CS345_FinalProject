@@ -9,7 +9,13 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JLabel;
 
+/**
+ * 
+ * @author shelseyvega
+ *
+ */
 public class RecipeEditor extends JDialog
 {
   static final int defaultTextFieldWidth = 15;
@@ -24,10 +30,11 @@ public class RecipeEditor extends JDialog
    * @param owner The JFrame which created this RecipeEditor. This should probably be
    * the Main Window.
    */
-  public RecipeEditor(Window owner)
+  public RecipeEditor(final Window owner)
   {
     super(owner, "KiLowBites Recipe Editor");
     setLayout(new BorderLayout(5, 5));
+
     
     Container mainEditors = new Container();
     mainEditors.setLayout(new BorderLayout());
@@ -35,7 +42,7 @@ public class RecipeEditor extends JDialog
     mainEditors.add(new IngredientEditor(), BorderLayout.CENTER);
     mainEditors.add(new StepEditor(), BorderLayout.SOUTH);
     
-    add(mainEditors, BorderLayout.SOUTH);
+    getContentPane().add(mainEditors, BorderLayout.SOUTH);
         
     Container icons = new Container();
     icons.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -46,7 +53,7 @@ public class RecipeEditor extends JDialog
     icons.add(new KitchIntelButton(KitchIntelButton.CLOSE_IMAGE));
 
     
-    add(icons, BorderLayout.NORTH);
+    getContentPane().add(icons, BorderLayout.NORTH);
     
     Container nameAndServings = new Container();
     nameAndServings.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -55,7 +62,21 @@ public class RecipeEditor extends JDialog
     nameAndServings.add(new JLabel("Serves: "));
     nameAndServings.add(new JTextField(defaultTextFieldWidth));
     
-    add(nameAndServings, BorderLayout.CENTER);
+    JLabel lblNewLabel = new JLabel("Name:");
+    nameAndServings.add(lblNewLabel);
+    JTextField textField = new JTextField();
+    textField.setColumns(10);
+    nameAndServings.add(textField);
+    //nameAndServings.add(new JButton());
+    
+    JLabel lblNewLabel1 = new JLabel("Serves:");
+    nameAndServings.add(lblNewLabel1);
+    JTextField textField1 = new JTextField();
+    textField1.setColumns(10);
+    nameAndServings.add(textField1);
+   // nameAndServings.add(new JButton());
+    
+    getContentPane().add(nameAndServings, BorderLayout.CENTER);
     
     setVisible(true);
     setResizable(true);
