@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 
+import recipes.Recipe;
+
 /**
  * Class that makes each of the menu bar items do their intended jobs.
  * 
@@ -17,18 +19,21 @@ public class KiLowBitesController implements ActionListener
   public static final String RECIPE = "Recipe";
   public static final String MEAL = "Meal";
   public static final String SHOPPING = "Shopping List";
+  public static final String PROCESS = "Process";
+
 
   public JFrame main;
+  public Recipe recipe;
 
   public KiLowBitesController(final JFrame main)
   {
     this.main = main;
+//    this.recipe = recipe;
   }
 
   @Override
   public void actionPerformed(ActionEvent e)
   {
-    // the exit tab in the menu bar will close all the windows.
     if (e.getActionCommand().equals(EXIT))
     {
       System.exit(0);
@@ -43,9 +48,13 @@ public class KiLowBitesController implements ActionListener
     }
     if (e.getActionCommand().equals(SHOPPING))
     {
-      // how to get the shopping list viewer to show up?
-      // other windows parameter is a window but this one is a recipe.
-      new ShoppingListViewer(null);
+      // how do i get it to have a recipe thats not null?
+      new ShoppingListViewer(recipe);
+    }
+    if (e.getActionCommand().equals(PROCESS))
+    {
+      // how do i get it to have a recipe thats not null?
+      new ProcessViewer(recipe);
     }
   }
 

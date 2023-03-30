@@ -1,6 +1,5 @@
 package recipes;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -13,7 +12,7 @@ import java.util.List;
  * @param <T>
  *
  */
-public class Recipe<T extends Comparable<T>>
+public class Recipe
 {
   private String name;
 

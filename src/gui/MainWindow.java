@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.*;
 
+import recipes.Recipe;
+
 /**
  * Main Window of the GUI for the KiLowBites application.
  * 
@@ -21,7 +23,6 @@ public class MainWindow extends JFrame
    */
   public MainWindow()
   {
-    super();
     // set the the frame
     getContentPane().setBackground(Color.WHITE);
     setTitle("KiLowBites Main Window");
