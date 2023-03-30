@@ -7,18 +7,16 @@ import java.awt.Window;
 
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JLabel;
 
 /**
  * 
- * @author shelseyvega
+ * @author shelseyvega, Josiah Leach, KitchIntel
  *
  */
 public class RecipeEditor extends JDialog
 {
-  static final int defaultTextFieldWidth = 15;
+  static final int DEFAULT_TEXT_FIELD_WIDTH = 10;
 
   /**
    * 
@@ -43,7 +41,7 @@ public class RecipeEditor extends JDialog
     mainEditors.add(new StepEditor(), BorderLayout.SOUTH);
     
     getContentPane().add(mainEditors, BorderLayout.SOUTH);
-        
+    
     Container icons = new Container();
     icons.setLayout(new FlowLayout(FlowLayout.LEFT));
     icons.add(new KitchIntelButton(KitchIntelButton.NEW_IMAGE));
@@ -52,29 +50,21 @@ public class RecipeEditor extends JDialog
     icons.add(new KitchIntelButton(KitchIntelButton.SAVE_AS_IMAGE));
     icons.add(new KitchIntelButton(KitchIntelButton.CLOSE_IMAGE));
 
-    
     getContentPane().add(icons, BorderLayout.NORTH);
     
     Container nameAndServings = new Container();
-    nameAndServings.setLayout(new FlowLayout(FlowLayout.LEFT));
-    nameAndServings.add(new JLabel("Name: "));
-    nameAndServings.add(new JTextField(defaultTextFieldWidth));
-    nameAndServings.add(new JLabel("Serves: "));
-    nameAndServings.add(new JTextField(defaultTextFieldWidth));
     
     JLabel lblNewLabel = new JLabel("Name:");
     nameAndServings.add(lblNewLabel);
     JTextField textField = new JTextField();
-    textField.setColumns(10);
+    textField.setColumns(DEFAULT_TEXT_FIELD_WIDTH);
     nameAndServings.add(textField);
-    //nameAndServings.add(new JButton());
     
     JLabel lblNewLabel1 = new JLabel("Serves:");
     nameAndServings.add(lblNewLabel1);
     JTextField textField1 = new JTextField();
-    textField1.setColumns(10);
+    textField1.setColumns(DEFAULT_TEXT_FIELD_WIDTH);
     nameAndServings.add(textField1);
-   // nameAndServings.add(new JButton());
     
     getContentPane().add(nameAndServings, BorderLayout.CENTER);
     
@@ -83,9 +73,14 @@ public class RecipeEditor extends JDialog
     pack();
   }
   
-  public static void main(String[] args)
+  /**
+   * 
+   * @param args
+   */
+  public static void main(final String[] args)
   {
-    Window main = new MainWindow();
+    MainWindow main = new MainWindow();
+    main.run();
     
     new RecipeEditor(main);
   }

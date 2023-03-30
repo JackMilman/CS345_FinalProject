@@ -5,7 +5,6 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.TextArea;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -32,16 +31,16 @@ public class IngredientEditor extends JComponent
   {
     super();
     setLayout(new BorderLayout());
-    setBorder(KitchIntelBorder.labeledBorder("Ingredient editor"));
+    setBorder(KitchIntelBorder.labeledBorder("Ingredients"));
     
     Container inputFields = new Container();
     inputFields.setLayout(new FlowLayout(FlowLayout.LEFT));
     inputFields.add(new JLabel("Name:"));
-    inputFields.add(new JTextField(RecipeEditor.defaultTextFieldWidth));
+    inputFields.add(new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH));
     inputFields.add(new JLabel("Details:"));
-    inputFields.add(new JTextField(RecipeEditor.defaultTextFieldWidth));
+    inputFields.add(new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH));
     inputFields.add(new JLabel("Amount:"));
-    inputFields.add(new JTextField(RecipeEditor.defaultTextFieldWidth));
+    inputFields.add(new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH));
     inputFields.add(new JLabel("Units:"));
     inputFields.add(new JComboBox<String>(new String[] {"", "Ounces", "Pounds"}));
     inputFields.add(new JButton("Add"));
@@ -50,7 +49,7 @@ public class IngredientEditor extends JComponent
     
     add(new JButton("Delete"), BorderLayout.EAST);
     
-    TextArea ingredientDisplay = new TextArea("Butternut squash\nNapkins");
+    TextArea ingredientDisplay = new TextArea();
     ingredientDisplay.setEditable(false);
     add(ingredientDisplay, BorderLayout.CENTER);
     

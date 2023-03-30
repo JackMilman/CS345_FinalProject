@@ -5,7 +5,6 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.TextArea;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -32,7 +31,7 @@ public class StepEditor extends JComponent
   {
     super();
     setLayout(new BorderLayout());
-    setBorder(KitchIntelBorder.labeledBorder("Step editor"));
+    setBorder(KitchIntelBorder.labeledBorder("Steps"));
     
     Container inputFields = new Container();
     inputFields.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -43,7 +42,7 @@ public class StepEditor extends JComponent
     inputFields.add(new JLabel("Utensil:"));
     inputFields.add(new JComboBox<String>(new String[] {"", "Ounces", "Pounds"}));
     inputFields.add(new JLabel("Details:"));
-    inputFields.add(new JTextField(RecipeEditor.defaultTextFieldWidth));
+    inputFields.add(new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH));
     inputFields.add(new JButton("Add"));
     
     add(inputFields, BorderLayout.NORTH);
