@@ -5,12 +5,14 @@ import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Window;
 
-import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 public class RecipeEditor extends JDialog
 {
+  static final int defaultTextFieldWidth = 15;
 
   /**
    * 
@@ -25,7 +27,7 @@ public class RecipeEditor extends JDialog
   public RecipeEditor(Window owner)
   {
     super(owner, "KiLowBites Recipe Editor");
-    setLayout(new BorderLayout());
+    setLayout(new BorderLayout(5, 5));
     
     Container mainEditors = new Container();
     mainEditors.setLayout(new BorderLayout());
@@ -36,7 +38,7 @@ public class RecipeEditor extends JDialog
     add(mainEditors, BorderLayout.SOUTH);
         
     Container icons = new Container();
-    icons.setLayout(new FlowLayout());
+    icons.setLayout(new FlowLayout(FlowLayout.LEFT));
     icons.add(new KitchIntelButton(KitchIntelButton.NEW_IMAGE));
     icons.add(new KitchIntelButton(KitchIntelButton.OPEN_IMAGE));
     icons.add(new KitchIntelButton(KitchIntelButton.SAVE_IMAGE));
@@ -47,16 +49,23 @@ public class RecipeEditor extends JDialog
     add(icons, BorderLayout.NORTH);
     
     Container nameAndServings = new Container();
-    nameAndServings.setLayout(new FlowLayout());
-    nameAndServings.add(new JTextField("Name: "));
-    nameAndServings.add(new JButton());
-    nameAndServings.add(new JTextField("Serves: "));
-    nameAndServings.add(new JButton());
+    nameAndServings.setLayout(new FlowLayout(FlowLayout.LEFT));
+    nameAndServings.add(new JLabel("Name: "));
+    nameAndServings.add(new JTextField(defaultTextFieldWidth));
+    nameAndServings.add(new JLabel("Serves: "));
+    nameAndServings.add(new JTextField(defaultTextFieldWidth));
     
     add(nameAndServings, BorderLayout.CENTER);
     
     setVisible(true);
     setResizable(true);
     pack();
+  }
+  
+  public static void main(String[] args)
+  {
+    Window main = new MainWindow();
+    
+    new RecipeEditor(main);
   }
 }
