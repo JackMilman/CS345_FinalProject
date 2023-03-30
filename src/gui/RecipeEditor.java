@@ -8,6 +8,7 @@ import java.awt.Window;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JTextField;
+import javax.swing.JLabel;
 
 public class RecipeEditor extends JDialog
 {
@@ -25,7 +26,7 @@ public class RecipeEditor extends JDialog
   public RecipeEditor(Window owner)
   {
     super(owner, "KiLowBites Recipe Editor");
-    setLayout(new BorderLayout());
+    getContentPane().setLayout(new BorderLayout());
     
     Container mainEditors = new Container();
     mainEditors.setLayout(new BorderLayout());
@@ -33,7 +34,7 @@ public class RecipeEditor extends JDialog
     mainEditors.add(new IngredientEditor(), BorderLayout.CENTER);
     mainEditors.add(new StepEditor(), BorderLayout.SOUTH);
     
-    add(mainEditors, BorderLayout.SOUTH);
+    getContentPane().add(mainEditors, BorderLayout.SOUTH);
         
     Container icons = new Container();
     icons.setLayout(new FlowLayout());
@@ -44,16 +45,26 @@ public class RecipeEditor extends JDialog
     icons.add(new KitchIntelButton(KitchIntelButton.CLOSE_IMAGE));
 
     
-    add(icons, BorderLayout.NORTH);
+    getContentPane().add(icons, BorderLayout.NORTH);
     
     Container nameAndServings = new Container();
     nameAndServings.setLayout(new FlowLayout());
-    nameAndServings.add(new JTextField("Name: "));
-    nameAndServings.add(new JButton());
-    nameAndServings.add(new JTextField("Serves: "));
-    nameAndServings.add(new JButton());
     
-    add(nameAndServings, BorderLayout.CENTER);
+    JLabel lblNewLabel = new JLabel("Name:");
+    nameAndServings.add(lblNewLabel);
+    JTextField textField = new JTextField();
+    textField.setColumns(10);
+    nameAndServings.add(textField);
+    //nameAndServings.add(new JButton());
+    
+    JLabel lblNewLabel_1 = new JLabel("Serves:");
+    nameAndServings.add(lblNewLabel_1);
+    JTextField textField_1 = new JTextField();
+    textField_1.setColumns(10);
+    nameAndServings.add(textField_1);
+   // nameAndServings.add(new JButton());
+    
+    getContentPane().add(nameAndServings, BorderLayout.CENTER);
     
     setVisible(true);
     setResizable(true);
