@@ -18,7 +18,7 @@ public class GUITest
 {
 
   /**
-   * 
+   * Creates a ShoppingListViewer.
    */
   public static void shoppingListViewerTest()
   {
@@ -40,8 +40,8 @@ public class GUITest
   }
 
   /**
-   * 
-   * @param args
+   * Run GUI elements.
+   * @param args unused
    */
   public static void main(final String[] args)
   {
