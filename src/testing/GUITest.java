@@ -33,7 +33,7 @@ public class GUITest
     utensils.add(new Utensil("knife", " "));
 
     ArrayList<Step> steps = new ArrayList<>();
-    steps.add(new Step("cut", ingredients.get(0), utensils.get(0), utensils.get(1), " "));
+    steps.add(new Step("cut", ingredients.get(0), utensils.get(0), utensils.get(1), " ", 5));
 
     Recipe recipe = new Recipe("Shopping List Test", 2, ingredients, utensils, steps);
     ShoppingListViewer shoppingList = new ShoppingListViewer(recipe);

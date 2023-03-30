@@ -32,6 +32,7 @@ class RecipeTest
 
   final String stepAction = "The Action to be performed in a Step";
   final String stepDetails = "Basic details of a Step";
+  final int time = 5;
 
   @Test
   public void testGetName()
@@ -110,7 +111,7 @@ class RecipeTest
     Ingredient ingr = new Ingredient(ingredientName1, ingredientDetails, 5, ingredientUnit);
     Utensil utensilSource = new Utensil(utensilName1, utensilDetails);
     Utensil utensilDestination = new Utensil(utensilNameDest, utensilDetails);
-    expected.add(new Step(stepAction, ingr, utensilSource, utensilDestination, stepDetails));
+    expected.add(new Step(stepAction, ingr, utensilSource, utensilDestination, stepDetails, time));
     List<Step> temp = new ArrayList<Step>(expected);
     Recipe recipe = new Recipe(recipeNameValid, 500, null, null, temp);
     List<Step> actual = recipe.getSteps();

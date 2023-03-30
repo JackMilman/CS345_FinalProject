@@ -21,6 +21,8 @@ public class Step
   private Utensil source;
 
   private Utensil destination;
+  
+  private int time;
 
   /**
    * Constructs a new Step.
@@ -32,13 +34,14 @@ public class Step
    * @param details
    */
   public Step(final String action, final Ingredient ingredient, final Utensil source,
-      final Utensil destination, final String details)
+      final Utensil destination, final String details, final int time)
   {
     this.action = action;
     this.ingredient = ingredient;
     this.source = source;
     this.destination = destination;
     this.details = details;
+    this.time = time;
   }
 
   /**
@@ -145,5 +148,28 @@ public class Step
   {
     this.destination = destination;
   }
+  
+  /**
+   * Gets the time in minutes of the Step.
+   * 
+   * @return the time in minutes of the Step
+   */
+  public int getTime()
+  {
+    return time;
+  }
+
+  /**
+   * Sets the time in minutes of the Step.
+   * 
+   * @param time
+   *          the time in minutes to be set
+   */
+  public void setTime(final int time)
+  {
+    this.time = time;
+  }
+  
+  
 
 }
