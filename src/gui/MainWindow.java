@@ -4,20 +4,33 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.*;
 
+/**
+ * Main Window of the GUI for the KiLowBites application.
+ * 
+ * @version 3/29/2023 Version 1
+ * @author Shelsey Vega
+ *
+ */
 public class MainWindow extends JFrame
 {
   private static final long serialVersionUID = 1L;
   private static final String PATH = "images/KILowBites_Logo.png";
 
+  /**
+   * Main Window of the KiLowBites application.
+   */
   public MainWindow()
   {
     super();
-    // set the size of the frame
+    // set the the frame
     getContentPane().setBackground(new Color(254, 255, 255));
     setTitle("KiLowBites Main Window");
     getContentPane().setLayout(new BorderLayout());
     setSize(700, 500);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
+
+    // Construct the controller
+    KiLowBitesController controller = new KiLowBitesController(this);
 
     // create a menu bar and add the items
     JMenuBar menuBar = new JMenuBar();
@@ -25,27 +38,38 @@ public class MainWindow extends JFrame
 
     JMenu File = new JMenu("File");
     menuBar.add(File);
+    // Exit: All windows are closed
     JMenuItem Exit = new JMenuItem("Exit");
+    Exit.addActionListener(controller);
     File.add(Exit);
 
     JMenu Edit = new JMenu("Edit");
     menuBar.add(Edit);
+    // Recipe: A RecipeEditor is opened
     JMenuItem Recipe = new JMenuItem("Recipe");
+    Recipe.addActionListener(controller);
     Edit.add(Recipe);
+    // Meal: A MealEditor is opened
     JMenuItem Meal = new JMenuItem("Meal");
+    Meal.addActionListener(controller);
     Edit.add(Meal);
 
     JMenu Search = new JMenu("Search");
     menuBar.add(Search);
+    // Recipes: The user is prompted for the ingredients of interest
     JMenuItem Recipes = new JMenuItem("Recipes");
     Search.add(Recipes);
+    // Meals: The user is prompted for the ingredients of interest
     JMenuItem Meals = new JMenuItem("Meals");
     Search.add(Meals);
 
     JMenu View = new JMenu("View");
     menuBar.add(View);
-    JMenuItem shoppingList = new JMenuItem("ShoppingList");
+    // Shopping List: A ShoppingListViewer is opened
+    JMenuItem shoppingList = new JMenuItem("Shopping List");
+    shoppingList.addActionListener(controller);
     View.add(shoppingList);
+    // Process: A ProcessViewer is opened
     JMenuItem Process = new JMenuItem("Process");
     View.add(Process);
 
@@ -77,12 +101,10 @@ public class MainWindow extends JFrame
     JLabel logoLabel = new JLabel(logo);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
     setVisible(true);
-
   }
 
   public static void main(String[] args)
   {
     new MainWindow();
   }
-
 }
