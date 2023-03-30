@@ -23,7 +23,7 @@ public class MainWindow extends JFrame
   {
     super();
     // set the the frame
-    getContentPane().setBackground(new Color(254, 255, 255));
+    getContentPane().setBackground(Color.WHITE);
     setTitle("KiLowBites Main Window");
     getContentPane().setLayout(new BorderLayout());
     setSize(700, 500);
@@ -82,7 +82,7 @@ public class MainWindow extends JFrame
 
     JMenu Configure = new JMenu("Configure");
     menuBar.add(Configure);
-    JMenuItem Preferences = new JMenuItem("Preferencesr");
+    JMenuItem Preferences = new JMenuItem("Preferences");
     Configure.add(Preferences);
     JMenuItem Shortcuts = new JMenuItem("Shortcuts");
     Configure.add(Shortcuts);

@@ -1,5 +1,6 @@
 package recipes;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -9,9 +10,10 @@ import java.util.List;
  * 
  * @version 3/28/2023 Version 1
  * @author Jack Milman, KichIntel
+ * @param <T>
  *
  */
-public class Recipe
+public class Recipe<T extends Comparable<T>>
 {
   private String name;
 
@@ -61,9 +63,9 @@ public class Recipe
   }
 
   // NOT YET IMPLEMENTED
-  public void addIngredient()
+  public void addIngredient(Ingredient ingredient)
   {
-
+    ingredients.add(ingredient);
   }
 
   // NOT YET IMPLEMENTED
@@ -116,7 +118,7 @@ public class Recipe
   {
     return name;
   }
-  
+
   /**
    * Sets the number of servings of the Recipe.
    * 
@@ -145,6 +147,7 @@ public class Recipe
    */
   public List<Ingredient> getIngredients()
   {
+    SortLists.sortIngredients(ingredients);
     return ingredients;
   }
 
@@ -155,6 +158,7 @@ public class Recipe
    */
   public List<Utensil> getUtensils()
   {
+    SortLists.sortUtensils(utensils);
     return utensils;
   }
 
