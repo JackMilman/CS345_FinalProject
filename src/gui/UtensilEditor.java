@@ -35,7 +35,7 @@ public class UtensilEditor extends JComponent
   private final JTextField nameField;
   private final JTextField detailField;
   private final TextArea utensilDisplay;
-  private List<Utensil> utensils;
+  private final List<Utensil> utensils;
 
 
 
@@ -115,7 +115,7 @@ public class UtensilEditor extends JComponent
     updateText();
   }
   
-  public List<Utensil> getUtensils()
+  List<Utensil> getUtensils()
   {
     return utensils;
   }

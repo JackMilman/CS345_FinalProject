@@ -40,7 +40,7 @@ public class IngredientEditor extends JComponent
   private JTextField detailField;
   private JTextField amountField;
   private TextArea ingredientDisplay;
-  private JComboBox<String> unitSelect;
+  private final JComboBox<String> unitSelect;
 
   private List<Ingredient> ingredients;
 
@@ -126,6 +126,7 @@ public class IngredientEditor extends JComponent
   
   private void delete()
   {
+    if(ingredients.size() == 0) return;
     ingredients.remove(ingredients.size() - 1);
     
     updateTextArea();
@@ -144,7 +145,7 @@ public class IngredientEditor extends JComponent
     ingredientDisplay.setText(text);
   }
   
-  public List<Ingredient> getIngredients()
+  List<Ingredient> getIngredients()
   {
     return ingredients;
   }
