@@ -34,9 +34,9 @@ class IngredientTest
   @Test
   public void testGetAmount()
   {
-    int expected = 10;
+    double expected = 10;
     Ingredient ingredient = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit);
-    int actual = ingredient.getAmount();
+    double actual = ingredient.getAmount();
     assertEquals(expected, actual);
   }
 
