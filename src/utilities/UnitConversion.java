@@ -40,9 +40,25 @@ public class UnitConversion
     {
       return amount * (massConversions.get(from) / massConversions.get(to));
     }
-    //Special Cases
-    else if (to.equals("MILLILITER"))
-    {   
+    else if (volumeConversions.containsKey(from) & volumeConversions.containsKey(to))
+    {
+      return amount * (volumeConversions.get(from) / volumeConversions.get(to));
+    }
+    else if  (to.equals("MILLILITER") | to.equals("MILLILITER")) {
+      return milliConvert(from, to, amount);
+    }
+    else
+    {
+      return 0.0;
+    }
+
+  }
+
+  public double milliConvert(String from, String to, double amount)
+  {
+    // Special Cases
+    if (to.equals("MILLILITER"))
+    {
       if (from.equals("CUP"))
         return amount * CUP_TO_MILLILITERS;
       else if (from.equals("FLUID_OUNCE"))
@@ -62,17 +78,11 @@ public class UnitConversion
       else
       {
         double tblSpoon = convert(to, "TABLESPOON", 1);
-          return amount * ((1 / TABLESPOON_TO_MILLILITERS) / tblSpoon);
+        return amount * ((1 / TABLESPOON_TO_MILLILITERS) / tblSpoon);
       }
     }
-    else if (volumeConversions.containsKey(from) & volumeConversions.containsKey(to))
-    {
-      return amount * (volumeConversions.get(from) / volumeConversions.get(to));
+    else {
+      return 0;
     }
-    else
-    {
-      return 0.0;
-    }
-
   }
 }
