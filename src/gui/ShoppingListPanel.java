@@ -4,9 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.BoxLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import recipes.Ingredient;
@@ -19,7 +21,7 @@ import recipes.Recipe;
  * @version 3/31/2023, Version 1
  *
  */
-public class ShoppingListPanel extends JPanel implements ActionListener
+public class ShoppingListPanel extends JPanel
 {
   
   private String numberOfPeople;
@@ -39,6 +41,7 @@ public class ShoppingListPanel extends JPanel implements ActionListener
      */
     
     super();
+    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     
     // A text field so the user can input the number of people
     JPanel numPeople = new JPanel();
@@ -56,19 +59,17 @@ public class ShoppingListPanel extends JPanel implements ActionListener
     
     // A scrollable, alphabetized list of ingredients in a recipe with prices
     List<Ingredient> ingredients = recipe.getIngredients();
-    JScrollPane scroll = new JScrollPane();
-    scroll.createVerticalScrollBar();
+    
+    // text area with [number of ingredients] rows
+    JTextArea messageArea = new JTextArea(ingredients.size(), 1);
     for (Ingredient ing : ingredients)
     {
-      scroll.add(new JLabel(ing.getName()));
+      messageArea.append(ing.getName() + "\n");
     }
-    add(scroll);
     
-  }
-  
-  @Override
-  public void actionPerformed(final ActionEvent event)
-  {
+    JScrollPane scroll = new JScrollPane(messageArea);
+    scroll.createVerticalScrollBar();
+    add(scroll);
     
   }
 
