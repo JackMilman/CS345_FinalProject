@@ -30,12 +30,14 @@ public class Meal
     }
   }
   
-  public void addRecipe(Recipe newRecipe) {
-    recipes.add(newRecipe);
+  public boolean addRecipe(Recipe newRecipe) {
+    return recipes.add(newRecipe);
   }
-  public void removeRecipe(Recipe newRecipe) {
-    if (recipes.contains(newRecipe)) recipes.remove(newRecipe);
+  
+  public boolean removeRecipe(Recipe newRecipe) {
+    return recipes.remove(newRecipe);
   }
+  
   public String getName()
   {
     return name;
