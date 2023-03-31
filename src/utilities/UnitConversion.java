@@ -34,7 +34,7 @@ public class UnitConversion
 
   }
 
-  public double conversion(String from, String to, double amount)
+  public double convert(String from, String to, double amount)
   {
     if (massConversions.containsKey(from) & massConversions.containsKey(to))
     {
@@ -48,7 +48,7 @@ public class UnitConversion
         return amount * FLUID_OUNCES_TO_MILLILITERS;
       else
       {
-        double tblSpoon = conversion(from, "TABLESPOON", 1);
+        double tblSpoon = convert(from, "TABLESPOON", 1);
         return amount * (tblSpoon * TABLESPOON_TO_MILLILITERS);
       }
     }
@@ -60,9 +60,8 @@ public class UnitConversion
         return amount * (1.0 / FLUID_OUNCES_TO_MILLILITERS);
       else
       {
-        double tblSpoon = conversion(to, "TABLESPOON", 1);
-        return amount * ((1 / TABLESPOON_TO_MILLILITERS) / tblSpoon);
-
+        double tblSpoon = convert(to, "TABLESPOON", 1);
+          return amount * ((1 / TABLESPOON_TO_MILLILITERS) / tblSpoon);
       }
     }
     else if (volumeConversions.containsKey(from) & volumeConversions.containsKey(to))

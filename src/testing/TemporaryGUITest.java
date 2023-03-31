@@ -14,7 +14,7 @@ import recipes.Utensil;
  * @author Meara Patterson
  * @version 3/29/2023, Version 1
  */
-public class GUITest
+public class TemporaryGUITest
 {
 
   /**

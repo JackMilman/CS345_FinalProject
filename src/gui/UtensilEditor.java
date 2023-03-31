@@ -14,8 +14,8 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import recipes.SortLists;
 import recipes.Utensil;
+import utilities.SortLists;
 
 /**
  * A class for the UtensilEditor component of the recipe editor.
@@ -113,6 +113,11 @@ public class UtensilEditor extends JComponent
     if(utensils.size() == 0) return;
     utensils.remove(utensils.size() - 1);
     updateText();
+  }
+  
+  public List<Utensil> getUtensils()
+  {
+    return utensils;
   }
   
   private class UtensilEditorListener implements ActionListener
