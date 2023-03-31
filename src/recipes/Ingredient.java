@@ -16,7 +16,7 @@ public class Ingredient
 
   private final String details;
 
-  private final int amount;
+  private final double amount;
 
   private final String unit;
 
@@ -28,7 +28,7 @@ public class Ingredient
    * @param amount
    * @param unit
    */
-  public Ingredient(final String name, final String details, final int amount, final String unit)
+  public Ingredient(final String name, final String details, final double amount, final String unit)
   {
     this.name = name;
     this.details = details;
@@ -61,7 +61,7 @@ public class Ingredient
    * 
    * @return the amount of the Ingredient
    */
-  public int getAmount()
+  public double getAmount()
   {
     return amount;
   }
