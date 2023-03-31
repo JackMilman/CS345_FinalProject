@@ -2,9 +2,13 @@ package gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JFrame;
+import java.io.File;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.filechooser.FileSystemView;
 import recipes.Recipe;
+import javax.swing.JFileChooser;
 
 /**
  * Class that makes each of the menu bar items do their intended jobs.
@@ -20,10 +24,12 @@ public class KiLowBitesController implements ActionListener
   public static final String MEAL = "Meal";
   public static final String SHOPPING = "Shopping List";
   public static final String PROCESS = "Process";
-
+  private static JLabel l;
 
   private JFrame main;
   private Recipe recipe;
+  private JFileChooser fileChooser;
+  private File recipeFile;
 
   /**
    * 
@@ -32,7 +38,9 @@ public class KiLowBitesController implements ActionListener
   public KiLowBitesController(final JFrame main)
   {
     this.main = main;
-//    this.recipe = recipe;
+    this.fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+
+    // this.recipe = recipe;
   }
 
   @Override
@@ -50,16 +58,39 @@ public class KiLowBitesController implements ActionListener
     {
       new MealEditor(main);
     }
+
     if (e.getActionCommand().equals(SHOPPING))
     {
-      // how do i get it to have a recipe thats not null?
+      getFile();
       new ShoppingListViewer(recipe);
+
     }
+
     if (e.getActionCommand().equals(PROCESS))
     {
-      // how do i get it to have a recipe thats not null?
+      getFile();
       new ProcessViewer(recipe);
     }
+  }
+
+  public Recipe getFile()
+  {
+    // invoke the showsOpenDialog function to show the save dialog
+    int dialog = fileChooser.showOpenDialog(null);
+
+    // if the user selects a file
+    if (dialog == JFileChooser.APPROVE_OPTION)
+
+    {
+      // set the label to the path of the selected file
+      recipeFile = fileChooser.getSelectedFile();
+      this.recipe.setName(recipeFile.getName().replaceFirst("[.][^.]+$", ""));
+    }
+    // if the user cancelled the operation
+    else
+      l.setText("the user cancelled the operation");
+    return this.recipe;
+
   }
 
 }
