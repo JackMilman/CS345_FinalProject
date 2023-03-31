@@ -12,6 +12,7 @@ public class UnitConversion
   private final static double TABLESPOON_TO_MILLILITERS = 14.7867648;
   private final static double CUP_TO_MILLILITERS = 236.58824;
   private final static double FLUID_OUNCES_TO_MILLILITERS = 29.57353;
+  private final static double GRAMS_PER_MILLILITER = 1.04;
 
   // Mass or weight
   public UnitConversion()
@@ -44,17 +45,17 @@ public class UnitConversion
     {
       return amount * (volumeConversions.get(from) / volumeConversions.get(to));
     }
-    else if  (to.equals("MILLILITER") | to.equals("MILLILITER")) {
-      return milliConvert(from, to, amount);
+    else if  (to.equals("MILLILITER") | from.equals("MILLILITER")) {
+      return milliLiterConvert(from, to, amount);
     }
-    else
+    else if (massConversions.containsKey(from) & volumeConversions.containsKey(to))
     {
-      return 0.0;
+      return mass_to_volume(from, to, amount);
     }
 
   }
 
-  public double milliConvert(String from, String to, double amount)
+  public double milliLiterConvert(String from, String to, double amount)
   {
     // Special Cases
     if (to.equals("MILLILITER"))
@@ -69,7 +70,7 @@ public class UnitConversion
         return amount * (tblSpoon * TABLESPOON_TO_MILLILITERS);
       }
     }
-    else if (from.equals("MILLILITER"))
+    else
     {
       if (to.equals("CUP"))
         return amount * (1.0 / CUP_TO_MILLILITERS);
@@ -81,8 +82,15 @@ public class UnitConversion
         return amount * ((1 / TABLESPOON_TO_MILLILITERS) / tblSpoon);
       }
     }
-    else {
-      return 0.0;
-    }
+
+  }
+  
+  public double mass_to_volume(String from, String to, double amount) {
+    double massVal = convert(from, "GRAM", 1);
+    return amount * (massVal / GRAMS_PER_MILLILITER);
+  }
+  public double voluem_to_mass(String from, String to, double amount) {
+    double massVal = convert(from, "GRAM", 1);
+    return amount * (massVal * GRAMS_PER_MILLILITER);
   }
 }
