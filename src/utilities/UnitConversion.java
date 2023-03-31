@@ -36,7 +36,7 @@ public class UnitConversion
 
   public double conversion(String from, String to, double amount)
   {
-    if (massConversions.containsKey(from) && massConversions.containsKey(to))
+    if (massConversions.containsKey(from) & massConversions.containsKey(to))
     {
       return amount * (massConversions.get(from) / massConversions.get(to));
     }
@@ -61,17 +61,11 @@ public class UnitConversion
       else
       {
         double tblSpoon = conversion(to, "TABLESPOON", 1);
-        if (tblSpoon / volumeConversions.get("TABLESPOON") > 0)
-        {
-          return amount * ((1 / TABLESPOON_TO_MILLILITERS) / tblSpoon);
-        }
-        else
-        {
-          return amount * ((1 / TABLESPOON_TO_MILLILITERS) * tblSpoon);
-        }
+        return amount * ((1 / TABLESPOON_TO_MILLILITERS) / tblSpoon);
+
       }
     }
-    else if (volumeConversions.containsKey(from) && volumeConversions.containsKey(to))
+    else if (volumeConversions.containsKey(from) & volumeConversions.containsKey(to))
     {
       return amount * (volumeConversions.get(from) / volumeConversions.get(to));
     }
