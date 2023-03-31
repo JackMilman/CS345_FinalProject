@@ -24,7 +24,6 @@ public class KiLowBitesController implements ActionListener
   public static final String MEAL = "Meal";
   public static final String SHOPPING = "Shopping List";
   public static final String PROCESS = "Process";
-  private static JLabel l;
 
   private JFrame main;
   private Recipe recipe;
@@ -86,9 +85,7 @@ public class KiLowBitesController implements ActionListener
       recipeFile = fileChooser.getSelectedFile();
       this.recipe.setName(recipeFile.getName().replaceFirst("[.][^.]+$", ""));
     }
-    // if the user cancelled the operation
-    else
-      l.setText("the user cancelled the operation");
+
     return this.recipe;
 
   }
