@@ -7,7 +7,7 @@ import recipes.Utensil;
 
 /**
  * 
- * @author shelseyvega
+ * @author Shelsey Vega
  *
  */
 public class SortLists

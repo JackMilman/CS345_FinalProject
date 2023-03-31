@@ -5,12 +5,14 @@ import java.util.*;
 public class Meal
 {
   private String name;
-  private List<Recipe> recipes;
+  private List<Recipe> recipes = new ArrayList<Recipe>();
   private int serving;
 
   public Meal(String name, List<Recipe> recipes, int serving)
   {
-    this.recipes = recipes;
+    if (recipes != null)
+      this.recipes = recipes;
+
     if (name == null || name.equals(""))
     {
       this.name = "DefaultMealName";
@@ -29,15 +31,27 @@ public class Meal
       this.serving = serving;
     }
   }
-  
-  public boolean addRecipe(Recipe newRecipe) {
+
+  public boolean addRecipe(Recipe newRecipe)
+  {
     return recipes.add(newRecipe);
   }
-  
-  public boolean removeRecipe(Recipe newRecipe) {
+
+  public boolean removeRecipe(Recipe newRecipe)
+  {
     return recipes.remove(newRecipe);
   }
   
+  /*
+   * Gets the list of recipes.
+   * 
+   * @return the list of recipes
+   */
+  public List<Recipe> getRecipes()
+  {
+    return recipes;
+  }
+
   public String getName()
   {
     return name;
@@ -57,7 +71,9 @@ public class Meal
   {
     this.serving = serving;
   }
-  public int getSize() {
+
+  public int getSize()
+  {
     return recipes.size();
   }
 
