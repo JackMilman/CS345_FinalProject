@@ -5,13 +5,13 @@ import java.util.Map;
 
 public class UnitConversion
 {
-  private Map<String, Double> massConversions = new HashMap<String, Double>();
-  private Map<String, Double> volumeConversions = new HashMap<String, Double>();
+  private final Map<String, Double> massConversions = new HashMap<String, Double>();
+  private final Map<String, Double> volumeConversions = new HashMap<String, Double>();
   // Special Cases
-  private double OUNCES_TO_GRAMS = 28.34952;
-  private double TABLESPOON_TO_MILLILITERS = 14.7867648;
-  private double CUP_TO_MILLILITERS = 236.58824;
-  private double FLUID_OUNCES_TO_MILLILITERS = 29.57353;
+  private final static double OUNCES_TO_GRAMS = 28.34952;
+  private final static double TABLESPOON_TO_MILLILITERS = 14.7867648;
+  private final static double CUP_TO_MILLILITERS = 236.58824;
+  private final static double FLUID_OUNCES_TO_MILLILITERS = 29.57353;
 
   // Mass or weight
   public UnitConversion()
