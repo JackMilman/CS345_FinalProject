@@ -76,5 +76,9 @@ public class Meal
   {
     return recipes.size();
   }
+  
+  public List<Recipe> getRecipes() {
+	  return recipes;
+  }
 
 }

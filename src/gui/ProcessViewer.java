@@ -3,6 +3,7 @@ package gui;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -10,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import recipes.Meal;
 import recipes.Recipe;
 import recipes.Step;
 import recipes.Utensil;
@@ -29,7 +31,7 @@ public class ProcessViewer extends JFrame
   private static final long serialVersionUID = 1L;
 
   /**
-   * Constructor.
+   * Recipe constructor.
    * 
    * @param recipe
    */
@@ -38,13 +40,17 @@ public class ProcessViewer extends JFrame
     super(String.format("KiLowBites Process Viewer	%s", recipe.getName()));
     setUp(recipe);
   }
-
-  // TODO Overload methods with meals once the class has been created.
-
-  // public ProcessViewer(Meal meal) {
-  // super();
-  // setUp();
-  // }
+  
+  /**
+   * Meal constructor.
+   * 
+   * @param recipe
+   */
+  public ProcessViewer(final Meal meal)
+  {
+    super(String.format("KiLowBites Process Viewer	%s", meal.getName()));
+    setUp(meal);
+  }
 
   /**
    * Sets up to panel for the utensils.
@@ -83,7 +89,7 @@ public class ProcessViewer extends JFrame
     JTextArea textArea = new JTextArea();
     for (Step item : steps)
     {
-      textArea.append(String.format("- %s\n", item.getDetails()));
+      textArea.append(String.format("- %s\n", item.getAction()));
     }
     textArea.setEditable(false);
     JScrollPane p = new JScrollPane(textArea);
@@ -112,6 +118,43 @@ public class ProcessViewer extends JFrame
     c.add(p);
 
     p = setUpSteps(recipe.getSteps());
+    c.add(p);
+    setSize(600, 450);
+    setVisible(true);
+  }
+  
+  /**
+   * Sets up the main frame for the process viewer. This adds utensils and steps to the main frame.
+   * 
+   * @param recipe
+   *          The recipe the process viewer is looking at
+   */
+  private void setUp(final Meal meal)
+  {
+    JScrollPane p;
+    Container c;
+
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    c = getContentPane();
+    
+    //Gets each utensil and step in the meals
+    ArrayList<Utensil> utensils = new ArrayList<>();
+    ArrayList<Step> steps = new ArrayList<>();
+    for (Recipe recipe : meal.getRecipes()) {
+    	for(Utensil utensil: recipe.getUtensils()) {
+    		if (!utensils.contains(utensil))
+    			utensils.add(utensil);
+    	}
+    	for(Step step: recipe.getSteps()) {
+    		steps.add(step);
+    	}
+    }
+    
+    p = setUpUtensils(utensils);
+    c.setLayout(new FlowLayout());
+    c.add(p);
+
+    p = setUpSteps(steps);
     c.add(p);
     setSize(600, 450);
     setVisible(true);
