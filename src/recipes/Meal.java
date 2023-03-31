@@ -41,6 +41,16 @@ public class Meal
   {
     return recipes.remove(newRecipe);
   }
+  
+  /*
+   * Gets the list of recipes.
+   * 
+   * @return the list of recipes
+   */
+  public List<Recipe> getRecipes()
+  {
+    return recipes;
+  }
 
   public String getName()
   {
