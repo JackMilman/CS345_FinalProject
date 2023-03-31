@@ -13,6 +13,7 @@ import javax.swing.JTextArea;
 import recipes.Recipe;
 import recipes.Step;
 import recipes.Utensil;
+import utilities.SortLists;
 
 /**
  * GUI for the process viewer. This allows the user to view the list of utensils and steps in a
@@ -55,6 +56,8 @@ public class ProcessViewer extends JFrame
   private JScrollPane setUpUtensils(final List<Utensil> utensils)
   {
     JTextArea textArea = new JTextArea();
+    SortLists.sortUtensils(utensils); // Added since change to Recipe's get() methods do not return
+                                      // an automatically sorted list anymore - Jack, 3/30
     for (Utensil item : utensils)
     {
       textArea.append(String.format("- %s\n", item.getName()));

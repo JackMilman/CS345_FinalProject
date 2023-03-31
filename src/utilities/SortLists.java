@@ -1,6 +1,9 @@
-package recipes;
+package utilities;
 
 import java.util.List;
+
+import recipes.Ingredient;
+import recipes.Utensil;
 
 /**
  * 

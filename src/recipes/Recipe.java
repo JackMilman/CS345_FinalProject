@@ -1,6 +1,9 @@
 package recipes;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import utilities.SortLists;
 
 /**
  * Object class describing a Recipe. A Recipe contains a name, the number of people it serves, lists
@@ -17,11 +20,11 @@ public class Recipe
 
   private int servings;
 
-  private final List<Ingredient> ingredients;
+  private List<Ingredient> ingredients = new ArrayList<Ingredient>();
 
-  private final List<Utensil> utensils;
+  private List<Utensil> utensils = new ArrayList<Utensil>();
 
-  private final List<Step> steps;
+  private List<Step> steps = new ArrayList<Step>();
 
   /**
    * Constructs a new Recipe. The name of a recipe may not be null and must be at least 1 character
@@ -55,64 +58,105 @@ public class Recipe
       this.servings = servings;
     }
 
-    this.ingredients = ingredients;
-    this.utensils = utensils;
-    this.steps = steps;
+    if (ingredients != null)
+      this.ingredients = ingredients;
+
+    if (utensils != null)
+      this.utensils = utensils;
+
+    if (steps != null)
+      this.steps = steps;
   }
 
-  // NOT YET IMPLEMENTED
   /**
+   * Adds an ingredient to the list of Ingredients.
    * 
    * @param ingredient
+   *          the ingredient to attempt to add
+   * 
+   * @return returns true if the Ingredient was successfully added
    */
-  public void addIngredient(final Ingredient ingredient)
+  public boolean addIngredient(final Ingredient ingredient)
   {
-    ingredients.add(ingredient);
+    return ingredients.add(ingredient);
   }
 
-  // NOT YET IMPLEMENTED
   /**
+   * Attempts to remove a ingredient from the list of ingredients. If the ingredient is not present,
+   * returns false.
    * 
+   * @param ingredient
+   *          the ingredient to attempt to remove
+   * 
+   * @return true if the ingredient was successfully removed, else false
    */
-  public void removeIngredient()
+  public boolean removeIngredient(final Ingredient ingredient)
   {
-
+    return ingredients.remove(ingredient);
   }
 
-  // NOT YET IMPLEMENTED
   /**
+   * Adds an utensil to the list of Utensils.
    * 
+   * @param utensil
+   *          the utensil to attempt to add
+   * 
+   * @return returns true if the Utensil was successfully added
    */
-  public void addUtensil()
+  public boolean addUtensil(final Utensil utensil)
   {
-
+    return utensils.add(utensil);
   }
 
-  // NOT YET IMPLEMENTED
   /**
+   * Attempts to remove a utensil from the list of utensils. If the utensil is not present, returns
+   * false.
    * 
+   * @param utensil
+   *          the utensil to attempt to remove
+   * 
+   * @return true if the utensil was successfully removed, else false
    */
-  public void removeUtensil()
+  public boolean removeUtensil(final Utensil utensil)
   {
-
+    return utensils.remove(utensil);
   }
 
-  // NOT YET IMPLEMENTED
   /**
+   * Attempts to add a step to the list of steps. A step cannot be added if it has an Ingredient or
+   * Utensils that are not in the recipe already.
    * 
+   * @param step
+   *          the step to attempt to add
+   * 
+   * @return
    */
-  public void addStep()
+  public boolean addStep(final Step step)
   {
-	  
+    boolean hasIngredient = ingredients.contains(step.getIngredient());
+    boolean hasSource = utensils.contains(step.getSource());
+    boolean hasDestination = utensils.contains(step.getDestination());
+
+    boolean isValid = hasIngredient && hasSource && hasDestination;
+    if (isValid)
+    {
+      return steps.add(step);
+    }
+
+    return false;
   }
 
-  // NOT YET IMPLEMENTED
   /**
+   * Attempts to remove a step from the list of steps. If the step is not present, returns false.
    * 
+   * @param step
+   *          the step to attempt to remove
+   * 
+   * @return true if the step was successfully removed, else false
    */
-  public void removeStep()
+  public boolean removeStep(final Step step)
   {
-
+    return steps.remove(step);
   }
 
   /**
@@ -164,7 +208,8 @@ public class Recipe
    */
   public List<Ingredient> getIngredients()
   {
-    SortLists.sortIngredients(ingredients);
+    // Removed the call to Sort the Ingredients List. Lists should be sorted outside of this class
+    // -Jack 3/30
     return ingredients;
   }
 
@@ -175,7 +220,8 @@ public class Recipe
    */
   public List<Utensil> getUtensils()
   {
-    SortLists.sortUtensils(utensils);
+    // Removed the call to Sort the utensils List. Lists should be sorted outside of this class
+    // -Jack 3/30
     return utensils;
   }
 

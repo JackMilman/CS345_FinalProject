@@ -14,8 +14,8 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-import recipes.SortLists;
 import recipes.Utensil;
+import utilities.SortLists;
 
 /**
  * A class for the UtensilEditor component of the recipe editor.

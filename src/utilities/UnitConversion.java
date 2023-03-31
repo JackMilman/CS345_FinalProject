@@ -4,13 +4,13 @@ import java.util.Map;
 
 public class UnitConversion
 {
-  private Map<String, Double> massConversions = new HashMap<String, Double>();
-  private Map<String, Double> volumeConversions = new HashMap<String, Double>();
+  private final Map<String, Double> massConversions = new HashMap<String, Double>();
+  private final Map<String, Double> volumeConversions = new HashMap<String, Double>();
   //Special Cases
-  private double OUNCES_TO_GRAMS = 28.34952;
-  private double TABLESPOON_TO_MILLILITERS = 14.7867648;
-  private double CUP_TO_MILLILITERS = 236.58824;
-  private double FLUID_OUNCES_TO_MILLILITERS = 29.57353;
+  public final static double OUNCES_TO_GRAMS = 28.34952;
+  public final static double TABLESPOON_TO_MILLILITERS = 14.7867648;
+  public final static double CUP_TO_MILLILITERS = 236.58824;
+  public final static double FLUID_OUNCES_TO_MILLILITERS = 29.57353;
 
   // Mass or weight
   public UnitConversion()
@@ -32,7 +32,7 @@ public class UnitConversion
 
   }
 
-  public double conversion(String from, String to, double amount)
+  public double convert(String from, String to, double amount)
   {
     if (massConversions.containsKey(from) && massConversions.containsKey(to))
     {
@@ -46,7 +46,7 @@ public class UnitConversion
         return amount * FLUID_OUNCES_TO_MILLILITERS;
       else
       {
-        double tblSpoon = conversion(from, "TABLESPOON", 1);
+        double tblSpoon = convert(from, "TABLESPOON", 1);
         return amount * (tblSpoon * TABLESPOON_TO_MILLILITERS);
       }
     }
@@ -57,7 +57,7 @@ public class UnitConversion
       else if (from.equals("FLUID_OUNCES"))
         return amount * (1 / FLUID_OUNCES_TO_MILLILITERS);
       else {
-        double tblSpoon = conversion(from, "TABLESPOON", 1);
+        double tblSpoon = convert(from, "TABLESPOON", 1);
         return amount * (tblSpoon * (1 / TABLESPOON_TO_MILLILITERS));
       }
     }
