@@ -23,6 +23,10 @@ public class RecipeEditor extends JDialog
    */
   private static final long serialVersionUID = 1L;
   
+  private UtensilEditor utensilEditor;
+  private IngredientEditor ingredientEditor;
+  private StepEditor stepEditor;
+  
   /**
    * Creates a new RecipeEditor.
    * @param owner The JFrame which created this RecipeEditor. This should probably be
@@ -33,12 +37,15 @@ public class RecipeEditor extends JDialog
     super(owner, "KiLowBites Recipe Editor");
     setLayout(new BorderLayout(5, 5));
 
+    utensilEditor = new UtensilEditor();
+    ingredientEditor = new IngredientEditor();
+    stepEditor = new StepEditor(utensilEditor.getUtensils(), ingredientEditor.getIngredients());
     
     Container mainEditors = new Container();
     mainEditors.setLayout(new BorderLayout());
-    mainEditors.add(new UtensilEditor(), BorderLayout.NORTH);
-    mainEditors.add(new IngredientEditor(), BorderLayout.CENTER);
-    mainEditors.add(new StepEditor(), BorderLayout.SOUTH);
+    mainEditors.add(utensilEditor, BorderLayout.NORTH);
+    mainEditors.add(ingredientEditor, BorderLayout.CENTER);
+    mainEditors.add(stepEditor, BorderLayout.SOUTH);
     
     getContentPane().add(mainEditors, BorderLayout.SOUTH);
     
