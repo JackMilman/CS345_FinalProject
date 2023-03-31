@@ -12,7 +12,6 @@ public class UnitConversion
   private double TABLESPOON_TO_MILLILITERS = 14.7867648;
   private double CUP_TO_MILLILITERS = 236.58824;
   private double FLUID_OUNCES_TO_MILLILITERS = 29.57353;
-
   // Mass or weight
   public UnitConversion()
   {
@@ -40,8 +39,9 @@ public class UnitConversion
     {
       return amount * (massConversions.get(from) / massConversions.get(to));
     }
+    //Special Cases
     else if (to.equals("MILLILITER"))
-    {
+    {   
       if (from.equals("CUP"))
         return amount * CUP_TO_MILLILITERS;
       else if (from.equals("FLUID_OUNCE"))
