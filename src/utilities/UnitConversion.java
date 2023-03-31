@@ -1,4 +1,5 @@
 package utilities;
+
 import java.util.*;
 import java.util.Map;
 
@@ -6,7 +7,7 @@ public class UnitConversion
 {
   private final Map<String, Double> massConversions = new HashMap<String, Double>();
   private final Map<String, Double> volumeConversions = new HashMap<String, Double>();
-  //Special Cases
+  // Special Cases
   public final static double OUNCES_TO_GRAMS = 28.34952;
   public final static double TABLESPOON_TO_MILLILITERS = 14.7867648;
   public final static double CUP_TO_MILLILITERS = 236.58824;
@@ -15,20 +16,20 @@ public class UnitConversion
   // Mass or weight
   public UnitConversion()
   {
-    massConversions.put("DRAMS", 1.0 / 16.0);
-    massConversions.put("OUNCES", 1.0); // base unit
-    massConversions.put("GRAMS", 1.0 / OUNCES_TO_GRAMS);
+    massConversions.put("DRAM", 1.0 / 16.0);
+    massConversions.put("OUNCE", 1.0); // base unit
+    massConversions.put("GRAM", 1.0 / OUNCES_TO_GRAMS);
     massConversions.put("POUND", 16.0);
 
     // Volume conversions
-    volumeConversions.put("PINCHES", 1 / 16.0);
-    volumeConversions.put("TEASPOON", 1.0); // base unit
-    volumeConversions.put("TABLESPOONS", 1 / 3.0);
-    volumeConversions.put("FLUID_OUNCES", 1 / 6.0);
-    volumeConversions.put("CUPS", 1.0 / 48.0);
-    volumeConversions.put("PINTS", 1.0 / 96.0);
-    volumeConversions.put("QUARTS", 1.0 / 192.0);
-    volumeConversions.put("GALLONS", 1.0 / 768.0);
+    volumeConversions.put("PINCH", 1 / 48.0);
+    volumeConversions.put("TEASPOON", 1 / 3.0);
+    volumeConversions.put("TABLESPOON", 1.0); // base unit
+    volumeConversions.put("FLUID_OUNCE", 2.0);
+    volumeConversions.put("CUP", 16.0);
+    volumeConversions.put("PINT", 32.0);
+    volumeConversions.put("QUART", 64.0);
+    volumeConversions.put("GALLON", 256.0);
 
   }
 
@@ -38,11 +39,11 @@ public class UnitConversion
     {
       return amount * (massConversions.get(from) / massConversions.get(to));
     }
-    else if (to.equals("MILLILITERS"))
+    else if (to.equals("MILLILITER"))
     {
       if (from.equals("CUP"))
         return amount * CUP_TO_MILLILITERS;
-      else if (from.equals("FLUID_OUNCES"))
+      else if (from.equals("FLUID_OUNCE"))
         return amount * FLUID_OUNCES_TO_MILLILITERS;
       else
       {
@@ -50,15 +51,23 @@ public class UnitConversion
         return amount * (tblSpoon * TABLESPOON_TO_MILLILITERS);
       }
     }
-    else if (from.equals("MILLILITERS"))
+    else if (from.equals("MILLILITER"))
     {
-      if (from.equals("CUP"))
-        return amount * (1/ CUP_TO_MILLILITERS);
-      else if (from.equals("FLUID_OUNCES"))
-        return amount * (1 / FLUID_OUNCES_TO_MILLILITERS);
-      else {
-        double tblSpoon = convert(from, "TABLESPOON", 1);
-        return amount * (tblSpoon * (1 / TABLESPOON_TO_MILLILITERS));
+      if (to.equals("CUP"))
+        return amount * (1.0 / CUP_TO_MILLILITERS);
+      else if (to.equals("FLUID_OUNCE"))
+        return amount * (1.0 / FLUID_OUNCES_TO_MILLILITERS);
+      else
+      {
+        double tblSpoon = convert(to, "TABLESPOON", 1);
+        if (tblSpoon / volumeConversions.get("TABLESPOON") > 0)
+        {
+          return amount * ((1 / TABLESPOON_TO_MILLILITERS) / tblSpoon);
+        }
+        else
+        {
+          return amount * ((1 / TABLESPOON_TO_MILLILITERS) * tblSpoon);
+        }
       }
     }
     else if (volumeConversions.containsKey(from) && volumeConversions.containsKey(to))
@@ -68,6 +77,7 @@ public class UnitConversion
     else
     {
       return 0.0;
+
     }
 
   }
