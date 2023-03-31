@@ -115,6 +115,11 @@ public class UtensilEditor extends JComponent
     updateText();
   }
   
+  public List<Utensil> getUtensils()
+  {
+    return utensils;
+  }
+  
   private class UtensilEditorListener implements ActionListener
   {
     UtensilEditor editor;
