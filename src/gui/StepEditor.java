@@ -23,7 +23,7 @@ import recipes.Utensil;
  * @author Josiah Leach, KitchIntel
  * @version 03.29.2023
  */
-public class StepEditor extends JComponent
+public class StepEditor extends JComponent implements ActionListener
 {
   private static final String[] ACTIONS = new String[] {};
   
@@ -39,6 +39,8 @@ public class StepEditor extends JComponent
   private JTextField detailField;
   private List<Step> steps;
   private TextArea display;
+  private List<Utensil> utensils;
+  private List<Ingredient> ingredients;
   
   /**
    * Creates a new StepEditor.
@@ -52,6 +54,9 @@ public class StepEditor extends JComponent
     super();
     setLayout(new BorderLayout());
     setBorder(KitchIntelBorder.labeledBorder("Steps"));
+    
+    this.utensils = utensils;
+    this.ingredients = ingredients;
     
     StepEditorListener listener = new StepEditorListener(this);
     
@@ -91,7 +96,40 @@ public class StepEditor extends JComponent
   
   private void add()
   {
+    String action =  actionSelect.getSelectedItem().toString();
+    String on =      onSelect.getSelectedItem().toString();
+    String utensil = utensilSelect.getSelectedItem().toString();
+    String details = detailField.getText();
     
+    if(action.equals("") || on.equals("") || utensil.equals("") || details.equals("")) 
+    {
+      return;
+    }
+    
+    Utensil destinationUtensil = null;
+    
+    for(int i = 0; i < utensilSelect.getItemCount(); i++)
+    {
+      if(utensil.equals(utensilSelect.getItemAt(i)))
+      {
+        destinationUtensil = utensils.get(i-1);
+      }
+    }
+    
+    Utensil sourceUtensil = null;
+    Ingredient objectIngredient = null;
+    
+    for(int i = 1; i < utensils.size() + 1; i++)
+    {
+      if(on.equals(onSelect.getItemAt(i)))
+      {
+        sourceUtensil = utensils.get(i-1);
+      }
+    }
+    //BAD CODE DOESNT WORK FIX LATER
+    
+    //Step step = new Step(action, ingredient, source, destination, details, time);
+    //steps.add(step);
   }
   
   private void delete()
@@ -116,6 +154,31 @@ public class StepEditor extends JComponent
     display.setText(displayText);
   }
   
+  private void updateOn()
+  {
+    onSelect.removeAll();
+    
+    for(Utensil utensil : utensils) 
+    {
+      onSelect.addItem(utensil.getName());
+    }
+    
+    for(Ingredient ingredient : ingredients)
+    {
+      onSelect.addItem(ingredient.getName());
+    }
+  }
+  
+  private void updateUtensil()
+  {
+    utensilSelect.removeAll();
+    
+    for(Utensil utensil : utensils) 
+    {
+      utensilSelect.addItem(utensil.getName());
+    }
+  }
+  
   private class StepEditorListener implements ActionListener
   {
     private StepEditor subject;
@@ -138,6 +201,23 @@ public class StepEditor extends JComponent
       }
     }
     
+  }
+  
+
+  @Override
+  public void actionPerformed(final ActionEvent e)
+  {
+    if(e.getActionCommand().equals(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND)
+        ||e.getActionCommand().equals(RecipeEditor.INGREDIENT_DELETE_ACTION_COMMAND))
+    {
+      updateOn();
+    } 
+    else if (e.getActionCommand().equals(RecipeEditor.UTENSIL_ADD_ACTION_COMMAND)
+        || e.getActionCommand().equals(RecipeEditor.UTENSIL_DELETE_ACTION_COMMAND))
+    {
+      updateOn();
+      updateUtensil();
+    }
   }
 
 }
