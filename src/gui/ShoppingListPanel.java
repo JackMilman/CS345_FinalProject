@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -21,10 +22,10 @@ import recipes.Recipe;
  * @version 3/31/2023, Version 1
  *
  */
-public class ShoppingListPanel extends JPanel
+public class ShoppingListPanel extends JPanel /* implements ActionListener */
 {
   
-  private String numberOfPeople;
+  private int numberOfPeople;
   
   /**
    * Creates a panel with a text field to input the number of people a recipe should serve
@@ -43,20 +44,36 @@ public class ShoppingListPanel extends JPanel
     super();
     setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
     
+    JScrollPane scroll = createScrollPane(recipe);
+    
     // A text field so the user can input the number of people
     JPanel numPeople = new JPanel();
     numPeople.add(new JLabel("Number of People:"));
-    JTextField textField = new JTextField("\t\t");
+    JTextField textField = new JTextField();
+    textField.setPreferredSize(new Dimension(50, 20));
     textField.addActionListener(new ActionListener() 
     {
       public void actionPerformed(final ActionEvent event) 
       {
-        numberOfPeople = textField.getText();
+        try 
+        {
+          numberOfPeople = Integer.parseInt(textField.getText());
+        } 
+        catch (IllegalArgumentException e)
+        {
+          numberOfPeople = 0;
+        }
       }
     });
     numPeople.add(textField);
     add(numPeople);
     
+    add(scroll);
+    
+  }
+  
+  private JScrollPane createScrollPane(Recipe recipe)
+  {
     // A scrollable, alphabetized list of ingredients in a recipe with prices
     List<Ingredient> ingredients = recipe.getIngredients();
     
@@ -64,13 +81,27 @@ public class ShoppingListPanel extends JPanel
     JTextArea messageArea = new JTextArea(ingredients.size(), 1);
     for (Ingredient ing : ingredients)
     {
-      messageArea.append(ing.getName() + "\n");
+      String info = String.format("%s\t%f\n", 
+          ing.getName(), ing.getAmount() * numberOfPeople);
+      messageArea.append(info);
     }
     
     JScrollPane scroll = new JScrollPane(messageArea);
     scroll.createVerticalScrollBar();
-    add(scroll);
-    
+    return scroll;
   }
+  
+//  @Override
+//  public void actionPerformed(final ActionEvent event)
+//  {
+//    try 
+//    {
+//      numberOfPeople = Integer.parseInt(textField.getText());
+//    } 
+//    catch (IllegalArgumentException e)
+//    {
+//      numberOfPeople = 0;
+//    }
+//  }
 
 }

@@ -17,6 +17,10 @@ import javax.swing.JTextField;
 public class RecipeEditor extends JDialog
 {
   static final int DEFAULT_TEXT_FIELD_WIDTH = 10;
+  static final String INGREDIENT_ADD_ACTION_COMMAND = "ingr_add_act";
+  static final String UTENSIL_ADD_ACTION_COMMAND = "uten_add_act";
+  static final String INGREDIENT_DELETE_ACTION_COMMAND = "ingr_del_act";
+  static final String UTENSIL_DELETE_ACTION_COMMAND = "uten_del_act";
 
   /**
    * 
@@ -40,6 +44,9 @@ public class RecipeEditor extends JDialog
     utensilEditor = new UtensilEditor();
     ingredientEditor = new IngredientEditor();
     stepEditor = new StepEditor(utensilEditor.getUtensils(), ingredientEditor.getIngredients());
+    
+    utensilEditor.addActionListener(stepEditor);
+    ingredientEditor.addActionListener(stepEditor);
     
     Container mainEditors = new Container();
     mainEditors.setLayout(new BorderLayout());
