@@ -13,6 +13,7 @@ public class UnitConversion
   private final static double CUP_TO_MILLILITERS = 236.58824;
   private final static double FLUID_OUNCES_TO_MILLILITERS = 29.57353;
   private final static double GRAMS_PER_MILLILITER = 1.04;
+  
 
   // Mass or weight
   public UnitConversion()
@@ -33,6 +34,7 @@ public class UnitConversion
     volumeConversions.put("QUART", 64.0);
     volumeConversions.put("GALLON", 256.0);
 
+    
   }
 
   public double convert(String from, String to, double amount)
@@ -45,12 +47,18 @@ public class UnitConversion
     {
       return amount * (volumeConversions.get(from) / volumeConversions.get(to));
     }
-    else if  (to.equals("MILLILITER") | from.equals("MILLILITER")) {
-      return milliLiterConvert(from, to, amount);
-    }
-    else if (massConversions.containsKey(from) & volumeConversions.containsKey(to))
+    
+    else if (massConversions.containsKey(from) & (volumeConversions.containsKey(to) | to.equals("MILLILITER")))
     {
       return mass_to_volume(from, to, amount);
+      
+    }
+    else if ((volumeConversions.containsKey(from)| from.equals("MILLILITER") ) & massConversions.containsKey(to))
+    {
+      return volume_to_mass(from, to, amount);
+    }
+    else {
+      return milliLiterConvert(from, to, amount);
     }
 
   }
@@ -86,11 +94,13 @@ public class UnitConversion
   }
   
   public double mass_to_volume(String from, String to, double amount) {
-    double massVal = convert(from, "GRAM", 1);
-    return amount * (massVal / GRAMS_PER_MILLILITER);
+    double massVal = convert(from, "GRAM", amount);
+    double newmass = (massVal / GRAMS_PER_MILLILITER);
+    return newmass * convert("MILLILITER", to, 1);
   }
-  public double voluem_to_mass(String from, String to, double amount) {
-    double massVal = convert(from, "GRAM", 1);
-    return amount * (massVal * GRAMS_PER_MILLILITER);
+  public double volume_to_mass(String from, String to, double amount) {
+    double volVal = convert(from, "MILLILITER", amount);
+    double newvol = (GRAMS_PER_MILLILITER * volVal);
+    return newvol * convert("GRAM", to, 1);
   }
 }

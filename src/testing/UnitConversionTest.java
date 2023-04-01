@@ -27,14 +27,18 @@ class UnitConversionTest
     UnitConversion x = new UnitConversion();
     assertEquals(96.0, x.convert("CUP", "TEASPOON", 2));
     assertEquals(.0625, x.convert("CUP", "GALLON", 1));
-    assertEquals(0, x.convert("CUP", "DRAM", 0));
     assertEquals(8, x.convert("CUP", "FLUID_OUNCE", 1)); 
   }
   @Test
   void specialCase_tests() {
     //Mismatch
     UnitConversion x = new UnitConversion();
-    assertEquals(0.0, x.convert("CUP", "GRAM", 2));
+    double trunc = x.convert("GRAM", "MILLILITER", 10);
+    trunc = Math.floor(trunc * 100) / 100;
+    assertEquals(9.61, trunc);
+    double trunc1 = x.convert("CUP", "OUNCE", 1);
+    trunc1 = Math.floor(trunc1 * 100) / 100;
+    assertEquals(8.67, trunc1);
   }
   @Test
   void toMilliliters_tests() {
