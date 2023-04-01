@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.TextListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,7 +106,12 @@ public class UtensilEditor extends JComponent
     
     for(Utensil utensil : utensils)
     {
-      displayText += String.format("%s\t%s\n", utensil.getName(), utensil.getDetails());
+      String details = utensil.getDetails();
+      if(details.length() > 0)
+      {
+        details = String.format("(%s)", details);
+      }
+      displayText += String.format("%s\t%s\n", utensil.getName(), details);
     }
     
     utensilDisplay.setText(displayText);
@@ -119,14 +125,13 @@ public class UtensilEditor extends JComponent
   }
   
   /**
-   * Adds an action listener to the add and delete buttons of the utensil editor.
+   * Adds a text listener to the text area of the utensil editor.
    * 
-   * @param listener the actionListener to add to the add and delete button.
+   * @param listener the text listener to add to the display text area.
    */
-  public void addActionListener(final ActionListener listener)
+  public void addTextListener(final TextListener listener)
   {
-    addButton.addActionListener(listener);
-    
+    utensilDisplay.addTextListener(listener);
   }
   
   List<Utensil> getUtensils()
@@ -150,7 +155,7 @@ public class UtensilEditor extends JComponent
       {
         editor.add();
       }
-      else if (e.getActionCommand().equals(DELETE))
+      else if (e.getActionCommand().equals(RecipeEditor.UTENSIL_DELETE_ACTION_COMMAND))
       {
         editor.delete();
       }

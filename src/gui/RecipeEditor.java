@@ -45,8 +45,8 @@ public class RecipeEditor extends JDialog
     ingredientEditor = new IngredientEditor();
     stepEditor = new StepEditor(utensilEditor.getUtensils(), ingredientEditor.getIngredients());
     
-    utensilEditor.addActionListener(stepEditor);
-    ingredientEditor.addActionListener(stepEditor);
+    utensilEditor.addTextListener(stepEditor);
+    ingredientEditor.addTextListener(stepEditor);
     
     Container mainEditors = new Container();
     mainEditors.setLayout(new BorderLayout());

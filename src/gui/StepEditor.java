@@ -6,6 +6,9 @@ import java.awt.FlowLayout;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.TextEvent;
+import java.awt.event.TextListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -23,12 +26,14 @@ import recipes.Utensil;
  * @author Josiah Leach, KitchIntel
  * @version 03.29.2023
  */
-public class StepEditor extends JComponent implements ActionListener
+public class StepEditor extends JComponent implements TextListener
 {
-  private static final String[] ACTIONS = new String[] {};
+  private static final String[] ACTIONS = new String[] {"", "Put", "Melt", "Simmer",
+      "Heat", "Ignite", "Boil", "Drain", "Saute", "Cook", "Bake", "Dip"};
   
   private static final String ADD = "Add";
   private static final String DELETE = "Delete";
+  private static final String BLANK = "            ";
   
   /**
    * 
@@ -46,7 +51,7 @@ public class StepEditor extends JComponent implements ActionListener
    * Creates a new StepEditor.
    * @param utensils The utensils which can be used in a step. Must be a reference to
    * the list used by the corresponding UtensilEditor.
-   * @param ingredients The ingredients which can be used in a step. Mustt be a reference to 
+   * @param ingredients The ingredients which can be used in a step. Must be a reference to 
    * the list used by the corresponding IngredientEditor.
    */
   public StepEditor(final List<Utensil> utensils, final List<Ingredient> ingredients)
@@ -57,14 +62,15 @@ public class StepEditor extends JComponent implements ActionListener
     
     this.utensils = utensils;
     this.ingredients = ingredients;
+    this.steps = new ArrayList<Step>();
     
     StepEditorListener listener = new StepEditorListener(this);
     
     actionSelect = new JComboBox<String>(ACTIONS);
-    onSelect = new JComboBox<String>(new String[] {""});
-    utensilSelect = new JComboBox<String>(new String[] {""});
+    onSelect = new JComboBox<String>(new String[] {BLANK});
+    utensilSelect = new JComboBox<String>(new String[] {BLANK});
     detailField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
-    
+        
     JButton addButton = new JButton(ADD);
     JButton deleteButton = new JButton(DELETE);
     
@@ -100,36 +106,48 @@ public class StepEditor extends JComponent implements ActionListener
     String on =      onSelect.getSelectedItem().toString();
     String utensil = utensilSelect.getSelectedItem().toString();
     String details = detailField.getText();
+    int time = 0;
     
-    if(action.equals("") || on.equals("") || utensil.equals("") || details.equals("")) 
+    if(action.equals("") || on.equals("") || utensil.equals("")) 
     {
       return;
     }
     
     Utensil destinationUtensil = null;
-    
-    for(int i = 0; i < utensilSelect.getItemCount(); i++)
-    {
-      if(utensil.equals(utensilSelect.getItemAt(i)))
-      {
-        destinationUtensil = utensils.get(i-1);
-      }
-    }
-    
     Utensil sourceUtensil = null;
-    Ingredient objectIngredient = null;
     
-    for(int i = 1; i < utensils.size() + 1; i++)
+    for(int i = 0; i < utensils.size(); i++)
     {
-      if(on.equals(onSelect.getItemAt(i)))
+      if(on.equals(utensils.get(i).getName()))
       {
-        sourceUtensil = utensils.get(i-1);
+        sourceUtensil = utensils.get(i);
+      }
+      if(utensil.equals(utensils.get(i).getName()))
+      {
+        destinationUtensil = utensils.get(i);
       }
     }
-    //BAD CODE DOESNT WORK FIX LATER
     
-    //Step step = new Step(action, ingredient, source, destination, details, time);
-    //steps.add(step);
+    Ingredient objectIngredient = null;
+        
+    for(int i = 0; i < ingredients.size(); i++)
+    {
+      if(on.equals(ingredients.get(i).getName()))
+      {
+        objectIngredient = ingredients.get(i);
+      }
+    }
+    
+    Step step = new Step(action, objectIngredient, sourceUtensil, destinationUtensil, details, 
+        time);
+    steps.add(step);
+        
+    updateDisplay();
+    
+    actionSelect.setSelectedIndex(0);
+    onSelect.setSelectedIndex(0);
+    utensilSelect.setSelectedIndex(0);
+    detailField.setText("");
   }
   
   private void delete()
@@ -145,10 +163,26 @@ public class StepEditor extends JComponent implements ActionListener
   {
     String displayText = "";
     
+    Utensil source = null;
+    Ingredient ingredient = null;
+    String on = null;
+        
     for(Step step : steps)
     {
+      source = step.getSource();
+      ingredient = step.getIngredient();
+      
+      if(source == null)
+      {
+        on = ingredient.getName();
+      }
+      else
+      {
+        on = source.getName().toUpperCase();
+      }
+      
       displayText += String.format("%s\t%s\t%s\t%s\n", step.getAction(), 
-          step.getSource().getName(), step.getDestination().getName(), step.getDetails());
+          on, step.getDestination().getName(), step.getDetails());
     }
     
     display.setText(displayText);
@@ -156,7 +190,9 @@ public class StepEditor extends JComponent implements ActionListener
   
   private void updateOn()
   {
-    onSelect.removeAll();
+    onSelect.removeAllItems();
+    
+    onSelect.addItem(BLANK);
     
     for(Utensil utensil : utensils) 
     {
@@ -167,12 +203,15 @@ public class StepEditor extends JComponent implements ActionListener
     {
       onSelect.addItem(ingredient.getName());
     }
+    
   }
   
   private void updateUtensil()
   {
-    utensilSelect.removeAll();
+    utensilSelect.removeAllItems();
     
+    utensilSelect.addItem(BLANK);
+        
     for(Utensil utensil : utensils) 
     {
       utensilSelect.addItem(utensil.getName());
@@ -202,22 +241,14 @@ public class StepEditor extends JComponent implements ActionListener
     }
     
   }
-  
+
+
 
   @Override
-  public void actionPerformed(final ActionEvent e)
+  public void textValueChanged(final TextEvent e)
   {
-    if(e.getActionCommand().equals(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND)
-        ||e.getActionCommand().equals(RecipeEditor.INGREDIENT_DELETE_ACTION_COMMAND))
-    {
-      updateOn();
-    } 
-    else if (e.getActionCommand().equals(RecipeEditor.UTENSIL_ADD_ACTION_COMMAND)
-        || e.getActionCommand().equals(RecipeEditor.UTENSIL_DELETE_ACTION_COMMAND))
-    {
-      updateOn();
-      updateUtensil();
-    }
+    updateOn();
+    updateUtensil();
   }
 
 }
