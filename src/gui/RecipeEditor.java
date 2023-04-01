@@ -45,8 +45,8 @@ public class RecipeEditor extends JDialog
     ingredientEditor = new IngredientEditor();
     stepEditor = new StepEditor(utensilEditor.getUtensils(), ingredientEditor.getIngredients());
     
-    utensilEditor.addActionListener(stepEditor);
-    ingredientEditor.addActionListener(stepEditor);
+    utensilEditor.addTextListener(stepEditor);
+    ingredientEditor.addTextListener(stepEditor);
     
     Container mainEditors = new Container();
     mainEditors.setLayout(new BorderLayout());
@@ -54,7 +54,7 @@ public class RecipeEditor extends JDialog
     mainEditors.add(ingredientEditor, BorderLayout.CENTER);
     mainEditors.add(stepEditor, BorderLayout.SOUTH);
     
-    getContentPane().add(mainEditors, BorderLayout.SOUTH);
+    add(mainEditors, BorderLayout.SOUTH);
     
     Container icons = new Container();
     icons.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -64,7 +64,7 @@ public class RecipeEditor extends JDialog
     icons.add(new KitchIntelButton(KitchIntelButton.SAVE_AS_IMAGE));
     icons.add(new KitchIntelButton(KitchIntelButton.CLOSE_IMAGE));
 
-    getContentPane().add(icons, BorderLayout.NORTH);
+    add(icons, BorderLayout.NORTH);
     
     Container nameAndServings = new Container();
     
@@ -80,22 +80,11 @@ public class RecipeEditor extends JDialog
     textField1.setColumns(DEFAULT_TEXT_FIELD_WIDTH);
     nameAndServings.add(textField1);
     
-    getContentPane().add(nameAndServings, BorderLayout.CENTER);
+    add(nameAndServings, BorderLayout.CENTER);
     
     setVisible(true);
     setResizable(true);
     pack();
   }
   
-  /**
-   * 
-   * @param args
-   */
-  public static void main(final String[] args)
-  {
-    MainWindow main = new MainWindow();
-    main.run();
-    
-    new RecipeEditor(main);
-  }
 }
