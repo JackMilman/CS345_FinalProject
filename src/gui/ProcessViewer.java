@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,10 +31,12 @@ import utilities.SortLists;
  * @author Allie O'Keeffe, KichIntel
  *
  */
-public class ProcessViewer extends JFrame
+public class ProcessViewer extends JFrame implements Serializable
 {
 
   private static final long serialVersionUID = 1L;
+  private static final String RECIPEEXT = "rcp";
+  private static final String MEALEXT = "mel";
 
   /**
    * Recipe constructor.
@@ -168,23 +171,23 @@ public class ProcessViewer extends JFrame
     setVisible(true);
   }
 
-  public void writeRecipe(String filename) throws IOException
-  {
-    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename + ".rcp"));
-
-    out.writeObject(this);
-    out.flush();
-    out.close();
-  }
-
-  public void writeMeal(String filename) throws IOException
-  {
-    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename + ".mel"));
-
-    out.writeObject(this);
-    out.flush();
-    out.close();
-  }
+  // public void writeRecipe(String filename) throws IOException
+  // {
+  // ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename + RECIPEEXT));
+  //
+  // out.writeObject(this);
+  // out.flush();
+  // out.close();
+  // }
+  //
+  // public void writeMeal(String filename) throws IOException
+  // {
+  // ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename + MEALEXT));
+  //
+  // out.writeObject(this);
+  // out.flush();
+  // out.close();
+  // }
 
   /**
    * 
@@ -194,6 +197,7 @@ public class ProcessViewer extends JFrame
    */
   public static Recipe openRecipe(final String filename) throws IOException
   {
+    // error on this line
     ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename + ".rcp"));
     Recipe recipe;
     try
@@ -209,6 +213,12 @@ public class ProcessViewer extends JFrame
     return recipe;
   }
 
+  /**
+   * 
+   * @param filename
+   * @return a meal
+   * @throws IOException
+   */
   public static Meal openMeal(final String filename) throws IOException
   {
     ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename + ".mel"));
@@ -222,7 +232,6 @@ public class ProcessViewer extends JFrame
       meal = new Meal(filename, null, 0);
     }
     in.close();
-
     return meal;
   }
 
