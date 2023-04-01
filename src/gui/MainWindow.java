@@ -121,6 +121,5 @@ public class MainWindow extends JFrame implements Runnable
     JLabel logoLabel = new JLabel(logo);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
     setVisible(true);
-
   }
 }
