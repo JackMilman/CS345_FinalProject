@@ -48,7 +48,7 @@ public class KiLowBitesController implements ActionListener
   public KiLowBitesController(final JFrame main)
   {
     this.main = main;
-    this.fileChooser = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+    this.fileChooser = new JFileChooser(new File("."));
     this.fileFilter = new FileNameExtensionFilter("Recipes and Meal",
         new String[] {RECIPEEXT, MEALEXT});
   }
