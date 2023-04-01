@@ -40,6 +40,7 @@ public class IngredientEditor extends JComponent
   private JTextField detailField;
   private JTextField amountField;
   private TextArea ingredientDisplay;
+  private JButton addButton, deleteButton;
   private final JComboBox<String> unitSelect;
 
   private List<Ingredient> ingredients;
@@ -55,8 +56,11 @@ public class IngredientEditor extends JComponent
     
     IngredientEditorListener listener = new IngredientEditorListener(this);
     
-    JButton addButton = new JButton(ADD);
-    JButton deleteButton = new JButton(DELETE);
+    addButton = new JButton(ADD);
+    deleteButton = new JButton(DELETE);
+    
+    addButton.setActionCommand(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND);
+    deleteButton.setActionCommand(RecipeEditor.INGREDIENT_DELETE_ACTION_COMMAND);
     
     nameField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     detailField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
@@ -148,6 +152,17 @@ public class IngredientEditor extends JComponent
   List<Ingredient> getIngredients()
   {
     return ingredients;
+  }
+  
+  /**
+   * Adds an action listener to the add and delete buttons of the ingredient editor.
+   * 
+   * @param listener the actionListener to add to the add and delete buttons.
+   */
+  public void addActionListener(final ActionListener listener)
+  {
+    addButton.addActionListener(listener);
+    deleteButton.addActionListener(listener);
   }
   
   private class IngredientEditorListener implements ActionListener

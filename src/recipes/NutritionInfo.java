@@ -82,6 +82,7 @@ public enum NutritionInfo
   public String name;
   public  double calPerGram;
   public double gramPerML;
+  
   private NutritionInfo(String name, double calPerGram, double gramPerML) {
     this.name = name;
     this.calPerGram = calPerGram;
@@ -91,26 +92,17 @@ public enum NutritionInfo
   {
     return name;
   }
-  public void setName(String name)
-  {
-    this.name = name;
-  }
+
   public double getCalPerGram()
   {
     return calPerGram;
   }
-  public void setCalPerGram(double calPerGram)
-  {
-    this.calPerGram = calPerGram;
-  }
+
   public double getGramPerML()
   {
     return gramPerML;
   }
-  public void setGramPerML(double gramPerML)
-  {
-    this.gramPerML = gramPerML;
-  }
+
   
   public NutritionInfo fromCode(String ingredient) {
     NutritionInfo[] info = NutritionInfo.values();

@@ -35,6 +35,7 @@ public class UtensilEditor extends JComponent
   private final JTextField nameField;
   private final JTextField detailField;
   private final TextArea utensilDisplay;
+  private final JButton addButton, deleteButton;
   private final List<Utensil> utensils;
 
 
@@ -55,7 +56,8 @@ public class UtensilEditor extends JComponent
     nameField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     detailField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     
-    JButton addButton = new JButton(ADD);
+    addButton = new JButton(ADD);
+    addButton.setActionCommand(RecipeEditor.UTENSIL_ADD_ACTION_COMMAND);
     addButton.addActionListener(listener);
 
     Container inputFields = new Container();
@@ -71,8 +73,9 @@ public class UtensilEditor extends JComponent
     
     add(inputFields, BorderLayout.NORTH);
     
-    JButton deleteButton = new JButton(DELETE);
+    deleteButton = new JButton(DELETE);
     deleteButton.addActionListener(listener);
+    deleteButton.setActionCommand(RecipeEditor.UTENSIL_DELETE_ACTION_COMMAND);
     add(deleteButton, BorderLayout.EAST);
     
     utensilDisplay = new TextArea();
@@ -115,6 +118,17 @@ public class UtensilEditor extends JComponent
     updateText();
   }
   
+  /**
+   * Adds an action listener to the add and delete buttons of the utensil editor.
+   * 
+   * @param listener the actionListener to add to the add and delete button.
+   */
+  public void addActionListener(final ActionListener listener)
+  {
+    addButton.addActionListener(listener);
+    
+  }
+  
   List<Utensil> getUtensils()
   {
     return utensils;
@@ -132,7 +146,7 @@ public class UtensilEditor extends JComponent
     @Override
     public void actionPerformed(final ActionEvent e)
     {
-      if(e.getActionCommand().equals(ADD))
+      if(e.getActionCommand().equals(RecipeEditor.UTENSIL_ADD_ACTION_COMMAND))
       {
         editor.add();
       }
