@@ -235,4 +235,12 @@ public class Recipe
     return steps;
   }
   
+  public double calculateCalories() {
+//	  double calories = 0;
+//	  for (Ingredient ingredient: ingredients) {
+//		  NutritionInfo cals = NutritionInfo.parseIngredient(ingredient.getName());
+//		  
+//	  }
+	  return 0.0;
+  }
 }
