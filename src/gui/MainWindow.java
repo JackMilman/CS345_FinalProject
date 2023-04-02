@@ -90,6 +90,7 @@ public class MainWindow extends JFrame implements Runnable
     view.add(shoppingList);
     // Process: A ProcessViewer is opened
     JMenuItem process = new JMenuItem("Process");
+    process.addActionListener(controller);
     view.add(process);
 
     JMenu tools = new JMenu("Tools");
@@ -120,6 +121,5 @@ public class MainWindow extends JFrame implements Runnable
     JLabel logoLabel = new JLabel(logo);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
     setVisible(true);
-
   }
 }

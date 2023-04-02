@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.TextListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,6 +41,7 @@ public class IngredientEditor extends JComponent
   private JTextField detailField;
   private JTextField amountField;
   private TextArea ingredientDisplay;
+  private JButton addButton, deleteButton;
   private final JComboBox<String> unitSelect;
 
   private List<Ingredient> ingredients;
@@ -55,8 +57,11 @@ public class IngredientEditor extends JComponent
     
     IngredientEditorListener listener = new IngredientEditorListener(this);
     
-    JButton addButton = new JButton(ADD);
-    JButton deleteButton = new JButton(DELETE);
+    addButton = new JButton(ADD);
+    deleteButton = new JButton(DELETE);
+    
+    addButton.setActionCommand(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND);
+    deleteButton.setActionCommand(RecipeEditor.INGREDIENT_DELETE_ACTION_COMMAND);
     
     nameField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     detailField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
@@ -98,18 +103,18 @@ public class IngredientEditor extends JComponent
     String name = nameField.getText();
     String details = detailField.getText();
     String unit = unitSelect.getSelectedItem().toString();
-    int amount;
+    double amount;
     
     try
     {
-      amount = Integer.valueOf(amountField.getText());
+      amount = Double.valueOf(amountField.getText());
     }
     catch (NumberFormatException nfe)
     {
       return;
     }
     
-    if(name.equals("") || details.equals("") || unit.equals("")) return;
+    if(name.equals("") || unit.equals("")) return;
         
     Ingredient ingredient = new Ingredient(name, details, amount, unit);
     ingredients.add(ingredient);
@@ -138,7 +143,13 @@ public class IngredientEditor extends JComponent
     
     for(Ingredient ingredient : ingredients)
     {
-      text += String.format("%s\t%s\t%s\t%s\n", ingredient.getName(), ingredient.getDetails(), 
+      String details = ingredient.getDetails();
+      if(details.length() > 0)
+      {
+        details = String.format("(%s)", details);
+      }
+      
+      text += String.format("%s\t%s\t%s\t%s\n", ingredient.getName(), details, 
           ingredient.getAmount(), ingredient.getUnit());
     }
     
@@ -148,6 +159,16 @@ public class IngredientEditor extends JComponent
   List<Ingredient> getIngredients()
   {
     return ingredients;
+  }
+  
+  /**
+   * Adds a text listener to the text area of the ingredient editor.
+   * 
+   * @param listener the text listener to add to the display text area.
+   */
+  public void addTextListener(final TextListener listener)
+  {
+    ingredientDisplay.addTextListener(listener);
   }
   
   private class IngredientEditorListener implements ActionListener
@@ -162,11 +183,11 @@ public class IngredientEditor extends JComponent
     @Override
     public void actionPerformed(final ActionEvent e)
     {
-      if(e.getActionCommand().equals(ADD))
+      if(e.getActionCommand().equals(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND))
       {
         subject.add();
       }
-      else if (e.getActionCommand().equals(DELETE))
+      else if (e.getActionCommand().equals(RecipeEditor.INGREDIENT_DELETE_ACTION_COMMAND))
       {
         subject.delete();
       }

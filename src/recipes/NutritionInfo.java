@@ -104,4 +104,16 @@ public enum NutritionInfo
   }
 
   
-}
+  public NutritionInfo fromCode(String ingredient) {
+    NutritionInfo[] info = NutritionInfo.values();
+    for (int i = 0; i < info.length; i++)
+    {
+      if (info[i].getName().equals(ingredient))
+      {
+        return info[i];
+      }
+    }
+    return null;
+  }
+  }
+  

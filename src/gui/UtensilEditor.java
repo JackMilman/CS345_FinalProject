@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.TextListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +36,7 @@ public class UtensilEditor extends JComponent
   private final JTextField nameField;
   private final JTextField detailField;
   private final TextArea utensilDisplay;
+  private final JButton addButton, deleteButton;
   private final List<Utensil> utensils;
 
 
@@ -55,7 +57,8 @@ public class UtensilEditor extends JComponent
     nameField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     detailField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     
-    JButton addButton = new JButton(ADD);
+    addButton = new JButton(ADD);
+    addButton.setActionCommand(RecipeEditor.UTENSIL_ADD_ACTION_COMMAND);
     addButton.addActionListener(listener);
 
     Container inputFields = new Container();
@@ -71,8 +74,9 @@ public class UtensilEditor extends JComponent
     
     add(inputFields, BorderLayout.NORTH);
     
-    JButton deleteButton = new JButton(DELETE);
+    deleteButton = new JButton(DELETE);
     deleteButton.addActionListener(listener);
+    deleteButton.setActionCommand(RecipeEditor.UTENSIL_DELETE_ACTION_COMMAND);
     add(deleteButton, BorderLayout.EAST);
     
     utensilDisplay = new TextArea();
@@ -102,7 +106,12 @@ public class UtensilEditor extends JComponent
     
     for(Utensil utensil : utensils)
     {
-      displayText += String.format("%s\t%s\n", utensil.getName(), utensil.getDetails());
+      String details = utensil.getDetails();
+      if(details.length() > 0)
+      {
+        details = String.format("(%s)", details);
+      }
+      displayText += String.format("%s\t%s\n", utensil.getName(), details);
     }
     
     utensilDisplay.setText(displayText);
@@ -113,6 +122,16 @@ public class UtensilEditor extends JComponent
     if(utensils.size() == 0) return;
     utensils.remove(utensils.size() - 1);
     updateText();
+  }
+  
+  /**
+   * Adds a text listener to the text area of the utensil editor.
+   * 
+   * @param listener the text listener to add to the display text area.
+   */
+  public void addTextListener(final TextListener listener)
+  {
+    utensilDisplay.addTextListener(listener);
   }
   
   List<Utensil> getUtensils()
@@ -132,11 +151,11 @@ public class UtensilEditor extends JComponent
     @Override
     public void actionPerformed(final ActionEvent e)
     {
-      if(e.getActionCommand().equals(ADD))
+      if(e.getActionCommand().equals(RecipeEditor.UTENSIL_ADD_ACTION_COMMAND))
       {
         editor.add();
       }
-      else if (e.getActionCommand().equals(DELETE))
+      else if (e.getActionCommand().equals(RecipeEditor.UTENSIL_DELETE_ACTION_COMMAND))
       {
         editor.delete();
       }

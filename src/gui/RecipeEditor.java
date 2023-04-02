@@ -17,6 +17,10 @@ import javax.swing.JTextField;
 public class RecipeEditor extends JDialog
 {
   static final int DEFAULT_TEXT_FIELD_WIDTH = 10;
+  static final String INGREDIENT_ADD_ACTION_COMMAND = "ingr_add_act";
+  static final String UTENSIL_ADD_ACTION_COMMAND = "uten_add_act";
+  static final String INGREDIENT_DELETE_ACTION_COMMAND = "ingr_del_act";
+  static final String UTENSIL_DELETE_ACTION_COMMAND = "uten_del_act";
 
   /**
    * 
@@ -41,13 +45,16 @@ public class RecipeEditor extends JDialog
     ingredientEditor = new IngredientEditor();
     stepEditor = new StepEditor(utensilEditor.getUtensils(), ingredientEditor.getIngredients());
     
+    utensilEditor.addTextListener(stepEditor);
+    ingredientEditor.addTextListener(stepEditor);
+    
     Container mainEditors = new Container();
     mainEditors.setLayout(new BorderLayout());
     mainEditors.add(utensilEditor, BorderLayout.NORTH);
     mainEditors.add(ingredientEditor, BorderLayout.CENTER);
     mainEditors.add(stepEditor, BorderLayout.SOUTH);
     
-    getContentPane().add(mainEditors, BorderLayout.SOUTH);
+    add(mainEditors, BorderLayout.SOUTH);
     
     Container icons = new Container();
     icons.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -57,7 +64,7 @@ public class RecipeEditor extends JDialog
     icons.add(new KitchIntelButton(KitchIntelButton.SAVE_AS_IMAGE));
     icons.add(new KitchIntelButton(KitchIntelButton.CLOSE_IMAGE));
 
-    getContentPane().add(icons, BorderLayout.NORTH);
+    add(icons, BorderLayout.NORTH);
     
     Container nameAndServings = new Container();
     
@@ -73,22 +80,11 @@ public class RecipeEditor extends JDialog
     textField1.setColumns(DEFAULT_TEXT_FIELD_WIDTH);
     nameAndServings.add(textField1);
     
-    getContentPane().add(nameAndServings, BorderLayout.CENTER);
+    add(nameAndServings, BorderLayout.CENTER);
     
     setVisible(true);
     setResizable(true);
     pack();
   }
   
-  /**
-   * 
-   * @param args
-   */
-  public static void main(final String[] args)
-  {
-    MainWindow main = new MainWindow();
-    main.run();
-    
-    new RecipeEditor(main);
-  }
 }

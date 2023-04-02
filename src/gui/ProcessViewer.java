@@ -3,6 +3,12 @@ package gui;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,10 +31,12 @@ import utilities.SortLists;
  * @author Allie O'Keeffe, KichIntel
  *
  */
-public class ProcessViewer extends JFrame
+public class ProcessViewer extends JFrame implements Serializable
 {
 
   private static final long serialVersionUID = 1L;
+  private static final String RECIPEEXT = "rcp";
+  private static final String MEALEXT = "mel";
 
   /**
    * Recipe constructor.
@@ -40,7 +48,7 @@ public class ProcessViewer extends JFrame
     super(String.format("KiLowBites Process Viewer	%s", recipe.getName()));
     setUp(recipe);
   }
-  
+
   /**
    * Meal constructor.
    * 
@@ -122,7 +130,7 @@ public class ProcessViewer extends JFrame
     setSize(600, 450);
     setVisible(true);
   }
-  
+
   /**
    * Sets up the main frame for the process viewer. This adds utensils and steps to the main frame.
    * 
@@ -136,20 +144,23 @@ public class ProcessViewer extends JFrame
 
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     c = getContentPane();
-    
-    //Gets each utensil and step in the meals
+
+    // Gets each utensil and step in the meals
     ArrayList<Utensil> utensils = new ArrayList<>();
     ArrayList<Step> steps = new ArrayList<>();
-    for (Recipe recipe : meal.getRecipes()) {
-    	for(Utensil utensil: recipe.getUtensils()) {
-    		if (!utensils.contains(utensil))
-    			utensils.add(utensil);
-    	}
-    	for(Step step: recipe.getSteps()) {
-    		steps.add(step);
-    	}
+    for (Recipe recipe : meal.getRecipes())
+    {
+      for (Utensil utensil : recipe.getUtensils())
+      {
+        if (!utensils.contains(utensil))
+          utensils.add(utensil);
+      }
+      for (Step step : recipe.getSteps())
+      {
+        steps.add(step);
+      }
     }
-    
+
     p = setUpUtensils(utensils);
     c.setLayout(new FlowLayout());
     c.add(p);
@@ -158,6 +169,70 @@ public class ProcessViewer extends JFrame
     c.add(p);
     setSize(600, 450);
     setVisible(true);
+  }
+
+  // public void writeRecipe(String filename) throws IOException
+  // {
+  // ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename + RECIPEEXT));
+  //
+  // out.writeObject(this);
+  // out.flush();
+  // out.close();
+  // }
+  //
+  // public void writeMeal(String filename) throws IOException
+  // {
+  // ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(filename + MEALEXT));
+  //
+  // out.writeObject(this);
+  // out.flush();
+  // out.close();
+  // }
+
+  /**
+   * 
+   * @param filename
+   * @return a recipe
+   * @throws IOException
+   */
+  public static Recipe openRecipe(final String filename) throws IOException
+  {
+    // error on this line
+    ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename + ".rcp"));
+    Recipe recipe;
+    try
+    {
+      recipe = (Recipe) in.readObject();
+    }
+    catch (ClassNotFoundException cnfe)
+    {
+      recipe = new Recipe(filename, 0, null, null, null);
+    }
+    in.close();
+
+    return recipe;
+  }
+
+  /**
+   * 
+   * @param filename
+   * @return a meal
+   * @throws IOException
+   */
+  public static Meal openMeal(final String filename) throws IOException
+  {
+    ObjectInputStream in = new ObjectInputStream(new FileInputStream(filename + ".mel"));
+    Meal meal;
+    try
+    {
+      meal = (Meal) in.readObject();
+    }
+    catch (ClassNotFoundException cnfe)
+    {
+      meal = new Meal(filename, null, 0);
+    }
+    in.close();
+    return meal;
   }
 
 }
