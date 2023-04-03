@@ -3,6 +3,8 @@ package utilities;
 import java.util.*;
 import java.util.Map;
 
+import recipes.NutritionInfo;
+
 public class UnitConversion
 {
   private final Map<String, Double> massConversions = new HashMap<String, Double>();
@@ -12,12 +14,18 @@ public class UnitConversion
   private final static double TABLESPOON_TO_MILLILITERS = 14.7867648;
   private final static double CUP_TO_MILLILITERS = 236.58824;
   private final static double FLUID_OUNCES_TO_MILLILITERS = 29.57353;
-  private final static double GRAMS_PER_MILLILITER = 1.04;
-  
+  private NutritionInfo ingredient;
 
   // Mass or weight
   public UnitConversion()
   {
+    this("");
+  }
+
+  public UnitConversion(final String ingredient)
+  {
+    this.ingredient = NutritionInfo.fromCode(ingredient);
+
     massConversions.put("DRAM", 1.0 / 16.0);
     massConversions.put("OUNCE", 1.0); // base unit
 
@@ -34,10 +42,9 @@ public class UnitConversion
     volumeConversions.put("QUART", 64.0);
     volumeConversions.put("GALLON", 256.0);
 
-    
   }
 
-  public double convert(String from, String to, double amount)
+  public double convert(final String from, final String to, final double amount)
   {
     if (massConversions.containsKey(from) & massConversions.containsKey(to))
     {
@@ -47,17 +54,19 @@ public class UnitConversion
     {
       return amount * (volumeConversions.get(from) / volumeConversions.get(to));
     }
-    
-    else if (massConversions.containsKey(from) & (volumeConversions.containsKey(to) | to.equals("MILLILITER")))
+
+    else if (massConversions.containsKey(from)
+        & (volumeConversions.containsKey(to) | to.equals("MILLILITER")))
     {
       return mass_to_volume(from, to, amount);
-      
     }
-    else if ((volumeConversions.containsKey(from)| from.equals("MILLILITER") ) & massConversions.containsKey(to))
+    else if ((volumeConversions.containsKey(from) | from.equals("MILLILITER"))
+        & massConversions.containsKey(to))
     {
       return volume_to_mass(from, to, amount);
     }
-    else {
+    else
+    {
       return milliLiterConvert(from, to, amount);
     }
 
@@ -92,15 +101,31 @@ public class UnitConversion
     }
 
   }
-  
-  public double mass_to_volume(String from, String to, double amount) {
-    double massVal = convert(from, "GRAM", amount);
-    double newmass = (massVal / GRAMS_PER_MILLILITER);
-    return newmass * convert("MILLILITER", to, 1);
+
+  public double mass_to_volume(String from, String to, double amount)
+  {
+    if (this.ingredient != null)
+    {
+      double density = this.ingredient.getGramPerML();
+      double massVal = convert(from, "GRAM", amount);
+      double newmass = (massVal / density);
+      return newmass * convert("MILLILITER", to, 1);
+    }
+    else
+      return 0;
   }
-  public double volume_to_mass(String from, String to, double amount) {
-    double volVal = convert(from, "MILLILITER", amount);
-    double newvol = (GRAMS_PER_MILLILITER * volVal);
-    return newvol * convert("GRAM", to, 1);
+
+  public double volume_to_mass(String from, String to, double amount)
+  {
+    if (this.ingredient != null)
+    {
+      double density = this.ingredient.getGramPerML();
+      double volVal = convert(from, "MILLILITER", amount);
+      double newvol = (density * volVal);
+      return newvol * convert("GRAM", to, 1);
+    }
+    else
+      return 0;
+
   }
 }
