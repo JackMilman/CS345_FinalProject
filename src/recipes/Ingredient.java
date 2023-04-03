@@ -1,5 +1,7 @@
 package recipes;
 
+import java.io.Serializable;
+
 /**
  * Object class describing an Ingredient in a Recipe. An Ingredient contains a name, details on
  * itself (i.e. what it looks like or how it smells), the amount of that Ingredient required, and
@@ -9,7 +11,7 @@ package recipes;
  * @author Jack Milman, KichIntel
  *
  */
-public class Ingredient
+public class Ingredient implements Serializable
 {
 
   private final String name;
