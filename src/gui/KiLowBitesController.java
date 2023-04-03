@@ -8,7 +8,6 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import javax.swing.filechooser.FileSystemView;
 
 import recipes.Meal;
 import recipes.Recipe;
@@ -28,6 +27,8 @@ public class KiLowBitesController implements ActionListener
   public static final String MEAL = "Meal";
   public static final String SHOPPING = "Shopping List";
   public static final String PROCESS = "Process";
+  public static final String CALORIECALCULATOR = "Calorie Calculator";
+  public static final String UNITSCONVERTER = "Units Converter";
   public static final String ERROR_OPENING_FILE = "Error Opening File";
   public static final String INVALID_FILE_TYPE = "Invalid File Type";
   public static final String NO_MATCHES = "No Matches";
@@ -75,20 +76,26 @@ public class KiLowBitesController implements ActionListener
       new MealEditor(main);
     }
 
+    // Open Unit COnverter Window
+    if (e.getActionCommand().equals(UNITSCONVERTER))
+    {
+      new UnitConversionWindow(main);
+    }
+
     // Open ShoppingListViewer
     if (e.getActionCommand().equals(SHOPPING))
     {
 
-      load(fileFilter, "Open Recipe or Meal");
+      read();
       // recipes
       new ShoppingListViewer(recipe);
       // meals
     }
 
     // Open ProcessViewer
-    else if (e.getActionCommand().equals(PROCESS))
+    if (e.getActionCommand().equals(PROCESS))
     {
-      load(fileFilter, "Open Recipe or Meal");
+      read();
       // check the extension of the file, call the corresponding type: meal or recipe
       if (recipe != null)
       {
@@ -105,14 +112,13 @@ public class KiLowBitesController implements ActionListener
   /**
    * Read a file and determine whether it is a recipe or a meal, update the recipe or meal.
    *
-   * @param filter
-   * @param title
    */
-  private void load(final FileNameExtensionFilter filter, final String title)
+  private void read()
   {
-    fileChooser.setFileFilter(filter);
-    fileChooser.setDialogTitle(title);
+    fileChooser.setFileFilter(fileFilter);
     int result = fileChooser.showOpenDialog(null);
+    fileChooser.setDialogTitle("Open Recipe or Meal");
+    // int result = fileChooser.showOpenDialog(null);
     if (result == JFileChooser.APPROVE_OPTION)
     {
       String path = fileChooser.getSelectedFile().getPath();
@@ -130,7 +136,7 @@ public class KiLowBitesController implements ActionListener
             if (extension[i].equals(RECIPEEXT))
             {
               // set the recipe to the recipe selected from the file viewer
-              recipe = ProcessViewer.openRecipe(name);
+              recipe = Recipe.read(name);
               break;
 
             }
@@ -138,7 +144,7 @@ public class KiLowBitesController implements ActionListener
             else if (extension[i].equals(MEALEXT))
             {
               // set the meal to the meal selected from the file viewer
-              meal = ProcessViewer.openMeal(name);
+              meal = Meal.read(name);
               break;
             }
           }
