@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -53,6 +54,9 @@ public class RecipeEditor extends JDialog
   private IngredientEditor ingredientEditor;
   private StepEditor stepEditor;
   
+  private JTextField nameField;
+  private JTextField servingsField;
+  
   private String fileName;
   private Recipe recipe;
   
@@ -67,6 +71,7 @@ public class RecipeEditor extends JDialog
     setLayout(new BorderLayout(5, 5));
     
     this.owner = owner;
+    this.fileName = null;
     
     ActionListener listener = new RecipeEditorListener(this);
     
@@ -117,15 +122,15 @@ public class RecipeEditor extends JDialog
     
     JLabel lblNewLabel = new JLabel("Name:");
     nameAndServings.add(lblNewLabel);
-    JTextField textField = new JTextField();
-    textField.setColumns(DEFAULT_TEXT_FIELD_WIDTH);
-    nameAndServings.add(textField);
+    nameField = new JTextField();
+    nameField.setColumns(DEFAULT_TEXT_FIELD_WIDTH);
+    nameAndServings.add(nameField);
     
     JLabel lblNewLabel1 = new JLabel("Serves:");
     nameAndServings.add(lblNewLabel1);
-    JTextField textField1 = new JTextField();
-    textField1.setColumns(DEFAULT_TEXT_FIELD_WIDTH);
-    nameAndServings.add(textField1);
+    servingsField = new JTextField();
+    servingsField.setColumns(DEFAULT_TEXT_FIELD_WIDTH);
+    nameAndServings.add(servingsField);
     
     add(nameAndServings, BorderLayout.CENTER);
     
@@ -136,8 +141,28 @@ public class RecipeEditor extends JDialog
   
   private Recipe createRecipe()
   {
-    return new Recipe(null, 1, new ArrayList<Ingredient>(), new ArrayList<Utensil>(), 
-        new ArrayList<Step>());
+    String name;
+    int servings;
+    List<Ingredient> ingredients;
+    List<Utensil> utensils;
+    List<Step> steps;
+    
+    name = nameField.getText();
+    
+    try
+    {
+      servings = Integer.valueOf(servingsField.getText());
+    }
+    catch(NumberFormatException e)
+    {
+      servings = 1;
+    }
+    
+    ingredients = ingredientEditor.getIngredients();
+    utensils = utensilEditor.getUtensils();
+    steps = stepEditor.getSteps();
+    
+    return new Recipe(name, servings, ingredients, utensils, steps);
   }
   
   private class RecipeEditorListener implements ActionListener

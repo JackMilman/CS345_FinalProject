@@ -1,6 +1,7 @@
 package recipes;
 
 import utilities.UnitConversion;
+import java.io.Serializable;
 
 /**
  * Object class describing an Ingredient in a Recipe. An Ingredient contains a name, details on
@@ -11,7 +12,7 @@ import utilities.UnitConversion;
  * @author Jack Milman, KichIntel
  *
  */
-public class Ingredient
+public class Ingredient implements Serializable
 {
 
   private final String name;
