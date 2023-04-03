@@ -136,7 +136,7 @@ public class KiLowBitesController implements ActionListener
             if (extension[i].equals(RECIPEEXT))
             {
               // set the recipe to the recipe selected from the file viewer
-              recipe = Recipe.read(name);
+              recipe = Recipe.open(name);
               break;
 
             }
@@ -144,7 +144,7 @@ public class KiLowBitesController implements ActionListener
             else if (extension[i].equals(MEALEXT))
             {
               // set the meal to the meal selected from the file viewer
-              meal = Meal.read(name);
+              meal = Meal.open(name);
               break;
             }
           }
