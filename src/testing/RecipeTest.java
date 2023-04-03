@@ -9,6 +9,12 @@ import org.junit.jupiter.api.Test;
 
 import recipes.*;
 
+/**
+ * Test cases for the Recipe class.
+ * 
+ * @author Jack Milman, KichIntel
+ *
+ */
 class RecipeTest
 {
   final String recipeNameValid = "NamedRecipe";

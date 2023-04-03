@@ -6,6 +6,12 @@ import org.junit.jupiter.api.Test;
 
 import recipes.Ingredient;
 
+/**
+ * Test cases for the Ingredient class.
+ * 
+ * @author Jack Milman, KichIntel
+ *
+ */
 class IngredientTest
 {
   final String ingredientName = "NamedIngredient";

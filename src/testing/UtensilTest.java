@@ -7,6 +7,12 @@ import org.junit.jupiter.api.Test;
 import recipes.Ingredient;
 import recipes.Utensil;
 
+/**
+ * Test cases for the Utensil class.
+ * 
+ * @author Jack Milman, KichIntel
+ *
+ */
 class UtensilTest
 {
 

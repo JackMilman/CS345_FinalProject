@@ -6,6 +6,12 @@ import org.junit.jupiter.api.Test;
 
 import utilities.UnitConversion;
 
+/**
+ * Test cases for the UnitConversion utility class.
+ * 
+ * @author Alex Pegram, KichIntel
+ *
+ */
 class UnitConversionTest
 {
 

@@ -9,7 +9,7 @@ import recipes.NutritionInfo;
  * Utility class for converting between units and between volumes and masses.
  * 
  * @version 4/3/2023 Version 2
- * @author Jack Milman, KichIntel
+ * @author Alex Pegram, Jack Milman, KichIntel
  *
  */
 public class UnitConversion
