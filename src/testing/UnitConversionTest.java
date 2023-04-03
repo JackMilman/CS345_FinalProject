@@ -38,8 +38,8 @@ class UnitConversionTest
     trunc1 = Math.floor(trunc1 * 100) / 100;
     assertEquals(8.67, trunc1);
 
-    assertEquals(0.0,  UnitConversion.mass_to_volume("Alabama", "POUND", "CUP", 1.0));
-    assertEquals(0.0,  UnitConversion.mass_to_volume("Alabama", "CUP", "POUND", 1.0));
+    assertEquals(0.0,  UnitConversion.convert("Alabama", "POUND", "CUP", 1.0));
+    assertEquals(0.0,  UnitConversion.convert("Alabama", "CUP", "POUND", 1.0));
   }
   @Test
   void toMilliliters_tests() {

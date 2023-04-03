@@ -88,7 +88,7 @@ public class Ingredient implements Serializable
    * @return the calories of the Ingredient as a double
    */
   public double getCaloriesPerGram() {
-    double amountInGrams = UnitConversion.convert(name, unit, "GRAMS", amount);
+    double amountInGrams = UnitConversion.convert(name, unit, "GRAM", amount);
     double calPerGram = nutritionInfo.getCalPerGram();
     return amountInGrams * calPerGram;
   }
