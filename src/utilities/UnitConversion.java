@@ -7,44 +7,44 @@ import recipes.NutritionInfo;
 
 public class UnitConversion
 {
-  private final Map<String, Double> massConversions = new HashMap<String, Double>();
-  private final Map<String, Double> volumeConversions = new HashMap<String, Double>();
+  private final static Map<String, Double> massConversions = initializeMasses();
+  private final static Map<String, Double> volumeConversions = initializeVolumes();
   // Special Cases
   private final static double OUNCES_TO_GRAMS = 28.34952;
   private final static double TABLESPOON_TO_MILLILITERS = 14.7867648;
   private final static double CUP_TO_MILLILITERS = 236.58824;
   private final static double FLUID_OUNCES_TO_MILLILITERS = 29.57353;
-  private NutritionInfo ingredient;
 
-  // Mass or weight
-  public UnitConversion()
+  private static Map<String, Double> initializeMasses()
   {
-    this("");
+    Map<String, Double> map = new HashMap<String, Double>();
+
+    map.put("DRAM", 1.0 / 16.0);
+    map.put("OUNCE", 1.0); // base unit
+    map.put("GRAM", 1.0 / OUNCES_TO_GRAMS);
+    map.put("POUND", 16.0);
+
+    return map;
   }
 
-  public UnitConversion(final String ingredient)
+  private static Map<String, Double> initializeVolumes()
   {
-    this.ingredient = NutritionInfo.fromCode(ingredient);
-
-    massConversions.put("DRAM", 1.0 / 16.0);
-    massConversions.put("OUNCE", 1.0); // base unit
-
-    massConversions.put("GRAM", 1.0 / OUNCES_TO_GRAMS);
-    massConversions.put("POUND", 16.0);
-
+    Map<String, Double> map = new HashMap<String, Double>();
+    
     // Volume conversions
-    volumeConversions.put("PINCH", 1 / 48.0);
-    volumeConversions.put("TEASPOON", 1 / 3.0);
-    volumeConversions.put("TABLESPOON", 1.0); // base unit
-    volumeConversions.put("FLUID_OUNCE", 2.0);
-    volumeConversions.put("CUP", 16.0);
-    volumeConversions.put("PINT", 32.0);
-    volumeConversions.put("QUART", 64.0);
-    volumeConversions.put("GALLON", 256.0);
+    map.put("PINCH", 1 / 48.0);
+    map.put("TEASPOON", 1 / 3.0);
+    map.put("TABLESPOON", 1.0); // base unit
+    map.put("FLUID_OUNCE", 2.0);
+    map.put("CUP", 16.0);
+    map.put("PINT", 32.0);
+    map.put("QUART", 64.0);
+    map.put("GALLON", 256.0);
 
+    return map;
   }
 
-  public double convert(final String from, final String to, final double amount)
+  public static double convert(final String name, final String from, final String to, final double amount)
   {
     if (massConversions.containsKey(from) & massConversions.containsKey(to))
     {
@@ -58,21 +58,21 @@ public class UnitConversion
     else if (massConversions.containsKey(from)
         & (volumeConversions.containsKey(to) | to.equals("MILLILITER")))
     {
-      return mass_to_volume(from, to, amount);
+      return mass_to_volume(name, from, to, amount);
     }
     else if ((volumeConversions.containsKey(from) | from.equals("MILLILITER"))
         & massConversions.containsKey(to))
     {
-      return volume_to_mass(from, to, amount);
+      return volume_to_mass(name, from, to, amount);
     }
     else
     {
-      return milliLiterConvert(from, to, amount);
+      return milliLiterConvert(name, from, to, amount);
     }
 
   }
 
-  public double milliLiterConvert(String from, String to, double amount)
+  public static double milliLiterConvert(String name, String from, String to, double amount)
   {
     // Special Cases
     if (to.equals("MILLILITER"))
@@ -83,7 +83,7 @@ public class UnitConversion
         return amount * FLUID_OUNCES_TO_MILLILITERS;
       else
       {
-        double tblSpoon = convert(from, "TABLESPOON", 1);
+        double tblSpoon = convert(name, from, "TABLESPOON", 1);
         return amount * (tblSpoon * TABLESPOON_TO_MILLILITERS);
       }
     }
@@ -95,34 +95,36 @@ public class UnitConversion
         return amount * (1.0 / FLUID_OUNCES_TO_MILLILITERS);
       else
       {
-        double tblSpoon = convert(to, "TABLESPOON", 1);
+        double tblSpoon = convert(name, to, "TABLESPOON", 1);
         return amount * ((1 / TABLESPOON_TO_MILLILITERS) / tblSpoon);
       }
     }
 
   }
 
-  public double mass_to_volume(String from, String to, double amount)
+  public static double mass_to_volume(String name, String from, String to, double amount)
   {
-    if (this.ingredient != null)
+    NutritionInfo ingredient = NutritionInfo.fromCode(name);
+    if (ingredient != null)
     {
-      double density = this.ingredient.getGramPerML();
-      double massVal = convert(from, "GRAM", amount);
+      double density = NutritionInfo.fromCode(name).gramPerML;
+      double massVal = convert(name, from, "GRAM", amount);
       double newmass = (massVal / density);
-      return newmass * convert("MILLILITER", to, 1);
+      return newmass * convert(name, "MILLILITER", to, 1);
     }
     else
       return 0;
   }
 
-  public double volume_to_mass(String from, String to, double amount)
+  public static double volume_to_mass(String name, String from, String to, double amount)
   {
-    if (this.ingredient != null)
+    NutritionInfo ingredient = NutritionInfo.fromCode(name);
+    if (ingredient != null)
     {
-      double density = this.ingredient.getGramPerML();
-      double volVal = convert(from, "MILLILITER", amount);
+      double density = NutritionInfo.fromCode(name).gramPerML;
+      double volVal = convert(name, from, "MILLILITER", amount);
       double newvol = (density * volVal);
-      return newvol * convert("GRAM", to, 1);
+      return newvol * convert(name, "GRAM", to, 1);
     }
     else
       return 0;

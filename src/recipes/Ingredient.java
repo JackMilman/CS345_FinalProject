@@ -86,9 +86,11 @@ public class Ingredient
    * 
    * @return the calories of the Ingredient as a double
    */
-//  public double getCaloriesPerGram() {
-//    return UnitConversion.convert(unit, "GRAM", amount) * nutritionInfo.getCalPerGram();
-//  }
+  public double getCaloriesPerGram() {
+    double amountInGrams = UnitConversion.convert(name, unit, "GRAMS", amount);
+    double calPerGram = nutritionInfo.getCalPerGram();
+    return amountInGrams * calPerGram;
+  }
   
   /*
    * Gets the calories in the Ingredient per milliliter.

@@ -48,6 +48,15 @@ class IngredientTest
     String actual = ingredient.getUnit();
     assertEquals(expected, actual);
   }
+  
+  @Test
+  public void testGetCalories()
+  {
+    double expected = 13.75;
+    Ingredient ingredient = new Ingredient("Alcohol", "Scotch", 5, "GRAMS");
+    double actual = ingredient.getCaloriesPerGram();
+    assertEquals(expected, actual);
+  }
 
   @Test
   public void testEquals()

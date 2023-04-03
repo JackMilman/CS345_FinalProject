@@ -242,7 +242,7 @@ public class Recipe implements Serializable
   }
 
   /*
-   * Calculates the total number of calories in the Recipe by totalling each Ingredient's calorie
+   * Calculates the total number of calories in the Recipe by totaling each Ingredient's calorie
    * count.
    */
   public double calculateCalories()
