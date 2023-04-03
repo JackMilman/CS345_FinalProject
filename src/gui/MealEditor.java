@@ -6,12 +6,19 @@ import java.awt.TextArea;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import recipes.Recipe;
 
 /**
  * The class for the meal editor window. All that another class needs to do is call
@@ -34,8 +41,12 @@ public class MealEditor extends JDialog
   private static final String SAVE_BUTTON_ACTION_COMMAND = "mes";
   private static final String SAVE_AS_BUTTON_ACTION_COMMAND = "mea";
   private static final String CLOSE_BUTTON_ACTION_COMMAND = "mec";
+  private static final String ADD_RECIPE_ACTION_COMMAND = "mar";
   
   private final Window owner;
+  private final TextArea display;
+  
+  private List<Recipe> recipes;
 
   /**
    * Creates a new MealEditor.
@@ -48,6 +59,11 @@ public class MealEditor extends JDialog
     
     this.owner = owner;
     
+    this.recipes = new ArrayList<Recipe>();
+    
+    this.display = new TextArea();
+    this.display.setEditable(false);
+    
     MealEditorListener listener = new MealEditorListener();
     
     JButton newButton = new KitchIntelButton(KitchIntelButton.NEW_IMAGE);
@@ -56,17 +72,23 @@ public class MealEditor extends JDialog
     JButton saveAsButton = new KitchIntelButton(KitchIntelButton.SAVE_AS_IMAGE);
     JButton closeButton = new KitchIntelButton(KitchIntelButton.CLOSE_IMAGE);
     
+    JButton addRecipeButton = new JButton("Add Recipe");
+    
     newButton.setActionCommand(NEW_BUTTON_ACTION_COMMAND);
     openButton.setActionCommand(OPEN_BUTTON_ACTION_COMMAND);
     saveButton.setActionCommand(SAVE_BUTTON_ACTION_COMMAND);
     saveAsButton.setActionCommand(SAVE_AS_BUTTON_ACTION_COMMAND);
     closeButton.setActionCommand(CLOSE_BUTTON_ACTION_COMMAND);
     
+    addRecipeButton.setActionCommand(ADD_RECIPE_ACTION_COMMAND);
+    
     newButton.addActionListener(listener);
     openButton.addActionListener(listener);
     saveButton.addActionListener(listener);
     saveAsButton.addActionListener(listener);
     closeButton.addActionListener(listener);
+    
+    addRecipeButton.addActionListener(listener);
     
     setLayout(new BorderLayout());
     
@@ -90,8 +112,8 @@ public class MealEditor extends JDialog
     JPanel edit = new JPanel();
     edit.setBorder(KitchIntelBorder.labeledBorder("Recipes"));
     edit.setLayout(new BorderLayout());
-    edit.add(new JButton("Add Recipe"), BorderLayout.NORTH);
-    edit.add(new TextArea(), BorderLayout.CENTER);
+    edit.add(addRecipeButton, BorderLayout.NORTH);
+    edit.add(this.display, BorderLayout.CENTER);
     edit.add(new JButton("Delete"), BorderLayout.EAST);
     
     
@@ -100,6 +122,18 @@ public class MealEditor extends JDialog
     setVisible(true);
     setResizable(true);
     pack();
+  }
+  
+  private void updateDisplay()
+  {
+    String displayText = "";
+    
+    for(Recipe recipe : recipes)
+    {
+      displayText += recipe.getName() + "\n";
+    }
+    
+    display.setText(displayText);
   }
   
   private class MealEditorListener implements ActionListener
@@ -129,6 +163,25 @@ public class MealEditor extends JDialog
       else if(command.equals(SAVE_BUTTON_ACTION_COMMAND))
       {
         
+      }
+      else if(command.equals(ADD_RECIPE_ACTION_COMMAND))
+      {
+        JFileChooser chooser = new JFileChooser(new File("."));
+        chooser.showOpenDialog(null);
+        
+        String fileName = chooser.getSelectedFile().getPath();
+        fileName = fileName.substring(0, fileName.indexOf("."));
+        
+        try
+        {
+          recipes.add(Recipe.read(fileName));
+        }
+        catch (IOException e1)
+        {
+          e1.printStackTrace();
+        }
+        
+        updateDisplay();
       }
     }
     

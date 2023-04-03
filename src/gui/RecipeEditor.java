@@ -119,6 +119,7 @@ public class RecipeEditor extends JDialog
     add(icons, BorderLayout.NORTH);
     
     Container nameAndServings = new Container();
+    nameAndServings.setLayout(new FlowLayout(FlowLayout.LEFT));
     
     JLabel lblNewLabel = new JLabel("Name:");
     nameAndServings.add(lblNewLabel);
