@@ -102,52 +102,9 @@ public class KiLowBitesController implements ActionListener
     }
   }
 
-  // private void write()
-  // {
-  // fileChooser.setFileFilter(fileFilter);
-  // fileChooser.setDialogTitle("Write");
-  // fileChooser.setSelectedFile(new File("temp.txts"));
-  // int result = fileChooser.showSaveDialog(null);
-  // if (result == JFileChooser.APPROVE_OPTION)
-  // {
-  // String path = fileChooser.getSelectedFile().getPath();
-  // String[] extension = fileFilter.getExtensions();
-  // for (int i = 0; i < extension.length; i++)
-  // {
-  // if (path.endsWith(extension[i]))
-  // {
-  // String name = path.substring(0, path.length() - 4);
-  // if (extension[i].equals(RECIPEEXT))
-  // {
-  // try
-  // {
-  // recipe = ProcessViewer.openRecipe(name);
-  // }
-  // catch (IOException ioe)
-  // {
-  // JOptionPane.showMessageDialog(null, ERROR_OPENING_FILE, ERROR,
-  // JOptionPane.ERROR_MESSAGE);
-  // }
-  // }
-  // else if (extension[i].equals(MEALEXT))
-  // {
-  // try
-  // {
-  // meal = ProcessViewer.openMeal(name);
-  // }
-  // catch (IOException ioe)
-  // {
-  // JOptionPane.showMessageDialog(null, INVALID_FILE_TYPE, ERROR,
-  // JOptionPane.ERROR_MESSAGE);
-  // }
-  // }
-  // }
-  // }
-  // }
-  // }
-
   /**
-   * 
+   * Read a file and determine whether it is a recipe or a meal, update the recipe or meal.
+   *
    * @param filter
    * @param title
    */
@@ -183,7 +140,6 @@ public class KiLowBitesController implements ActionListener
               // set the meal to the meal selected from the file viewer
               meal = ProcessViewer.openMeal(name);
               break;
-
             }
           }
           catch (IOException ioe)
@@ -198,8 +154,8 @@ public class KiLowBitesController implements ActionListener
           JOptionPane.showMessageDialog(null, INVALID_FILE_TYPE, ERROR, JOptionPane.ERROR_MESSAGE);
           break;
         }
-
       }
     }
   }
+
 }

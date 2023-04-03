@@ -73,14 +73,15 @@ public class MainWindow extends JFrame implements Runnable
     meal.addActionListener(controller);
     edit.add(meal);
 
-    JMenu search = new JMenu("Search");
-    menuBar.add(search);
-    // Recipes: The user is prompted for the ingredients of interest
-    JMenuItem recipes = new JMenuItem("Recipes");
-    search.add(recipes);
-    // Meals: The user is prompted for the ingredients of interest
-    JMenuItem meals = new JMenuItem("Meals");
-    search.add(meals);
+    // not using search in the 1st sprint.
+    // JMenu search = new JMenu("Search");
+    // menuBar.add(search);
+    // // Recipes: The user is prompted for the ingredients of interest
+    // JMenuItem recipes = new JMenuItem("Recipes");
+    // search.add(recipes);
+    // // Meals: The user is prompted for the ingredients of interest
+    // JMenuItem meals = new JMenuItem("Meals");
+    // search.add(meals);
 
     JMenu view = new JMenu("View");
     menuBar.add(view);
@@ -100,21 +101,22 @@ public class MainWindow extends JFrame implements Runnable
     JMenuItem unitsConverter = new JMenuItem("Units Converter");
     tools.add(unitsConverter);
 
-    JMenu configure = new JMenu("Configure");
-    menuBar.add(configure);
-    JMenuItem preferences = new JMenuItem("Preferences");
-    configure.add(preferences);
-    JMenuItem shortcuts = new JMenuItem("Shortcuts");
-    configure.add(shortcuts);
-    JMenuItem nutrition = new JMenuItem("Nutrition");
-    configure.add(nutrition);
-
-    JMenu help = new JMenu("Help");
-    menuBar.add(help);
-    JMenuItem about = new JMenuItem("About");
-    help.add(about);
-    JMenuItem userGuide = new JMenuItem("User Guide");
-    help.add(userGuide);
+    // Menu Items not being used
+    // JMenu configure = new JMenu("Configure");
+    // menuBar.add(configure);
+    // JMenuItem preferences = new JMenuItem("Preferences");
+    // configure.add(preferences);
+    // JMenuItem shortcuts = new JMenuItem("Shortcuts");
+    // configure.add(shortcuts);
+    // JMenuItem nutrition = new JMenuItem("Nutrition");
+    // configure.add(nutrition);
+    //
+    // JMenu help = new JMenu("Help");
+    // menuBar.add(help);
+    // JMenuItem about = new JMenuItem("About");
+    // help.add(about);
+    // JMenuItem userGuide = new JMenuItem("User Guide");
+    // help.add(userGuide);
 
     // add the company logo to the window
     ImageIcon logo = new ImageIcon(PATH);
