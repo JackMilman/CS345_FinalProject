@@ -240,27 +240,38 @@ public class Recipe implements Serializable
   {
     return steps;
   }
-  
-  public double calculateCalories() {
-//	  double calories = 0;
-//	  for (Ingredient ingredient: ingredients) {
-//		  NutritionInfo cals = NutritionInfo.parseIngredient(ingredient.getName());
-//		  
-//	  }
-	  return 0.0;
+
+  public double calculateCalories()
+  {
+    // double calories = 0;
+    // for (Ingredient ingredient: ingredients) {
+    // NutritionInfo cals = NutritionInfo.parseIngredient(ingredient.getName());
+    //
+    // }
+    return 0.0;
   }
-  
+
   /**
    * Serializes this recipe into a file name filename.rcp.
-   * @param fileName The name of the file to write this to, not including the .rcp extension.
-   * @throws IOException if any exception occurs during the writing process.
+   * 
+   * @param fileName
+   *          The name of the file to write this to, not including the .rcp extension.
+   * @throws IOException
+   *           if any exception occurs during the writing process.
    */
   public void write(final String fileName) throws IOException
   {
     ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName + ".rcp"));
-  
+
     out.writeObject(this);
     out.flush();
     out.close();
   }
+
+  public static Recipe read(String name2)
+  {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 }

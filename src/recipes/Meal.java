@@ -80,4 +80,10 @@ public class Meal
     return recipes.size();
   }
 
+  public static Meal read(String name2)
+  {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
 }
