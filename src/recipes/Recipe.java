@@ -1,13 +1,17 @@
 package recipes;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.text.html.parser.ParserDelegator;
 
 import utilities.SortLists;
 
@@ -31,6 +35,8 @@ public class Recipe implements Serializable
   private List<Utensil> utensils = new ArrayList<Utensil>();
 
   private List<Step> steps = new ArrayList<Step>();
+
+  private String category;
 
   /**
    * Constructs a new Recipe. The name of a recipe may not be null and must be at least 1 character
