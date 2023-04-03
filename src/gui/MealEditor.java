@@ -1,10 +1,11 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.TextArea;
 import java.awt.Window;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -21,7 +22,6 @@ import javax.swing.JTextField;
  */
 public class MealEditor extends JDialog
 {
-
   /**
    * 
    */
@@ -29,6 +29,14 @@ public class MealEditor extends JDialog
   
   private static final int TEXT_WIDTH = 40;
   
+  private static final String NEW_BUTTON_ACTION_COMMAND = "men";
+  private static final String OPEN_BUTTON_ACTION_COMMAND = "meo";
+  private static final String SAVE_BUTTON_ACTION_COMMAND = "mes";
+  private static final String SAVE_AS_BUTTON_ACTION_COMMAND = "mea";
+  private static final String CLOSE_BUTTON_ACTION_COMMAND = "mec";
+  
+  private final Window owner;
+
   /**
    * Creates a new MealEditor.
    * @param owner The JFrame which created this MealEditor. This should probably be
@@ -38,15 +46,37 @@ public class MealEditor extends JDialog
   {
     super(owner, "KiLowBites Meal Editor");
     
+    this.owner = owner;
+    
+    MealEditorListener listener = new MealEditorListener();
+    
+    JButton newButton = new KitchIntelButton(KitchIntelButton.NEW_IMAGE);
+    JButton openButton = new KitchIntelButton(KitchIntelButton.OPEN_IMAGE);
+    JButton saveButton = new KitchIntelButton(KitchIntelButton.SAVE_IMAGE);
+    JButton saveAsButton = new KitchIntelButton(KitchIntelButton.SAVE_AS_IMAGE);
+    JButton closeButton = new KitchIntelButton(KitchIntelButton.CLOSE_IMAGE);
+    
+    newButton.setActionCommand(NEW_BUTTON_ACTION_COMMAND);
+    openButton.setActionCommand(OPEN_BUTTON_ACTION_COMMAND);
+    saveButton.setActionCommand(SAVE_BUTTON_ACTION_COMMAND);
+    saveAsButton.setActionCommand(SAVE_AS_BUTTON_ACTION_COMMAND);
+    closeButton.setActionCommand(CLOSE_BUTTON_ACTION_COMMAND);
+    
+    newButton.addActionListener(listener);
+    openButton.addActionListener(listener);
+    saveButton.addActionListener(listener);
+    saveAsButton.addActionListener(listener);
+    closeButton.addActionListener(listener);
+    
     setLayout(new BorderLayout());
     
     JPanel buttons = new JPanel();
     buttons.setLayout(new FlowLayout(FlowLayout.LEFT));
-    buttons.add(new KitchIntelButton(KitchIntelButton.NEW_IMAGE));
-    buttons.add(new KitchIntelButton(KitchIntelButton.OPEN_IMAGE));
-    buttons.add(new KitchIntelButton(KitchIntelButton.SAVE_IMAGE));
-    buttons.add(new KitchIntelButton(KitchIntelButton.SAVE_AS_IMAGE));
-    buttons.add(new KitchIntelButton(KitchIntelButton.CLOSE_IMAGE));
+    buttons.add(newButton);
+    buttons.add(openButton);
+    buttons.add(saveButton);
+    buttons.add(saveAsButton);
+    buttons.add(closeButton);
     
     add(buttons, BorderLayout.NORTH);
     
@@ -70,8 +100,38 @@ public class MealEditor extends JDialog
     setVisible(true);
     setResizable(true);
     pack();
+  }
+  
+  private class MealEditorListener implements ActionListener
+  {
+
+    @Override
+    public void actionPerformed(final ActionEvent e)
+    {
+      String command = e.getActionCommand();
+      
+      if(command.equals(CLOSE_BUTTON_ACTION_COMMAND))
+      {
+        dispose();
+      }
+      else if(command.equals(NEW_BUTTON_ACTION_COMMAND))
+      {
+        new MealEditor(owner);
+      }
+      else if(command.equals(OPEN_BUTTON_ACTION_COMMAND))
+      {
+        
+      }
+      else if(command.equals(SAVE_AS_BUTTON_ACTION_COMMAND))
+      {
+        
+      }
+      else if(command.equals(SAVE_BUTTON_ACTION_COMMAND))
+      {
+        
+      }
+    }
     
   }
   
-
 }

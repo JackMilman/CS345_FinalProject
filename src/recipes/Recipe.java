@@ -1,8 +1,11 @@
 package recipes;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +20,7 @@ import utilities.SortLists;
  * @author Jack Milman, KichIntel
  *
  */
-public class Recipe
+public class Recipe implements Serializable
 {
   private String name;
 
@@ -245,5 +248,19 @@ public class Recipe
 //		  
 //	  }
 	  return 0.0;
+  }
+  
+  /**
+   * Serializes this recipe into a file name filename.rcp.
+   * @param fileName The name of the file to write this to, not including the .rcp extension.
+   * @throws IOException if any exception occurs during the writing process.
+   */
+  public void write(final String fileName) throws IOException
+  {
+    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName + ".rcp"));
+  
+    out.writeObject(this);
+    out.flush();
+    out.close();
   }
 }
