@@ -46,8 +46,15 @@ public class ShoppingListViewer
       @Override
       public void actionPerformed(final ActionEvent event)
       {
-        int numPeople = Integer.parseInt(textField.getText());
-        scrollPane.updateScrollPane(numPeople);
+        try
+        {
+          int numPeople = Integer.parseInt(textField.getText());
+          scrollPane.updateScrollPane(numPeople);
+        } catch (NumberFormatException e)
+        {
+          int numPeople = 0;
+          scrollPane.updateScrollPane(0);
+        }
       }
     });
     inputNumPeople.add(textField);
