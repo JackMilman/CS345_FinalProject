@@ -1,5 +1,7 @@
 package recipes;
 
+import utilities.UnitConversion;
+
 /**
  * Object class describing an Ingredient in a Recipe. An Ingredient contains a name, details on
  * itself (i.e. what it looks like or how it smells), the amount of that Ingredient required, and
@@ -15,6 +17,8 @@ public class Ingredient
   private final String name;
 
   private final String details;
+  
+  private final NutritionInfo nutritionInfo;
 
   private final double amount;
 
@@ -32,6 +36,7 @@ public class Ingredient
   {
     this.name = name;
     this.details = details;
+    this.nutritionInfo = NutritionInfo.fromCode(name);
     this.amount = amount;
     this.unit = unit;
   }
@@ -74,6 +79,24 @@ public class Ingredient
   public String getUnit()
   {
     return unit;
+  }
+  
+  /*
+   * Gets the calories in the Ingredient per gram.
+   * 
+   * @return the calories of the Ingredient as a double
+   */
+//  public double getCaloriesPerGram() {
+//    return UnitConversion.convert(unit, "GRAM", amount) * nutritionInfo.getCalPerGram();
+//  }
+  
+  /*
+   * Gets the calories in the Ingredient per milliliter.
+   * 
+   * @return the calories of the Ingredient as a double
+   */
+  public double getCaloriesPerMilliliter() {
+    return getCaloriesPerGram() * nutritionInfo.getGramPerML();
   }
 
   /**

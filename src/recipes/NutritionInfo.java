@@ -104,7 +104,7 @@ public enum NutritionInfo
   }
 
   
-  public NutritionInfo fromCode(String ingredient) {
+  public static NutritionInfo fromCode(String ingredient) {
     NutritionInfo[] info = NutritionInfo.values();
     for (int i = 0; i < info.length; i++)
     {
@@ -115,5 +115,5 @@ public enum NutritionInfo
     }
     return null;
   }
-  }
+}
   
