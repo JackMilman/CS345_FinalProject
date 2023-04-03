@@ -53,6 +53,9 @@ public class RecipeEditor extends JDialog
   private IngredientEditor ingredientEditor;
   private StepEditor stepEditor;
   
+  private String fileName;
+  private Recipe recipe;
+  
   /**
    * Creates a new RecipeEditor.
    * @param owner The JFrame which created this RecipeEditor. This should probably be
@@ -133,14 +136,16 @@ public class RecipeEditor extends JDialog
   
   private Recipe createRecipe()
   {
-    return new Recipe(null, 1, new ArrayList<Ingredient>(), new ArrayList<Utensil>(), new ArrayList<Step>());
+    return new Recipe(null, 1, new ArrayList<Ingredient>(), new ArrayList<Utensil>(), 
+        new ArrayList<Step>());
   }
   
   private class RecipeEditorListener implements ActionListener
   {
+    private static final String ERROR_MESSAGE = "File could not be saved";
     private final RecipeEditor subject;
     
-    RecipeEditorListener(RecipeEditor subject)
+    RecipeEditorListener(final RecipeEditor subject)
     {
       super();
       this.subject = subject;
@@ -165,9 +170,21 @@ public class RecipeEditor extends JDialog
       }
       else if(command.equals(SAVE_AS_BUTTON_ACTION_COMMAND))
       {
-        String fileName;
-        fileName = JOptionPane.showInputDialog("File name:");
+        String newFileName;
+        newFileName = JOptionPane.showInputDialog("File name:");
         
+        try
+        {
+          subject.createRecipe().write(newFileName);
+        }
+        catch(IOException ioe)
+        {
+          ioe.printStackTrace();
+          JOptionPane.showMessageDialog(subject, ERROR_MESSAGE);
+        }
+      }
+      else if(command.equals(SAVE_BUTTON_ACTION_COMMAND))
+      {
         try
         {
           subject.createRecipe().write(fileName);
@@ -175,12 +192,8 @@ public class RecipeEditor extends JDialog
         catch(IOException ioe)
         {
           ioe.printStackTrace();
-          JOptionPane.showMessageDialog(subject, "File could not be saved");
+          JOptionPane.showMessageDialog(subject, ERROR_MESSAGE);
         }
-      }
-      else if(command.equals(SAVE_BUTTON_ACTION_COMMAND))
-      {
-        
       }
     }
     

@@ -271,4 +271,28 @@ public class Recipe implements Serializable
     out.flush();
     out.close();
   }
+  
+  /**
+   * Attempts to read a Recipe from the given file.
+   * @param fileName The name of the file to read from, should not include the .rcp extension.
+   * @return The recipe from the file.
+   * @throws IOException if an IO error occurs.
+   * @throws ClassNotFoundException if the object from the file is not a Recipe
+   */
+  public static Recipe read(final String fileName) throws IOException
+  {
+    ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName + ".rcp"));
+  
+    Recipe recipe;
+
+    try {
+      recipe = (Recipe) in.readObject();
+    }
+    catch(ClassNotFoundException e)
+    {
+      recipe = null;
+    }
+
+    return recipe;
+  }
 }

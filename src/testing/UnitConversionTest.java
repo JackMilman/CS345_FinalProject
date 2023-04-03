@@ -32,13 +32,17 @@ class UnitConversionTest
   @Test
   void specialCase_tests() {
     //Mismatch
-    UnitConversion x = new UnitConversion();
+    UnitConversion x = new UnitConversion("Chicken");
+    
     double trunc = x.convert("GRAM", "MILLILITER", 10);
     trunc = Math.floor(trunc * 100) / 100;
     assertEquals(9.61, trunc);
     double trunc1 = x.convert("CUP", "OUNCE", 1);
     trunc1 = Math.floor(trunc1 * 100) / 100;
     assertEquals(8.67, trunc1);
+    UnitConversion y = new UnitConversion("INVALID_INGREDIENT");
+    assertEquals(0.0,  y.mass_to_volume("POUND", "CUP", 1.0));
+    assertEquals(0.0,  y.mass_to_volume("CUP", "POUND", 1.0));
   }
   @Test
   void toMilliliters_tests() {
