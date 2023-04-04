@@ -140,7 +140,7 @@ public class RecipeEditor extends JDialog
   {
     private final RecipeEditor subject;
     
-    RecipeEditorListener(RecipeEditor subject)
+    public RecipeEditorListener(RecipeEditor subject)
     {
       super();
       this.subject = subject;
