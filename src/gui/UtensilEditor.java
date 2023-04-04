@@ -104,12 +104,7 @@ public class UtensilEditor extends JComponent
     
     for(Utensil utensil : utensils)
     {
-      String details = utensil.getDetails();
-      if(details.length() > 0)
-      {
-        details = String.format("(%s)", details);
-      }
-      displayText += String.format("%s\t%s\n", utensil.getName(), details);
+      displayText += String.format("%s\n", utensil.toString());
     }
     
     utensilDisplay.setText(displayText);

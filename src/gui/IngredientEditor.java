@@ -143,14 +143,7 @@ public class IngredientEditor extends JComponent
     
     for(Ingredient ingredient : ingredients)
     {
-      String details = ingredient.getDetails();
-      if(details.length() > 0)
-      {
-        details = String.format("(%s)", details);
-      }
-      
-      text += String.format("%s\t%s\t%s\t%s\n", ingredient.getName(), details, 
-          ingredient.getAmount(), ingredient.getUnit());
+      text += String.format("%s\n", ingredient.toString());
     }
     
     ingredientDisplay.setText(text);

@@ -164,26 +164,9 @@ public class StepEditor extends JComponent implements TextListener
   {
     String displayText = "";
     
-    Utensil source = null;
-    Ingredient ingredient = null;
-    String on = null;
-        
     for(Step step : steps)
     {
-      source = step.getSource();
-      ingredient = step.getIngredient();
-      
-      if(source == null)
-      {
-        on = ingredient.getName();
-      }
-      else
-      {
-        on = source.getName().toUpperCase();
-      }
-      
-      displayText += String.format("%s\t%s\t%s\t%s\n", step.getAction(), 
-          on, step.getDestination().getName(), step.getDetails());
+      displayText += String.format("%s\n", step.toString());
     }
     
     display.setText(displayText);
