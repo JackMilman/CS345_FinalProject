@@ -77,7 +77,7 @@ public class StepEditor extends JComponent implements TextListener
     deleteButton = new JButton(DELETE);
     
     addButton.addActionListener(listener);
-    addButton.addActionListener(listener);
+    deleteButton.addActionListener(listener);
     
     Container inputFields = new Container();
     inputFields.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -169,12 +169,39 @@ public class StepEditor extends JComponent implements TextListener
     if(steps.size() == 0) return;
     
     int selectionStart = display.getSelectionStart();
-    int selectionEnd = display.getSelectionEnd();
+    int linesSelected = 0;
+    int linesSkipped = 0;
     String selectedText = display.getSelectedText();
     
-    //TODO
+    if(selectedText == null || selectedText.length() < 0) return;
     
-    steps.remove(steps.size() - 1);
+    char[] characters = selectedText.toCharArray();
+    
+    //counts the number of newline characters to determine the number of lines selected
+    for(char character : characters)
+    {
+      if(character == '\n')
+      {
+        linesSelected++;
+      }
+    }
+    
+    //if the last selected character isn't a newline character, then there is one uncounted line.
+    if(characters[characters.length - 1] != '\n') linesSelected++;
+    
+    String skipped = display.getText().substring(0, selectionStart);
+    
+    char[] skippedChars = skipped.toCharArray();
+    
+    for(char skippedChar : skippedChars)
+    {
+      if(skippedChar == '\n') linesSkipped++;
+    }
+        
+    for(int i = 0; i < linesSelected; i++)
+    {
+      steps.remove(linesSkipped);
+    }
     
     updateDisplay();
   }
