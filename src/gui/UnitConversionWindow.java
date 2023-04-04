@@ -48,9 +48,9 @@ public class UnitConversionWindow extends JDialog
     resetButton.addActionListener(resetListener);
     icons.add(calcButton);
     icons.add(resetButton);
-
+    
     getContentPane().add(icons, BorderLayout.NORTH);
-
+    
     // unit drop down boxes
     for (int i = 0; i < units.length; i++)
     {

@@ -43,6 +43,7 @@ public class MealEditor extends Editor
   private static final String SAVE_AS_BUTTON_ACTION_COMMAND = "mea";
   private static final String CLOSE_BUTTON_ACTION_COMMAND = "mec";
   private static final String ADD_RECIPE_ACTION_COMMAND = "mar";
+  private static final String DELETE_ACTION_COMMAND = "md";
   
   private final TextArea display;
   
@@ -70,6 +71,7 @@ public class MealEditor extends Editor
     MealEditorListener listener = new MealEditorListener();
     
     JButton addRecipeButton = new JButton("Add Recipe");
+    JButton deleteButton = new JButton("Delete");
     
     newButton.setActionCommand(NEW_BUTTON_ACTION_COMMAND);
     openButton.setActionCommand(OPEN_BUTTON_ACTION_COMMAND);
@@ -78,6 +80,7 @@ public class MealEditor extends Editor
     closeButton.setActionCommand(CLOSE_BUTTON_ACTION_COMMAND);
     
     addRecipeButton.setActionCommand(ADD_RECIPE_ACTION_COMMAND);
+    deleteButton.setActionCommand(DELETE_ACTION_COMMAND);
     
     newButton.addActionListener(listener);
     openButton.addActionListener(listener);
@@ -86,6 +89,7 @@ public class MealEditor extends Editor
     closeButton.addActionListener(listener);
     
     addRecipeButton.addActionListener(listener);
+    deleteButton.addActionListener(listener);
     
     setLayout(new BorderLayout());
     
@@ -111,7 +115,7 @@ public class MealEditor extends Editor
     edit.setLayout(new BorderLayout());
     edit.add(addRecipeButton, BorderLayout.NORTH);
     edit.add(this.display, BorderLayout.CENTER);
-    edit.add(new JButton("Delete"), BorderLayout.EAST);
+    edit.add(deleteButton, BorderLayout.EAST);
     
     
     add(edit, BorderLayout.SOUTH);
@@ -229,6 +233,51 @@ public class MealEditor extends Editor
     }
   }
   
+  private void delete()
+  {
+    if(recipes.size() == 0) return;
+    
+    int selectionStart = display.getSelectionStart();
+    int linesSelected = 0;
+    int linesSkipped = 0;
+    String selectedText = display.getSelectedText();
+    
+    if(selectedText == null || selectedText.length() < 0) return;
+    
+    char[] characters = selectedText.toCharArray();
+    
+    //counts the number of newline characters to determine the number of lines selected
+    for(char character : characters)
+    {
+      if(character == '\n')
+      {
+        linesSelected++;
+      }
+    }
+    
+    //if the last selected character isn't a newline character, then there is one uncounted line.
+    if(characters[characters.length - 1] != '\n') linesSelected++;
+    
+    String skipped = display.getText().substring(0, selectionStart);
+    
+    char[] skippedChars = skipped.toCharArray();
+    
+    for(char skippedChar : skippedChars)
+    {
+      if(skippedChar == '\n') linesSkipped++;
+    }
+        
+    for(int i = 0; i < linesSelected; i++)
+    {
+      recipes.remove(linesSkipped);
+    }
+    
+    state = DocumentState.CHANGED;
+    updateButtons();
+    
+    updateDisplay();
+  }
+  
   private class MealEditorListener implements ActionListener
   {
 
@@ -268,6 +317,8 @@ public class MealEditor extends Editor
         try
         {
           recipes.add(Recipe.read(fileName));
+          state = DocumentState.CHANGED;
+          updateButtons();
         }
         catch (IOException e1)
         {
@@ -275,6 +326,10 @@ public class MealEditor extends Editor
         }
         
         updateDisplay();
+      } 
+      else if(command.equals(DELETE_ACTION_COMMAND))
+      {
+        delete();
       }
     }
     
