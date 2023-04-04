@@ -88,6 +88,7 @@ public enum NutritionInfo
     this.calPerGram = calPerGram;
     this.gramPerML = gramPerML;
   }
+  
   public String getName()
   {
     return name;
