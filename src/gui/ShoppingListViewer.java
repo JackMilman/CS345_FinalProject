@@ -46,7 +46,7 @@ public class ShoppingListViewer
     } 
     else
     {
-      System.err.println("Invalid file");
+      System.out.println("Invalid file");
       System.exit(1);
     }
     JFrame frame = new JFrame("KiLowBites Shopping List Viewer\t" + name);
