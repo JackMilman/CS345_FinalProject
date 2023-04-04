@@ -139,6 +139,8 @@ public class MealEditor extends Editor
     recipes = meal.getRecipes();
     
     this.fileName = fileName;
+    
+    updateDisplay();
   }
   
   private Meal createMeal()

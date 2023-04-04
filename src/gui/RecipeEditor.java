@@ -133,7 +133,6 @@ public class RecipeEditor extends Editor
     setVisible(true);
     setResizable(true);
     pack();
-    updateButtons();
   }
   
   private Recipe createRecipe()
