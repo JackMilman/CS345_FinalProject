@@ -76,7 +76,7 @@ public class ProcessViewer extends JFrame implements Serializable
                                       // an automatically sorted list anymore - Jack, 3/30
     for (Utensil item : utensils)
     {
-      textArea.append(String.format("- %s\n", item.getName()));
+      textArea.append(String.format("- %s\n", item.toString()));
     }
     textArea.setEditable(false);
     JScrollPane p = new JScrollPane(textArea);
@@ -99,7 +99,7 @@ public class ProcessViewer extends JFrame implements Serializable
     JTextArea textArea = new JTextArea();
     for (Step item : steps)
     {
-      textArea.append(String.format("- %s\n", item.getAction()));
+      textArea.append(String.format("- %s\n", item.toString()));
     }
     textArea.setEditable(false);
     JScrollPane p = new JScrollPane(textArea);
