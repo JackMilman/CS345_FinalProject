@@ -181,21 +181,21 @@ public class Step implements Serializable
       //if the source and destination utensil are the same
       if(source.equals(destination))
       {
-        return String.format("%s the contents of the %s %s", action, source.getName(), details)
-            .strip();
+        return String.format("%s the contents of the %s %s\t\t%s minutes", action, source.getName(),
+            details, time).strip();
       }
       //if the source and destination utensil are different
       else
       {
-        return String.format("%s the contents of the %s in the %s %s", action, source.getName(), 
-            destination.getName(), details).strip();
+        return String.format("%s the contents of the %s in the %s %s\t\t%s minutes", action, 
+            source.getName(), destination.getName(), details, time).strip();
       }
     }
     
     //if the source is an ingredient
     return 
-        String.format("%s the %s on the %s %s", action, ingredient.getName(), destination.getName(),
-            details).strip();
+        String.format("%s the %s on the %s %s\t\t%s minutes", action, ingredient.getName(), 
+            destination.getName(), details, time).strip();
     
   }
 

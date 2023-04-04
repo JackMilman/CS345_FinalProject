@@ -41,7 +41,7 @@ public class StepEditor extends JComponent implements TextListener
   private static final long serialVersionUID = 1L;
   
   private JComboBox<String> actionSelect, onSelect, utensilSelect;
-  private JTextField detailField;
+  private JTextField detailField, timeField;
   private List<Step> steps;
   private TextArea display;
   private List<Utensil> utensils;
@@ -71,6 +71,7 @@ public class StepEditor extends JComponent implements TextListener
     onSelect = new JComboBox<String>(new String[] {BLANK});
     utensilSelect = new JComboBox<String>(new String[] {BLANK});
     detailField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
+    timeField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH / 2);
         
     addButton = new JButton(ADD);
     deleteButton = new JButton(DELETE);
@@ -88,6 +89,8 @@ public class StepEditor extends JComponent implements TextListener
     inputFields.add(utensilSelect);
     inputFields.add(new JLabel("Details:"));
     inputFields.add(detailField);
+    inputFields.add(new JLabel("Minutes:"));
+    inputFields.add(timeField);
     inputFields.add(addButton);
     
     add(inputFields, BorderLayout.NORTH);
@@ -107,7 +110,16 @@ public class StepEditor extends JComponent implements TextListener
     String on =      onSelect.getSelectedItem().toString();
     String utensil = utensilSelect.getSelectedItem().toString();
     String details = detailField.getText();
-    int time = 0;
+    int time;
+    
+    try
+    {
+      time = Integer.valueOf(timeField.getText());
+    }
+    catch(NumberFormatException nfe)
+    {
+      return;
+    }
     
     if(action.equals("") || on.equals("") || utensil.equals("")) 
     {
@@ -148,12 +160,19 @@ public class StepEditor extends JComponent implements TextListener
     actionSelect.setSelectedIndex(0);
     onSelect.setSelectedIndex(0);
     utensilSelect.setSelectedIndex(0);
+    timeField.setText("");
     detailField.setText("");
   }
   
   private void delete()
   {
     if(steps.size() == 0) return;
+    
+    int selectionStart = display.getSelectionStart();
+    int selectionEnd = display.getSelectionEnd();
+    String selectedText = display.getSelectedText();
+    
+    //TODO
     
     steps.remove(steps.size() - 1);
     

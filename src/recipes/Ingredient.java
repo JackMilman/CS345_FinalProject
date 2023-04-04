@@ -145,9 +145,9 @@ public class Ingredient implements Serializable
   {
     if(details == null)
     {
-      return String.format("%.2f %ss of %s", amount, unit, name).toString();
+      return String.format("%.2f %ss of %s", amount, unit.toLowerCase(), name).toString();
     }
-    return String.format("%.2f %ss of %s %s", amount, unit, details, name).toString();
+    return String.format("%.2f %ss of %s %s", amount, unit.toLowerCase(), details, name).toString();
   }
 
 }
