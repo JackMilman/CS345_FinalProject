@@ -87,9 +87,15 @@ public class KiLowBitesController implements ActionListener
     {
 
       read();
-      // recipes
-      new ShoppingListViewer(recipe);
-      // meals
+   // check the extension of the file, call the corresponding type: meal or recipe
+      if (recipe != null)
+      {
+        new ShoppingListViewer(recipe);
+      }
+      else if (meal != null)
+      {
+        new ShoppingListViewer(meal);
+      }
     }
 
     // Open ProcessViewer
