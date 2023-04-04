@@ -195,4 +195,27 @@ public class IngredientEditor extends JComponent
     }
     
   }
+
+  /**
+   * Adds an action listener to the buttons in this IngredientEditor which can cause the
+   * document to change.
+   * @param listener The actionListener to listen to these changes.
+   */
+  public void addChangeListener(final ActionListener listener)
+  {
+    addButton.addActionListener(listener);
+    deleteButton.addActionListener(listener);
+  }
+  
+  void loadIngredients(final List<Ingredient> newIngredients)
+  {
+    this.ingredients.clear();
+    
+    for(Ingredient ingredient : newIngredients)
+    {
+      ingredients.add(ingredient);
+    }
+    
+    updateTextArea();
+  }
 }

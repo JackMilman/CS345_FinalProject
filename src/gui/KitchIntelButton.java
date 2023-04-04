@@ -24,6 +24,7 @@ public class KitchIntelButton extends JButton
   private static final long serialVersionUID = 1L;
 
   private static final String PATH = "images/";
+  private static final String PRESSED_MODIFIER = "white_";
 
   /**
    * 
@@ -37,6 +38,7 @@ public class KitchIntelButton extends JButton
     setFocusPainted(false);
     setOpaque(false);
 
-    setPressedIcon(new ImageIcon(PATH + "white_" + buttonImage));
+    setPressedIcon(new ImageIcon(PATH + PRESSED_MODIFIER + buttonImage));
+    setDisabledIcon(new ImageIcon(PATH + PRESSED_MODIFIER + buttonImage));
   }
 }

@@ -39,8 +39,6 @@ public class UtensilEditor extends JComponent
   private final JButton addButton, deleteButton;
   private final List<Utensil> utensils;
 
-
-
   /**
    * 
    */
@@ -139,6 +137,18 @@ public class UtensilEditor extends JComponent
     return utensils;
   }
   
+  void loadUtensils(final List<Utensil> newUtensils)
+  {
+    this.utensils.clear();
+    
+    for(Utensil utensil : newUtensils)
+    {
+      utensils.add(utensil);
+    }
+    
+    updateText();
+  }
+  
   private class UtensilEditorListener implements ActionListener
   {
     UtensilEditor editor;
@@ -161,5 +171,16 @@ public class UtensilEditor extends JComponent
       }
     }
     
+  }
+
+  /**
+   * Adds an action listener to the buttons in this UtensilEditor which can cause the
+   * document to change.
+   * @param listener The actionListener to listen to these changes.
+   */
+  public void addChangeListener(final ActionListener listener)
+  {
+    addButton.addActionListener(listener);
+    deleteButton.addActionListener(listener);
   }
 }

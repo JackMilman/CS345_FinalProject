@@ -12,12 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import recipes.Meal;
 import recipes.Recipe;
 
 /**
@@ -27,7 +28,7 @@ import recipes.Recipe;
  * @version 03.29.2023
  *
  */
-public class MealEditor extends JDialog
+public class MealEditor extends Editor
 {
   /**
    * 
@@ -35,7 +36,7 @@ public class MealEditor extends JDialog
   private static final long serialVersionUID = 1L;
   
   private static final int TEXT_WIDTH = 40;
-  
+    
   private static final String NEW_BUTTON_ACTION_COMMAND = "men";
   private static final String OPEN_BUTTON_ACTION_COMMAND = "meo";
   private static final String SAVE_BUTTON_ACTION_COMMAND = "mes";
@@ -43,10 +44,12 @@ public class MealEditor extends JDialog
   private static final String CLOSE_BUTTON_ACTION_COMMAND = "mec";
   private static final String ADD_RECIPE_ACTION_COMMAND = "mar";
   
-  private final Window owner;
   private final TextArea display;
   
+  private final JTextField nameField;
+  
   private List<Recipe> recipes;
+  
 
   /**
    * Creates a new MealEditor.
@@ -56,21 +59,15 @@ public class MealEditor extends JDialog
   public MealEditor(final Window owner)
   {
     super(owner, "KiLowBites Meal Editor");
-    
-    this.owner = owner;
-    
+        
     this.recipes = new ArrayList<Recipe>();
     
     this.display = new TextArea();
     this.display.setEditable(false);
     
-    MealEditorListener listener = new MealEditorListener();
+    this.nameField = new JTextField(TEXT_WIDTH);
     
-    JButton newButton = new KitchIntelButton(KitchIntelButton.NEW_IMAGE);
-    JButton openButton = new KitchIntelButton(KitchIntelButton.OPEN_IMAGE);
-    JButton saveButton = new KitchIntelButton(KitchIntelButton.SAVE_IMAGE);
-    JButton saveAsButton = new KitchIntelButton(KitchIntelButton.SAVE_AS_IMAGE);
-    JButton closeButton = new KitchIntelButton(KitchIntelButton.CLOSE_IMAGE);
+    MealEditorListener listener = new MealEditorListener();
     
     JButton addRecipeButton = new JButton("Add Recipe");
     
@@ -105,7 +102,7 @@ public class MealEditor extends JDialog
     JPanel name = new JPanel();
     name.setLayout(new FlowLayout(FlowLayout.LEFT));
     name.add(new JLabel("Name:"));
-    name.add(new JTextField(TEXT_WIDTH));
+    name.add(nameField);
     
     add(name, BorderLayout.CENTER);
     
@@ -136,6 +133,100 @@ public class MealEditor extends JDialog
     display.setText(displayText);
   }
   
+  private void loadMeal(final Meal meal, final String fileName)
+  {
+    nameField.setText(meal.getName());
+    recipes = meal.getRecipes();
+    
+    this.fileName = fileName;
+  }
+  
+  private Meal createMeal()
+  {
+    String name = nameField.getText();
+    
+    return new Meal(name, recipes, 0);
+  }
+  
+  private void close()
+  {
+    state = DocumentState.NULL;
+    
+    updateButtons();
+    
+    dispose();
+  }
+  
+  private void newButton()
+  {
+    new MealEditor(owner);
+    
+    updateButtons();
+  }
+  
+  private void open()
+  {
+    JFileChooser chooser = new JFileChooser(new File(CURRENT_DIRECTORY));
+    chooser.showOpenDialog(null);
+    
+    String fileName = chooser.getSelectedFile().getPath();
+    fileName = fileName.substring(0, fileName.indexOf(CURRENT_DIRECTORY));
+
+    Meal meal;
+    
+    try
+    {
+      meal = Meal.read(fileName);
+      loadMeal(meal, fileName);
+    }
+    catch(IOException ioe)
+    {
+      ioe.printStackTrace();
+    }
+    finally
+    {
+      updateButtons();
+    }
+  }
+  
+  private void saveAs()
+  {
+    String newFileName;
+    newFileName = JOptionPane.showInputDialog("File name:");
+    
+    try
+    {
+      createMeal().write(newFileName);
+      
+      fileName = newFileName;
+      
+      state = DocumentState.UNCHANGED;
+      
+      updateButtons();
+    }
+    catch(IOException ioe)
+    {
+      ioe.printStackTrace();
+      JOptionPane.showMessageDialog(null, ERROR_MESSAGE);
+    }
+  }
+  
+  private void save()
+  {
+    if(fileName == null) saveAs();
+    try
+    {
+      createMeal().write(fileName);
+      state = DocumentState.UNCHANGED;
+      updateButtons();
+    }
+    catch(IOException ioe)
+    {
+      ioe.printStackTrace();
+      JOptionPane.showMessageDialog(null, ERROR_MESSAGE);
+    }
+  }
+  
   private class MealEditorListener implements ActionListener
   {
 
@@ -146,31 +237,31 @@ public class MealEditor extends JDialog
       
       if(command.equals(CLOSE_BUTTON_ACTION_COMMAND))
       {
-        dispose();
+        close();
       }
       else if(command.equals(NEW_BUTTON_ACTION_COMMAND))
       {
-        new MealEditor(owner);
+        newButton();
       }
       else if(command.equals(OPEN_BUTTON_ACTION_COMMAND))
       {
-        
+        open();
       }
       else if(command.equals(SAVE_AS_BUTTON_ACTION_COMMAND))
       {
-        
+        saveAs();
       }
       else if(command.equals(SAVE_BUTTON_ACTION_COMMAND))
       {
-        
+        save();
       }
       else if(command.equals(ADD_RECIPE_ACTION_COMMAND))
       {
-        JFileChooser chooser = new JFileChooser(new File("."));
+        JFileChooser chooser = new JFileChooser(new File(CURRENT_DIRECTORY));
         chooser.showOpenDialog(null);
         
         String fileName = chooser.getSelectedFile().getPath();
-        fileName = fileName.substring(0, fileName.indexOf("."));
+        fileName = fileName.substring(0, fileName.indexOf(CURRENT_DIRECTORY));
         
         try
         {
@@ -186,5 +277,6 @@ public class MealEditor extends JDialog
     }
     
   }
+
   
 }

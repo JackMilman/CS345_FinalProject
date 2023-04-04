@@ -46,6 +46,7 @@ public class StepEditor extends JComponent implements TextListener
   private TextArea display;
   private List<Utensil> utensils;
   private List<Ingredient> ingredients;
+  private JButton addButton, deleteButton;
   
   /**
    * Creates a new StepEditor.
@@ -71,8 +72,8 @@ public class StepEditor extends JComponent implements TextListener
     utensilSelect = new JComboBox<String>(new String[] {BLANK});
     detailField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
         
-    JButton addButton = new JButton(ADD);
-    JButton deleteButton = new JButton(DELETE);
+    addButton = new JButton(ADD);
+    deleteButton = new JButton(DELETE);
     
     addButton.addActionListener(listener);
     addButton.addActionListener(listener);
@@ -188,7 +189,11 @@ public class StepEditor extends JComponent implements TextListener
     display.setText(displayText);
   }
   
-  private void updateOn()
+  /**
+   * updates the selectable "on" options. Should be called after loadUtensil or loadIngredient is 
+   * called on the corresponding UtensilEditor or IngredientEditor.
+   */
+  public void updateOn()
   {
     onSelect.removeAllItems();
     
@@ -206,7 +211,11 @@ public class StepEditor extends JComponent implements TextListener
     
   }
   
-  private void updateUtensil()
+  /**
+   * updates the selectable "utensil" options. Should be called after loadUtensil is called on the 
+   * corresponding UtensilEditor.
+   */
+  public void updateUtensil()
   {
     utensilSelect.removeAllItems();
     
@@ -254,6 +263,28 @@ public class StepEditor extends JComponent implements TextListener
   List<Step> getSteps()
   {
     return steps;
+  }
+
+  /**
+   * Adds an action listener to the buttons in this StepEditor which can cause the
+   * document to change.
+   * @param listener The actionListener to listen to these changes.
+   */
+  public void addChangeListener(final ActionListener listener)
+  {
+    addButton.addActionListener(listener);
+    deleteButton.addActionListener(listener);
+  }
+  
+  /**
+   * Loads the given steps.
+   * @param newSteps The new steps for this StepEditor to display.
+   */
+  public void loadSteps(final List<Step> newSteps)
+  {
+    this.steps = newSteps;
+    
+    updateDisplay();
   }
 
 }
