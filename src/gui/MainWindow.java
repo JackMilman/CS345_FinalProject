@@ -19,14 +19,6 @@ public class MainWindow extends JFrame implements Runnable
   private static final String PATH = "images/KILowBites_Logo.png";
 
   /**
-   * Main Window of the KiLowBites application.
-   */
-  public MainWindow()
-  {
-
-  }
-
-  /**
    * 
    * @param args
    * @throws InvocationTargetException
@@ -96,9 +88,11 @@ public class MainWindow extends JFrame implements Runnable
 
     JMenu tools = new JMenu("Tools");
     menuBar.add(tools);
+    // Calorie Calculator: Calorie Calculator is opened
     JMenuItem calorieCalculator = new JMenuItem("Calorie Calculator");
     calorieCalculator.addActionListener(controller);
     tools.add(calorieCalculator);
+    // Units Converter: UnitConversionWindow is opened
     JMenuItem unitsConverter = new JMenuItem("Units Converter");
     unitsConverter.addActionListener(controller);
     tools.add(unitsConverter);

@@ -76,10 +76,16 @@ public class KiLowBitesController implements ActionListener
       new MealEditor(main);
     }
 
-    // Open Unit COnverter Window
+    // Open Unit Converter Window
     if (e.getActionCommand().equals(UNITSCONVERTER))
     {
       new UnitConversionWindow(main);
+    }
+
+    // Open Calorie Calculator Window
+    if (e.getActionCommand().equals(CALORIECALCULATOR))
+    {
+      new CalorieCalculatorWindow();
     }
 
     // Open ShoppingListViewer
@@ -111,7 +117,6 @@ public class KiLowBitesController implements ActionListener
       {
         new ProcessViewer(meal);
       }
-
     }
     
     //open calorie calculator
