@@ -32,13 +32,17 @@ public class KitchIntelButton extends JButton
    */
   public KitchIntelButton(final String buttonImage)
   {
-    super(new ImageIcon(PATH + buttonImage));
+    super();
     setBorderPainted(false);
     setContentAreaFilled(false);
     setFocusPainted(false);
     setOpaque(false);
 
-    setPressedIcon(new ImageIcon(PATH + PRESSED_MODIFIER + buttonImage));
-    setDisabledIcon(new ImageIcon(PATH + PRESSED_MODIFIER + buttonImage));
+    setIcon(new ImageIcon(getClass().getClassLoader().getResource(buttonImage)));
+    
+    setPressedIcon(new ImageIcon(
+        getClass().getClassLoader().getResource(PRESSED_MODIFIER + buttonImage)));
+    setDisabledIcon(new ImageIcon(
+        getClass().getClassLoader().getResource(PRESSED_MODIFIER + buttonImage)));
   }
 }
