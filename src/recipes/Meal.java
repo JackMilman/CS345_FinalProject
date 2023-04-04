@@ -1,8 +1,10 @@
 package recipes;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.*;
 
 public class Meal
@@ -44,7 +46,7 @@ public class Meal
   {
     return recipes.remove(newRecipe);
   }
-  
+
   /*
    * Gets the list of recipes.
    * 
@@ -78,6 +80,52 @@ public class Meal
   public int getSize()
   {
     return recipes.size();
+  }
+
+  /**
+   * Serializes this meal into a file name filename.mel.
+   * 
+   * @param fileName
+   *          The name of the file to write this to, not including the .mel extension.
+   * @throws IOException
+   *           if any exception occurs during the writing process.
+   */
+  public void write(final String fileName) throws IOException
+  {
+    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName + ".mel"));
+
+    out.writeObject(this);
+    out.flush();
+    out.close();
+  }
+
+  /**
+   * Attempts to read a Meal from the given file.
+   * 
+   * @param fileName
+   *          The name of the file to read from, should not include the .mel extension.
+   * @return The recipe from the file.
+   * @throws IOException
+   *           if an IO error occurs.
+   * @throws ClassNotFoundException
+   *           if the object from the file is not a Meal
+   */
+  public static Meal read(final String fileName) throws IOException
+  {
+    ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName + ".mel"));
+
+    Meal meal;
+
+    try
+    {
+      meal = (Meal) in.readObject();
+    }
+    catch (ClassNotFoundException e)
+    {
+      meal = null;
+    }
+
+    return meal;
   }
 
 }

@@ -1,5 +1,8 @@
 package recipes;
 
+import utilities.UnitConversion;
+import java.io.Serializable;
+
 /**
  * Object class describing an Ingredient in a Recipe. An Ingredient contains a name, details on
  * itself (i.e. what it looks like or how it smells), the amount of that Ingredient required, and
@@ -9,12 +12,14 @@ package recipes;
  * @author Jack Milman, KichIntel
  *
  */
-public class Ingredient
+public class Ingredient implements Serializable
 {
 
   private final String name;
 
   private final String details;
+  
+  private final NutritionInfo nutritionInfo;
 
   private final double amount;
 
@@ -32,6 +37,7 @@ public class Ingredient
   {
     this.name = name;
     this.details = details;
+    this.nutritionInfo = NutritionInfo.fromCode(name);
     this.amount = amount;
     this.unit = unit;
   }
@@ -74,6 +80,26 @@ public class Ingredient
   public String getUnit()
   {
     return unit;
+  }
+  
+  /*
+   * Gets the calories in the Ingredient per gram.
+   * 
+   * @return the calories of the Ingredient as a double
+   */
+  public double getCaloriesPerGram() {
+    double amountInGrams = UnitConversion.convert(name, unit, "GRAM", amount);
+    double calPerGram = nutritionInfo.getCalPerGram();
+    return amountInGrams * calPerGram;
+  }
+  
+  /*
+   * Gets the calories in the Ingredient per milliliter.
+   * 
+   * @return the calories of the Ingredient as a double
+   */
+  public double getCaloriesPerMilliliter() {
+    return getCaloriesPerGram() * nutritionInfo.getGramPerML();
   }
 
   /**

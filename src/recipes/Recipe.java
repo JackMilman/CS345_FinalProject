@@ -1,13 +1,17 @@
 package recipes;
 
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.text.html.parser.ParserDelegator;
 
 import utilities.SortLists;
 
@@ -31,6 +35,8 @@ public class Recipe implements Serializable
   private List<Utensil> utensils = new ArrayList<Utensil>();
 
   private List<Step> steps = new ArrayList<Step>();
+
+  private String category;
 
   /**
    * Constructs a new Recipe. The name of a recipe may not be null and must be at least 1 character
@@ -240,27 +246,66 @@ public class Recipe implements Serializable
   {
     return steps;
   }
-  
-  public double calculateCalories() {
-//	  double calories = 0;
-//	  for (Ingredient ingredient: ingredients) {
-//		  NutritionInfo cals = NutritionInfo.parseIngredient(ingredient.getName());
-//		  
-//	  }
-	  return 0.0;
+
+  /**
+   * Calculates the total number of calories in the Recipe by totaling each Ingredient's calorie
+   * count.
+   * 
+   * @return the  total number of calories in the Recipe
+   */
+  public double calculateCalories()
+  {
+    double calories = 0;
+    for (Ingredient ingredient : ingredients)
+    {
+      calories += ingredient.getCaloriesPerGram();
+    }
+    return calories;
   }
-  
+
   /**
    * Serializes this recipe into a file name filename.rcp.
-   * @param fileName The name of the file to write this to, not including the .rcp extension.
-   * @throws IOException if any exception occurs during the writing process.
+   * 
+   * @param fileName
+   *          The name of the file to write this to, not including the .rcp extension.
+   * @throws IOException
+   *           if any exception occurs during the writing process.
    */
   public void write(final String fileName) throws IOException
   {
     ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName + ".rcp"));
-  
+
     out.writeObject(this);
     out.flush();
     out.close();
+  }
+
+  /**
+   * Attempts to read a Recipe from the given file.
+   * 
+   * @param fileName
+   *          The name of the file to read from, should not include the .rcp extension.
+   * @return The recipe from the file.
+   * @throws IOException
+   *           if an IO error occurs.
+   * @throws ClassNotFoundException
+   *           if the object from the file is not a Recipe
+   */
+  public static Recipe read(final String fileName) throws IOException
+  {
+    ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName + ".rcp"));
+
+    Recipe recipe;
+
+    try
+    {
+      recipe = (Recipe) in.readObject();
+    }
+    catch (ClassNotFoundException e)
+    {
+      recipe = null;
+    }
+
+    return recipe;
   }
 }

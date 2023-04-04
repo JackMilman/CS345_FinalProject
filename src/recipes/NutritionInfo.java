@@ -79,6 +79,7 @@ public enum NutritionInfo
   THYME("Thyme", 1.01, 0.46),
   TOMATO("Tomato", .20, 0.67),
   WINE("Wine", .83, 0.99);
+  
   public String name;
   public  double calPerGram;
   public double gramPerML;
@@ -88,6 +89,7 @@ public enum NutritionInfo
     this.calPerGram = calPerGram;
     this.gramPerML = gramPerML;
   }
+  
   public String getName()
   {
     return name;
@@ -108,12 +110,12 @@ public enum NutritionInfo
     NutritionInfo[] info = NutritionInfo.values();
     for (int i = 0; i < info.length; i++)
     {
-      if (info[i].getName().equals(ingredient))
+      if (info[i].getName().equalsIgnoreCase(ingredient))
       {
         return info[i];
       }
     }
     return null;
   }
-  }
+}
   

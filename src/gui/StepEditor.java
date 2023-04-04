@@ -250,5 +250,10 @@ public class StepEditor extends JComponent implements TextListener
     updateOn();
     updateUtensil();
   }
+  
+  List<Step> getSteps()
+  {
+    return steps;
+  }
 
 }

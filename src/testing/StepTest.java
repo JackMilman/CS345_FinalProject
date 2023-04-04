@@ -6,6 +6,12 @@ import org.junit.jupiter.api.Test;
 
 import recipes.*;
 
+/**
+ * Test cases for the Step class.
+ * 
+ * @author Jack Milman, KichIntel
+ *
+ */
 class StepTest
 {
   final String basicAction = "do";
