@@ -1,5 +1,7 @@
 package recipes;
 
+import java.io.Serializable;
+
 /**
  * Object class describing a Utensil in a Recipe. A Utensil contains a name and details on itself
  * (i.e. how it is used and what it looks like).
@@ -8,7 +10,7 @@ package recipes;
  * @author Jack Milman, KichIntel
  *
  */
-public class Utensil
+public class Utensil implements Serializable
 {
   private String name;
 

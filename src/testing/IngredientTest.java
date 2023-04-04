@@ -6,6 +6,12 @@ import org.junit.jupiter.api.Test;
 
 import recipes.Ingredient;
 
+/**
+ * Test cases for the Ingredient class.
+ * 
+ * @author Jack Milman, KichIntel
+ *
+ */
 class IngredientTest
 {
   final String ingredientName = "NamedIngredient";
@@ -47,6 +53,22 @@ class IngredientTest
     Ingredient ingredient = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit);
     String actual = ingredient.getUnit();
     assertEquals(expected, actual);
+  }
+  
+  @Test
+  public void testGetCalories()
+  {
+    Ingredient ingredient = new Ingredient("Alcohol", "Scotch", 5, "GRAM");
+    // Alcohol cal/gram = 2.75. 2.75 * 5 = 13.75
+    double expectedPerGram = 13.75;
+    // Alcohol cal/gram = 2.75. 2.75 * 5 = 13.75
+    // Alcohol gram/ml = 0.79. 0.79 * 13.75 = 10.8625
+    double expectedPerMilliliter = 10.8625;
+    
+    double actualPerGram = ingredient.getCaloriesPerGram();
+    double actualPerMilliliter = ingredient.getCaloriesPerMilliliter();
+    assertEquals(expectedPerGram, actualPerGram);
+    assertEquals(expectedPerMilliliter, actualPerMilliliter);
   }
 
   @Test

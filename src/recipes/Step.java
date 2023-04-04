@@ -1,5 +1,7 @@
 package recipes;
 
+import java.io.Serializable;
+
 /**
  * Object class describing a Step in a Recipe. A Step contains the action being performed, details
  * on how that action is being done or what to, the Ingredient the action is being performed on, a
@@ -10,7 +12,7 @@ package recipes;
  * @author Jack Milman, KichIntel
  *
  */
-public class Step
+public class Step implements Serializable
 {
   private String action;
 
