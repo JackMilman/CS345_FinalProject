@@ -79,13 +79,13 @@ public class KiLowBitesController implements ActionListener
     // Open Unit Converter Window
     if (e.getActionCommand().equals(UNITSCONVERTER))
     {
-      new UnitConversionWindow(main);
+      UnitConversionWindow.getUnitConversionWindow();
     }
 
     // Open Calorie Calculator Window
     if (e.getActionCommand().equals(CALORIECALCULATOR))
     {
-      new CalorieCalculatorWindow(main);
+     CalorieCalculatorWindow.getCalorieCalculatorWindow();
     }
 
     // Open ShoppingListViewer

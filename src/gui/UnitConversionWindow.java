@@ -39,7 +39,7 @@ public class UnitConversionWindow extends JFrame
    * 
    * @param main
    */
-  public UnitConversionWindow(final Window main)
+  private UnitConversionWindow(final Window main)
   {
     super("KiLowBites Calorie Calculator");
     setUp();
