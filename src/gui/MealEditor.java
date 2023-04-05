@@ -151,7 +151,14 @@ public class MealEditor extends Editor
   {
     String name = nameField.getText();
     
-    return new Meal(name, recipes, 0);
+    int servings = Integer.MAX_VALUE;
+    
+    for(Recipe recipe : recipes)
+    {
+      servings = Math.min(servings, recipe.getServings());
+    }
+    
+    return new Meal(name, recipes, servings);
   }
   
   private void close()
