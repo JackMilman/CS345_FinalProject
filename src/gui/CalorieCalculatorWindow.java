@@ -172,7 +172,10 @@ public class CalorieCalculatorWindow extends JFrame
 
       if (command.equals(RESET))
       {
-
+        ingredients.setSelectedItem("");
+        units.setSelectedItem("");
+        amount.setText("");
+        calorie.setText("Calories: ");
       }
 
       if (command.equals(CALCULATION_COMMAND))
