@@ -22,7 +22,7 @@ public class UnitConversionWindow extends JFrame
   private static UnitConversionWindow unitWindow = null;
 
   private String[] units = {"", "DRAM", "OUNCE", "GRAM", "POUND", "PINCH", "TEASPOON", "TABLESPOON",
-      "FLUID_OUNCE", "CUP", "PINT", "QUART", "GALLON", "MILLILITER"};
+      "FLUID OUNCE", "CUP", "PINT", "QUART", "GALLON", "MILLILITER"};
 
   private JComboBox<String> fromunitBox = new JComboBox<String>();
   private JComboBox<String> tounitBox = new JComboBox<String>();
