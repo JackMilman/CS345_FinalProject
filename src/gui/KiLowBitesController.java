@@ -122,7 +122,7 @@ public class KiLowBitesController implements ActionListener
     //open calorie calculator
     if (e.getActionCommand().equals(CALORIECALCULATOR))
     {
-       new CalorieCalculatorWindow();
+    	CalorieCalculatorWindow.getCalorieCalculatorWindow();
     }
   }
 
@@ -132,6 +132,9 @@ public class KiLowBitesController implements ActionListener
    */
   private void read()
   {
+    recipe = null;
+    meal = null;
+    
     fileChooser.setFileFilter(fileFilter);
     int result = fileChooser.showOpenDialog(null);
     fileChooser.setDialogTitle("Open Recipe or Meal");

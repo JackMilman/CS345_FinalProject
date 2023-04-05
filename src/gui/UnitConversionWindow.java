@@ -186,8 +186,9 @@ public class UnitConversionWindow extends JFrame
       {
         fromunitBox.setSelectedItem("");
         tounitBox.setSelectedItem("");
+        ingredientBox.setSelectedItem("");
         amount.setText("");
-        resultLabel.setText("Result:  ___________");
+        resultLabel.setText("Result: ");
       }
       else if (command.equals(CALCULATION_COMMAND))
       {
