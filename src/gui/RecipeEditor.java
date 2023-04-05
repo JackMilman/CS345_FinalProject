@@ -13,6 +13,8 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import recipes.Ingredient;
@@ -52,7 +54,7 @@ public class RecipeEditor extends Editor
   
   private JTextField nameField;
   private JTextField servingsField;
-  
+    
 
 
   /**
@@ -120,17 +122,22 @@ public class RecipeEditor extends Editor
     icons.add(saveButton);
     icons.add(saveAsButton);
     icons.add(closeButton);
+    
+    icons.add(nameLabel);
+    icons.add(nameField);
+    icons.add(servesLabel);
+    icons.add(servingsField);
 
     add(icons, BorderLayout.NORTH);
     
-    Container nameAndServings = new Container();
-    nameAndServings.setLayout(new FlowLayout(FlowLayout.LEFT));
-    nameAndServings.add(nameLabel);
-    nameAndServings.add(nameField);
-    nameAndServings.add(servesLabel);
-    nameAndServings.add(servingsField);
-    
-    add(nameAndServings, BorderLayout.CENTER);
+//    Container nameAndServings = new Container();
+//    nameAndServings.setLayout(new FlowLayout(FlowLayout.LEFT));
+//    nameAndServings.add(nameLabel);
+//    nameAndServings.add(nameField);
+//    nameAndServings.add(servesLabel);
+//    nameAndServings.add(servingsField);
+//    
+//    add(nameAndServings, BorderLayout.CENTER);
     
     setVisible(true);
     setResizable(true);
