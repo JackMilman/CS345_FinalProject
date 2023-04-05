@@ -1,19 +1,21 @@
 package gui;
 
-import java.awt.Component;
+import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import recipes.Ingredient;
 import recipes.NutritionInfo;
 
 public class CalorieCalculatorWindow extends JFrame
@@ -21,36 +23,10 @@ public class CalorieCalculatorWindow extends JFrame
 
   private static final long serialVersionUID = 1L;
   // private String selectedIngredient, selectedUnits, enteredAmount;
-  private JComboBox ingredients, units;
+  private JComboBox<String> ingredients, units;
   private JTextField amount;
+  private static boolean windowOpen = false;
 
-		private JLabel calories;
-		
-		public Calories() {
-			super();
-			calories = new JLabel();
-			calories.setText("Calories:    ___________");
-			
-		}
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			NutritionInfo selectedIngredients = getSelectedIngredients();
-			String selectedUnits = getSelectedUnits();
-			String enteredText = getEnteredAmount();
-			
-			if (selectedIngredients != null && selectedUnits != null && !enteredText.equals("")){
-				
-			}
-		}
-		
-	}
-	 public static void main(final String[] args)
-	  {
-	    MainWindow main = new MainWindow();
-	    main.run();
-
-	    new CalorieCalculatorWindow();
-	  }
   public CalorieCalculatorWindow()
   {
     super("KiLowBites Calorie Calculator");
@@ -62,9 +38,9 @@ public class CalorieCalculatorWindow extends JFrame
     return new JLabel(String.format("%s:", name));
   }
 
-  private NutritionInfo getSelectedIngredients()
+  private String getSelectedIngredients()
   {
-    return (NutritionInfo) ingredients.getSelectedItem();
+    return (String) ingredients.getSelectedItem();
   }
 
   private String getSelectedUnits()
@@ -77,65 +53,95 @@ public class CalorieCalculatorWindow extends JFrame
     return (String) amount.getText();
   }
 
-  private void setUp()
+  private JComboBox<String> setUpIngredients()
   {
-
-    JPanel p = new JPanel();
-    ActionListener calories = new Calories();
-
-    ingredients = new JComboBox(NutritionInfo.values());
-    ingredients.addActionListener(calories);
-
-    amount = new JTextField();
-
-    String[] unitNames = {"", "Dram", "Ounce", "Gram", "Pound", "Pinch", "Teaspoon", "Tablespoon",
-        "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon"};
-    units = new JComboBox(unitNames);
-    units.addActionListener(calories);
-
-    p.add(createLabels("Ingredient"));
-    p.add(ingredients);
-    p.add(createLabels("Amount"));
-    p.add(amount);
-    amount.setPreferredSize(new Dimension(100, 30));
-    p.add(createLabels("Units"));
-    p.add(units);
-    p.add((JPanel) calories);
-
-    Container c;
-
-    c = getContentPane();
-    c.setLayout(new FlowLayout());
-
-    c.add(p);
-
-    setSize(650, 200);
-    setVisible(true);
+    JComboBox<String> names = new JComboBox<>();
+    names.addItem("");
+    for (NutritionInfo info : NutritionInfo.values())
+    {
+      names.addItem(info.getName());
+    }
+    return names;
   }
 
-  private class Calories extends JPanel implements ActionListener
+  private void setUp()
+  {
+    if (!windowOpen)
+    {
+      windowOpen = true;
+      JPanel p = new JPanel();
+      Calories calories = new Calories();
+
+      ingredients = setUpIngredients();
+      ingredients.addActionListener(calories);
+
+      amount = new JTextField();
+
+      String[] unitNames = {"", "Dram", "Ounce", "Gram", "Pound", "Pinch", "Teaspoon", "Tablespoon",
+          "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon"};
+      units = new JComboBox<>(unitNames);
+      units.addActionListener(calories);
+
+      p.setLayout(new FlowLayout());
+      p.add(createLabels("Ingredient"));
+      p.add(ingredients);
+      p.add(createLabels("Amount"));
+      p.add(amount);
+      amount.setPreferredSize(new Dimension(100, 30));
+      p.add(createLabels("Units"));
+      p.add(units);
+
+      Container c = getContentPane();
+      c.setLayout(new BorderLayout());
+
+      c.add(p, BorderLayout.NORTH);
+      p.add(createLabels("Calories"), BorderLayout.CENTER);
+      c.add(calories, BorderLayout.CENTER);
+
+      setSize(600, 200);
+      setVisible(true);
+      addWindowListener(new WindowAdapter()
+      {
+        public void windowClosing(final WindowEvent e)
+        {
+          CalorieCalculatorWindow.windowOpen = false;
+        }
+      });
+    }
+  }
+
+  private class Calories extends JLabel implements ActionListener
   {
 
-    private JLabel calories;
+    private static final long serialVersionUID = 1L;
 
     public Calories()
     {
       super();
-      calories = new JLabel();
-      calories.setText("Calories:    ___________");
+      setText("");
 
     }
 
     @Override
     public void actionPerformed(ActionEvent e)
     {
-      NutritionInfo selectedIngredients = getSelectedIngredients();
+      String selectedIngredient = getSelectedIngredients();
       String selectedUnits = getSelectedUnits();
       String enteredText = getEnteredAmount();
 
-      if (selectedIngredients != null && selectedUnits != null && !enteredText.equals(""))
+      if (selectedIngredient != null && selectedUnits != null && !enteredText.equals(""))
       {
-
+        try
+        {
+          double amountOfIngredients = Double.parseDouble(enteredText);
+          Ingredient temp = new Ingredient(selectedIngredient, "", amountOfIngredients,
+              selectedUnits);
+          setText("" + temp.getCaloriesPerGram());
+        }
+        catch (NumberFormatException exc)
+        {
+          setText("Invalid Amount");
+        }
       }
     }
 
