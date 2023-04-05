@@ -27,7 +27,7 @@ import recipes.Utensil;
  */
 public class RecipeEditor extends Editor
 {
-  static final int DEFAULT_TEXT_FIELD_WIDTH = 10;
+  static final int DEFAULT_TEXT_FIELD_WIDTH = 6;
   
   static final String INGREDIENT_ADD_ACTION_COMMAND = "ingr_add_act";
   static final String UTENSIL_ADD_ACTION_COMMAND = "uten_add_act";
@@ -63,7 +63,7 @@ public class RecipeEditor extends Editor
   public RecipeEditor(final Window owner)
   {
     super(owner, "KiLowBites Recipe Editor");
-    setLayout(new BorderLayout(5, 5));
+    setLayout(new BorderLayout());
     
     ActionListener listener = new RecipeEditorListener();
     ActionListener cListener = new ChangeListener();

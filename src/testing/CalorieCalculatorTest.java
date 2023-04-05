@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 import gui.CalorieCalculatorWindow;
 
 class CalorieCalculatorTest {
-
-<<<<<<< HEAD
   
   public static void test() {
     CalorieCalculatorWindow calc = new CalorieCalculatorWindow();
@@ -17,15 +15,6 @@ class CalorieCalculatorTest {
   public static void main(String[] args) {
     test();
   }
-=======
-	
-	public static void test() {
-		CalorieCalculatorWindow calc = CalorieCalculatorWindow.getCalorieCalculatorWindow();
-	}
-	
-	public static void main(String[] args) {
-		test();
-	}
->>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A
+
 
 }

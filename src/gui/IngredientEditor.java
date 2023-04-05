@@ -59,7 +59,7 @@ public class IngredientEditor extends JComponent
     
     addButton = new JButton(ADD);
     deleteButton = new JButton(DELETE);
-    
+        
     addButton.setActionCommand(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND);
     deleteButton.setActionCommand(RecipeEditor.INGREDIENT_DELETE_ACTION_COMMAND);
     
@@ -71,7 +71,7 @@ public class IngredientEditor extends JComponent
     
     ingredients = new ArrayList<Ingredient>();
     
-    ingredientDisplay = new TextArea();
+    ingredientDisplay = new TextArea(0, 0);
     
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);
