@@ -133,8 +133,8 @@ public class CalorieCalculatorWindow extends JFrame {
 
     amount = new JTextField();
 
-    String[] unitNames = {"", "Dram", "Ounce", "Gram", "Pound", "Pinch", "Teaspoon", "Tablespoon",
-        "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon"};
+    String[] unitNames = {"", "DRAM", "OUNCE", "GRAM", "POUND", "PINCH", "TEASPOON", "TABLESPOON",
+        "FLUID OUNCE", "CUP", "PINT", "QUART", "GALLON"};
     units = new JComboBox<>(unitNames);
     units.addActionListener(calories);
     ingredients = setUpIngredients();

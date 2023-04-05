@@ -41,7 +41,7 @@ public class UnitConversionWindow extends JFrame
    */
   private UnitConversionWindow(final Window main)
   {
-    super("KiLowBites Calorie Calculator");
+    super("KiLowBites Unit Converter");
     setUp();
     setDefaultCloseOperation(HIDE_ON_CLOSE);
   }
