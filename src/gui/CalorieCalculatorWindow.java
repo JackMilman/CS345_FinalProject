@@ -101,6 +101,13 @@ public class CalorieCalculatorWindow extends JFrame {
 		}
 		
 	}
+	 public static void main(final String[] args)
+	  {
+	    MainWindow main = new MainWindow();
+	    main.run();
+
+	    new CalorieCalculatorWindow();
+	  }
 
 	
 }

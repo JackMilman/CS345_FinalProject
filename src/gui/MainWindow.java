@@ -98,8 +98,10 @@ public class MainWindow extends JFrame implements Runnable
     menuBar.add(tools);
     JMenuItem calorieCalculator = new JMenuItem("Calorie Calculator");
     tools.add(calorieCalculator);
+    calorieCalculator.addActionListener(controller);
     JMenuItem unitsConverter = new JMenuItem("Units Converter");
     tools.add(unitsConverter);
+    unitsConverter.addActionListener(controller);
 
     // Menu Items not being used
     // JMenu configure = new JMenu("Configure");
