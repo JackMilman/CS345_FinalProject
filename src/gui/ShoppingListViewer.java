@@ -7,6 +7,7 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 
 import javax.swing.BoxLayout;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -24,9 +25,10 @@ import recipes.Recipe;
  * @author Meara Patterson
  * @version 3/29/2023, Version 1
  */
-public class ShoppingListViewer
+public class ShoppingListViewer extends JDialog
 {
   
+  private static final long serialVersionUID = 1L;
   private JTextArea messageArea;
 
   /**
