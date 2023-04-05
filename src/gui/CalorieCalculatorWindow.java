@@ -158,8 +158,6 @@ public class CalorieCalculatorWindow extends JFrame
     public Calories()
     {
       super();
-      setText("");
-
     }
 
     @Override

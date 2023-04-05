@@ -50,9 +50,10 @@ public class UnitConversionWindow extends JFrame
     if(unitWindow == null)
     {
       unitWindow = new UnitConversionWindow(null);
+      
     }
-    
     unitWindow.setVisible(true);
+   
     
     return unitWindow;
   }
@@ -117,10 +118,11 @@ public class UnitConversionWindow extends JFrame
     JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     JLabel fromAmount = new JLabel("From Amount:");
     amount = new JTextField(DEFAULT_TEXT_FIELD_WIDTH);
-    resultLabel = new JLabel("To Amount:        ");
+    resultLabel = new JLabel("Result:  ___________");
 
     inputPanel.add(fromAmount);
     inputPanel.add(amount);
+    inputPanel.add(resultLabel);
     return inputPanel;
   }
   private void setUp() {
@@ -185,13 +187,13 @@ public class UnitConversionWindow extends JFrame
         fromunitBox.setSelectedItem("");
         tounitBox.setSelectedItem("");
         amount.setText("");
-        resultLabel.setText("Result:        ");
+        resultLabel.setText("Result:  ___________");
       }
       else if (command.equals(CALCULATION_COMMAND))
       {
         amountvalue = Integer.parseInt(amount.getText());
         double value = UnitConversion.convert(ingredient, fromUnit, toUnit, amountvalue);
-        resultLabel.setText("To Amount:   " + Double.toString(value));
+        resultLabel.setText("Result:   " + Double.toString(value));
       }
 
     }
