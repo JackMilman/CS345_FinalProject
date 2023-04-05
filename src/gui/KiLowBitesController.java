@@ -127,6 +127,9 @@ public class KiLowBitesController implements ActionListener
    */
   private void read()
   {
+    recipe = null;
+    meal = null;
+    
     fileChooser.setFileFilter(fileFilter);
     int result = fileChooser.showOpenDialog(null);
     fileChooser.setDialogTitle("Open Recipe or Meal");
