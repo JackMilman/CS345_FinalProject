@@ -132,7 +132,41 @@ public class IngredientEditor extends JComponent
   private void delete()
   {
     if(ingredients.size() == 0) return;
-    ingredients.remove(ingredients.size() - 1);
+    
+    int selectionStart = ingredientDisplay.getSelectionStart();
+    int linesSelected = 0;
+    int linesSkipped = 0;
+    String selectedText = ingredientDisplay.getSelectedText();
+    
+    if(selectedText == null || selectedText.length() < 0) return;
+    
+    char[] characters = selectedText.toCharArray();
+    
+    //counts the number of newline characters to determine the number of lines selected
+    for(char character : characters)
+    {
+      if(character == '\n')
+      {
+        linesSelected++;
+      }
+    }
+    
+    //if the last selected character isn't a newline character, then there is one uncounted line.
+    if(characters[characters.length - 1] != '\n') linesSelected++;
+    
+    String skipped = ingredientDisplay.getText().substring(0, selectionStart);
+    
+    char[] skippedChars = skipped.toCharArray();
+    
+    for(char skippedChar : skippedChars)
+    {
+      if(skippedChar == '\n') linesSkipped++;
+    }
+        
+    for(int i = 0; i < linesSelected; i++)
+    {
+      ingredients.remove(linesSkipped);
+    }
     
     updateTextArea();
   }
@@ -143,14 +177,7 @@ public class IngredientEditor extends JComponent
     
     for(Ingredient ingredient : ingredients)
     {
-      String details = ingredient.getDetails();
-      if(details.length() > 0)
-      {
-        details = String.format("(%s)", details);
-      }
-      
-      text += String.format("%s\t%s\t%s\t%s\n", ingredient.getName(), details, 
-          ingredient.getAmount(), ingredient.getUnit());
+      text += String.format("%s\n", ingredient.toString());
     }
     
     ingredientDisplay.setText(text);

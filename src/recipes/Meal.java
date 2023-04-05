@@ -5,9 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.*;
 
-public class Meal
+public class Meal implements Serializable
 {
   private String name;
   private List<Recipe> recipes = new ArrayList<Recipe>();
@@ -132,6 +133,8 @@ public class Meal
     {
       meal = null;
     }
+    
+    in.close();
 
     return meal;
   }

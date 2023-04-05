@@ -105,4 +105,14 @@ public class Utensil implements Serializable
     throw new UnsupportedOperationException(
         "hashCode() is not supported because Utensils are mutable");
   }
+  
+  @Override
+  public String toString()
+  {
+    if(details == null)
+    {
+      return String.format("%s", name).strip();
+    }
+    return String.format("%s %s", details, name).strip();
+  }
 }

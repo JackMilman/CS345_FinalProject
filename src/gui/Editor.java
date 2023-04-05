@@ -56,6 +56,8 @@ public abstract class Editor extends JDialog
     saveButton = new KitchIntelButton(KitchIntelButton.SAVE_IMAGE);
     saveAsButton = new KitchIntelButton(KitchIntelButton.SAVE_AS_IMAGE);
     closeButton = new KitchIntelButton(KitchIntelButton.CLOSE_IMAGE);
+    
+    updateButtons();
 
   }
   

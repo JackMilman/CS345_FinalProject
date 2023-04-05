@@ -172,6 +172,31 @@ public class Step implements Serializable
     this.time = time;
   }
   
-  
+  @Override
+  public String toString()
+  {
+    // if the destination is a utensil
+    if(source != null)
+    {
+      //if the source and destination utensil are the same
+      if(source.equals(destination))
+      {
+        return String.format("%s the contents of the %s %s\t\t%s minutes", action, source.getName(),
+            details, time).strip();
+      }
+      //if the source and destination utensil are different
+      else
+      {
+        return String.format("%s the contents of the %s in the %s %s\t\t%s minutes", action, 
+            source.getName(), destination.getName(), details, time).strip();
+      }
+    }
+    
+    //if the source is an ingredient
+    return 
+        String.format("%s the %s on the %s %s\t\t%s minutes", action, ingredient.getName(), 
+            destination.getName(), details, time).strip();
+    
+  }
 
 }
