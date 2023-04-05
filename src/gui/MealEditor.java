@@ -12,12 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import recipes.Meal;
 import recipes.Recipe;
 
 /**
@@ -27,7 +28,7 @@ import recipes.Recipe;
  * @version 03.29.2023
  *
  */
-public class MealEditor extends JDialog
+public class MealEditor extends Editor
 {
   /**
    * 
@@ -35,18 +36,21 @@ public class MealEditor extends JDialog
   private static final long serialVersionUID = 1L;
   
   private static final int TEXT_WIDTH = 40;
-  
+    
   private static final String NEW_BUTTON_ACTION_COMMAND = "men";
   private static final String OPEN_BUTTON_ACTION_COMMAND = "meo";
   private static final String SAVE_BUTTON_ACTION_COMMAND = "mes";
   private static final String SAVE_AS_BUTTON_ACTION_COMMAND = "mea";
   private static final String CLOSE_BUTTON_ACTION_COMMAND = "mec";
   private static final String ADD_RECIPE_ACTION_COMMAND = "mar";
+  private static final String DELETE_ACTION_COMMAND = "md";
   
-  private final Window owner;
   private final TextArea display;
   
+  private final JTextField nameField;
+  
   private List<Recipe> recipes;
+  
 
   /**
    * Creates a new MealEditor.
@@ -56,23 +60,18 @@ public class MealEditor extends JDialog
   public MealEditor(final Window owner)
   {
     super(owner, "KiLowBites Meal Editor");
-    
-    this.owner = owner;
-    
+        
     this.recipes = new ArrayList<Recipe>();
     
     this.display = new TextArea();
     this.display.setEditable(false);
     
+    this.nameField = new JTextField(TEXT_WIDTH);
+    
     MealEditorListener listener = new MealEditorListener();
     
-    JButton newButton = new KitchIntelButton(KitchIntelButton.NEW_IMAGE);
-    JButton openButton = new KitchIntelButton(KitchIntelButton.OPEN_IMAGE);
-    JButton saveButton = new KitchIntelButton(KitchIntelButton.SAVE_IMAGE);
-    JButton saveAsButton = new KitchIntelButton(KitchIntelButton.SAVE_AS_IMAGE);
-    JButton closeButton = new KitchIntelButton(KitchIntelButton.CLOSE_IMAGE);
-    
     JButton addRecipeButton = new JButton("Add Recipe");
+    JButton deleteButton = new JButton("Delete");
     
     newButton.setActionCommand(NEW_BUTTON_ACTION_COMMAND);
     openButton.setActionCommand(OPEN_BUTTON_ACTION_COMMAND);
@@ -81,6 +80,7 @@ public class MealEditor extends JDialog
     closeButton.setActionCommand(CLOSE_BUTTON_ACTION_COMMAND);
     
     addRecipeButton.setActionCommand(ADD_RECIPE_ACTION_COMMAND);
+    deleteButton.setActionCommand(DELETE_ACTION_COMMAND);
     
     newButton.addActionListener(listener);
     openButton.addActionListener(listener);
@@ -89,6 +89,7 @@ public class MealEditor extends JDialog
     closeButton.addActionListener(listener);
     
     addRecipeButton.addActionListener(listener);
+    deleteButton.addActionListener(listener);
     
     setLayout(new BorderLayout());
     
@@ -105,7 +106,7 @@ public class MealEditor extends JDialog
     JPanel name = new JPanel();
     name.setLayout(new FlowLayout(FlowLayout.LEFT));
     name.add(new JLabel("Name:"));
-    name.add(new JTextField(TEXT_WIDTH));
+    name.add(nameField);
     
     add(name, BorderLayout.CENTER);
     
@@ -114,7 +115,7 @@ public class MealEditor extends JDialog
     edit.setLayout(new BorderLayout());
     edit.add(addRecipeButton, BorderLayout.NORTH);
     edit.add(this.display, BorderLayout.CENTER);
-    edit.add(new JButton("Delete"), BorderLayout.EAST);
+    edit.add(deleteButton, BorderLayout.EAST);
     
     
     add(edit, BorderLayout.SOUTH);
@@ -136,6 +137,147 @@ public class MealEditor extends JDialog
     display.setText(displayText);
   }
   
+  private void loadMeal(final Meal meal, final String fileName)
+  {
+    nameField.setText(meal.getName());
+    recipes = meal.getRecipes();
+    
+    this.fileName = fileName;
+    
+    updateDisplay();
+  }
+  
+  private Meal createMeal()
+  {
+    String name = nameField.getText();
+    
+    return new Meal(name, recipes, 0);
+  }
+  
+  private void close()
+  {
+    state = DocumentState.NULL;
+    
+    updateButtons();
+    
+    dispose();
+  }
+  
+  private void newButton()
+  {
+    new MealEditor(owner);
+    
+    updateButtons();
+  }
+  
+  private void open()
+  {
+    JFileChooser chooser = new JFileChooser(new File(CURRENT_DIRECTORY));
+    chooser.showOpenDialog(null);
+    
+    String fileName = chooser.getSelectedFile().getPath();
+    fileName = fileName.substring(0, fileName.indexOf(CURRENT_DIRECTORY));
+
+    Meal meal;
+    
+    try
+    {
+      meal = Meal.read(fileName);
+      loadMeal(meal, fileName);
+    }
+    catch(IOException ioe)
+    {
+      ioe.printStackTrace();
+    }
+    finally
+    {
+      updateButtons();
+    }
+  }
+  
+  private void saveAs()
+  {
+    String newFileName;
+    newFileName = JOptionPane.showInputDialog("File name:");
+    
+    try
+    {
+      createMeal().write(newFileName);
+      
+      fileName = newFileName;
+      
+      state = DocumentState.UNCHANGED;
+      
+      updateButtons();
+    }
+    catch(IOException ioe)
+    {
+      ioe.printStackTrace();
+      JOptionPane.showMessageDialog(null, ERROR_MESSAGE);
+    }
+  }
+  
+  private void save()
+  {
+    if(fileName == null) saveAs();
+    try
+    {
+      createMeal().write(fileName);
+      state = DocumentState.UNCHANGED;
+      updateButtons();
+    }
+    catch(IOException ioe)
+    {
+      ioe.printStackTrace();
+      JOptionPane.showMessageDialog(null, ERROR_MESSAGE);
+    }
+  }
+  
+  private void delete()
+  {
+    if(recipes.size() == 0) return;
+    
+    int selectionStart = display.getSelectionStart();
+    int linesSelected = 0;
+    int linesSkipped = 0;
+    String selectedText = display.getSelectedText();
+    
+    if(selectedText == null || selectedText.length() < 0) return;
+    
+    char[] characters = selectedText.toCharArray();
+    
+    //counts the number of newline characters to determine the number of lines selected
+    for(char character : characters)
+    {
+      if(character == '\n')
+      {
+        linesSelected++;
+      }
+    }
+    
+    //if the last selected character isn't a newline character, then there is one uncounted line.
+    if(characters[characters.length - 1] != '\n') linesSelected++;
+    
+    String skipped = display.getText().substring(0, selectionStart);
+    
+    char[] skippedChars = skipped.toCharArray();
+    
+    for(char skippedChar : skippedChars)
+    {
+      if(skippedChar == '\n') linesSkipped++;
+    }
+        
+    for(int i = 0; i < linesSelected; i++)
+    {
+      recipes.remove(linesSkipped);
+    }
+    
+    state = DocumentState.CHANGED;
+    updateButtons();
+    
+    updateDisplay();
+  }
+  
   private class MealEditorListener implements ActionListener
   {
 
@@ -146,35 +288,37 @@ public class MealEditor extends JDialog
       
       if(command.equals(CLOSE_BUTTON_ACTION_COMMAND))
       {
-        dispose();
+        close();
       }
       else if(command.equals(NEW_BUTTON_ACTION_COMMAND))
       {
-        new MealEditor(owner);
+        newButton();
       }
       else if(command.equals(OPEN_BUTTON_ACTION_COMMAND))
       {
-        
+        open();
       }
       else if(command.equals(SAVE_AS_BUTTON_ACTION_COMMAND))
       {
-        
+        saveAs();
       }
       else if(command.equals(SAVE_BUTTON_ACTION_COMMAND))
       {
-        
+        save();
       }
       else if(command.equals(ADD_RECIPE_ACTION_COMMAND))
       {
-        JFileChooser chooser = new JFileChooser(new File("."));
+        JFileChooser chooser = new JFileChooser(new File(CURRENT_DIRECTORY));
         chooser.showOpenDialog(null);
         
         String fileName = chooser.getSelectedFile().getPath();
-        fileName = fileName.substring(0, fileName.indexOf("."));
+        fileName = fileName.substring(0, fileName.indexOf(CURRENT_DIRECTORY));
         
         try
         {
           recipes.add(Recipe.read(fileName));
+          state = DocumentState.CHANGED;
+          updateButtons();
         }
         catch (IOException e1)
         {
@@ -182,9 +326,14 @@ public class MealEditor extends JDialog
         }
         
         updateDisplay();
+      } 
+      else if(command.equals(DELETE_ACTION_COMMAND))
+      {
+        delete();
       }
     }
     
   }
+
   
 }

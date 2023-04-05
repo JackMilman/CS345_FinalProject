@@ -6,12 +6,11 @@ import java.awt.FlowLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
@@ -26,7 +25,7 @@ import recipes.Utensil;
  * @author shelseyvega, Josiah Leach, KitchIntel
  *
  */
-public class RecipeEditor extends JDialog
+public class RecipeEditor extends Editor
 {
   static final int DEFAULT_TEXT_FIELD_WIDTH = 10;
   
@@ -35,21 +34,18 @@ public class RecipeEditor extends JDialog
   static final String INGREDIENT_DELETE_ACTION_COMMAND = "ingr_del_act";
   static final String UTENSIL_DELETE_ACTION_COMMAND = "uten_del_act";
   
+  
   private static final String NEW_BUTTON_ACTION_COMMAND = "ren";
   private static final String OPEN_BUTTON_ACTION_COMMAND = "reo";
   private static final String SAVE_BUTTON_ACTION_COMMAND = "res";
   private static final String SAVE_AS_BUTTON_ACTION_COMMAND = "rea";
   private static final String CLOSE_BUTTON_ACTION_COMMAND = "rec";
-  
-
 
   /**
    * 
    */
   private static final long serialVersionUID = 1L;
-  
-  private final Window owner;
-  
+    
   private UtensilEditor utensilEditor;
   private IngredientEditor ingredientEditor;
   private StepEditor stepEditor;
@@ -57,9 +53,8 @@ public class RecipeEditor extends JDialog
   private JTextField nameField;
   private JTextField servingsField;
   
-  private String fileName;
-  private Recipe recipe;
-  
+
+
   /**
    * Creates a new RecipeEditor.
    * @param owner The JFrame which created this RecipeEditor. This should probably be
@@ -70,16 +65,15 @@ public class RecipeEditor extends JDialog
     super(owner, "KiLowBites Recipe Editor");
     setLayout(new BorderLayout(5, 5));
     
-    this.owner = owner;
-    this.fileName = null;
+    ActionListener listener = new RecipeEditorListener();
+    ActionListener cListener = new ChangeListener();
+
+    nameField = new JTextField();
+    servingsField = new JTextField();
     
-    ActionListener listener = new RecipeEditorListener(this);
-    
-    JButton newButton = new KitchIntelButton(KitchIntelButton.NEW_IMAGE);
-    JButton openButton = new KitchIntelButton(KitchIntelButton.OPEN_IMAGE);
-    JButton saveButton = new KitchIntelButton(KitchIntelButton.SAVE_IMAGE);
-    JButton saveAsButton = new KitchIntelButton(KitchIntelButton.SAVE_AS_IMAGE);
-    JButton closeButton = new KitchIntelButton(KitchIntelButton.CLOSE_IMAGE);
+    utensilEditor = new UtensilEditor();
+    ingredientEditor = new IngredientEditor();
+    stepEditor = new StepEditor(utensilEditor.getUtensils(), ingredientEditor.getIngredients());
     
     newButton.setActionCommand(NEW_BUTTON_ACTION_COMMAND);
     openButton.setActionCommand(OPEN_BUTTON_ACTION_COMMAND);
@@ -93,12 +87,23 @@ public class RecipeEditor extends JDialog
     saveAsButton.addActionListener(listener);
     closeButton.addActionListener(listener);
 
-    utensilEditor = new UtensilEditor();
-    ingredientEditor = new IngredientEditor();
-    stepEditor = new StepEditor(utensilEditor.getUtensils(), ingredientEditor.getIngredients());
+    nameField.setColumns(DEFAULT_TEXT_FIELD_WIDTH);
+    servingsField.setColumns(DEFAULT_TEXT_FIELD_WIDTH);
     
     utensilEditor.addTextListener(stepEditor);
     ingredientEditor.addTextListener(stepEditor);
+    
+    utensilEditor.addChangeListener(cListener);
+    ingredientEditor.addChangeListener(cListener);
+    stepEditor.addChangeListener(cListener);
+    nameField.addActionListener(cListener);
+    servingsField.addActionListener(cListener);
+    
+    nameField.addActionListener(listener);
+    servingsField.addActionListener(listener);
+    
+    JLabel nameLabel = new JLabel("Name:");
+    JLabel servesLabel = new JLabel("Serves:");
     
     Container mainEditors = new Container();
     mainEditors.setLayout(new BorderLayout());
@@ -120,17 +125,9 @@ public class RecipeEditor extends JDialog
     
     Container nameAndServings = new Container();
     nameAndServings.setLayout(new FlowLayout(FlowLayout.LEFT));
-    
-    JLabel lblNewLabel = new JLabel("Name:");
-    nameAndServings.add(lblNewLabel);
-    nameField = new JTextField();
-    nameField.setColumns(DEFAULT_TEXT_FIELD_WIDTH);
+    nameAndServings.add(nameLabel);
     nameAndServings.add(nameField);
-    
-    JLabel lblNewLabel1 = new JLabel("Serves:");
-    nameAndServings.add(lblNewLabel1);
-    servingsField = new JTextField();
-    servingsField.setColumns(DEFAULT_TEXT_FIELD_WIDTH);
+    nameAndServings.add(servesLabel);
     nameAndServings.add(servingsField);
     
     add(nameAndServings, BorderLayout.CENTER);
@@ -166,63 +163,157 @@ public class RecipeEditor extends JDialog
     return new Recipe(name, servings, ingredients, utensils, steps);
   }
   
+  private void loadRecipe(final Recipe recipe, final String fileName)
+  {
+    nameField.setText(recipe.getName());
+    servingsField.setText(recipe.getServings() + "");
+    utensilEditor.loadUtensils(recipe.getUtensils());
+    ingredientEditor.loadIngredients(recipe.getIngredients());
+    stepEditor.loadSteps(recipe.getSteps());
+    
+    this.fileName = fileName;
+  }
+  
+  private void close()
+  {
+    state = DocumentState.NULL;
+    
+    updateButtons();
+    
+    dispose();
+  }
+  
+  private void newButton()
+  {
+    new RecipeEditor(owner);
+    
+    updateButtons();
+  }
+  
+  private void open()
+  {
+    JFileChooser chooser = new JFileChooser(new File(CURRENT_DIRECTORY));
+    chooser.showOpenDialog(null);
+    
+    String fileName = chooser.getSelectedFile().getPath();
+    fileName = fileName.substring(0, fileName.indexOf(CURRENT_DIRECTORY));
+
+    Recipe recipe;
+    
+    try
+    {
+      recipe = Recipe.read(fileName);
+      loadRecipe(recipe, fileName);
+    }
+    catch(IOException ioe)
+    {
+      ioe.printStackTrace();
+    }
+    finally
+    {
+      updateButtons();
+    }
+    
+  }
+  
+  private void saveAs()
+  {    
+    if(nameField.getText().equals("")) 
+    {
+      JOptionPane.showMessageDialog(null, "You must input a name");
+      return;
+    }
+    
+    String newFileName;
+    newFileName = JOptionPane.showInputDialog("File name:");
+    
+    try
+    {
+      createRecipe().write(newFileName);
+      
+      fileName = newFileName;
+      
+      state = DocumentState.UNCHANGED;
+      
+      updateButtons();
+    }
+    catch(IOException ioe)
+    {
+      ioe.printStackTrace();
+      JOptionPane.showMessageDialog(null, ERROR_MESSAGE);
+    }
+  }
+  
+  private void save()
+  {
+    if(nameField.getText().equals("")) 
+    {
+      JOptionPane.showMessageDialog(null, "You must input a name");
+      return;
+    }
+    if(fileName == null) saveAs();
+    try
+    {
+      createRecipe().write(fileName);
+      state = DocumentState.UNCHANGED;
+      updateButtons();
+    }
+    catch(IOException ioe)
+    {
+      ioe.printStackTrace();
+      JOptionPane.showMessageDialog(null, ERROR_MESSAGE);
+    }
+  }
+  
+
+  
   private class RecipeEditorListener implements ActionListener
   {
-    private static final String ERROR_MESSAGE = "File could not be saved";
-    private final RecipeEditor subject;
     
-
-    public RecipeEditorListener(final RecipeEditor subject)
+    public RecipeEditorListener()
     {
       super();
-      this.subject = subject;
     }
 
     @Override
     public void actionPerformed(final ActionEvent e)
     {
       String command = e.getActionCommand();
-      
+            
       if(command.equals(CLOSE_BUTTON_ACTION_COMMAND))
       {
-        dispose();
+        close();
       }
       else if(command.equals(NEW_BUTTON_ACTION_COMMAND))
       {
-        new RecipeEditor(owner);
+        newButton();
       }
       else if(command.equals(OPEN_BUTTON_ACTION_COMMAND))
       {
-        
+        open();
       }
       else if(command.equals(SAVE_AS_BUTTON_ACTION_COMMAND))
       {
-        String newFileName;
-        newFileName = JOptionPane.showInputDialog("File name:");
-        
-        try
-        {
-          subject.createRecipe().write(newFileName);
-        }
-        catch(IOException ioe)
-        {
-          ioe.printStackTrace();
-          JOptionPane.showMessageDialog(subject, ERROR_MESSAGE);
-        }
+        saveAs();
       }
       else if(command.equals(SAVE_BUTTON_ACTION_COMMAND))
       {
-        try
-        {
-          subject.createRecipe().write(fileName);
-        }
-        catch(IOException ioe)
-        {
-          ioe.printStackTrace();
-          JOptionPane.showMessageDialog(subject, ERROR_MESSAGE);
-        }
+        save();
       }
     }
     
   }
+  
+  private class ChangeListener implements ActionListener
+  {
+
+    @Override
+    public void actionPerformed(final ActionEvent e)
+    {
+      state = DocumentState.CHANGED;
+      updateButtons();
+    }
+    
+  }
+  
 }

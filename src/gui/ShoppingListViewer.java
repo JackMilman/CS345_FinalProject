@@ -3,6 +3,8 @@ package gui;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -13,6 +15,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import recipes.Ingredient;
+import recipes.Meal;
 import recipes.Recipe;
 
 /**
@@ -28,17 +31,50 @@ public class ShoppingListViewer
 
   /**
    * Creates a ShoppingListViewer panel that displays the ingredients of the given recipe.
-   * @param recipe
+   * @param obj should be a Recipe or Meal
    */
-  public ShoppingListViewer(final Recipe recipe)
+  public ShoppingListViewer(final Object obj)
   {
-    
-    JFrame frame = new JFrame("KiLowBites Shopping List Viewer");
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    String name = "";
+    if (obj instanceof Recipe)
+    {
+      name = ((Recipe)obj).getName();
+    }
+    else if (obj instanceof Meal)
+    {
+      name = ((Meal)obj).getName();
+    } 
+    else
+    {
+      System.out.println("Invalid file");
+      System.exit(1);
+    }
+    JFrame frame = new JFrame("KiLowBites Shopping List Viewer\t" + name);
     frame.setSize(600, 400);
     
     JPanel contentPane = (JPanel) frame.getContentPane();
     contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
+    
+    KitchIntelButton button = new KitchIntelButton(KitchIntelButton.PRINT_IMAGE);
+    button.addActionListener(new ActionListener()
+    {
+      @Override
+      public void actionPerformed(final ActionEvent event)
+      {
+        PrinterJob print = PrinterJob.getPrinterJob();
+        if(print.printDialog())
+        {
+          try
+          {
+            print.print();
+          } 
+          catch (PrinterException e)
+          {
+            System.out.println("Printer Error");
+          }
+        }
+      }
+    });
     
     JPanel inputNumPeople = new JPanel();
     inputNumPeople.add(new JLabel("Number of People:"));
@@ -52,21 +88,22 @@ public class ShoppingListViewer
       {
         try
         {
-          updateMessageArea(recipe, textField.getText());
+          updateMessageArea(obj, textField.getText());
         }
         catch (NumberFormatException e)
         {
-          updateMessageArea(recipe, "0");
+          updateMessageArea(obj, "0");
         }
       }
     });
     inputNumPeople.add(textField);
     
     messageArea = new JTextArea();
-    updateMessageArea(recipe, textField.getText());
+    updateMessageArea(obj, textField.getText());
     JScrollPane scrollPane = new JScrollPane(messageArea);
     scrollPane.createVerticalScrollBar();
     
+    contentPane.add(button);
     contentPane.add(inputNumPeople);
     contentPane.add(scrollPane);
     
@@ -77,10 +114,10 @@ public class ShoppingListViewer
   /**
    * Updates the ingredient list of the scroll pane.
    * 
-   * @param recipe gives the list of ingredients
-   * @param text to be parsed for a number
+   * @param obj should be a Recipe or Meal
+   * @param text to be parsed for a number of people to serve
    */
-  public void updateMessageArea(final Recipe recipe, final String text)
+  private void updateMessageArea(final Object obj, final String text)
   {
     int numPeople = 0;
     try
@@ -92,9 +129,34 @@ public class ShoppingListViewer
       numPeople = 0;
     }
     messageArea.setText(null);
+    
+    if (obj instanceof Recipe)
+    {
+      Recipe recipe = (Recipe) obj;
+      updateMessageAreaHelper(recipe, numPeople);
+    } 
+    else if (obj instanceof Meal)
+    {
+      Meal meal = (Meal) obj;
+      for (Recipe recipe : meal.getRecipes())
+      {
+        updateMessageAreaHelper(recipe, numPeople);
+      }
+    }
+  }
+  
+  /**
+   * Adds ingredients to the scroll pane.
+   * 
+   * @param recipe to pull ingredients from
+   * @param numPeople to serve
+   */
+  private void updateMessageAreaHelper(final Recipe recipe, final int numPeople)
+  {
     for (Ingredient ing : recipe.getIngredients())
     {
-      String info = String.format("%s\t%f\n", ing.getName(), ing.getAmount() * numPeople);
+      String info = String.format("%.1f %ss of %s\n", ing.getAmount() * numPeople, ing.getUnit(), 
+          ing.getName());
       messageArea.append(info);
     }
   }

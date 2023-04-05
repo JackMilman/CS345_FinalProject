@@ -76,10 +76,16 @@ public class KiLowBitesController implements ActionListener
       new MealEditor(main);
     }
 
-    // Open Unit COnverter Window
+    // Open Unit Converter Window
     if (e.getActionCommand().equals(UNITSCONVERTER))
     {
       new UnitConversionWindow(main);
+    }
+
+    // Open Calorie Calculator Window
+    if (e.getActionCommand().equals(CALORIECALCULATOR))
+    {
+      new CalorieCalculatorWindow();
     }
 
     // Open ShoppingListViewer
@@ -87,9 +93,15 @@ public class KiLowBitesController implements ActionListener
     {
 
       read();
-      // recipes
-      new ShoppingListViewer(recipe);
-      // meals
+   // check the extension of the file, call the corresponding type: meal or recipe
+      if (recipe != null)
+      {
+        new ShoppingListViewer(recipe);
+      }
+      else if (meal != null)
+      {
+        new ShoppingListViewer(meal);
+      }
     }
 
     // Open ProcessViewer
@@ -105,7 +117,12 @@ public class KiLowBitesController implements ActionListener
       {
         new ProcessViewer(meal);
       }
-
+    }
+    
+    //open calorie calculator
+    if (e.getActionCommand().equals(CALORIECALCULATOR))
+    {
+      new CalorieCalculatorWindow();
     }
   }
 
@@ -137,7 +154,7 @@ public class KiLowBitesController implements ActionListener
             {
               // set the recipe to the recipe selected from the file viewer
               recipe = Recipe.read(name);
-              break;
+              return;
 
             }
             // check if it is a meal
@@ -145,7 +162,7 @@ public class KiLowBitesController implements ActionListener
             {
               // set the meal to the meal selected from the file viewer
               meal = Meal.read(name);
-              break;
+              return;
             }
           }
           catch (IOException ioe)
@@ -155,11 +172,10 @@ public class KiLowBitesController implements ActionListener
             break;
           }
         }
-        else
-        {
-          JOptionPane.showMessageDialog(null, INVALID_FILE_TYPE, ERROR, JOptionPane.ERROR_MESSAGE);
-          break;
-        }
+      }
+      if(recipe == null && meal == null)
+      {
+        JOptionPane.showMessageDialog(null, INVALID_FILE_TYPE, ERROR, JOptionPane.ERROR_MESSAGE);
       }
     }
   }

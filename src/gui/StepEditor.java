@@ -41,11 +41,12 @@ public class StepEditor extends JComponent implements TextListener
   private static final long serialVersionUID = 1L;
   
   private JComboBox<String> actionSelect, onSelect, utensilSelect;
-  private JTextField detailField;
+  private JTextField detailField, timeField;
   private List<Step> steps;
   private TextArea display;
   private List<Utensil> utensils;
   private List<Ingredient> ingredients;
+  private JButton addButton, deleteButton;
   
   /**
    * Creates a new StepEditor.
@@ -70,12 +71,13 @@ public class StepEditor extends JComponent implements TextListener
     onSelect = new JComboBox<String>(new String[] {BLANK});
     utensilSelect = new JComboBox<String>(new String[] {BLANK});
     detailField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
+    timeField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH / 2);
         
-    JButton addButton = new JButton(ADD);
-    JButton deleteButton = new JButton(DELETE);
+    addButton = new JButton(ADD);
+    deleteButton = new JButton(DELETE);
     
     addButton.addActionListener(listener);
-    addButton.addActionListener(listener);
+    deleteButton.addActionListener(listener);
     
     Container inputFields = new Container();
     inputFields.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -87,6 +89,8 @@ public class StepEditor extends JComponent implements TextListener
     inputFields.add(utensilSelect);
     inputFields.add(new JLabel("Details:"));
     inputFields.add(detailField);
+    inputFields.add(new JLabel("Minutes:"));
+    inputFields.add(timeField);
     inputFields.add(addButton);
     
     add(inputFields, BorderLayout.NORTH);
@@ -106,7 +110,16 @@ public class StepEditor extends JComponent implements TextListener
     String on =      onSelect.getSelectedItem().toString();
     String utensil = utensilSelect.getSelectedItem().toString();
     String details = detailField.getText();
-    int time = 0;
+    int time;
+    
+    try
+    {
+      time = Integer.valueOf(timeField.getText());
+    }
+    catch(NumberFormatException nfe)
+    {
+      return;
+    }
     
     if(action.equals("") || on.equals("") || utensil.equals("")) 
     {
@@ -147,6 +160,7 @@ public class StepEditor extends JComponent implements TextListener
     actionSelect.setSelectedIndex(0);
     onSelect.setSelectedIndex(0);
     utensilSelect.setSelectedIndex(0);
+    timeField.setText("");
     detailField.setText("");
   }
   
@@ -154,7 +168,40 @@ public class StepEditor extends JComponent implements TextListener
   {
     if(steps.size() == 0) return;
     
-    steps.remove(steps.size() - 1);
+    int selectionStart = display.getSelectionStart();
+    int linesSelected = 0;
+    int linesSkipped = 0;
+    String selectedText = display.getSelectedText();
+    
+    if(selectedText == null || selectedText.length() < 0) return;
+    
+    char[] characters = selectedText.toCharArray();
+    
+    //counts the number of newline characters to determine the number of lines selected
+    for(char character : characters)
+    {
+      if(character == '\n')
+      {
+        linesSelected++;
+      }
+    }
+    
+    //if the last selected character isn't a newline character, then there is one uncounted line.
+    if(characters[characters.length - 1] != '\n') linesSelected++;
+    
+    String skipped = display.getText().substring(0, selectionStart);
+    
+    char[] skippedChars = skipped.toCharArray();
+    
+    for(char skippedChar : skippedChars)
+    {
+      if(skippedChar == '\n') linesSkipped++;
+    }
+        
+    for(int i = 0; i < linesSelected; i++)
+    {
+      steps.remove(linesSkipped);
+    }
     
     updateDisplay();
   }
@@ -163,32 +210,19 @@ public class StepEditor extends JComponent implements TextListener
   {
     String displayText = "";
     
-    Utensil source = null;
-    Ingredient ingredient = null;
-    String on = null;
-        
     for(Step step : steps)
     {
-      source = step.getSource();
-      ingredient = step.getIngredient();
-      
-      if(source == null)
-      {
-        on = ingredient.getName();
-      }
-      else
-      {
-        on = source.getName().toUpperCase();
-      }
-      
-      displayText += String.format("%s\t%s\t%s\t%s\n", step.getAction(), 
-          on, step.getDestination().getName(), step.getDetails());
+      displayText += String.format("%s\n", step.toString());
     }
     
     display.setText(displayText);
   }
   
-  private void updateOn()
+  /**
+   * updates the selectable "on" options. Should be called after loadUtensil or loadIngredient is 
+   * called on the corresponding UtensilEditor or IngredientEditor.
+   */
+  public void updateOn()
   {
     onSelect.removeAllItems();
     
@@ -206,7 +240,11 @@ public class StepEditor extends JComponent implements TextListener
     
   }
   
-  private void updateUtensil()
+  /**
+   * updates the selectable "utensil" options. Should be called after loadUtensil is called on the 
+   * corresponding UtensilEditor.
+   */
+  public void updateUtensil()
   {
     utensilSelect.removeAllItems();
     
@@ -254,6 +292,28 @@ public class StepEditor extends JComponent implements TextListener
   List<Step> getSteps()
   {
     return steps;
+  }
+
+  /**
+   * Adds an action listener to the buttons in this StepEditor which can cause the
+   * document to change.
+   * @param listener The actionListener to listen to these changes.
+   */
+  public void addChangeListener(final ActionListener listener)
+  {
+    addButton.addActionListener(listener);
+    deleteButton.addActionListener(listener);
+  }
+  
+  /**
+   * Loads the given steps.
+   * @param newSteps The new steps for this StepEditor to display.
+   */
+  public void loadSteps(final List<Step> newSteps)
+  {
+    this.steps = newSteps;
+    
+    updateDisplay();
   }
 
 }

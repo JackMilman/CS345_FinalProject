@@ -7,16 +7,21 @@ import javax.swing.*;
 
 import recipes.NutritionInfo;
 
+/**
+ * 
+ * @author 
+ *
+ */
 public class UnitConversionWindow extends JDialog
 {
+  private static final long serialVersionUID = 1L;
+  private static final int DEFAULT_TEXT_FIELD_WIDTH = 8;
+  private static final String CALCULATION_COMMAND = "calc";
+  private static final String RESET = "reset";
 
-  static final int DEFAULT_TEXT_FIELD_WIDTH = 8;
   private String[] units = {"", "DRAM", "OUNCE", "GRAM", "POUND", "PINCH", "TEASPOON", "TABLESPOON",
       "FLUID_OUNCE", "CUP", "PINT", "QUART", "GALLON", "MILLILITER"};
 
-  static final String CALCULATION_COMMAND = "calc";
-  static final String RESET = "reset";
-  
   private JComboBox<String> fromunitBox = new JComboBox<String>();
   private JComboBox<String> tounitBox = new JComboBox<String>();
   private JComboBox<String> ingredientBox = new JComboBox<String>();
@@ -28,8 +33,10 @@ public class UnitConversionWindow extends JDialog
   private String ingredient;
   private int amountvalue;
 
-  private static final long serialVersionUID = 1L;
-
+  /**
+   * 
+   * @param main
+   */
   public UnitConversionWindow(final Window main)
   {
     Container unitConverter = new Container();
@@ -48,9 +55,9 @@ public class UnitConversionWindow extends JDialog
     resetButton.addActionListener(resetListener);
     icons.add(calcButton);
     icons.add(resetButton);
-
+    
     getContentPane().add(icons, BorderLayout.NORTH);
-
+    
     // unit drop down boxes
     for (int i = 0; i < units.length; i++)
     {
@@ -85,13 +92,12 @@ public class UnitConversionWindow extends JDialog
     unitMenu.add(ingredientLabel);
     unitMenu.add(ingredientBox);
     ingredientBox.addItemListener(new IngredientComboBoxHandler());
-    
-    add(unitMenu,BorderLayout.NORTH);
+
+    add(unitMenu, BorderLayout.NORTH);
     // Textfield for amount
     JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     JLabel fromAmount = new JLabel("From Amount:");
     amount = new JTextField(DEFAULT_TEXT_FIELD_WIDTH);
-    
 
     inputPanel.add(fromAmount);
     inputPanel.add(amount);
@@ -165,12 +171,12 @@ public class UnitConversionWindow extends JDialog
     }
   }
 
-  public static void main(final String[] args)
-  {
-    MainWindow main = new MainWindow();
-    main.run();
-
-    new UnitConversionWindow(main);
-  }
+//   public static void main(final String[] args)
+//   {
+//   MainWindow main = new MainWindow();
+//   main.run();
+//  
+//   new UnitConversionWindow(main);
+//   }
 
 }

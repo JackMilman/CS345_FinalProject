@@ -39,8 +39,6 @@ public class UtensilEditor extends JComponent
   private final JButton addButton, deleteButton;
   private final List<Utensil> utensils;
 
-
-
   /**
    * 
    */
@@ -106,12 +104,7 @@ public class UtensilEditor extends JComponent
     
     for(Utensil utensil : utensils)
     {
-      String details = utensil.getDetails();
-      if(details.length() > 0)
-      {
-        details = String.format("(%s)", details);
-      }
-      displayText += String.format("%s\t%s\n", utensil.getName(), details);
+      displayText += String.format("%s\n", utensil.toString());
     }
     
     utensilDisplay.setText(displayText);
@@ -120,7 +113,42 @@ public class UtensilEditor extends JComponent
   private void delete()
   {
     if(utensils.size() == 0) return;
-    utensils.remove(utensils.size() - 1);
+    
+    int selectionStart = utensilDisplay.getSelectionStart();
+    int linesSelected = 0;
+    int linesSkipped = 0;
+    String selectedText = utensilDisplay.getSelectedText();
+    
+    if(selectedText == null || selectedText.length() < 0) return;
+    
+    char[] characters = selectedText.toCharArray();
+    
+    //counts the number of newline characters to determine the number of lines selected
+    for(char character : characters)
+    {
+      if(character == '\n')
+      {
+        linesSelected++;
+      }
+    }
+    
+    //if the last selected character isn't a newline character, then there is one uncounted line.
+    if(characters[characters.length - 1] != '\n') linesSelected++;
+    
+    String skipped = utensilDisplay.getText().substring(0, selectionStart);
+    
+    char[] skippedChars = skipped.toCharArray();
+    
+    for(char skippedChar : skippedChars)
+    {
+      if(skippedChar == '\n') linesSkipped++;
+    }
+        
+    for(int i = 0; i < linesSelected; i++)
+    {
+      utensils.remove(linesSkipped);
+    }
+    
     updateText();
   }
   
@@ -137,6 +165,18 @@ public class UtensilEditor extends JComponent
   List<Utensil> getUtensils()
   {
     return utensils;
+  }
+  
+  void loadUtensils(final List<Utensil> newUtensils)
+  {
+    this.utensils.clear();
+    
+    for(Utensil utensil : newUtensils)
+    {
+      utensils.add(utensil);
+    }
+    
+    updateText();
   }
   
   private class UtensilEditorListener implements ActionListener
@@ -161,5 +201,16 @@ public class UtensilEditor extends JComponent
       }
     }
     
+  }
+
+  /**
+   * Adds an action listener to the buttons in this UtensilEditor which can cause the
+   * document to change.
+   * @param listener The actionListener to listen to these changes.
+   */
+  public void addChangeListener(final ActionListener listener)
+  {
+    addButton.addActionListener(listener);
+    deleteButton.addActionListener(listener);
   }
 }
