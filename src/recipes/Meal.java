@@ -130,5 +130,21 @@ public class Meal implements Serializable
 
     return meal;
   }
+  
+  /**
+   * Calculates the total number of calories in the meal by totaling each recipe's calorie
+   * count.
+   * 
+   * @return the  total number of calories in the meal
+   */
+  public double calculateCalories()
+  {
+    double calories = 0;
+    for (Recipe recipe : recipes)
+    {
+      calories += recipe.calculateCalories();
+    }
+    return calories;
+  }
 
 }
