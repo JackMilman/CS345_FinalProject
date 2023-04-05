@@ -154,7 +154,7 @@ public class KiLowBitesController implements ActionListener
             {
               // set the recipe to the recipe selected from the file viewer
               recipe = Recipe.read(name);
-              break;
+              return;
 
             }
             // check if it is a meal
@@ -162,7 +162,7 @@ public class KiLowBitesController implements ActionListener
             {
               // set the meal to the meal selected from the file viewer
               meal = Meal.read(name);
-              break;
+              return;
             }
           }
           catch (IOException ioe)
@@ -172,11 +172,10 @@ public class KiLowBitesController implements ActionListener
             break;
           }
         }
-        else
-        {
-          JOptionPane.showMessageDialog(null, INVALID_FILE_TYPE, ERROR, JOptionPane.ERROR_MESSAGE);
-          break;
-        }
+      }
+      if(recipe == null && meal == null)
+      {
+        JOptionPane.showMessageDialog(null, INVALID_FILE_TYPE, ERROR, JOptionPane.ERROR_MESSAGE);
       }
     }
   }
