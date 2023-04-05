@@ -15,10 +15,13 @@ import recipes.Utensil;
 
 class MealTest
 {
-  Ingredient ingredient = new Ingredient("chicken breast", "chicken", 1, "Lbs");
+  Ingredient ingredient1 = new Ingredient("chicken", "chicken", 1, "Lbs");
+  Ingredient ingredient2 = new Ingredient("cheddar cheese", "chicken", .25, "Lbs");
+  Ingredient ingredient3 = new Ingredient("honey", "chicken", 1, "Tsp");
+  
   Utensil spoon = new Utensil("spoon", "its a spoon");
   Utensil fork = new Utensil("fork", "its got prongs");
-  Step step = new Step("cut", ingredient, spoon, fork, "spoon scoop the chicken", 15);
+  Step step = new Step("cut", ingredient1, spoon, fork, "spoon scoop the chicken", 15);
   List<Ingredient> ingredients = new ArrayList<Ingredient>();
   List<Utensil> utensils = new ArrayList<Utensil>();
   List<Step> steps = new ArrayList<Step>();
@@ -30,7 +33,9 @@ class MealTest
   Meal negativeServing;
   Meal nullMeal;
   public MealTest() {
-  ingredients.add(ingredient);
+  ingredients.add(ingredient1);
+  ingredients.add(ingredient2);
+  ingredients.add(ingredient3);
   utensils.add(fork);
   utensils.add(spoon);
   steps.add(step);
@@ -64,8 +69,15 @@ class MealTest
     assertEquals(positiveServing.getName(), "soup");
     positiveServing.setServing(3);
     assertEquals(positiveServing.getServing(), 3);
-    
-    
+  }
+  
+  @Test
+  void testCalculateCalories() {
+	  double funCooking1Calories = funCookin1.calculateCalories();
+	  double funCooking2Calories = funCookin2.calculateCalories();
+	  double total = funCooking1Calories + funCooking2Calories;
+	  
+	  assertEquals(total, positiveServing.calculateCalories());
   }
 
 }
