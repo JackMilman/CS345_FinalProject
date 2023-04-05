@@ -9,7 +9,7 @@ import gui.CalorieCalculatorWindow;
 class CalorieCalculatorTest {
 
   public static void test() {
-    CalorieCalculatorWindow calc = CalorieCalculatorWindow.getCalorieCalculatorWindow();
+    CalorieCalculatorWindow calc = new CalorieCalculatorWindow();
   }
   
   public static void main(String[] args) {
