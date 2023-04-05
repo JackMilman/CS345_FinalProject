@@ -17,15 +17,30 @@ import recipes.Ingredient;
 import recipes.NutritionInfo;
 
 public class CalorieCalculatorWindow extends JFrame {
+  
+  private static CalorieCalculatorWindow calorieWindow = null;
 	
 	private static final long serialVersionUID = 1L;
 	//private String selectedIngredient, selectedUnits, enteredAmount;
 	private JComboBox<String> ingredients, units;
 	private JTextField amount;
 	
-	public CalorieCalculatorWindow() {
+	private CalorieCalculatorWindow() {
 		super("KiLowBites Calorie Calculator");
 		setUp();
+		setDefaultCloseOperation(HIDE_ON_CLOSE);
+	}
+	
+	public static CalorieCalculatorWindow getCalorieCalculatorWindow()
+	{
+	  if(calorieWindow == null)
+	  {
+	    calorieWindow = new CalorieCalculatorWindow();
+	  }
+	  
+	  calorieWindow.setVisible(true);
+	  
+	  return calorieWindow;
 	}
 	
 	private JLabel createLabels(String name) {

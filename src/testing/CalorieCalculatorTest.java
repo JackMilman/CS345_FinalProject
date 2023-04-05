@@ -7,7 +7,7 @@ class CalorieCalculatorTest {
 
 	
 	public static void test() {
-		CalorieCalculatorWindow calc = new CalorieCalculatorWindow();
+		CalorieCalculatorWindow calc = CalorieCalculatorWindow.getCalorieCalculatorWindow();
 	}
 	
 	public static void main(String[] args) {

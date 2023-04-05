@@ -18,6 +18,8 @@ public class UnitConversionWindow extends JDialog
   private static final int DEFAULT_TEXT_FIELD_WIDTH = 8;
   private static final String CALCULATION_COMMAND = "calc";
   private static final String RESET = "reset";
+  
+  private static UnitConversionWindow unitWindow = null;
 
   private String[] units = {"", "DRAM", "OUNCE", "GRAM", "POUND", "PINCH", "TEASPOON", "TABLESPOON",
       "FLUID_OUNCE", "CUP", "PINT", "QUART", "GALLON", "MILLILITER"};
@@ -37,7 +39,7 @@ public class UnitConversionWindow extends JDialog
    * 
    * @param main
    */
-  public UnitConversionWindow(final Window main)
+  private UnitConversionWindow(final Window main)
   {
     Container unitConverter = new Container();
     unitConverter.setLayout(new FlowLayout());
@@ -110,6 +112,20 @@ public class UnitConversionWindow extends JDialog
     setVisible(true);
     setResizable(true);
     pack();
+    
+    setDefaultCloseOperation(HIDE_ON_CLOSE);
+  }
+  
+  public static UnitConversionWindow getUnitConversionWindow()
+  {
+    if(unitWindow == null)
+    {
+      unitWindow = new UnitConversionWindow(null);
+    }
+    
+    unitWindow.setVisible(true);
+    
+    return unitWindow;
   }
 
   private class FromComboBoxHandler implements ItemListener

@@ -79,13 +79,13 @@ public class KiLowBitesController implements ActionListener
     // Open Unit Converter Window
     if (e.getActionCommand().equals(UNITSCONVERTER))
     {
-      new UnitConversionWindow(main);
+      UnitConversionWindow.getUnitConversionWindow();
     }
 
     // Open Calorie Calculator Window
     if (e.getActionCommand().equals(CALORIECALCULATOR))
     {
-      new CalorieCalculatorWindow();
+      CalorieCalculatorWindow.getCalorieCalculatorWindow();
     }
 
     // Open ShoppingListViewer
@@ -119,11 +119,6 @@ public class KiLowBitesController implements ActionListener
       }
     }
     
-    //open calorie calculator
-    if (e.getActionCommand().equals(CALORIECALCULATOR))
-    {
-      new CalorieCalculatorWindow();
-    }
   }
 
   /**
