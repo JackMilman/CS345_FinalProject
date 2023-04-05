@@ -145,7 +145,7 @@ public class CalorieCalculatorWindow extends JFrame {
 		public Calories() {
 			super();
 			cals = new JLabel();
-			cals.setText("_____________");
+			cals.setText("____");
 
 			setLayout(new FlowLayout());
 			add(createLabels("Calories"));

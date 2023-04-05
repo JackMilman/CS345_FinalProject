@@ -204,6 +204,11 @@ public class MealEditor extends Editor
   
   private void saveAs()
   {
+    if(nameField.getText().equals("")) 
+    {
+      JOptionPane.showMessageDialog(null, "You must input a name");
+      return;
+    }
     String newFileName;
     newFileName = JOptionPane.showInputDialog("File name:");
     
@@ -226,6 +231,11 @@ public class MealEditor extends Editor
   
   private void save()
   {
+    if(nameField.getText().equals("")) 
+    {
+      JOptionPane.showMessageDialog(null, "You must input a name");
+      return;
+    }
     if(fileName == null) saveAs();
     try
     {

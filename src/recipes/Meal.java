@@ -82,6 +82,14 @@ public class Meal implements Serializable
   {
     return recipes.size();
   }
+  public double getCaloriesPerGram() {
+    double totalCalories = 0;
+    for(Recipe individual: recipes) {
+      totalCalories += individual.calculateCalories();
+      
+    }
+    return totalCalories;
+  }
 
   /**
    * Serializes this meal into a file name filename.mel.
