@@ -31,12 +31,13 @@ public class CalorieCalculatorWindow extends JFrame
   private static final String CALCULATION_COMMAND = "calc";
   private static final String RESET = "reset";
 
-  public CalorieCalculatorWindow(final Window main)
+  private CalorieCalculatorWindow(final Window main)
   {
     super("KiLowBites Calorie Calculator");
     setUp();
     setDefaultCloseOperation(HIDE_ON_CLOSE);
   }
+  
   public static CalorieCalculatorWindow getCalorieCalculatorWindow()
   {
     if (calorieWindow == null)
