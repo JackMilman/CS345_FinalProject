@@ -85,7 +85,7 @@ public class KiLowBitesController implements ActionListener
     // Open Calorie Calculator Window
     if (e.getActionCommand().equals(CALORIECALCULATOR))
     {
-      new CalorieCalculatorWindow();
+      new CalorieCalculatorWindow(main);
     }
 
     // Open ShoppingListViewer
