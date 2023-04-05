@@ -43,23 +43,15 @@ public class UnitConversionWindow extends JDialog
     if (!windowOpen)
     {
       windowOpen = true;
-
-      // create and add icons
       Container icons = createIcons();
       add(icons, BorderLayout.NORTH);
-
-      // create and add unit dropdown menus
       Container unitMenu = createUnitMenu();
       add(unitMenu, BorderLayout.AFTER_LINE_ENDS);
-
-      // create and add input panel
       JPanel inputPanel = createInputPanel();
       add(inputPanel, BorderLayout.SOUTH);
-
-      // finalize window settings and show it
       getContentPane().add(new Container());
       setVisible(true);
-      setResizable(false);
+      setResizable(true);
       pack();
       addWindowListener(new WindowAdapter()
       {
@@ -97,15 +89,15 @@ public class UnitConversionWindow extends JDialog
 
     JLabel fromunitLabel = new JLabel("From Units:");
     fromunitBox = new JComboBox<String>();
-
+    JLabel tounitLabel = new JLabel("To Units:");
+    tounitBox = new JComboBox<String>();
     for (int i = 0; i < units.length; i++)
     {
       fromunitBox.addItem(units[i]);
       tounitBox.addItem(units[i]);
     }
 
-    JLabel tounitLabel = new JLabel("To Units:");
-    tounitBox = new JComboBox<String>();
+    
     fromunitBox.addItemListener(new FromComboBoxHandler());
     tounitBox.addItemListener(new ToComboBoxHandler());
 
@@ -136,7 +128,7 @@ public class UnitConversionWindow extends JDialog
     JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     JLabel fromAmount = new JLabel("From Amount:");
     amount = new JTextField(DEFAULT_TEXT_FIELD_WIDTH);
-    resultLabel = new JLabel("To Amount:        ");
+    resultLabel = new JLabel("To Amount:   _____________");
 
     inputPanel.add(fromAmount);
     inputPanel.add(amount);
@@ -191,6 +183,7 @@ public class UnitConversionWindow extends JDialog
       {
         fromunitBox.setSelectedItem("");
         tounitBox.setSelectedItem("");
+        ingredientBox.setSelectedItem("");
         amount.setText("");
         resultLabel.setText("Result:        ");
       }
