@@ -115,7 +115,11 @@ public class MainWindow extends JFrame implements Runnable
     // help.add(userGuide);
 
     // add the company logo to the window
-    ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResource("KILowBites_Logo.png"));
+    // Josiah's changes:
+//    ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResource("KILowBites_Logo.png"));
+//    JLabel logoLabel = new JLabel(logo);
+//    getContentPane().add(logoLabel, BorderLayout.CENTER);
+    ImageIcon logo = new ImageIcon(PATH);
     JLabel logoLabel = new JLabel(logo);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
     setVisible(true);

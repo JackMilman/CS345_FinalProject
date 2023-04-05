@@ -155,7 +155,7 @@ public class ShoppingListViewer
   {
     for (Ingredient ing : recipe.getIngredients())
     {
-      String info = String.format("%f %ss of %s\n", ing.getAmount() * numPeople, ing.getUnit(), 
+      String info = String.format("%.1f %ss of %s\n", ing.getAmount() * numPeople, ing.getUnit(), 
           ing.getName());
       messageArea.append(info);
     }
