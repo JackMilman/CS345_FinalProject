@@ -79,13 +79,17 @@ public class KiLowBitesController implements ActionListener
     // Open Unit Converter Window
     if (e.getActionCommand().equals(UNITSCONVERTER))
     {
-      new UnitConversionWindow(main);
+      UnitConversionWindow.getUnitConversionWindow();
     }
 
     // Open Calorie Calculator Window
     if (e.getActionCommand().equals(CALORIECALCULATOR))
     {
+<<<<<<< HEAD
       CalorieCalculatorWindow.createInstance();
+=======
+     CalorieCalculatorWindow.getCalorieCalculatorWindow();
+>>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A.git
     }
 
     // Open ShoppingListViewer
@@ -122,7 +126,7 @@ public class KiLowBitesController implements ActionListener
     //open calorie calculator
     if (e.getActionCommand().equals(CALORIECALCULATOR))
     {
-      CalorieCalculatorWindow.createInstance();
+      return new CalorieCalculatorWindow();
     }
   }
 
