@@ -47,7 +47,7 @@ public class UnitConversion
     map.put("MILLILITER", 1 / TABLESPOON_TO_MILLILITERS);
     map.put("TEASPOON", 1 / 3.0);
     map.put("TABLESPOON", 1.0); // base unit
-    map.put("FLUID_OUNCE", 2.0);
+    map.put("FLUID OUNCE", 2.0);
     map.put("CUP", 16.0);
     map.put("PINT", 32.0);
     map.put("QUART", 64.0);
