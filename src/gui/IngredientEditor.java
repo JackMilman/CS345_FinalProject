@@ -16,16 +16,19 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import config.Translator;
 import recipes.Ingredient;
 import utilities.SortLists;
 
 /**
  * A class for the ingredient editor component of the meal editor.
- * @author Josiah Leach, KitchIntel
+ * @author Josiah Leach, Meara Patterson, KitchIntel
  * @version 03.29.2023
  */
 public class IngredientEditor extends JComponent
 {
+
+  public static final double NO_INPUT = -1.0;
   private static final String[] UNITS = new String[] {"", "Dram", "Ounce", "Gram", "Pound",
       "Pinch", "Teaspoon", "Tablespoon", "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon",
       "Individual"};
@@ -40,6 +43,8 @@ public class IngredientEditor extends JComponent
   private JTextField nameField;
   private JTextField detailField;
   private JTextField amountField;
+  private JTextField calorieField;
+  private JTextField densityField;
   private TextArea ingredientDisplay;
   private JButton addButton, deleteButton;
   private final JComboBox<String> unitSelect;
@@ -53,12 +58,12 @@ public class IngredientEditor extends JComponent
   {
     super();
     setLayout(new BorderLayout());
-    setBorder(KitchIntelBorder.labeledBorder("Ingredients"));
+    setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Ingredients")));
     
     IngredientEditorListener listener = new IngredientEditorListener(this);
     
-    addButton = new JButton(ADD);
-    deleteButton = new JButton(DELETE);
+    addButton = new JButton(Translator.translate(ADD));
+    deleteButton = new JButton(Translator.translate(DELETE));
         
     addButton.setActionCommand(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND);
     deleteButton.setActionCommand(RecipeEditor.INGREDIENT_DELETE_ACTION_COMMAND);
@@ -66,6 +71,8 @@ public class IngredientEditor extends JComponent
     nameField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     detailField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     amountField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
+    calorieField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
+    densityField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     
     unitSelect = new JComboBox<String>(UNITS);
     
@@ -78,14 +85,18 @@ public class IngredientEditor extends JComponent
     
     Container inputFields = new Container();
     inputFields.setLayout(new FlowLayout(FlowLayout.LEFT));
-    inputFields.add(new JLabel("Name:"));
+    inputFields.add(new JLabel(Translator.translate("Name")+":"));
     inputFields.add(nameField);
-    inputFields.add(new JLabel("Details:"));
+    inputFields.add(new JLabel(Translator.translate("Details")+":"));
     inputFields.add(detailField);
-    inputFields.add(new JLabel("Amount:"));
+    inputFields.add(new JLabel(Translator.translate("Amount")+":"));
     inputFields.add(amountField);
-    inputFields.add(new JLabel("Units:"));
+    inputFields.add(new JLabel(Translator.translate("Units")+":"));
     inputFields.add(unitSelect);
+    inputFields.add(new JLabel(Translator.translate("Calories")+":"));
+    inputFields.add(calorieField);
+    inputFields.add(new JLabel(Translator.translate("Density")+":"));
+    inputFields.add(densityField);
     inputFields.add(addButton);
     
     add(inputFields, BorderLayout.NORTH);
@@ -104,6 +115,8 @@ public class IngredientEditor extends JComponent
     String details = detailField.getText();
     String unit = unitSelect.getSelectedItem().toString();
     double amount;
+    double calories;
+    double density;
     
     try
     {
@@ -114,9 +127,29 @@ public class IngredientEditor extends JComponent
       return;
     }
     
+    // User is allowed to not input calories or density. 
+    // If they don't, those values are set to NO_INPUT
+    try
+    {
+      calories = Double.valueOf(calorieField.getText());
+    }
+    catch (NumberFormatException nfe)
+    {
+      calories = NO_INPUT;
+    }
+    
+    try
+    {
+      density = Double.valueOf(densityField.getText());
+    }
+    catch (NumberFormatException nfe)
+    {
+      density = NO_INPUT;
+    }
+    
     if(name.equals("") || unit.equals("")) return;
         
-    Ingredient ingredient = new Ingredient(name, details, amount, unit);
+    Ingredient ingredient = new Ingredient(name, details, amount, unit, calories, density);
     ingredients.add(ingredient);
     
     SortLists.sortIngredients(ingredients);
@@ -125,6 +158,8 @@ public class IngredientEditor extends JComponent
     detailField.setText("");
     unitSelect.setSelectedIndex(0);
     amountField.setText("");
+    calorieField.setText("");
+    densityField.setText("");
     
     updateTextArea();
   }

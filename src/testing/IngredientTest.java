@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import gui.IngredientEditor;
 import recipes.Ingredient;
 
 /**
@@ -23,7 +24,8 @@ class IngredientTest
   public void testGetName()
   {
     String expected = ingredientName;
-    Ingredient ingredient = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit);
+    Ingredient ingredient = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit,
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
     String actual = ingredient.getName();
     assertEquals(expected, actual);
   }
@@ -32,7 +34,8 @@ class IngredientTest
   public void testGetDetails()
   {
     String expected = ingredientDetails;
-    Ingredient ingredient = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit);
+    Ingredient ingredient = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit,
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
     String actual = ingredient.getDetails();
     assertEquals(expected, actual);
   }
@@ -41,7 +44,8 @@ class IngredientTest
   public void testGetAmount()
   {
     double expected = 10;
-    Ingredient ingredient = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit);
+    Ingredient ingredient = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit,
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
     double actual = ingredient.getAmount();
     assertEquals(expected, actual);
   }
@@ -50,7 +54,8 @@ class IngredientTest
   public void testGetUnit()
   {
     String expected = ingredientUnit;
-    Ingredient ingredient = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit);
+    Ingredient ingredient = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit,
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
     String actual = ingredient.getUnit();
     assertEquals(expected, actual);
   }
@@ -58,7 +63,8 @@ class IngredientTest
   @Test
   public void testGetCalories()
   {
-    Ingredient ingredient = new Ingredient("Alcohol", "Scotch", 5, "GRAM");
+    Ingredient ingredient = new Ingredient("Alcohol", "Scotch", 5, "GRAM",
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
     // Alcohol cal/gram = 2.75. 2.75 * 5 = 13.75
     double expectedPerGram = 13.75;
     // Alcohol cal/gram = 2.75. 2.75 * 5 = 13.75
@@ -74,13 +80,14 @@ class IngredientTest
   @Test
   public void testEquals()
   {
-    Ingredient ingredient1 = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit);
+    Ingredient ingredient1 = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit,
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
     Ingredient ingredient2 = new Ingredient(ingredientName, ingredientDetails, 15,
-        ingredientUnitMetric);
+        ingredientUnitMetric, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
     Ingredient ingredient3 = new Ingredient("Not the same Ingredient", ingredientDetails, 10,
-        ingredientUnit);
+        ingredientUnit, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
     Ingredient ingredient4 = new Ingredient(ingredientName, "Not the same Details", 10,
-        ingredientUnit);
+        ingredientUnit, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
     assertEquals(ingredient1, ingredient1);
     assertFalse(ingredient1.equals(null));
     assertFalse(ingredient1.equals("I am not an Ingredient"));
@@ -92,7 +99,8 @@ class IngredientTest
   @Test
   public void testHashCode()
   {
-    Ingredient ingredient1 = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit);
+    Ingredient ingredient1 = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit,
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
     try
     {
       ingredient1.hashCode();

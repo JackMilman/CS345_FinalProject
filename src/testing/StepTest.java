@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import gui.IngredientEditor;
 import recipes.*;
 
 /**
@@ -20,8 +21,10 @@ class StepTest
   final String basicDetails = "details";
   final String quirkyDetails = "extraDetails";
   
-  final Ingredient basicIngredient = new Ingredient("ingredientName", "ingredientDetails", 1, "POUNDS");
-  final Ingredient quirkyIngredient = new Ingredient("quirkyIngredientName", "quirkyIngredientDetails", 2, "DRAMS");
+  final Ingredient basicIngredient = new Ingredient("ingredientName", "ingredientDetails", 1, "POUNDS",
+      IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+  final Ingredient quirkyIngredient = new Ingredient("quirkyIngredientName", "quirkyIngredientDetails", 2, "DRAMS",
+      IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
   
   final Utensil basicSource = new Utensil("utensilName", "utensilDetails");
   final Utensil quirkySource = new Utensil("quirkyUtensilName", "quirkyUtensilDetails");

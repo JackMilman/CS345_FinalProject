@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import config.Translator;
 import recipes.Meal;
 import recipes.Recipe;
 import javax.swing.JFileChooser;
@@ -137,7 +138,7 @@ public class KiLowBitesController implements ActionListener
     
     fileChooser.setFileFilter(fileFilter);
     int result = fileChooser.showOpenDialog(null);
-    fileChooser.setDialogTitle("Open Recipe or Meal");
+    fileChooser.setDialogTitle(Translator.translate("Open Recipe or Meal"));
     // int result = fileChooser.showOpenDialog(null);
     if (result == JFileChooser.APPROVE_OPTION)
     {

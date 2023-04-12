@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import gui.IngredientEditor;
 import recipes.Ingredient;
 import recipes.Meal;
 import recipes.Recipe;
@@ -15,9 +16,12 @@ import recipes.Utensil;
 
 class MealTest
 {
-  Ingredient ingredient1 = new Ingredient("chicken", "chicken", 1, "Lbs");
-  Ingredient ingredient2 = new Ingredient("cheddar cheese", "chicken", .25, "Lbs");
-  Ingredient ingredient3 = new Ingredient("honey", "chicken", 1, "Tsp");
+  Ingredient ingredient1 = new Ingredient("chicken", "chicken", 1, "Lbs",
+      IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+  Ingredient ingredient2 = new Ingredient("cheddar cheese", "chicken", .25, "Lbs",
+      IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+  Ingredient ingredient3 = new Ingredient("honey", "chicken", 1, "Tsp",
+      IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
   
   Utensil spoon = new Utensil("spoon", "its a spoon");
   Utensil fork = new Utensil("fork", "its got prongs");

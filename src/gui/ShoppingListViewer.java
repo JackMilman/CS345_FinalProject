@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import config.Translator;
 import recipes.Ingredient;
 import recipes.Meal;
 import recipes.Recipe;
@@ -46,10 +47,11 @@ public class ShoppingListViewer
     } 
     else
     {
-      System.out.println("Invalid file");
+      System.out.println(Translator.translate("Invalid file"));
       System.exit(1);
     }
-    JFrame frame = new JFrame("KiLowBites Shopping List Viewer\t" + name);
+    JFrame frame = new JFrame(Translator.translate("KiLowBites Shopping List Viewer") 
+        + "\t" + name);
     frame.setSize(600, 400);
     
     JPanel contentPane = (JPanel) frame.getContentPane();
@@ -70,14 +72,14 @@ public class ShoppingListViewer
           } 
           catch (PrinterException e)
           {
-            System.out.println("Printer Error");
+            System.out.println(Translator.translate("Printer Error"));
           }
         }
       }
     });
     
     JPanel inputNumPeople = new JPanel();
-    inputNumPeople.add(new JLabel("Number of People:"));
+    inputNumPeople.add(new JLabel(Translator.translate("Number of People") + ":"));
     
     JTextField textField = new JTextField();
     textField.setPreferredSize(new Dimension(50, 20));
