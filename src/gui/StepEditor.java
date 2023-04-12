@@ -18,6 +18,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import config.Translator;
 import recipes.Ingredient;
 import recipes.Step;
 import recipes.Utensil;
@@ -73,9 +74,9 @@ public class StepEditor extends JComponent implements TextListener
     utensilSelect = new JComboBox<String>(new String[] {BLANK});
     detailField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     timeField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH / 2);
-        
-    addButton = new JButton(ADD);
-    deleteButton = new JButton(DELETE);
+
+    addButton = new JButton(Translator.translate(ADD));
+    deleteButton = new JButton(Translator.translate(DELETE));
     
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);

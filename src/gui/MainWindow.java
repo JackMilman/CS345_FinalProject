@@ -6,6 +6,9 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.*;
 
+import config.Language;
+import config.Translator;
+
 /**
  * Main Window of the GUI for the KiLowBites application.
  * 

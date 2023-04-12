@@ -7,7 +7,7 @@ package config;
  */
 public class Translator
 {
-  private static Language language;
+  private static Language language = Language.English;
   /**
    * Translates the English text to the currently specified language.
    * @param englishText The word to get the translation of.
@@ -18,7 +18,7 @@ public class Translator
   {
     if(!Language.isLoaded()) Language.loadLanguages();
     
-    String translation = language.getTranslation(englishText);
+    String translation = language.getTranslation(englishText.toLowerCase());
     
     if(translation == null) return englishText;
     
