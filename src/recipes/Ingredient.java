@@ -18,16 +18,14 @@ public class Ingredient implements Serializable
   private final String name;
 
   private final String details;
-  
-  private final NutritionInfo nutritionInfo;
 
   private final double amount;
 
   private final String unit;
   
-  private final double calories;
+  private final Double calories;
   
-  private final double density;
+  private final Double density;
 
   /**
    * Constructs a new Ingredient.
@@ -40,15 +38,15 @@ public class Ingredient implements Serializable
    * @param density
    */
   public Ingredient(final String name, final String details, final double amount, final String unit,
-      final double calories, final double density)
+      final Double calories, final Double density)
   {
     this.name = name;
     this.details = details;
-    this.nutritionInfo = NutritionInfo.fromCode(name);
     this.amount = amount;
     this.unit = unit;
     this.calories = calories;
     this.density = density;
+    NutritionInfo.addIngredient(name, calories, density);
   }
 
   /**
@@ -119,7 +117,7 @@ public class Ingredient implements Serializable
   public double getCaloriesPerGram() 
   {
     double amountInGrams = UnitConversion.convert(name, unit, "GRAM", amount);
-    double calPerGram = nutritionInfo.getCalPerGram();
+    double calPerGram = NutritionInfo.getCalPerGram(name);
     return amountInGrams * calPerGram;
   }
   
@@ -130,7 +128,7 @@ public class Ingredient implements Serializable
    */
   public double getCaloriesPerMilliliter() 
   {
-    return getCaloriesPerGram() * nutritionInfo.getGramPerML();
+    return getCaloriesPerGram() * NutritionInfo.getGramPerML(name);
   }
 
   /**
