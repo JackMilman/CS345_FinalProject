@@ -1,0 +1,53 @@
+Add	Ajouter	Agregar
+Delete	Supprimer
+File	Lime
+Exit	Sortie
+Edit	Editer
+Recipe	Recette
+Meal	Repas
+View	Vue
+Shopping list	Liste de courses
+Process	Processus
+Tools	Outils
+Calorie calculator	Calculatrice de calories
+Units converter	Convertisseur d'unites
+Name	Nom
+Serves	Sert
+Utensils	Ustensiles
+Details	Details
+Ingredients	Ingredients
+Amount	Quantite
+Units	Unites
+Calories	Calories
+Density	Densite
+Steps	Escalier
+Action	Action
+On	Sur
+Utensil	Ustensile
+Minutes	Compte-rendu
+Recipes	Recettes
+Add recipe	Ajouter une recetter
+KiLowBites Main Window	Fenetre principale de KiLowBites
+KiLowBites Recipe Editor	Editrice de recettes KiLowBites
+KiLowBites Meal Editor	Editrice de repas KiLowBites
+Ingredient	Ingredient
+From units	A partir d'unites
+To units	Aux unites
+From amount	A partir du montat
+Result	Resultat
+Number of people	Nombre de personnes
+Invalid amount
+File could not be saved
+Open recipe or meal
+Search
+Configure
+Preferences
+Shortcuts
+Nutrition
+Help
+About
+User guide
+You must input a name
+File name
+Invalid file
+Printer error

@@ -17,6 +17,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import config.Translator;
 import recipes.Ingredient;
 import recipes.Recipe;
 import recipes.Step;
@@ -64,7 +65,7 @@ public class RecipeEditor extends Editor
    */
   public RecipeEditor(final Window owner)
   {
-    super(owner, "KiLowBites Recipe Editor");
+    super(owner, Translator.translate("KiLowBites Recipe Editor"));
     setLayout(new BorderLayout());
     
     ActionListener listener = new RecipeEditorListener();
@@ -104,8 +105,8 @@ public class RecipeEditor extends Editor
     nameField.addActionListener(listener);
     servingsField.addActionListener(listener);
     
-    JLabel nameLabel = new JLabel("Name:");
-    JLabel servesLabel = new JLabel("Serves:");
+    JLabel nameLabel = new JLabel(Translator.translate("Name") + ":");
+    JLabel servesLabel = new JLabel(Translator.translate("Serves") + ":");
     
     Container mainEditors = new Container();
     mainEditors.setLayout(new BorderLayout());
@@ -227,12 +228,12 @@ public class RecipeEditor extends Editor
   {    
     if(nameField.getText().equals("")) 
     {
-      JOptionPane.showMessageDialog(null, "You must input a name");
+      JOptionPane.showMessageDialog(null, Translator.translate("You must input a name"));
       return;
     }
     
     String newFileName;
-    newFileName = JOptionPane.showInputDialog("File name:");
+    newFileName = JOptionPane.showInputDialog(Translator.translate("File name") + ":");
     
     try
     {
@@ -255,7 +256,7 @@ public class RecipeEditor extends Editor
   {
     if(nameField.getText().equals("")) 
     {
-      JOptionPane.showMessageDialog(null, "You must input a name");
+      JOptionPane.showMessageDialog(null, Translator.translate("You must input a name"));
       return;
     }
     if(fileName == null) saveAs();

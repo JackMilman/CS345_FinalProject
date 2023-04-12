@@ -9,7 +9,7 @@ import java.io.Serializable;
  * the unit that amount is being measured in.
  * 
  * @version 3/28/2023 Version 1
- * @author Jack Milman, KichIntel
+ * @author Jack Milman, Meara Patterson, KichIntel
  *
  */
 public class Ingredient implements Serializable
@@ -24,6 +24,10 @@ public class Ingredient implements Serializable
   private final double amount;
 
   private final String unit;
+  
+  private final double calories;
+  
+  private final double density;
 
   /**
    * Constructs a new Ingredient.
@@ -32,14 +36,19 @@ public class Ingredient implements Serializable
    * @param details
    * @param amount
    * @param unit
+   * @param calories
+   * @param density
    */
-  public Ingredient(final String name, final String details, final double amount, final String unit)
+  public Ingredient(final String name, final String details, final double amount, final String unit,
+      final double calories, final double density)
   {
     this.name = name;
     this.details = details;
     this.nutritionInfo = NutritionInfo.fromCode(name);
     this.amount = amount;
     this.unit = unit;
+    this.calories = calories;
+    this.density = density;
   }
 
   /**
@@ -82,23 +91,45 @@ public class Ingredient implements Serializable
     return unit;
   }
   
-  /*
+  /**
+   * Get the calories of the Ingredient.
+   * 
+   * @return the calories
+   */
+  public double getCalories()
+  {
+    return calories;
+  }
+  
+  /**
+   * Get the density of the Ingredient.
+   * 
+   * @return the density
+   */
+  public double getDensity()
+  {
+    return density;
+  }
+  
+  /**
    * Gets the calories in the Ingredient per gram.
    * 
    * @return the calories of the Ingredient as a double
    */
-  public double getCaloriesPerGram() {
+  public double getCaloriesPerGram() 
+  {
     double amountInGrams = UnitConversion.convert(name, unit, "GRAM", amount);
     double calPerGram = nutritionInfo.getCalPerGram();
     return amountInGrams * calPerGram;
   }
   
-  /*
+  /**
    * Gets the calories in the Ingredient per milliliter.
    * 
    * @return the calories of the Ingredient as a double
    */
-  public double getCaloriesPerMilliliter() {
+  public double getCaloriesPerMilliliter() 
+  {
     return getCaloriesPerGram() * nutritionInfo.getGramPerML();
   }
 
