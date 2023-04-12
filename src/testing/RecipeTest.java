@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
+import gui.IngredientEditor;
 import recipes.*;
 
 /**
@@ -80,9 +81,12 @@ class RecipeTest
   @Test
   public void testGetIngredients()
   {
-    Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50, ingredientUnit);
-    Ingredient ingredient2 = new Ingredient(ingredientName2, ingredientDetails, 50, ingredientUnit);
-    Ingredient ingredient3 = new Ingredient(ingredientName3, ingredientDetails, 50, ingredientUnit);
+    Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50, ingredientUnit,
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+    Ingredient ingredient2 = new Ingredient(ingredientName2, ingredientDetails, 50, ingredientUnit,
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+    Ingredient ingredient3 = new Ingredient(ingredientName3, ingredientDetails, 50, ingredientUnit,
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
     List<Ingredient> expected = new ArrayList<Ingredient>();
     expected.add(ingredient1);
     expected.add(ingredient2);
@@ -117,7 +121,8 @@ class RecipeTest
   public void testGetSteps()
   {
     List<Step> expected = new ArrayList<Step>();
-    Ingredient ingr = new Ingredient(ingredientName1, ingredientDetails, 5, ingredientUnit);
+    Ingredient ingr = new Ingredient(ingredientName1, ingredientDetails, 5, ingredientUnit,
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
     Utensil utensilSource = new Utensil(utensilName1, utensilDetails);
     Utensil utensilDestination = new Utensil(utensilNameDest, utensilDetails);
     Step step = new Step(stepAction, ingr, utensilSource, utensilDestination, stepDetails, time);
@@ -178,9 +183,12 @@ class RecipeTest
   @Test
   public void testAddIngredient()
   {
-    Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50, ingredientUnit);
-    Ingredient ingredient2 = new Ingredient(ingredientName2, ingredientDetails, 50, ingredientUnit);
-    Ingredient ingredient3 = new Ingredient(ingredientName3, ingredientDetails, 50, ingredientUnit);
+    Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50, ingredientUnit,
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+    Ingredient ingredient2 = new Ingredient(ingredientName2, ingredientDetails, 50, ingredientUnit,
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+    Ingredient ingredient3 = new Ingredient(ingredientName3, ingredientDetails, 50, ingredientUnit,
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
     
     List<Ingredient> expected = new ArrayList<Ingredient>();
     expected.add(ingredient1);
@@ -199,9 +207,12 @@ class RecipeTest
   @Test
   public void testRemoveIngredient()
   {
-    Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50, ingredientUnit);
-    Ingredient ingredient2 = new Ingredient(ingredientName2, ingredientDetails, 50, ingredientUnit);
-    Ingredient ingredient3 = new Ingredient(ingredientName3, ingredientDetails, 50, ingredientUnit);
+    Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50, ingredientUnit,
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+    Ingredient ingredient2 = new Ingredient(ingredientName2, ingredientDetails, 50, ingredientUnit,
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+    Ingredient ingredient3 = new Ingredient(ingredientName3, ingredientDetails, 50, ingredientUnit,
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
     
     List<Ingredient> expected = new ArrayList<Ingredient>();
     expected.add(ingredient1);
@@ -262,7 +273,8 @@ class RecipeTest
   @Test
   public void testAddStep()
   {
-    Ingredient ingr = new Ingredient(ingredientName1, ingredientDetails, 5, ingredientUnit);
+    Ingredient ingr = new Ingredient(ingredientName1, ingredientDetails, 5, ingredientUnit,
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
     Utensil utensilSource = new Utensil(utensilName1, utensilDetails);
     Utensil utensilDestination = new Utensil(utensilNameDest, utensilDetails);
     Step step = new Step(stepAction, ingr, utensilSource, utensilDestination, stepDetails, time);
@@ -315,7 +327,8 @@ class RecipeTest
   {
     List<Step> expected = new ArrayList<Step>();
 
-    Ingredient ingr = new Ingredient(ingredientName1, ingredientDetails, 5, ingredientUnit);
+    Ingredient ingr = new Ingredient(ingredientName1, ingredientDetails, 5, ingredientUnit,
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
     Utensil utensilSource = new Utensil(utensilName1, utensilDetails);
     Utensil utensilDestination = new Utensil(utensilNameDest, utensilDetails);
     Step step = new Step(stepAction, ingr, utensilSource, utensilDestination, stepDetails, time);
