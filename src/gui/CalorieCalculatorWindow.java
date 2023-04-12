@@ -34,7 +34,7 @@ public class CalorieCalculatorWindow extends JFrame
 
   private CalorieCalculatorWindow(final Window main)
   {
-    super("KiLowBites Calorie Calculator");
+    super(Translator.translate("KiLowBites Calorie Calculator"));
     setUp();
     setDefaultCloseOperation(HIDE_ON_CLOSE);
   }
