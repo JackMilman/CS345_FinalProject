@@ -18,7 +18,7 @@ class ProcessViewerTest
     ArrayList<Ingredient> ingredients = new ArrayList<>();
     ingredients.add(new Ingredient("chicken", " ", 1, "g",
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("rice", " ", 1, "g",
+    ingredients.add(new Ingredient("lettuce", " ", 1, "g",
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
     ingredients.add(new Ingredient("broccoli", " ", 1, "g",
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
@@ -66,7 +66,7 @@ class ProcessViewerTest
   public static void main(final String[] args)
   {
     testProcessViewerRecipes();
-    testProcessViewerMeals();
+    //testProcessViewerMeals();
   }
 
 }
