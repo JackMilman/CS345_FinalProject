@@ -19,6 +19,7 @@ import config.Translator;
 import recipes.Ingredient;
 import recipes.Meal;
 import recipes.Recipe;
+import utilities.UnitConversion;
 
 /**
  * Creates the GUI to view a shopping list.
@@ -35,6 +36,7 @@ public class ShoppingListViewer extends JFrame
   private JPanel contentPane;
   private JPanel inputNumPeople;
   private JTextField numPeopleField;
+  private int numPeople;
   private JScrollPane scrollPane;
   private JTextArea scrollArea;
   private ArrayList<Ingredient> allIngredients;
@@ -72,7 +74,6 @@ public class ShoppingListViewer extends JFrame
     allIngredients.clear();
     
     // get the number of people you are serving with a Recipe/Meal
-    int numPeople = 0;
     try
     {
       numPeople = Integer.parseInt(info);
@@ -98,7 +99,10 @@ public class ShoppingListViewer extends JFrame
     }
     
     // edit ingredients by adding up duplicates and changing their units
-    editIngredientList();    
+    editIngredientList();
+    
+    // display ingredients as a ShoppingListIngredient with a dropdown menu to change units
+    
     
   }
   
@@ -122,6 +126,20 @@ public class ShoppingListViewer extends JFrame
       {
         // change duplicate ingredient's units to units of ingredient in list
         // add the two together in editedIngredients list
+        Ingredient duplicate = null;
+        for (Ingredient editedIng : editedIngredients)
+        {
+          if (editedIng.equals(ing))
+          {
+            duplicate = editedIng;
+          }
+        }
+        double newAmount = UnitConversion.convert(ing.getName(), ing.getUnit(), 
+            duplicate.getUnit(), ing.getAmount()) + duplicate.getAmount();
+        Ingredient addIng = new Ingredient(ing.getName(), ing.getDetails(), newAmount, 
+            duplicate.getUnit(), ing.getCalories(), ing.getDensity());
+        int index = editedIngredients.indexOf(duplicate);
+        editedIngredients.set(index, addIng);
       }
     }
   }
@@ -151,11 +169,30 @@ public class ShoppingListViewer extends JFrame
   {
 
     @Override
-    public void actionPerformed(ActionEvent e)
+    public void actionPerformed(final ActionEvent e)
     {
       String command = e.getActionCommand();
     }
     
   }
+  
+  private class ShoppingListIngredient extends JPanel
+  {
+    ShoppingListIngredient(final Ingredient ingredient)
+    {
+      super();
+      
+    }
+  }
+  
+//must account for the fact that recipes are designed to serves multiple people
+  //e.g. if a recipe of two servings is used to feed five people, each ingredient must be 
+  //multiplied by 2.5
+//  double numberOfBatches = (double) numPeople / (double) recipe.getServings();
+//  for (Ingredient ing : recipe.getIngredients())
+//  {
+//    String info = String.format("%.1f %ss of %s\n", ing.getAmount() * numberOfBatches, 
+//        ing.getUnit(), ing.getName());
+//    messageArea.append(info);
   
 }
