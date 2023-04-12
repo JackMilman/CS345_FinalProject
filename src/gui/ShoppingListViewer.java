@@ -7,6 +7,7 @@ import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
 
 import javax.swing.BoxLayout;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,9 +26,10 @@ import recipes.Recipe;
  * @author Meara Patterson
  * @version 3/29/2023, Version 1
  */
-public class ShoppingListViewer
+public class ShoppingListViewer extends JDialog
 {
   
+  private static final long serialVersionUID = 1L;
   private JTextArea messageArea;
 
   /**
@@ -57,27 +59,6 @@ public class ShoppingListViewer
     JPanel contentPane = (JPanel) frame.getContentPane();
     contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
     
-    KitchIntelButton button = new KitchIntelButton(KitchIntelButton.PRINT_IMAGE);
-    button.addActionListener(new ActionListener()
-    {
-      @Override
-      public void actionPerformed(final ActionEvent event)
-      {
-        PrinterJob print = PrinterJob.getPrinterJob();
-        if(print.printDialog())
-        {
-          try
-          {
-            print.print();
-          } 
-          catch (PrinterException e)
-          {
-            System.out.println(Translator.translate("Printer Error"));
-          }
-        }
-      }
-    });
-    
     JPanel inputNumPeople = new JPanel();
     inputNumPeople.add(new JLabel(Translator.translate("Number of People") + ":"));
     
@@ -105,7 +86,6 @@ public class ShoppingListViewer
     JScrollPane scrollPane = new JScrollPane(messageArea);
     scrollPane.createVerticalScrollBar();
     
-    contentPane.add(button);
     contentPane.add(inputNumPeople);
     contentPane.add(scrollPane);
     
