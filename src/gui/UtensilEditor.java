@@ -15,6 +15,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import config.Translator;
 import recipes.Utensil;
 import utilities.SortLists;
 
@@ -46,7 +47,7 @@ public class UtensilEditor extends JComponent
   {
     super();
     setLayout(new BorderLayout());
-    setBorder(KitchIntelBorder.labeledBorder("Utensils"));
+    setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Utensils")));
     utensils = new ArrayList<Utensil>();
     
     UtensilEditorListener listener = new UtensilEditorListener(this);
@@ -62,10 +63,10 @@ public class UtensilEditor extends JComponent
     Container inputFields = new Container();
     inputFields.setLayout(new FlowLayout(FlowLayout.LEFT));
     
-    inputFields.add(new JLabel("Name:"));
+    inputFields.add(new JLabel(Translator.translate("Name") + ":"));
     inputFields.add(nameField);
     
-    inputFields.add(new JLabel("Details:"));
+    inputFields.add(new JLabel(Translator.translate("Details") + ":"));
     inputFields.add(detailField);
     
     inputFields.add(addButton);

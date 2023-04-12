@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import config.Translator;
 import recipes.Meal;
 import recipes.Recipe;
 
@@ -59,7 +60,7 @@ public class MealEditor extends Editor
    */
   public MealEditor(final Window owner)
   {
-    super(owner, "KiLowBites Meal Editor");
+    super(owner, Translator.translate("KiLowBites Meal Editor"));
         
     this.recipes = new ArrayList<Recipe>();
     
@@ -70,8 +71,8 @@ public class MealEditor extends Editor
     
     MealEditorListener listener = new MealEditorListener();
     
-    JButton addRecipeButton = new JButton("Add Recipe");
-    JButton deleteButton = new JButton("Delete");
+    JButton addRecipeButton = new JButton(Translator.translate("Add Recipe"));
+    JButton deleteButton = new JButton(Translator.translate("Delete"));
     
     newButton.setActionCommand(NEW_BUTTON_ACTION_COMMAND);
     openButton.setActionCommand(OPEN_BUTTON_ACTION_COMMAND);
@@ -105,13 +106,13 @@ public class MealEditor extends Editor
     
     JPanel name = new JPanel();
     name.setLayout(new FlowLayout(FlowLayout.LEFT));
-    name.add(new JLabel("Name:"));
+    name.add(new JLabel(Translator.translate("Name:")));
     name.add(nameField);
     
     add(name, BorderLayout.CENTER);
     
     JPanel edit = new JPanel();
-    edit.setBorder(KitchIntelBorder.labeledBorder("Recipes"));
+    edit.setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Recipes")));
     edit.setLayout(new BorderLayout());
     edit.add(addRecipeButton, BorderLayout.NORTH);
     edit.add(this.display, BorderLayout.CENTER);
@@ -206,11 +207,11 @@ public class MealEditor extends Editor
   {
     if(nameField.getText().equals("")) 
     {
-      JOptionPane.showMessageDialog(null, "You must input a name");
+      JOptionPane.showMessageDialog(null, Translator.translate("You must input a name"));
       return;
     }
     String newFileName;
-    newFileName = JOptionPane.showInputDialog("File name:");
+    newFileName = JOptionPane.showInputDialog(Translator.translate("File name") + ":");
     
     try
     {
@@ -233,7 +234,7 @@ public class MealEditor extends Editor
   {
     if(nameField.getText().equals("")) 
     {
-      JOptionPane.showMessageDialog(null, "You must input a name");
+      JOptionPane.showMessageDialog(null, Translator.translate("You must input a name"));
       return;
     }
     if(fileName == null) saveAs();

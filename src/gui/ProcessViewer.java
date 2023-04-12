@@ -19,6 +19,7 @@ import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
+import config.Translator;
 import recipes.Meal;
 import recipes.Recipe;
 import recipes.Step;
@@ -47,18 +48,20 @@ public class ProcessViewer extends JFrame implements Serializable
    */
   public ProcessViewer(final Recipe recipe)
   {
-    super(String.format("KiLowBites Process Viewer	%s", recipe.getName()));
+    super(String.format("%s	%s", Translator.translate("KiLowBites Process Viewer"), 
+        recipe.getName()));
     setUp(recipe);
   }
 
   /**
    * Meal constructor.
    * 
-   * @param recipe
+   * @param meal
    */
   public ProcessViewer(final Meal meal)
   {
-    super(String.format("KiLowBites Process Viewer	%s", meal.getName()));
+    super(String.format("%s %s", Translator.translate("KiLowBites Process Viewer"), 
+        meal.getName()));
     setUp(meal);
   }
 
@@ -82,7 +85,7 @@ public class ProcessViewer extends JFrame implements Serializable
     JScrollPane p = new JScrollPane(textArea);
     p.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-    p.setBorder(BorderFactory.createTitledBorder("Utensils"));
+    p.setBorder(BorderFactory.createTitledBorder(Translator.translate("Utensils")));
     p.setPreferredSize(new Dimension(575, 100));
     return p;
   }
@@ -105,7 +108,7 @@ public class ProcessViewer extends JFrame implements Serializable
     JScrollPane p = new JScrollPane(textArea);
     p.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-    p.setBorder(BorderFactory.createTitledBorder("Steps"));
+    p.setBorder(BorderFactory.createTitledBorder(Translator.translate("Steps")));
     p.setPreferredSize(new Dimension(575, 300));
     return p;
   }

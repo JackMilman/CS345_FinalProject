@@ -2,6 +2,10 @@ package testing;
 
 import java.util.ArrayList;
 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import gui.IngredientEditor;
 import gui.ShoppingListViewer;
 import recipes.Ingredient;
 import recipes.Recipe;
@@ -16,6 +20,20 @@ import recipes.Utensil;
  */
 public class TemporaryGUITest
 {
+ 
+  /**
+   * Creates an IngredientEditor.
+   */
+  public static void ingredientEditorTest()
+  {
+    JFrame frame = new JFrame();
+    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    frame.setSize(900, 400);
+    JPanel contentPane = (JPanel) frame.getContentPane();
+    IngredientEditor ingredientEditor = new IngredientEditor();
+    contentPane.add(ingredientEditor);
+    frame.setVisible(true);
+  }
 
   /**
    * Creates a ShoppingListViewer.
@@ -24,9 +42,9 @@ public class TemporaryGUITest
   {
 
     ArrayList<Ingredient> ingredients = new ArrayList<>();
-    ingredients.add(new Ingredient("chicken", " ", 1, "g"));
-    ingredients.add(new Ingredient("rice", " ", 1, "g"));
-    ingredients.add(new Ingredient("broccoli", " ", 1, "g"));
+//    ingredients.add(new Ingredient("chicken", " ", 1, "g"));
+//    ingredients.add(new Ingredient("rice", " ", 1, "g"));
+//    ingredients.add(new Ingredient("broccoli", " ", 1, "g"));
 
     ArrayList<Utensil> utensils = new ArrayList<>();
     utensils.add(new Utensil("fork", " "));
@@ -45,7 +63,7 @@ public class TemporaryGUITest
    */
   public static void main(final String[] args)
   {
-    shoppingListViewerTest();
+    ingredientEditorTest();
   }
 
 }
