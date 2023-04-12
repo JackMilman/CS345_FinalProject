@@ -102,30 +102,30 @@ public class MainWindow extends JFrame implements Runnable
     tools.add(unitsConverter);
     unitsConverter.addActionListener(controller);
 
-    // Menu Items not being used
-    // JMenu configure = new JMenu(Translator.translate("Configure"));
-    // menuBar.add(configure);
-    // JMenuItem preferences = new JMenuItem(Translator.translate("Preferences"));
-    // configure.add(preferences);
-    // JMenuItem shortcuts = new JMenuItem(Translator.translate("Shortcuts"));
-    // configure.add(shortcuts);
-    // JMenuItem nutrition = new JMenuItem(Translator.translate("Nutrition"));
-    // configure.add(nutrition);
-    //
-    // JMenu help = new JMenu(Translator.translate("Help"));
-    // menuBar.add(help);
-    // JMenuItem about = new JMenuItem(Translator.translate("About"));
-    // help.add(about);
-    // JMenuItem userGuide = new JMenuItem(Translator.translate("User Guide"));
-    // help.add(userGuide);
+    JMenu configure = new JMenu(Translator.translate("Configure"));
+    menuBar.add(configure);
+    JMenuItem preferences = new JMenuItem(Translator.translate("Preferences"));
+    configure.add(preferences);
+    JMenuItem shortcuts = new JMenuItem(Translator.translate("Shortcuts"));
+    configure.add(shortcuts);
+    JMenuItem nutrition = new JMenuItem(Translator.translate("Nutrition"));
+    configure.add(nutrition);
+    
+    // Help items
+    JMenu help = new JMenu(Translator.translate("Help"));
+    menuBar.add(help);
+    //JMenuItem about = new JMenuItem(Translator.translate("About"));
+    //help.add(about);
+    JMenuItem userGuide = new JMenuItem(Translator.translate("User Guide"));
+    help.add(userGuide);
 
     // add the company logo to the window
     // Josiah's changes:
     ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResource("KILowBites_Logo.png"));
     JLabel logoLabel = new JLabel(logo);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
-//    ImageIcon logo = new ImageIcon(PATH);
-//    JLabel logoLabel = new JLabel(logo);
+    // ImageIcon logo = new ImageIcon(PATH);
+    // JLabel logoLabel = new JLabel(logo);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
     setVisible(true);
   }
