@@ -15,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import config.Translator;
 import recipes.Ingredient;
 import recipes.NutritionInfo;
 
@@ -73,12 +74,12 @@ public class CalorieCalculatorWindow extends JFrame
   {
     JPanel inputs = new JPanel();
     inputs.setLayout(new FlowLayout(FlowLayout.LEFT));
-    inputs.add(createLabels("Ingredient"));
+    inputs.add(createLabels(Translator.translate("Ingredient")));
     inputs.add(ingredients);
-    inputs.add(createLabels("Amount"));
+    inputs.add(createLabels(Translator.translate("Amount")));
     inputs.add(amount);
     amount.setPreferredSize(new Dimension(100, 30));
-    inputs.add(createLabels("Units"));
+    inputs.add(createLabels(Translator.translate("Units")));
     inputs.add(units);
     return inputs;
   }
@@ -141,7 +142,7 @@ public class CalorieCalculatorWindow extends JFrame
     c.add(icons, BorderLayout.NORTH);
     JPanel inputs = inputMenu();
     c.add(inputs, BorderLayout.AFTER_LINE_ENDS);
-    calorie = new JLabel("Calories:     ____________");
+    calorie = new JLabel(Translator.translate("Calories") + ":     ____________");
     c.add(calorie, BorderLayout.SOUTH);
 
     setResizable(false);
@@ -175,7 +176,7 @@ public class CalorieCalculatorWindow extends JFrame
         ingredients.setSelectedItem("");
         units.setSelectedItem("");
         amount.setText("");
-        calorie.setText("Calories: ");
+        calorie.setText(Translator.translate("Calories") + ": ");
       }
 
       if (command.equals(CALCULATION_COMMAND))
@@ -185,11 +186,11 @@ public class CalorieCalculatorWindow extends JFrame
           double amountOfIngredients = Double.parseDouble(enteredText);
           Ingredient temp = new Ingredient(selectedIngredient, "", amountOfIngredients,
               selectedUnits, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
-          calorie.setText("Calories: " + temp.getCaloriesPerGram());
+          calorie.setText(Translator.translate("Calories") + ": " + temp.getCaloriesPerGram());
         }
         catch (NumberFormatException exc)
         {
-          calorie.setText("Invalid Amount");
+          calorie.setText(Translator.translate("Invalid Amount"));
         }
       }
     }

@@ -61,7 +61,7 @@ public class StepEditor extends JComponent implements TextListener
   {
     super();
     setLayout(new BorderLayout());
-    setBorder(KitchIntelBorder.labeledBorder("Steps"));
+    setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Steps")));
     
     this.utensils = utensils;
     this.ingredients = ingredients;
@@ -83,15 +83,15 @@ public class StepEditor extends JComponent implements TextListener
     
     Container inputFields = new Container();
     inputFields.setLayout(new FlowLayout(FlowLayout.LEFT));
-    inputFields.add(new JLabel("Action:"));
+    inputFields.add(new JLabel(Translator.translate("Action)" + ":")));
     inputFields.add(actionSelect);
-    inputFields.add(new JLabel("On:"));
+    inputFields.add(new JLabel(Translator.translate("On") + ":"));
     inputFields.add(onSelect);
-    inputFields.add(new JLabel("Utensil:"));
+    inputFields.add(new JLabel(Translator.translate("Utensil") + ":"));
     inputFields.add(utensilSelect);
-    inputFields.add(new JLabel("Details:"));
+    inputFields.add(new JLabel(Translator.translate("Details") + ":"));
     inputFields.add(detailField);
-    inputFields.add(new JLabel("Minutes:"));
+    inputFields.add(new JLabel(Translator.translate("Minutes") + ":"));
     inputFields.add(timeField);
     inputFields.add(addButton);
     

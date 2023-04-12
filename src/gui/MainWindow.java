@@ -38,7 +38,7 @@ public class MainWindow extends JFrame implements Runnable
   {
     // set the the frame
     getContentPane().setBackground(Color.WHITE);
-    setTitle("KiLowBites Main Window");
+    setTitle(Translator.translate("KiLowBites Main Window"));
     getContentPane().setLayout(new BorderLayout());
     setSize(700, 500);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -50,73 +50,73 @@ public class MainWindow extends JFrame implements Runnable
     JMenuBar menuBar = new JMenuBar();
     setJMenuBar(menuBar);
 
-    JMenu file = new JMenu("File");
+    JMenu file = new JMenu(Translator.translate("File"));
     menuBar.add(file);
     // Exit: All windows are closed
-    JMenuItem exit = new JMenuItem("Exit");
+    JMenuItem exit = new JMenuItem(Translator.translate("Exit"));
     exit.addActionListener(controller);
     file.add(exit);
 
-    JMenu edit = new JMenu("Edit");
+    JMenu edit = new JMenu(Translator.translate("Edit"));
     menuBar.add(edit);
     // Recipe: A RecipeEditor is opened
-    JMenuItem recipe = new JMenuItem("Recipe");
+    JMenuItem recipe = new JMenuItem(Translator.translate("Recipe"));
     recipe.addActionListener(controller);
     edit.add(recipe);
     // Meal: A MealEditor is opened
-    JMenuItem meal = new JMenuItem("Meal");
+    JMenuItem meal = new JMenuItem(Translator.translate("Meal"));
     meal.addActionListener(controller);
     edit.add(meal);
 
     // not using search in the 1st sprint.
-    // JMenu search = new JMenu("Search");
+    // JMenu search = new JMenu(Translator.translate("Search"));
     // menuBar.add(search);
     // // Recipes: The user is prompted for the ingredients of interest
-    // JMenuItem recipes = new JMenuItem("Recipes");
+    // JMenuItem recipes = new JMenuItem(Translator.translate("Recipes"));
     // search.add(recipes);
     // // Meals: The user is prompted for the ingredients of interest
     // JMenuItem meals = new JMenuItem("Meals");
     // search.add(meals);
 
-    JMenu view = new JMenu("View");
+    JMenu view = new JMenu(Translator.translate("View"));
     menuBar.add(view);
     // Shopping List: A ShoppingListViewer is opened
-    JMenuItem shoppingList = new JMenuItem("Shopping List");
+    JMenuItem shoppingList = new JMenuItem(Translator.translate("Shopping List"));
     shoppingList.addActionListener(controller);
     view.add(shoppingList);
     // Process: A ProcessViewer is opened
-    JMenuItem process = new JMenuItem("Process");
+    JMenuItem process = new JMenuItem(Translator.translate("Process"));
     process.addActionListener(controller);
     view.add(process);
 
-    JMenu tools = new JMenu("Tools");
+    JMenu tools = new JMenu(Translator.translate("Tools"));
     menuBar.add(tools);
     // Calorie Calculator: Calorie Calculator is opened
-    JMenuItem calorieCalculator = new JMenuItem("Calorie Calculator");
+    JMenuItem calorieCalculator = new JMenuItem(Translator.translate("Calorie Calculator"));
     calorieCalculator.addActionListener(controller);
     tools.add(calorieCalculator);
     calorieCalculator.addActionListener(controller);
     // Units Converter: UnitConversionWindow is opened
-    JMenuItem unitsConverter = new JMenuItem("Units Converter");
+    JMenuItem unitsConverter = new JMenuItem(Translator.translate("Units Converter"));
     unitsConverter.addActionListener(controller);
     tools.add(unitsConverter);
     unitsConverter.addActionListener(controller);
 
     // Menu Items not being used
-    // JMenu configure = new JMenu("Configure");
+    // JMenu configure = new JMenu(Translator.translate("Configure"));
     // menuBar.add(configure);
-    // JMenuItem preferences = new JMenuItem("Preferences");
+    // JMenuItem preferences = new JMenuItem(Translator.translate("Preferences"));
     // configure.add(preferences);
-    // JMenuItem shortcuts = new JMenuItem("Shortcuts");
+    // JMenuItem shortcuts = new JMenuItem(Translator.translate("Shortcuts"));
     // configure.add(shortcuts);
-    // JMenuItem nutrition = new JMenuItem("Nutrition");
+    // JMenuItem nutrition = new JMenuItem(Translator.translate("Nutrition"));
     // configure.add(nutrition);
     //
-    // JMenu help = new JMenu("Help");
+    // JMenu help = new JMenu(Translator.translate("Help"));
     // menuBar.add(help);
-    // JMenuItem about = new JMenuItem("About");
+    // JMenuItem about = new JMenuItem(Translator.translate("About"));
     // help.add(about);
-    // JMenuItem userGuide = new JMenuItem("User Guide");
+    // JMenuItem userGuide = new JMenuItem(Translator.translate("User Guide"));
     // help.add(userGuide);
 
     // add the company logo to the window

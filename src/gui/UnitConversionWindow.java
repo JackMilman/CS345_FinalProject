@@ -5,6 +5,7 @@ import java.awt.event.*;
 import utilities.UnitConversion;
 import javax.swing.*;
 
+import config.Translator;
 import recipes.NutritionInfo;
 
 /**
@@ -41,7 +42,7 @@ public class UnitConversionWindow extends JFrame
    */
   private UnitConversionWindow(final Window main)
   {
-    super("KiLowBites Unit Converter");
+    super(Translator.translate("KiLowBites Unit Converter"));
     setUp();
     setDefaultCloseOperation(HIDE_ON_CLOSE);
   }
@@ -80,9 +81,9 @@ public class UnitConversionWindow extends JFrame
     Container unitMenu = new Container();
     unitMenu.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-    JLabel fromunitLabel = new JLabel("From Units:");
+    JLabel fromunitLabel = new JLabel(Translator.translate("From units") + ":");
     fromunitBox = new JComboBox<String>();
-    JLabel tounitLabel = new JLabel("To Units:");
+    JLabel tounitLabel = new JLabel(Translator.translate("To units") + ":");
     tounitBox = new JComboBox<String>();
     for (int i = 0; i < units.length; i++)
     {
@@ -94,7 +95,7 @@ public class UnitConversionWindow extends JFrame
     fromunitBox.addItemListener(new FromComboBoxHandler());
     tounitBox.addItemListener(new ToComboBoxHandler());
     NutritionInfo[] ingredients = NutritionInfo.values();
-    JLabel ingredientLabel = new JLabel("Ingredient:");
+    JLabel ingredientLabel = new JLabel(Translator.translate("Ingredient") + ":");
     ingredientBox = new JComboBox<String>();
 
     ingredientBox.addItem("");
@@ -116,9 +117,9 @@ public class UnitConversionWindow extends JFrame
   private JPanel createInputPanel()
   {
     JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    JLabel fromAmount = new JLabel("From Amount:");
+    JLabel fromAmount = new JLabel(Translator.translate("From amount") + ":");
     amount = new JTextField(DEFAULT_TEXT_FIELD_WIDTH);
-    resultLabel = new JLabel("Result:  ___________");
+    resultLabel = new JLabel(Translator.translate("Result") + ":  ___________");
 
     inputPanel.add(fromAmount);
     inputPanel.add(amount);
@@ -188,13 +189,13 @@ public class UnitConversionWindow extends JFrame
         tounitBox.setSelectedItem("");
         ingredientBox.setSelectedItem("");
         amount.setText("");
-        resultLabel.setText("Result: ");
+        resultLabel.setText(Translator.translate("Result") + ": ");
       }
       else if (command.equals(CALCULATION_COMMAND))
       {
         amountvalue = Integer.parseInt(amount.getText());
         double value = UnitConversion.convert(ingredient, fromUnit, toUnit, amountvalue);
-        resultLabel.setText("Result:   " + Double.toString(value));
+        resultLabel.setText(Translator.translate("Result") + ":   " + Double.toString(value));
       }
 
     }

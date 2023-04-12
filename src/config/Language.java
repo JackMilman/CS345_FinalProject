@@ -9,7 +9,7 @@ import java.util.Scanner;
 /**
  * An enumeration of languages supported by the program. To be used, the languages must be loaded in
  * with the loadLanguages() method. Each language, after it has been loaded contains a mapping of
- * lower case English words to lower case words of other languages.
+ * English words to words of other languages.
  * @author Josiah Leach
  *
  */
@@ -78,7 +78,7 @@ public enum Language
   }
   
   /**
-   * Gets the translated version of this word in this language.
+   * Gets the translated version of this word in this language, ignoring case.
    * @param english the english word to translate
    * @return the english word translated into this language, or null, if the translation is 
    * not known.

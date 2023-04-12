@@ -18,7 +18,7 @@ public class Translator
   {
     if(!Language.isLoaded()) Language.loadLanguages();
     
-    String translation = language.getTranslation(englishText.toLowerCase());
+    String translation = language.getTranslation(englishText);
     
     if(translation == null) return englishText;
     

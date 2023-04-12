@@ -16,6 +16,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import config.Translator;
 import recipes.Ingredient;
 import utilities.SortLists;
 
@@ -57,12 +58,12 @@ public class IngredientEditor extends JComponent
   {
     super();
     setLayout(new BorderLayout());
-    setBorder(KitchIntelBorder.labeledBorder("Ingredients"));
+    setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Ingredients")));
     
     IngredientEditorListener listener = new IngredientEditorListener(this);
     
-    addButton = new JButton(ADD);
-    deleteButton = new JButton(DELETE);
+    addButton = new JButton(Translator.translate(ADD));
+    deleteButton = new JButton(Translator.translate(DELETE));
         
     addButton.setActionCommand(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND);
     deleteButton.setActionCommand(RecipeEditor.INGREDIENT_DELETE_ACTION_COMMAND);
@@ -84,17 +85,17 @@ public class IngredientEditor extends JComponent
     
     Container inputFields = new Container();
     inputFields.setLayout(new FlowLayout(FlowLayout.LEFT));
-    inputFields.add(new JLabel("Name:"));
+    inputFields.add(new JLabel(Translator.translate("Name")+":"));
     inputFields.add(nameField);
-    inputFields.add(new JLabel("Details:"));
+    inputFields.add(new JLabel(Translator.translate("Details")+":"));
     inputFields.add(detailField);
-    inputFields.add(new JLabel("Amount:"));
+    inputFields.add(new JLabel(Translator.translate("Amount")+":"));
     inputFields.add(amountField);
-    inputFields.add(new JLabel("Units:"));
+    inputFields.add(new JLabel(Translator.translate("Units")+":"));
     inputFields.add(unitSelect);
-    inputFields.add(new JLabel("Calories:"));
+    inputFields.add(new JLabel(Translator.translate("Calories")+":"));
     inputFields.add(calorieField);
-    inputFields.add(new JLabel("Density:"));
+    inputFields.add(new JLabel(Translator.translate("Density")+":"));
     inputFields.add(densityField);
     inputFields.add(addButton);
     
