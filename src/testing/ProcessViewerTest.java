@@ -2,6 +2,7 @@ package testing;
 
 import java.util.ArrayList;
 
+import gui.IngredientEditor;
 import gui.ProcessViewer;
 import recipes.Ingredient;
 import recipes.Meal;
@@ -15,9 +16,12 @@ class ProcessViewerTest
   public static void testProcessViewerRecipes()
   {
     ArrayList<Ingredient> ingredients = new ArrayList<>();
-    ingredients.add(new Ingredient("chicken", " ", 1, "g"));
-    ingredients.add(new Ingredient("rice", " ", 1, "g"));
-    ingredients.add(new Ingredient("broccoli", " ", 1, "g"));
+    ingredients.add(new Ingredient("chicken", " ", 1, "g",
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+    ingredients.add(new Ingredient("rice", " ", 1, "g",
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+    ingredients.add(new Ingredient("broccoli", " ", 1, "g",
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 
     ArrayList<Utensil> utensils = new ArrayList<>();
     utensils.add(new Utensil("fork", " "));
@@ -33,9 +37,12 @@ class ProcessViewerTest
   public static void testProcessViewerMeals()
   {
     ArrayList<Ingredient> ingredients = new ArrayList<>();
-    ingredients.add(new Ingredient("salmon", " ", 1, "g"));
-    ingredients.add(new Ingredient("rice", " ", 1, "g"));
-    ingredients.add(new Ingredient("broccoli", " ", 1, "g"));
+    ingredients.add(new Ingredient("salmon", " ", 1, "g",
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+    ingredients.add(new Ingredient("rice", " ", 1, "g",
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+    ingredients.add(new Ingredient("broccoli", " ", 1, "g",
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 
     ArrayList<Utensil> utensils = new ArrayList<>();
     utensils.add(new Utensil("spatula", " "));

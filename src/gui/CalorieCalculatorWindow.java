@@ -184,7 +184,7 @@ public class CalorieCalculatorWindow extends JFrame
         {
           double amountOfIngredients = Double.parseDouble(enteredText);
           Ingredient temp = new Ingredient(selectedIngredient, "", amountOfIngredients,
-              selectedUnits);
+              selectedUnits, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
           calorie.setText("Calories: " + temp.getCaloriesPerGram());
         }
         catch (NumberFormatException exc)
