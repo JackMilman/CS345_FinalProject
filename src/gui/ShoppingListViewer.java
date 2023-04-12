@@ -59,27 +59,6 @@ public class ShoppingListViewer extends JDialog
     JPanel contentPane = (JPanel) frame.getContentPane();
     contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
     
-    KitchIntelButton button = new KitchIntelButton(KitchIntelButton.PRINT_IMAGE);
-    button.addActionListener(new ActionListener()
-    {
-      @Override
-      public void actionPerformed(final ActionEvent event)
-      {
-        PrinterJob print = PrinterJob.getPrinterJob();
-        if(print.printDialog())
-        {
-          try
-          {
-            print.print();
-          } 
-          catch (PrinterException e)
-          {
-            System.out.println(Translator.translate("Printer Error"));
-          }
-        }
-      }
-    });
-    
     JPanel inputNumPeople = new JPanel();
     inputNumPeople.add(new JLabel(Translator.translate("Number of People") + ":"));
     
@@ -107,7 +86,6 @@ public class ShoppingListViewer extends JDialog
     JScrollPane scrollPane = new JScrollPane(messageArea);
     scrollPane.createVerticalScrollBar();
     
-    contentPane.add(button);
     contentPane.add(inputNumPeople);
     contentPane.add(scrollPane);
     
