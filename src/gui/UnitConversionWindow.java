@@ -12,12 +12,14 @@ import recipes.NutritionInfo;
  * @author 
  *
  */
-public class UnitConversionWindow extends JDialog
+public class UnitConversionWindow extends JFrame
 {
   private static final long serialVersionUID = 1L;
   private static final int DEFAULT_TEXT_FIELD_WIDTH = 8;
   private static final String CALCULATION_COMMAND = "calc";
   private static final String RESET = "reset";
+  
+  private static UnitConversionWindow unitWindow = null;
 
   private String[] units = {"", "DRAM", "OUNCE", "GRAM", "POUND", "PINCH", "TEASPOON", "TABLESPOON",
       "FLUID_OUNCE", "CUP", "PINT", "QUART", "GALLON", "MILLILITER"};
@@ -37,11 +39,26 @@ public class UnitConversionWindow extends JDialog
    * 
    * @param main
    */
-  public UnitConversionWindow(final Window main)
+  private UnitConversionWindow(final Window main)
   {
-    Container unitConverter = new Container();
-    unitConverter.setLayout(new FlowLayout());
-    // icons
+    super("KiLowBites Unit Converter");
+    setUp();
+    setDefaultCloseOperation(HIDE_ON_CLOSE);
+  }
+  public static UnitConversionWindow getUnitConversionWindow()
+  {
+    if(unitWindow == null)
+    {
+      unitWindow = new UnitConversionWindow(null);
+      
+    }
+    unitWindow.setVisible(true);
+   
+    
+    return unitWindow;
+  }
+  private Container createIcons()
+  {
     Container icons = new Container();
     icons.setLayout(new FlowLayout(FlowLayout.LEFT));
     JButton calcButton = new KitchIntelButton(KitchIntelButton.CALCULATE_IMAGE);
@@ -55,62 +72,73 @@ public class UnitConversionWindow extends JDialog
     resetButton.addActionListener(resetListener);
     icons.add(calcButton);
     icons.add(resetButton);
-    
-    getContentPane().add(icons, BorderLayout.NORTH);
-    
-    // unit drop down boxes
+
+    return icons;
+  }
+  private Container createUnitMenu()
+  {
+    Container unitMenu = new Container();
+    unitMenu.setLayout(new FlowLayout(FlowLayout.LEFT));
+
+    JLabel fromunitLabel = new JLabel("From Units:");
+    fromunitBox = new JComboBox<String>();
+    JLabel tounitLabel = new JLabel("To Units:");
+    tounitBox = new JComboBox<String>();
     for (int i = 0; i < units.length; i++)
     {
       fromunitBox.addItem(units[i]);
       tounitBox.addItem(units[i]);
     }
-    Container unitMenu = new Container();
-    unitMenu.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-    JLabel fromunitLabel = new JLabel("From Units:");
-
-    unitMenu.add(fromunitLabel);
-    unitMenu.add(fromunitBox);
-
-    JLabel tounitLabel = new JLabel("To Units:");
-    unitMenu.add(tounitLabel);
-    unitMenu.add(tounitBox);
+    
     fromunitBox.addItemListener(new FromComboBoxHandler());
     tounitBox.addItemListener(new ToComboBoxHandler());
-
-    add(unitMenu, BorderLayout.NORTH);
-
-    // Ingredients Drop Down
     NutritionInfo[] ingredients = NutritionInfo.values();
     JLabel ingredientLabel = new JLabel("Ingredient:");
+    ingredientBox = new JComboBox<String>();
 
     ingredientBox.addItem("");
     for (int i = 0; i < ingredients.length; i++)
     {
       ingredientBox.addItem(ingredients[i].getName());
     }
+
+    unitMenu.add(fromunitLabel);
+    unitMenu.add(fromunitBox);
+    unitMenu.add(tounitLabel);
+    unitMenu.add(tounitBox);
     unitMenu.add(ingredientLabel);
     unitMenu.add(ingredientBox);
     ingredientBox.addItemListener(new IngredientComboBoxHandler());
-
-    add(unitMenu, BorderLayout.NORTH);
-    // Textfield for amount
+    return unitMenu;
+  }
+  
+  private JPanel createInputPanel()
+  {
     JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
     JLabel fromAmount = new JLabel("From Amount:");
     amount = new JTextField(DEFAULT_TEXT_FIELD_WIDTH);
+    resultLabel = new JLabel("Result:  ___________");
 
     inputPanel.add(fromAmount);
     inputPanel.add(amount);
-
-    // Result
-    resultLabel = new JLabel("To Amount:        ");
     inputPanel.add(resultLabel);
-    add(inputPanel, BorderLayout.SOUTH);
-    getContentPane().add(unitConverter);
+    return inputPanel;
+  }
+  private void setUp() {
+    Container c = getContentPane();;
+    Container icons = createIcons();
+    c.add(icons, BorderLayout.NORTH);
+    Container unitMenu = createUnitMenu();
+    c.add(unitMenu, BorderLayout.AFTER_LINE_ENDS);
+    JPanel inputPanel = createInputPanel();
+    c.add(inputPanel, BorderLayout.SOUTH);
+    // Result
     setVisible(true);
-    setResizable(true);
+    setResizable(false);
     pack();
   }
+
 
   private class FromComboBoxHandler implements ItemListener
   {
@@ -158,25 +186,17 @@ public class UnitConversionWindow extends JDialog
       {
         fromunitBox.setSelectedItem("");
         tounitBox.setSelectedItem("");
+        ingredientBox.setSelectedItem("");
         amount.setText("");
-        resultLabel.setText("Result:        ");
+        resultLabel.setText("Result: ");
       }
       else if (command.equals(CALCULATION_COMMAND))
       {
         amountvalue = Integer.parseInt(amount.getText());
         double value = UnitConversion.convert(ingredient, fromUnit, toUnit, amountvalue);
-        resultLabel.setText("To Amount:   " + Double.toString(value));
+        resultLabel.setText("Result:   " + Double.toString(value));
       }
 
     }
   }
-
-//   public static void main(final String[] args)
-//   {
-//   MainWindow main = new MainWindow();
-//   main.run();
-//  
-//   new UnitConversionWindow(main);
-//   }
-
 }

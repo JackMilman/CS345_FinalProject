@@ -92,10 +92,12 @@ public class MainWindow extends JFrame implements Runnable
     JMenuItem calorieCalculator = new JMenuItem("Calorie Calculator");
     calorieCalculator.addActionListener(controller);
     tools.add(calorieCalculator);
+    calorieCalculator.addActionListener(controller);
     // Units Converter: UnitConversionWindow is opened
     JMenuItem unitsConverter = new JMenuItem("Units Converter");
     unitsConverter.addActionListener(controller);
     tools.add(unitsConverter);
+    unitsConverter.addActionListener(controller);
 
     // Menu Items not being used
     // JMenu configure = new JMenu("Configure");
@@ -115,8 +117,12 @@ public class MainWindow extends JFrame implements Runnable
     // help.add(userGuide);
 
     // add the company logo to the window
+    // Josiah's changes:
     ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResource("KILowBites_Logo.png"));
     JLabel logoLabel = new JLabel(logo);
+    getContentPane().add(logoLabel, BorderLayout.CENTER);
+//    ImageIcon logo = new ImageIcon(PATH);
+//    JLabel logoLabel = new JLabel(logo);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
     setVisible(true);
   }

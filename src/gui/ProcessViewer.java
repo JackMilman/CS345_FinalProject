@@ -121,7 +121,6 @@ public class ProcessViewer extends JFrame implements Serializable
     JScrollPane p;
     Container c;
 
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     c = getContentPane();
     p = setUpUtensils(recipe.getUtensils());
     c.setLayout(new FlowLayout());
@@ -144,7 +143,6 @@ public class ProcessViewer extends JFrame implements Serializable
     JScrollPane p;
     Container c;
 
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     c = getContentPane();
 
     // Gets each utensil and step in the meals

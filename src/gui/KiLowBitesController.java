@@ -79,13 +79,13 @@ public class KiLowBitesController implements ActionListener
     // Open Unit Converter Window
     if (e.getActionCommand().equals(UNITSCONVERTER))
     {
-      new UnitConversionWindow(main);
+      UnitConversionWindow.getUnitConversionWindow();
     }
 
     // Open Calorie Calculator Window
     if (e.getActionCommand().equals(CALORIECALCULATOR))
     {
-      new CalorieCalculatorWindow();
+     CalorieCalculatorWindow.getCalorieCalculatorWindow();
     }
 
     // Open ShoppingListViewer
@@ -118,6 +118,7 @@ public class KiLowBitesController implements ActionListener
         new ProcessViewer(meal);
       }
     }
+   
   }
 
   /**
@@ -126,6 +127,9 @@ public class KiLowBitesController implements ActionListener
    */
   private void read()
   {
+    recipe = null;
+    meal = null;
+    
     fileChooser.setFileFilter(fileFilter);
     int result = fileChooser.showOpenDialog(null);
     fileChooser.setDialogTitle("Open Recipe or Meal");
@@ -148,7 +152,7 @@ public class KiLowBitesController implements ActionListener
             {
               // set the recipe to the recipe selected from the file viewer
               recipe = Recipe.read(name);
-              break;
+              return;
 
             }
             // check if it is a meal
@@ -156,7 +160,7 @@ public class KiLowBitesController implements ActionListener
             {
               // set the meal to the meal selected from the file viewer
               meal = Meal.read(name);
-              break;
+              return;
             }
           }
           catch (IOException ioe)
@@ -166,11 +170,10 @@ public class KiLowBitesController implements ActionListener
             break;
           }
         }
-        else
-        {
-          JOptionPane.showMessageDialog(null, INVALID_FILE_TYPE, ERROR, JOptionPane.ERROR_MESSAGE);
-          break;
-        }
+      }
+      if(recipe == null && meal == null)
+      {
+        JOptionPane.showMessageDialog(null, INVALID_FILE_TYPE, ERROR, JOptionPane.ERROR_MESSAGE);
       }
     }
   }

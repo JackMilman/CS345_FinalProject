@@ -13,6 +13,8 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import recipes.Ingredient;
@@ -27,7 +29,7 @@ import recipes.Utensil;
  */
 public class RecipeEditor extends Editor
 {
-  static final int DEFAULT_TEXT_FIELD_WIDTH = 10;
+  static final int DEFAULT_TEXT_FIELD_WIDTH = 6;
   
   static final String INGREDIENT_ADD_ACTION_COMMAND = "ingr_add_act";
   static final String UTENSIL_ADD_ACTION_COMMAND = "uten_add_act";
@@ -52,7 +54,7 @@ public class RecipeEditor extends Editor
   
   private JTextField nameField;
   private JTextField servingsField;
-  
+    
 
 
   /**
@@ -63,7 +65,7 @@ public class RecipeEditor extends Editor
   public RecipeEditor(final Window owner)
   {
     super(owner, "KiLowBites Recipe Editor");
-    setLayout(new BorderLayout(5, 5));
+    setLayout(new BorderLayout());
     
     ActionListener listener = new RecipeEditorListener();
     ActionListener cListener = new ChangeListener();
@@ -96,6 +98,8 @@ public class RecipeEditor extends Editor
     utensilEditor.addChangeListener(cListener);
     ingredientEditor.addChangeListener(cListener);
     stepEditor.addChangeListener(cListener);
+    nameField.addActionListener(cListener);
+    servingsField.addActionListener(cListener);
     
     nameField.addActionListener(listener);
     servingsField.addActionListener(listener);
@@ -118,17 +122,22 @@ public class RecipeEditor extends Editor
     icons.add(saveButton);
     icons.add(saveAsButton);
     icons.add(closeButton);
+    
+    icons.add(nameLabel);
+    icons.add(nameField);
+    icons.add(servesLabel);
+    icons.add(servingsField);
 
     add(icons, BorderLayout.NORTH);
     
-    Container nameAndServings = new Container();
-    nameAndServings.setLayout(new FlowLayout(FlowLayout.LEFT));
-    nameAndServings.add(nameLabel);
-    nameAndServings.add(nameField);
-    nameAndServings.add(servesLabel);
-    nameAndServings.add(servingsField);
-    
-    add(nameAndServings, BorderLayout.CENTER);
+//    Container nameAndServings = new Container();
+//    nameAndServings.setLayout(new FlowLayout(FlowLayout.LEFT));
+//    nameAndServings.add(nameLabel);
+//    nameAndServings.add(nameField);
+//    nameAndServings.add(servesLabel);
+//    nameAndServings.add(servingsField);
+//    
+//    add(nameAndServings, BorderLayout.CENTER);
     
     setVisible(true);
     setResizable(true);
@@ -216,6 +225,12 @@ public class RecipeEditor extends Editor
   
   private void saveAs()
   {    
+    if(nameField.getText().equals("")) 
+    {
+      JOptionPane.showMessageDialog(null, "You must input a name");
+      return;
+    }
+    
     String newFileName;
     newFileName = JOptionPane.showInputDialog("File name:");
     
@@ -238,6 +253,11 @@ public class RecipeEditor extends Editor
   
   private void save()
   {
+    if(nameField.getText().equals("")) 
+    {
+      JOptionPane.showMessageDialog(null, "You must input a name");
+      return;
+    }
     if(fileName == null) saveAs();
     try
     {

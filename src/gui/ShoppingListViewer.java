@@ -155,10 +155,14 @@ public class ShoppingListViewer extends JDialog
    */
   private void updateMessageAreaHelper(final Recipe recipe, final int numPeople)
   {
+    //must account for the fact that recipes are designed to serves multiple people
+    //e.g. if a recipe of two servings is used to feed five people, each ingredient must be 
+    //multiplied by 2.5
+    double numberOfBatches = (double) numPeople / (double) recipe.getServings();
     for (Ingredient ing : recipe.getIngredients())
     {
-      String info = String.format("%f %ss of %s\n", ing.getAmount() * numPeople, ing.getUnit(), 
-          ing.getName());
+      String info = String.format("%.1f %ss of %s\n", ing.getAmount() * numberOfBatches, 
+          ing.getUnit(), ing.getName());
       messageArea.append(info);
     }
   }
