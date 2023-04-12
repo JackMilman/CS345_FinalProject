@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.print.PrinterException;
 import java.awt.print.PrinterJob;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -25,16 +26,107 @@ import recipes.Recipe;
  * @author Meara Patterson
  * @version 3/29/2023, Version 1
  */
-public class ShoppingListViewer
+public class ShoppingListViewer extends JFrame
 {
   
-  private JTextArea messageArea;
+  private static final String UPDATE_SCROLL_AREA = "update_scroll_area";
+  private static final int NO_DISPLAY = -1;
+  
+  private JPanel contentPane;
+  private JPanel inputNumPeople;
+  private JTextField numPeopleField;
+  private JScrollPane scrollPane;
+  private JTextArea scrollArea;
+  private ArrayList<Ingredient> allIngredients;
+  private ArrayList<Ingredient> editedIngredients;
 
   /**
    * Creates a ShoppingListViewer panel that displays the ingredients of the given recipe.
    * @param obj should be a Recipe or Meal
    */
   public ShoppingListViewer(final Object obj)
+  {
+    
+    super(Translator.translate("KiLowBites Shopping List Viewer") + "\t" + getName(obj));
+    setSize(600, 400);
+    
+    contentPane = (JPanel) getContentPane();
+    contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
+    
+    inputNumPeople = new JPanel();
+    inputNumPeople.add(new JLabel(Translator.translate("Number of People") + ":"));
+    numPeopleField = new JTextField();
+    numPeopleField.setColumns(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
+    numPeopleField.addActionListener(new ShoppingListListener());
+    inputNumPeople.add(numPeopleField);
+    
+    scrollArea = new JTextArea();
+    updateScrollArea(obj, numPeopleField.getText());
+    
+  }
+  
+  private void updateScrollArea(final Object obj, final String info)
+  {
+    
+    scrollArea.setText(null);
+    allIngredients.clear();
+    
+    // get the number of people you are serving with a Recipe/Meal
+    int numPeople = 0;
+    try
+    {
+      numPeople = Integer.parseInt(info);
+    }
+    catch (NumberFormatException nfe)
+    {
+      numPeople = NO_DISPLAY;
+    }
+    
+    // collect all ingredients in an unedited ArrayList (may contain duplicates)
+    if (obj instanceof Recipe)
+    {
+      Recipe recipe = (Recipe) obj;
+      addToAllIngredients(recipe);
+    }
+    else if (obj instanceof Meal)
+    {
+      Meal meal = (Meal) obj;
+      for (Recipe recipe : meal.getRecipes())
+      {
+        addToAllIngredients(recipe);
+      }
+    }
+    
+    // edit ingredients by adding up duplicates and changing their units
+    editIngredientList();    
+    
+  }
+  
+  private void addToAllIngredients(final Recipe recipe)
+  {
+    for (Ingredient ing : recipe.getIngredients())
+    {
+      allIngredients.add(ing);
+    }
+  }
+  
+  private void editIngredientList()
+  {
+    for (Ingredient ing : allIngredients)
+    {
+      if (!editedIngredients.contains(ing))
+      {
+        editedIngredients.add(ing);
+      }
+      else
+      {
+        // change duplicate ingredient's units to units of ingredient in list
+        // add the two together in editedIngredients list
+      }
+    }
+  }
+  
+  private static String getName(final Object obj)
   {
     String name = "";
     if (obj instanceof Recipe)
@@ -44,127 +136,26 @@ public class ShoppingListViewer
     else if (obj instanceof Meal)
     {
       name = ((Meal)obj).getName();
-    } 
+    }
     else
     {
       System.out.println(Translator.translate("Invalid file"));
       System.exit(1);
     }
-    JFrame frame = new JFrame(Translator.translate("KiLowBites Shopping List Viewer") 
-        + "\t" + name);
-    frame.setSize(600, 400);
-    
-    JPanel contentPane = (JPanel) frame.getContentPane();
-    contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-    
-    KitchIntelButton button = new KitchIntelButton(KitchIntelButton.PRINT_IMAGE);
-    button.addActionListener(new ActionListener()
-    {
-      @Override
-      public void actionPerformed(final ActionEvent event)
-      {
-        PrinterJob print = PrinterJob.getPrinterJob();
-        if(print.printDialog())
-        {
-          try
-          {
-            print.print();
-          } 
-          catch (PrinterException e)
-          {
-            System.out.println(Translator.translate("Printer Error"));
-          }
-        }
-      }
-    });
-    
-    JPanel inputNumPeople = new JPanel();
-    inputNumPeople.add(new JLabel(Translator.translate("Number of People") + ":"));
-    
-    JTextField textField = new JTextField();
-    textField.setPreferredSize(new Dimension(50, 20));
-    textField.addActionListener(new ActionListener()
-    {
-      @Override
-      public void actionPerformed(final ActionEvent event)
-      {
-        try
-        {
-          updateMessageArea(obj, textField.getText());
-        }
-        catch (NumberFormatException e)
-        {
-          updateMessageArea(obj, "0");
-        }
-      }
-    });
-    inputNumPeople.add(textField);
-    
-    messageArea = new JTextArea();
-    updateMessageArea(obj, textField.getText());
-    JScrollPane scrollPane = new JScrollPane(messageArea);
-    scrollPane.createVerticalScrollBar();
-    
-    contentPane.add(button);
-    contentPane.add(inputNumPeople);
-    contentPane.add(scrollPane);
-    
-    frame.setVisible(true);
+    return name;
+  }
+  
+  
+  
+  private class ShoppingListListener implements ActionListener
+  {
 
-  }
-  
-  /**
-   * Updates the ingredient list of the scroll pane.
-   * 
-   * @param obj should be a Recipe or Meal
-   * @param text to be parsed for a number of people to serve
-   */
-  private void updateMessageArea(final Object obj, final String text)
-  {
-    int numPeople = 0;
-    try
+    @Override
+    public void actionPerformed(ActionEvent e)
     {
-      numPeople = Integer.parseInt(text);
+      String command = e.getActionCommand();
     }
-    catch (NumberFormatException e)
-    {
-      numPeople = 0;
-    }
-    messageArea.setText(null);
     
-    if (obj instanceof Recipe)
-    {
-      Recipe recipe = (Recipe) obj;
-      updateMessageAreaHelper(recipe, numPeople);
-    } 
-    else if (obj instanceof Meal)
-    {
-      Meal meal = (Meal) obj;
-      for (Recipe recipe : meal.getRecipes())
-      {
-        updateMessageAreaHelper(recipe, numPeople);
-      }
-    }
-  }
-  
-  /**
-   * Adds ingredients to the scroll pane.
-   * 
-   * @param recipe to pull ingredients from
-   * @param numPeople to serve
-   */
-  private void updateMessageAreaHelper(final Recipe recipe, final int numPeople)
-  {
-    //must account for the fact that recipes are designed to serves multiple people
-    //e.g. if a recipe of two servings is used to feed five people, each ingredient must be 
-    //multiplied by 2.5
-    double numberOfBatches = (double) numPeople / (double) recipe.getServings();
-    for (Ingredient ing : recipe.getIngredients())
-    {
-      String info = String.format("%.1f %ss of %s\n", ing.getAmount() * numberOfBatches, 
-          ing.getUnit(), ing.getName());
-      messageArea.append(info);
-    }
   }
   
 }
