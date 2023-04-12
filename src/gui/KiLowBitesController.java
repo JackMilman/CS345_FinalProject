@@ -94,7 +94,7 @@ public class KiLowBitesController implements ActionListener
     {
 
       read();
-   // check the extension of the file, call the corresponding type: meal or recipe
+      // check the extension of the file, call the corresponding type: meal or recipe
       if (recipe != null)
       {
         new ShoppingListViewer(recipe);
@@ -120,6 +120,12 @@ public class KiLowBitesController implements ActionListener
       }
     }
     
+    //open calorie calculator
+    if (e.getActionCommand().equals(CALORIECALCULATOR))
+    {
+    	CalorieCalculatorWindow.getCalorieCalculatorWindow();
+    }
+
   }
 
   /**

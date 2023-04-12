@@ -72,9 +72,9 @@ public enum Language
    */
   private static void addWord(final String english, final String french, final String spanish)
   {
-    English.translations.put(english, english);
-    French.translations.put(english,  french);
-    Spanish.translations.put(english, spanish);
+    English.translations.put(english.toLowerCase(), english);
+    French.translations.put(english.toLowerCase(),  french);
+    Spanish.translations.put(english.toLowerCase(), spanish);
   }
   
   /**
@@ -85,7 +85,7 @@ public enum Language
    */
   public String getTranslation(final String english)
   {
-    return this.translations.get(english);
+    return this.translations.get(english.toLowerCase());
   }
   
   /**

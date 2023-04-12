@@ -19,10 +19,17 @@ import config.Translator;
 import recipes.Ingredient;
 import recipes.NutritionInfo;
 
-public class CalorieCalculatorWindow extends JFrame
-{
+/**
+ * This class is a GUI for calculating calories. The user is able to select and
+ * ingredient and unit and enter the amount. This will then be used to calculate
+ * the number of calories. It uses the singleton design pattern so only one
+ * window can be opened at a time.
+ * 
+ * @author Allie O'Keeffe
+ *
+ */
+public class CalorieCalculatorWindow extends JFrame {
 
-  private static CalorieCalculatorWindow calorieWindow = null;
 
   private static final long serialVersionUID = 1L;
   // private String selectedIngredient, selectedUnits, enteredAmount;
@@ -31,10 +38,11 @@ public class CalorieCalculatorWindow extends JFrame
   private JTextField amount;
   private static final String CALCULATION_COMMAND = "calc";
   private static final String RESET = "reset";
+  private static CalorieCalculatorWindow calorieWindow;
 
   private CalorieCalculatorWindow(final Window main)
   {
-    super("KiLowBites Calorie Calculator");
+    super(Translator.translate("KiLowBites Calorie Calculator"));
     setUp();
     setDefaultCloseOperation(HIDE_ON_CLOSE);
   }
@@ -186,7 +194,7 @@ public class CalorieCalculatorWindow extends JFrame
           double amountOfIngredients = Double.parseDouble(enteredText);
           Ingredient temp = new Ingredient(selectedIngredient, "", amountOfIngredients,
               selectedUnits, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
-          calorie.setText(Translator.translate("Calories") + ": " + temp.getCaloriesPerGram());
+          calorie.setText(Translator.translate("Calories") + ": " + (Math.round(temp.getCaloriesPerGram() * 10)/10.0));
         }
         catch (NumberFormatException exc)
         {

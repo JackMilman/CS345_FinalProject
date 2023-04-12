@@ -1,8 +1,11 @@
 package gui;
 
+import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -15,9 +18,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import config.Translator;
 import recipes.Meal;
@@ -112,6 +120,22 @@ public class ProcessViewer extends JFrame implements Serializable
     p.setPreferredSize(new Dimension(575, 300));
     return p;
   }
+  
+  private JPanel setUpCaloriesAndInventory(double calories) {
+	  JPanel p = new JPanel();
+	  p.add(new JTextField("Calories: " + Math.round(calories * 10)/10.0));
+	  
+	  JButton removeIngredients = new JButton("Recipe Complete");
+	  removeIngredients.addActionListener(new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			//TODO: Remove ingredients from inventory
+			JOptionPane.showMessageDialog(null, "Successful removal of ingredients.", "Ingredient Removal", JOptionPane.PLAIN_MESSAGE, new ImageIcon(getClass().getClassLoader().getResource("KILowBites_Logo.png")));
+		}
+	  });
+	  p.add(removeIngredients);
+	  return p;
+  }
 
   /**
    * Sets up the main frame for the process viewer. This adds utensils and steps to the main frame.
@@ -126,11 +150,15 @@ public class ProcessViewer extends JFrame implements Serializable
 
     c = getContentPane();
     p = setUpUtensils(recipe.getUtensils());
-    c.setLayout(new FlowLayout());
-    c.add(p);
+    c.setLayout(new BorderLayout());
+    c.add(p, BorderLayout.NORTH);
 
     p = setUpSteps(recipe.getSteps());
-    c.add(p);
+    c.add(p, BorderLayout.CENTER);
+    
+    c.add(setUpCaloriesAndInventory(recipe.calculateCalories()), BorderLayout.SOUTH);
+    
+    
     setSize(600, 450);
     setVisible(true);
   }

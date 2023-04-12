@@ -106,7 +106,7 @@ public class MealEditor extends Editor
     
     JPanel name = new JPanel();
     name.setLayout(new FlowLayout(FlowLayout.LEFT));
-    name.add(new JLabel(Translator.translate("Name:")));
+    name.add(new JLabel(Translator.translate("Name") + ":"));
     name.add(nameField);
     
     add(name, BorderLayout.CENTER);
