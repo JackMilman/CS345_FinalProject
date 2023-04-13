@@ -109,6 +109,7 @@ public class ShoppingListViewer extends JFrame
     {
       Recipe recipe = (Recipe) obj;
       addToAllIngredients(recipe);
+      editIngredientList(recipe);
     }
     else if (obj instanceof Meal)
     {
@@ -116,11 +117,9 @@ public class ShoppingListViewer extends JFrame
       for (Recipe recipe : meal.getRecipes())
       {
         addToAllIngredients(recipe);
+        editIngredientList(recipe);
       }
     }
-    
-    // edit ingredients by adding up duplicates and changing their units
-    editIngredientList();
     
     scrollArea = new JTextArea(editedIngredients.size(), 1);
     
@@ -146,13 +145,16 @@ public class ShoppingListViewer extends JFrame
     }
   }
   
-  private void editIngredientList()
+  private void editIngredientList(final Recipe recipe)
   {
+    double numBatches = (double) numPeople / (double) recipe.getServings();
     for (Ingredient ing : allIngredients)
     {
       if (!editedIngredients.contains(ing))
       {
-        editedIngredients.add(ing);
+        Ingredient newIng = new Ingredient(ing.getName(), ing.getDetails(), 
+            ing.getAmount() * numBatches, ing.getUnit(), ing.getCalories(), ing.getDensity());
+        editedIngredients.add(newIng);
       }
       else
       {
@@ -164,14 +166,15 @@ public class ShoppingListViewer extends JFrame
           if (editedIng.equals(ing))
           {
             duplicate = editedIng;
+            double newAmount = UnitConversion.convert(ing.getName(), ing.getUnit(), 
+                duplicate.getUnit(), ing.getAmount()) + duplicate.getAmount();
+            Ingredient addIng = new Ingredient(ing.getName(), ing.getDetails(), 
+                newAmount * numBatches, duplicate.getUnit(), ing.getCalories(), ing.getDensity());
+            int index = editedIngredients.indexOf(duplicate);
+            editedIngredients.set(index, addIng);
           }
         }
-        double newAmount = UnitConversion.convert(ing.getName(), ing.getUnit(), 
-            duplicate.getUnit(), ing.getAmount()) + duplicate.getAmount();
-        Ingredient addIng = new Ingredient(ing.getName(), ing.getDetails(), newAmount, 
-            duplicate.getUnit(), ing.getCalories(), ing.getDensity());
-        int index = editedIngredients.indexOf(duplicate);
-        editedIngredients.set(index, addIng);
+        
       }
     }
   }
