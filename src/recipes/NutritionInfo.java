@@ -2,6 +2,7 @@ package recipes;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class NutritionInfo
 {
@@ -96,6 +97,10 @@ public class NutritionInfo
   
   public static void addIngredient(final String name, final Double calories, final Double density) {
     nutritionMap.put(name, new CalorieGram(calories, density));
+  }
+  
+  public static Set<String> getKeys() {
+    return nutritionMap.keySet();
   }
 
   public static Double getCalPerGram(final String ingredientName)

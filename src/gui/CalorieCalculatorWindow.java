@@ -7,6 +7,9 @@ import java.awt.FlowLayout;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -116,9 +119,11 @@ public class CalorieCalculatorWindow extends JFrame {
   {
     JComboBox<String> names = new JComboBox<>();
     names.addItem("");
-    for (NutritionInfo info : NutritionInfo.values())
+    List<String> items = new ArrayList<String>(NutritionInfo.getKeys());
+    Collections.sort(items);
+    for (String item : items)
     {
-      names.addItem(info.getName());
+      names.addItem(item);
     }
     return names;
   }
