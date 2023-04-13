@@ -191,6 +191,7 @@ public class Step implements Serializable
             source.getName(), destination.getName(), details, time).strip();
       }
     }
+   
     
     //if the source is an ingredient
     return 
@@ -198,5 +199,34 @@ public class Step implements Serializable
             destination.getName(), details, time).strip();
     
   }
-
+  
+  public String toString(boolean verbose) {
+  	if (verbose) {
+  		return toString();
+  	} else {
+  	    // if the destination is a utensil
+  	    if(source != null)
+  	    {
+  	      //if the source and destination utensil are the same
+  	      if(source.equals(destination))
+  	      {
+  	        return String.format("%s the contents of the %s", action, source.getName(),
+  	            details).strip();
+  	      }
+  	      //if the source and destination utensil are different
+  	      else
+  	      {
+  	        return String.format("%s the contents of the %s in the %s", action, 
+  	            source.getName(), destination.getName(), details).strip();
+  	      }
+  	    }
+  	   
+  	    
+  	    //if the source is an ingredient
+  	    return 
+  	        String.format("%s the %s on the %s", action, ingredient.getName(), 
+  	            destination.getName(), details).strip();
+  	}
+  }
+  
 }
