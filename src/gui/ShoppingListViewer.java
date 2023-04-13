@@ -1,13 +1,11 @@
 package gui;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -32,9 +30,12 @@ public class ShoppingListViewer extends JFrame
   
   private static final String UPDATE_SCROLL_AREA = "update_scroll_area";
   private static final int NO_DISPLAY = -1;
+  private static final String[] UNITS = new String[] {"", "Dram", "Ounce", "Gram", "Pound",
+      "Pinch", "Teaspoon", "Tablespoon", "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon",
+      "Individual"};
   
   private JPanel contentPane;
-  private JPanel inputNumPeople;
+  private JPanel inputNumPeoplePanel;
   private JTextField numPeopleField;
   private int numPeople;
   private JScrollPane scrollPane;
@@ -50,28 +51,44 @@ public class ShoppingListViewer extends JFrame
   {
     
     super(Translator.translate("KiLowBites Shopping List Viewer") + "\t" + getName(obj));
+    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setSize(600, 400);
+    allIngredients = new ArrayList<Ingredient>();
+    editedIngredients = new ArrayList<Ingredient>();
     
     contentPane = (JPanel) getContentPane();
     contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
     
-    inputNumPeople = new JPanel();
-    inputNumPeople.add(new JLabel(Translator.translate("Number of People") + ":"));
+    // create a panel to input the number of people served
+    inputNumPeoplePanel = new JPanel();
+    inputNumPeoplePanel.add(new JLabel(Translator.translate("Number of People") + ":"));
     numPeopleField = new JTextField();
     numPeopleField.setColumns(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     numPeopleField.addActionListener(new ShoppingListListener());
-    inputNumPeople.add(numPeopleField);
+    inputNumPeoplePanel.add(numPeopleField);
+    contentPane.add(inputNumPeoplePanel);
     
-    scrollArea = new JTextArea();
+    // create a scroll area with the ingredients
     updateScrollArea(obj, numPeopleField.getText());
+    scrollPane = new JScrollPane(scrollArea);
+    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+    contentPane.add(scrollPane);
+    
+    setVisible(true);
     
   }
   
   private void updateScrollArea(final Object obj, final String info)
   {
     
-    scrollArea.setText(null);
-    allIngredients.clear();
+    if (scrollArea != null)
+    {
+      scrollArea.setText(null);
+    }
+    if (!allIngredients.isEmpty())
+    {
+      allIngredients.clear();
+    }
     
     // get the number of people you are serving with a Recipe/Meal
     try
@@ -101,8 +118,30 @@ public class ShoppingListViewer extends JFrame
     // edit ingredients by adding up duplicates and changing their units
     editIngredientList();
     
-    // display ingredients as a ShoppingListIngredient with a dropdown menu to change units
+    scrollArea = new JTextArea(editedIngredients.size(), 1);
     
+    // display ingredients as a ShoppingListIngredient with a dropdown menu to change units
+    if (obj instanceof Recipe)
+    {
+      Recipe recipe = (Recipe) obj;
+      for (Ingredient ing : editedIngredients)
+      {
+        scrollArea.add(new ShoppingListIngredient(ing));
+      }
+    }
+    else if (obj instanceof Meal)
+    {
+      Meal meal = (Meal) obj;
+      for (Recipe recipe : meal.getRecipes())
+      {
+        for (Ingredient ing : editedIngredients)
+        {
+          scrollArea.add(new ShoppingListIngredient(ing));
+        }
+      }
+    }
+    
+    scrollArea.setLayout(new BoxLayout(scrollArea, BoxLayout.Y_AXIS));
     
   }
   
@@ -163,8 +202,6 @@ public class ShoppingListViewer extends JFrame
     return name;
   }
   
-  
-  
   private class ShoppingListListener implements ActionListener
   {
 
@@ -181,7 +218,15 @@ public class ShoppingListViewer extends JFrame
     ShoppingListIngredient(final Ingredient ingredient)
     {
       super();
-      
+      setSize(600, 50);
+      add(new JLabel(ingredient.toString()));
+      JComboBox<String> units = new JComboBox<>();
+      for (String unit : UNITS)
+      {
+        units.addItem(unit);
+      }
+      units.addActionListener(new ShoppingListListener());
+      add(units);
     }
   }
   
