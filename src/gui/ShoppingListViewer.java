@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,12 +29,15 @@ import utilities.UnitConversion;
 public class ShoppingListViewer extends JFrame
 {
   
-  private static final String UPDATE_SCROLL_AREA = "update_scroll_area";
-  private static final int NO_DISPLAY = -1;
+  private static final String CHANGE_UNITS = "change_units";
+  private static final String CHANGE_NUMBER_OF_PEOPLE = "number_of_people";
+  private static final String PURCHASED_INGREDIENT = "purchased_ingredient";
+  private static final int DO_NOT_DISPLAY = -1;
   private static final String[] UNITS = new String[] {"", "Dram", "Ounce", "Gram", "Pound",
       "Pinch", "Teaspoon", "Tablespoon", "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon",
       "Individual"};
   
+  private Object obj;
   private JPanel contentPane;
   private JPanel inputNumPeoplePanel;
   private JTextField numPeopleField;
@@ -53,6 +57,7 @@ public class ShoppingListViewer extends JFrame
     super(Translator.translate("KiLowBites Shopping List Viewer") + "\t" + getName(obj));
     setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     setSize(600, 400);
+    this.obj = obj;
     allIngredients = new ArrayList<Ingredient>();
     editedIngredients = new ArrayList<Ingredient>();
     
@@ -64,21 +69,20 @@ public class ShoppingListViewer extends JFrame
     inputNumPeoplePanel.add(new JLabel(Translator.translate("Number of People") + ":"));
     numPeopleField = new JTextField();
     numPeopleField.setColumns(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
+    numPeopleField.setActionCommand(CHANGE_NUMBER_OF_PEOPLE);
     numPeopleField.addActionListener(new ShoppingListListener());
     inputNumPeoplePanel.add(numPeopleField);
     contentPane.add(inputNumPeoplePanel);
     
     // create a scroll area with the ingredients
-    updateScrollArea(obj, numPeopleField.getText());
-    scrollPane = new JScrollPane(scrollArea);
-    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+    updateScrollArea(numPeopleField.getText());
     contentPane.add(scrollPane);
     
     setVisible(true);
     
   }
   
-  private void updateScrollArea(final Object obj, final String info)
+  private void updateScrollArea(final String info)
   {
     
     if (scrollArea != null)
@@ -97,7 +101,7 @@ public class ShoppingListViewer extends JFrame
     }
     catch (NumberFormatException nfe)
     {
-      numPeople = NO_DISPLAY;
+      numPeople = DO_NOT_DISPLAY;
     }
     
     // collect all ingredients in an unedited ArrayList (may contain duplicates)
@@ -121,27 +125,16 @@ public class ShoppingListViewer extends JFrame
     scrollArea = new JTextArea(editedIngredients.size(), 1);
     
     // display ingredients as a ShoppingListIngredient with a dropdown menu to change units
-    if (obj instanceof Recipe)
+    for (Ingredient ing : editedIngredients)
     {
-      Recipe recipe = (Recipe) obj;
-      for (Ingredient ing : editedIngredients)
-      {
-        scrollArea.add(new ShoppingListIngredient(ing));
-      }
-    }
-    else if (obj instanceof Meal)
-    {
-      Meal meal = (Meal) obj;
-      for (Recipe recipe : meal.getRecipes())
-      {
-        for (Ingredient ing : editedIngredients)
-        {
-          scrollArea.add(new ShoppingListIngredient(ing));
-        }
-      }
+      scrollArea.add(new ShoppingListIngredient(ing));
     }
     
     scrollArea.setLayout(new BoxLayout(scrollArea, BoxLayout.Y_AXIS));
+//    scrollArea.setVisible(numPeople != DO_NOT_DISPLAY);
+
+    scrollPane = new JScrollPane(scrollArea);
+    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     
   }
   
@@ -183,7 +176,13 @@ public class ShoppingListViewer extends JFrame
     }
   }
   
-  private static String getName(final Object obj)
+  /**
+   * Get the name of a Recipe or Meal.
+   * 
+   * @param obj should be a Recipe or Meal
+   * @return name
+   */
+  public static String getName(final Object obj)
   {
     String name = "";
     if (obj instanceof Recipe)
@@ -197,7 +196,7 @@ public class ShoppingListViewer extends JFrame
     else
     {
       System.out.println(Translator.translate("Invalid file"));
-      System.exit(1);
+      System.exit(1); // not a good exit strategy
     }
     return name;
   }
@@ -209,25 +208,91 @@ public class ShoppingListViewer extends JFrame
     public void actionPerformed(final ActionEvent e)
     {
       String command = e.getActionCommand();
+      if (command.equals(CHANGE_NUMBER_OF_PEOPLE))
+      {
+        try
+        {
+          numPeople = Integer.parseInt(numPeopleField.getText());
+          updateScrollArea("" + numPeople);
+        }
+        catch (NumberFormatException nfe)
+        {
+          numPeople = DO_NOT_DISPLAY;
+          updateScrollArea("" + numPeople);
+        }
+      }
+//      else if (command.equals(CHANGE_UNITS))
+//      {
+//        
+//      }
+      else if (command.equals(PURCHASED_INGREDIENT))
+      {
+        // adds to inventory
+      }
     }
     
   }
   
   private class ShoppingListIngredient extends JPanel
   {
+    
+    JLabel label;
+    JComboBox<String> units;
+    JCheckBox checkBox;
+//    Ingredient ingredient;
+    
     ShoppingListIngredient(final Ingredient ingredient)
     {
+      
       super();
       setSize(600, 50);
-      add(new JLabel(ingredient.toString()));
-      JComboBox<String> units = new JComboBox<>();
+      label = new JLabel(ingredient.toString());
+//      this.ingredient = ingredient;
+      
+      units = new JComboBox<>();
       for (String unit : UNITS)
       {
         units.addItem(unit);
       }
-      units.addActionListener(new ShoppingListListener());
-      add(units);
+      units.setSelectedItem(ingredient.getUnit());
+//      units.setActionCommand(CHANGE_UNITS);
+//      units.addActionListener(new ShoppingListListener());
+      units.addActionListener(new ActionListener() 
+      {
+        public void actionPerformed(final ActionEvent e)
+        {
+          int index = editedIngredients.indexOf(ingredient);
+          String newUnit = (String) units.getSelectedItem();
+          Ingredient newIng = new Ingredient(ingredient.getName(), ingredient.getDetails(), 
+              ingredient.getAmount(), newUnit, ingredient.getCalories(), ingredient.getDensity());
+          editedIngredients.set(index, newIng);
+          updateScrollArea("" + numPeople);
+          label = new JLabel(newIng.toString());
+          updateShoppingListIngredient();
+        }
+      });
+      
+      checkBox = new JCheckBox("Purchased?");
+      checkBox.setActionCommand(PURCHASED_INGREDIENT);
+      checkBox.addActionListener(new ShoppingListListener());
+      
+      updateShoppingListIngredient();
+      
     }
+    
+    public void updateShoppingListIngredient()
+    {
+      removeAll();
+      add(label);
+      add(units);
+      add(checkBox);
+    }
+    
+//    public String toString()
+//    {
+//      return ingredient.getName() + " " + ingredient.getUnit();
+//    }
+    
   }
   
 //must account for the fact that recipes are designed to serves multiple people

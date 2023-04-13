@@ -42,11 +42,11 @@ public class TemporaryGUITest
   {
 
     ArrayList<Ingredient> ingredients = new ArrayList<>();
-    ingredients.add(new Ingredient("chicken", " ", 1, "g", 
+    ingredients.add(new Ingredient("chicken", " ", 1, "Gram", 
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("rice", " ", 1, "g", 
+    ingredients.add(new Ingredient("rice", " ", 1, "Gram", 
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("broccoli", " ", 1, "g", 
+    ingredients.add(new Ingredient("broccoli", " ", 1, "Gram", 
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 
     ArrayList<Utensil> utensils = new ArrayList<>();
