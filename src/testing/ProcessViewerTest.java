@@ -26,9 +26,16 @@ class ProcessViewerTest
     ArrayList<Utensil> utensils = new ArrayList<>();
     utensils.add(new Utensil("fork", " "));
     utensils.add(new Utensil("knife", " "));
+    utensils.add(new Utensil("sink", ""));
+    utensils.add(new Utensil("cutting board", ""));
 
     ArrayList<Step> steps = new ArrayList<>();
-    steps.add(new Step("cut", ingredients.get(0), utensils.get(0), utensils.get(1), " ", 5));
+    steps.add(new Step("wash", ingredients.get(0), utensils.get(1), utensils.get(2), " ", 15));
+    steps.add(new Step("wash", ingredients.get(1), utensils.get(1), utensils.get(2), " ", 15));
+    steps.add(new Step("wash", ingredients.get(2), utensils.get(1), utensils.get(2), " ", 15));
+    steps.add(new Step("cut", ingredients.get(0), utensils.get(0), utensils.get(1), " ", 20));
+    steps.add(new Step("cut", ingredients.get(1), utensils.get(0), utensils.get(3), " ", 5));
+    steps.add(new Step("cut", ingredients.get(2), utensils.get(0), utensils.get(3), " ", 10));
 
     Recipe recipe = new Recipe("ProcessViewer Test", 2, ingredients, utensils, steps);
     ProcessViewer pv = new ProcessViewer(recipe);
