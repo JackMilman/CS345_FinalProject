@@ -1,4 +1,4 @@
-package gui;
+package branding;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;

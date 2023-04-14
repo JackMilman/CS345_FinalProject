@@ -1,4 +1,4 @@
-package gui;
+package branding;
 
 import java.awt.Color;
 

@@ -5,6 +5,7 @@ import java.awt.event.*;
 import utilities.UnitConversion;
 import javax.swing.*;
 
+import branding.KitchIntelButton;
 import config.Translator;
 import recipes.NutritionInfo;
 

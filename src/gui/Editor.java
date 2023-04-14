@@ -4,6 +4,8 @@ import java.awt.Window;
 
 import javax.swing.JDialog;
 
+import branding.KitchIntelButton;
+
 /**
  * Abstract parent class of all editors. Encapsulates functionality like the buttons that all 
  * editors have in common.
