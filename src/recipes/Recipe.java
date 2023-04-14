@@ -24,7 +24,7 @@ import utilities.SortLists;
  * @author Jack Milman, KichIntel
  *
  */
-public class Recipe implements Serializable
+public abstract class Recipe implements Serializable
 {
   private static final long serialVersionUID = 1L;
 
@@ -32,13 +32,11 @@ public class Recipe implements Serializable
 
   private int servings;
 
-  private List<Ingredient> ingredients = new ArrayList<Ingredient>();
+  protected List<Ingredient> ingredients = new ArrayList<Ingredient>();
 
-  private List<Utensil> utensils = new ArrayList<Utensil>();
+  protected List<Utensil> utensils = new ArrayList<Utensil>();
 
-  private List<Step> steps = new ArrayList<Step>();
-
-  private String category;
+  protected List<Step> steps = new ArrayList<Step>();
 
   /**
    * Constructs a new Recipe. The name of a recipe may not be null and must be at least 1 character
@@ -51,8 +49,7 @@ public class Recipe implements Serializable
    * @param utensils
    * @param steps
    */
-  public Recipe(final String name, final int servings, final List<Ingredient> ingredients,
-      final List<Utensil> utensils, final List<Step> steps)
+  public Recipe(final String name, final int servings)
   {
     if (name == null || name.equals(""))
     {
@@ -71,15 +68,33 @@ public class Recipe implements Serializable
     {
       this.servings = servings;
     }
-
-    if (ingredients != null)
-      this.ingredients = ingredients;
-
-    if (utensils != null)
-      this.utensils = utensils;
-
-    if (steps != null)
-      this.steps = steps;
+  }
+  
+  public boolean addAllIngredients(final List<Ingredient> ingredients) {
+    int sizeBefore = ingredients.size();
+    for (Ingredient ingredient : ingredients) {
+      addIngredient(ingredient);
+    }
+    // If the list changed as a result of this operation
+    return sizeBefore != ingredients.size();
+  }
+  
+  public boolean addAllUtensils(final List<Utensil> utensils) {
+    int sizeBefore = utensils.size();
+    for (Utensil utensil : utensils) {
+      addUtensil(utensil);
+    }
+    // If the list changed as a result of this operation
+    return sizeBefore != utensils.size();
+  }
+  
+  public boolean addAllSteps(final List<Step> steps) {
+    int sizeBefore = steps.size();
+    for (Step step: steps) {
+      addStep(step);
+    }
+    // If the list changed as a result of this operation
+    return sizeBefore != steps.size();
   }
 
   /**
@@ -92,7 +107,10 @@ public class Recipe implements Serializable
    */
   public boolean addIngredient(final Ingredient ingredient)
   {
-    return ingredients.add(ingredient);
+    if (!ingredients.contains(ingredient)) {
+      return ingredients.add(ingredient);
+    }
+    return false;
   }
 
   /**
@@ -104,10 +122,10 @@ public class Recipe implements Serializable
    * 
    * @return true if the ingredient was successfully removed, else false
    */
-  public boolean removeIngredient(final Ingredient ingredient)
-  {
-    return ingredients.remove(ingredient);
-  }
+   public boolean removeIngredient(final Ingredient ingredient)
+   {
+     return ingredients.remove(ingredient);
+   }
 
   /**
    * Adds an utensil to the list of Utensils.
@@ -119,7 +137,11 @@ public class Recipe implements Serializable
    */
   public boolean addUtensil(final Utensil utensil)
   {
-    return utensils.add(utensil);
+    if (!utensils.contains(utensil))
+    {
+      return utensils.add(utensil);
+    }
+    return false;
   }
 
   /**
@@ -220,24 +242,14 @@ public class Recipe implements Serializable
    * 
    * @return the Ingredients used in the Recipe.
    */
-  public List<Ingredient> getIngredients()
-  {
-    // Removed the call to Sort the Ingredients List. Lists should be sorted outside of this class
-    // -Jack 3/30
-    return ingredients;
-  }
+  abstract public List<Ingredient> getIngredients();
 
   /**
    * Gets the Utensils used in the Recipe.
    * 
    * @return the Utensils used in the Recipe.
    */
-  public List<Utensil> getUtensils()
-  {
-    // Removed the call to Sort the utensils List. Lists should be sorted outside of this class
-    // -Jack 3/30
-    return utensils;
-  }
+  abstract public List<Utensil> getUtensils();
 
   /**
    * Gets the Steps to follow in order to make the Recipe.
@@ -246,24 +258,24 @@ public class Recipe implements Serializable
    */
   public List<Step> getSteps()
   {
-    return steps;
+    return new ArrayList<Step>(steps);
   }
 
   /**
    * Calculates the total number of calories in the Recipe by totaling each Ingredient's calorie
    * count.
    * 
-   * @return the  total number of calories in the Recipe
+   * @return the total number of calories in the Recipe
    */
-  public double calculateCalories()
-  {
-    double calories = 0;
-    for (Ingredient ingredient : ingredients)
-    {
-      calories += ingredient.getCaloriesPerGram();
-    }
-    return calories;
-  }
+  abstract public double calculateCalories();
+//  {
+//    double calories = 0;
+//    for (Ingredient ingredient : ingredients)
+//    {
+//      calories += ingredient.getCaloriesPerGram();
+//    }
+//    return calories;
+//  }
 
   /**
    * Serializes this recipe into a file name filename.rcp.

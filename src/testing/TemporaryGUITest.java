@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import gui.IngredientEditor;
 import gui.ShoppingListViewer;
 import recipes.Ingredient;
+import recipes.LeafRecipe;
 import recipes.Recipe;
 import recipes.Step;
 import recipes.Utensil;
@@ -56,7 +57,10 @@ public class TemporaryGUITest
     ArrayList<Step> steps = new ArrayList<>();
     steps.add(new Step("cut", ingredients.get(0), utensils.get(0), utensils.get(1), " ", 5));
 
-    Recipe recipe = new Recipe("Shopping List Test", 2, ingredients, utensils, steps);
+    Recipe recipe = new LeafRecipe("Shopping List Test", 2);
+    recipe.addAllIngredients(ingredients);
+    recipe.addAllUtensils(utensils);
+    recipe.addAllSteps(steps);
     ShoppingListViewer shoppingList = new ShoppingListViewer(recipe);
     
   }
