@@ -119,7 +119,7 @@ public class CalorieCalculatorWindow extends JFrame {
   {
     JComboBox<String> names = new JComboBox<>();
     names.addItem("");
-    List<String> items = new ArrayList<String>(NutritionInfo.getKeys());
+    List<String> items = new ArrayList<String>(NutritionInfo.getIngredientsInMap());
     Collections.sort(items);
     for (String item : items)
     {

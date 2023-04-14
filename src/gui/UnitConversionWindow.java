@@ -94,7 +94,7 @@ public class UnitConversionWindow extends JFrame
     
     fromunitBox.addItemListener(new FromComboBoxHandler());
     tounitBox.addItemListener(new ToComboBoxHandler());
-    String[] ingredients = (String[]) NutritionInfo.getKeys().toArray();
+    String[] ingredients = (String[]) NutritionInfo.getIngredientsInMap().toArray();
     JLabel ingredientLabel = new JLabel(Translator.translate("Ingredient") + ":");
     ingredientBox = new JComboBox<String>();
 
