@@ -32,11 +32,12 @@ public class Inventory
 
     return instance;
   }
-  
+
   /**
-   * Clears the entire Inventory of its elements. 
+   * Clears the entire Inventory of its elements.
    */
-  public static void clear() {
+  public static void clear()
+  {
     ingredients.clear();
   }
 
@@ -132,8 +133,8 @@ public class Inventory
       addingAmount = UnitConversion.convert(name, addingUnit, presentUnit, addingAmount);
       double endAmount = presentAmount + addingAmount;
 
-      Ingredient convertedAndSummed = new Ingredient(name, details, endAmount, presentUnit,
-          null, null);
+      Ingredient convertedAndSummed = new Ingredient(name, details, endAmount, presentUnit, null,
+          null);
       ingredients.set(index, convertedAndSummed);
       return true;
     }
@@ -142,29 +143,19 @@ public class Inventory
       return ingredients.add(addingIngredient);
     }
   }
-  
-  public boolean removeIngredient(final Ingredient removingIngredient) {
-    int index = ingredients.indexOf(removingIngredient);
-    if (index > -1) {
-      Ingredient presentIngredient = ingredients.get(index);
-      String name = presentIngredient.getName();
-      String details = presentIngredient.getDetails();
-      String presentUnit = presentIngredient.getUnit();
-      double presentAmount = presentIngredient.getAmount();
-      
-      // Get the amount and the units of the ingredient so we can convert the amount in the one
-      // we're removing from that unit.
-      double removingAmount = removingIngredient.getAmount();
-      String removingUnit = removingIngredient.getUnit();
-      
-   // Convert the removingIngredient's amount to the unit already in the inventory.
-      removingAmount = UnitConversion.convert(name, removingUnit, presentUnit, removingAmount);
-      double endAmount = presentAmount - removingAmount;
-      
-      Ingredient convertedAndSubtracted = new Ingredient(name, details, endAmount, presentUnit,
-          null, null);
-      
-    }
+
+  /**
+   * Reduces an ingredient in the list by an amount equal to the amount in the reducingIngredient
+   * being passed. We first check that the ingredient exists in the list, then convert to the unit
+   * of the ingredient already in the list. We then subtract the converted amount from the amount
+   * already in the list, and create a new Ingredient with that updated amount. If the amount is
+   * less than or equal to 0, we remove the Ingredient from the inventory.
+   * 
+   * @param reducingIngredient
+   * @return true if the Inventory was changed as a result of this method being called
+   */
+  public boolean reduceIngredient(final Ingredient reducingIngredient)
+  {
     return false;
   }
 
