@@ -7,6 +7,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.swing.*;
 
 import config.Language;
+import config.Logo;
 import config.Translator;
 
 /**
@@ -19,7 +20,6 @@ import config.Translator;
 public class MainWindow extends JFrame implements Runnable
 {
   private static final long serialVersionUID = 1L;
-  private static final String PATH = "images/KILowBites_Logo.png";
 
   /**
    * 
@@ -129,7 +129,7 @@ public class MainWindow extends JFrame implements Runnable
 
     // add the company logo to the window
     // Josiah's changes:
-    ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResource("KILowBites_Logo.png"));
+    ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResource(Logo.PATH));
     JLabel logoLabel = new JLabel(logo);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
     // ImageIcon logo = new ImageIcon(PATH);

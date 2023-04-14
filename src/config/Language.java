@@ -1,6 +1,5 @@
 package config;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +44,8 @@ public enum Language
     Scanner scanner;
     try
     {
-      scanner = new Scanner(new File("language/language.txt"));
+      scanner = new Scanner(Language.class.getClassLoader().getResource("language.txt").
+          openStream());
     }
     catch(IOException ioe)
     {
@@ -62,6 +62,8 @@ public enum Language
         addWord(words[0], words[1], words[2]);
       }
     }
+    
+    scanner.close();
   }
   
   /**
