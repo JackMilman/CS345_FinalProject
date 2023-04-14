@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import branding.KitchIntelBorder;
 import config.Translator;
 import recipes.Meal;
 import recipes.Recipe;

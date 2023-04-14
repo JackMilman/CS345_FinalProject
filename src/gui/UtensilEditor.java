@@ -15,6 +15,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import branding.KitchIntelBorder;
 import config.Translator;
 import recipes.Utensil;
 import utilities.SortLists;
