@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -239,7 +240,7 @@ public class ProcessViewer extends JFrame implements Serializable {
 				Integer selectedHour = Integer.parseInt((String) hours.getSelectedItem());
 				Integer selectedMin = Integer.parseInt((String) minutes.getSelectedItem());
 				String morningEvening = (String) mornNight.getSelectedItem();
-				if (!(selectedHour == 0) && !(selectedMin == 0) && !morningEvening.equals("")) {
+				if (!(selectedHour == 0) && !morningEvening.equals("")) {
 					setTimes(selectedHour, selectedMin, morningEvening);
 				}
 			}
@@ -267,8 +268,13 @@ public class ProcessViewer extends JFrame implements Serializable {
 	 */
 	private JPanel setUpCaloriesAndInventory(double calories) {
 		JPanel p = new JPanel();
-		p.add(new JTextField("Calories: " + Math.round(calories * 10) / 10.0));
-		p.add(setUpRemoveIngredients());
+		p.setLayout(new BoxLayout(p, BoxLayout.PAGE_AXIS));
+		
+		JPanel temp = new JPanel();
+		temp.add(new JTextField("Calories: " + Math.round(calories * 10) / 10.0));
+		temp.add(setUpRemoveIngredients());
+		
+		p.add(temp);
 		p.add(setUpPlatingTime());
 		return p;
 	}
@@ -313,6 +319,7 @@ public class ProcessViewer extends JFrame implements Serializable {
 
 		// Gets each utensil and step in the meals
 		ArrayList<Utensil> utensils = new ArrayList<>();
+		steps = new ArrayList<>();
 		for (Recipe recipe : meal.getRecipes()) {
 			for (Utensil utensil : recipe.getUtensils()) {
 				if (!utensils.contains(utensil))
@@ -324,11 +331,13 @@ public class ProcessViewer extends JFrame implements Serializable {
 		}
 
 		p = setUpUtensils(utensils);
-		c.setLayout(new FlowLayout());
-		c.add(p);
+		c.setLayout(new BorderLayout());
+		c.add(p, BorderLayout.NORTH);
 
 		p = setUpSteps();
-		c.add(p);
+		c.add(p, BorderLayout.CENTER);
+		
+		c.add(setUpCaloriesAndInventory(meal.calculateCalories()), BorderLayout.SOUTH);
 		setSize(600, 450);
 		setVisible(true);
 	}
