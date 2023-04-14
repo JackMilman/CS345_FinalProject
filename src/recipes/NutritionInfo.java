@@ -90,34 +90,74 @@ public class NutritionInfo
     map.put("Wine", new CalorieGram(0.83, 0.99));
     return map;
   }
-  
-  public static boolean contains(final String ingredientName) {
+
+  public static boolean contains(final String ingredientName)
+  {
     return nutritionMap.containsKey(ingredientName);
   }
-  
-  public static void addIngredient(final String name, final Double calories, final Double density) {
-    nutritionMap.put(name, new CalorieGram(calories, density));
+
+  /**
+   * Adds a new ingredient's information to the nutritionMap, so long as it is not already present
+   * in the map.
+   * 
+   * @param name
+   *          the name of the ingredient
+   * @param calories
+   *          the caloriesPerGram for the ingredient
+   * @param density
+   *          the gramPerML for the ingredient
+   */
+  public static void addIngredient(final String name, final Double calories, final Double density)
+  {
+    if (!nutritionMap.containsKey(name))
+      nutritionMap.put(name, new CalorieGram(calories, density));
   }
-  
-  public static Set<String> getKeys() {
+
+  /**
+   * @return
+   */
+  public static Set<String> getIngredientsInMap()
+  {
     return nutritionMap.keySet();
   }
 
+  /**
+   * Returns the calorie information of the ingredient, if it exists in the map and has calorie information. Else, returns 0.0.
+   * 
+   * @param ingredientName
+   *          the ingredient whose calorie info we want to find
+   * @return the calories of the ingredientName, or 0.0 if it is not present
+   */
   public static Double getCalPerGram(final String ingredientName)
   {
     CalorieGram mapping = nutritionMap.get(ingredientName);
-    if (mapping != null && mapping.getCal() != null) {
+    if (mapping != null && mapping.getCal() != null)
+    {
       return mapping.getCal();
-    } else {
+    }
+    else
+    {
       return 0.0;
     }
   }
 
-  public static Double getGramPerML(final String ingredientName) {
+  /**
+   * Returns the density information of the ingredient, if it exists in the map and has density
+   * information. Else, returns 0.0.
+   * 
+   * @param ingredientName
+   *          the ingredient whose density info we want to find
+   * @return the density of the ingredientName, or 0.0 if it is not present
+   */
+  public static Double getGramPerML(final String ingredientName)
+  {
     CalorieGram mapping = nutritionMap.get(ingredientName);
-    if (mapping != null && mapping.getDensity() != null) {
+    if (mapping != null && mapping.getDensity() != null)
+    {
       return mapping.getDensity();
-    } else {
+    }
+    else
+    {
       return 0.0;
     }
   }
