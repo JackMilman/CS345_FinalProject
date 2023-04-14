@@ -19,7 +19,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
@@ -314,7 +313,6 @@ public class ProcessViewer extends JFrame implements Serializable {
 
 		// Gets each utensil and step in the meals
 		ArrayList<Utensil> utensils = new ArrayList<>();
-		ArrayList<Step> steps = new ArrayList<>();
 		for (Recipe recipe : meal.getRecipes()) {
 			for (Utensil utensil : recipe.getUtensils()) {
 				if (!utensils.contains(utensil))
