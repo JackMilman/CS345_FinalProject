@@ -161,7 +161,7 @@ public class UnitConversionWindow extends JFrame
 
   private class IngredientComboBoxHandler implements ItemListener
   {
-
+    
     public void itemStateChanged(ItemEvent e)
     {
       ingredient = (String) e.getItem();

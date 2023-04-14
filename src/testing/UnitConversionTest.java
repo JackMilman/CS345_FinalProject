@@ -32,7 +32,7 @@ class UnitConversionTest
 
     assertEquals(96.0, UnitConversion.convert("Apple","CUP", "TEASPOON", 2));
     assertEquals(.0625, UnitConversion.convert("Apple","CUP", "GALLON", 1));
-    assertEquals(8, UnitConversion.convert("Apple","CUP", "FLUID OUNCE", 1)); 
+    assertEquals(8, UnitConversion.convert("Apple","CUP", "FLUID_OUNCE", 1)); 
   }
   @Test
   void specialCase_tests() {
@@ -53,7 +53,7 @@ class UnitConversionTest
     double trunc = UnitConversion.convert("Apple","CUP", "MILLILITER", 1);
     trunc = Math.floor(trunc * 100) / 100;
     assertEquals(236.58, trunc);
-    double trunc1 = UnitConversion.convert("Apple","FLUID OUNCE", "MILLILITER", 1);
+    double trunc1 = UnitConversion.convert("Apple","FLUID_OUNCE", "MILLILITER", 1);
     trunc1 = Math.floor(trunc1 * 100) / 100;
     assertEquals(29.57, trunc1);
     double trunc2 = UnitConversion.convert("Apple","TABLESPOON", "MILLILITER", 1);
@@ -73,7 +73,7 @@ class UnitConversionTest
     double trunc = UnitConversion.convert("Apple","MILLILITER", "CUP", 20);
     trunc = Math.floor(trunc * 10000) / 10000;
     assertEquals(.0845, trunc);
-    double trunc1 = UnitConversion.convert("Apple","MILLILITER", "FLUID OUNCE", 1);
+    double trunc1 = UnitConversion.convert("Apple","MILLILITER", "FLUID_OUNCE", 1);
     trunc1 = Math.floor(trunc1 * 1000) / 1000;
     assertEquals(.033, trunc1);
     double trunc2 = UnitConversion.convert("Apple","MILLILITER", "TABLESPOON", 1);
