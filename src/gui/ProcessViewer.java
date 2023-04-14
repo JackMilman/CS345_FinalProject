@@ -6,17 +6,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -49,8 +41,8 @@ import utilities.SortLists;
 public class ProcessViewer extends JFrame implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	private static final String RECIPEEXT = "rcp";
-	private static final String MEALEXT = "mel";
+	//private static final String RECIPEEXT = "rcp";
+	//private static final String MEALEXT = "mel";
 	private JTable table;
 	private List<Step> steps;
 
@@ -81,11 +73,10 @@ public class ProcessViewer extends JFrame implements Serializable {
 	 * @return A scrollable panel with a border and list of utensils
 	 */
 	private JScrollPane setUpUtensils(final List<Utensil> utensils) {
-		JTextArea textArea = new JTextArea();
 		SortLists.sortUtensils(utensils); // Added since change to Recipe's get() methods do not return
 											// an automatically sorted list anymore - Jack, 3/30
-		// Create JTable for steps
-		// Sets editable to false
+		
+		//Creates table model and sets editable to false
 		DefaultTableModel tableModel = new DefaultTableModel() {
 
 			private static final long serialVersionUID = 1L;
@@ -95,6 +86,8 @@ public class ProcessViewer extends JFrame implements Serializable {
 				return false;
 			}
 		};
+		
+		//Creates JTable
 		String[] data = new String[utensils.size()];
 		int r = 0;
 		for (Utensil item : utensils) {
@@ -104,12 +97,12 @@ public class ProcessViewer extends JFrame implements Serializable {
 		tableModel.addColumn("", data);
 		JTable table = new JTable(tableModel);
 
-		//Set up utensils
+		// Set up scroll pane
 		JScrollPane p = new JScrollPane(table);
 		p.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		p.setBorder(BorderFactory.createTitledBorder(Translator.translate("Utensils")));
 		p.setPreferredSize(new Dimension(575, 100));
-		
+
 		return p;
 	}
 
@@ -120,8 +113,7 @@ public class ProcessViewer extends JFrame implements Serializable {
 	 * @return A scrollable panel with a border and list of steps
 	 */
 	private JScrollPane setUpSteps() {
-		// Create JTable for steps
-		// Sets editable to false
+		// Sets table model editable to false
 		DefaultTableModel tableModel = new DefaultTableModel() {
 
 			private static final long serialVersionUID = 1L;
@@ -130,52 +122,82 @@ public class ProcessViewer extends JFrame implements Serializable {
 			public boolean isCellEditable(int row, int col) {
 				return false;
 			}
-			
+
 		};
+		
+		//Creates JTable with steps and their corresponding times
 		String[] stepData = new String[steps.size()];
 		String[] timeData = new String[steps.size()];
 		int r = 0;
 		for (Step item : steps) {
 			stepData[r] = item.toString(false) + "";
-			//timeData[r] = item.getTime() + "";
 			r++;
 		}
 		tableModel.addColumn("Steps", stepData);
 		tableModel.addColumn("Time", timeData);
 		table = new JTable(tableModel);
-
 		table.getColumnModel().getColumn(0).setPreferredWidth(300);
+		
 		// Sets up scroll panel
 		JScrollPane p = new JScrollPane(table);
 		p.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		p.setBorder(BorderFactory.createTitledBorder(Translator.translate("Steps")));
 		p.setPreferredSize(new Dimension(575, 300));
-
 		return p;
 	}
-	
-	private String convertMinsToTime(int total, String amPm) {
-		int hour = total/60;
-		int mins = total%60;
-		return String.format("%d:%02d %s", hour, mins, amPm);
-	}
-	
-	private boolean setTimes(int hour, int min, String amPm) {
-			int totalTimeInMins = hour * 60 + min;
-			DefaultTableModel model = ((DefaultTableModel)table.getModel());
-			//String.format("Finished at %d:%d %s", hour, min, amPm);
-			for (int i = steps.size()-1; i >= 0; i--) {
-				int duration = steps.get(i).getTime();
-				totalTimeInMins = totalTimeInMins - duration;
-				 model.setValueAt(convertMinsToTime(totalTimeInMins, amPm), i, 1);
-			}
-			return true;
-	}
-	
-	private JPanel setUpCaloriesAndInventory(double calories) {
-		JPanel p = new JPanel();
-		p.add(new JTextField("Calories: " + Math.round(calories * 10) / 10.0));
 
+	/**
+	 * Converts the time  back to standard time. 
+	 * 
+	 * @param total The time in minutes and military time
+	 * @return A string representation of the time
+	 */
+	private String convertMinsToTime(int total) {
+		String indicator;
+		int hour;
+		System.out.print(total);
+
+		// Finds if the time crosses from AM to PM or vice versa
+		if (total > 719) {
+			indicator = "PM";
+			hour = total / 60 - 12;
+		} else {
+			indicator = "AM";
+			hour = total / 60;
+		}
+		if (hour == 0)
+			hour = 12;
+		int mins = total % 60;
+		return String.format("%d:%02d %s", hour, mins, indicator);
+	}
+
+	/**
+	 * Updates the time to start tests when the user inputs a plating time.
+	 * 
+	 * @param hour The hour the user wants to start eating.
+	 * @param min  The time the user wants to start eating
+	 * @param amPm The evening or morning
+	 */
+	private void setTimes(int hour, int min, String amPm) {
+		if (amPm.equals("PM") && hour != 12) {
+			hour = hour + 12;
+		}
+		int totalTimeInMins = hour * 60 + min;
+		DefaultTableModel model = ((DefaultTableModel) table.getModel());
+		for (int i = steps.size() - 1; i >= 0; i--) {
+			int duration = steps.get(i).getTime();
+			totalTimeInMins = totalTimeInMins - duration;
+			model.setValueAt(convertMinsToTime(totalTimeInMins), i, 1);
+		}
+	}
+
+	/**
+	 * Sets up the remove ingredients button. This removes the ingredients from the
+	 * inventory that are in the recipe.
+	 * 
+	 * @return A button to click and remove the ingredients
+	 */
+	private JButton setUpRemoveIngredients() {
 		JButton removeIngredients = new JButton("Recipe Complete");
 		removeIngredients.addActionListener(new ActionListener() {
 			@Override
@@ -186,21 +208,31 @@ public class ProcessViewer extends JFrame implements Serializable {
 						new ImageIcon(getClass().getClassLoader().getResource("KILowBites_Logo.png")));
 			}
 		});
-		p.add(removeIngredients);
-		
+		return removeIngredients;
+	}
+
+	/**
+	 * Sets up the plating time inputs. This includes the some JTextFields and the two JComboBoxes. 
+	 * 
+	 * @return A panel with the plating time inputs. 
+	 */
+	private JPanel setUpPlatingTime() {
+		JPanel p = new JPanel();
 		String[] h = new String[13];
-		for (int i = 0; i < h.length; i ++) {
+		for (int i = 0; i < h.length; i++) {
 			h[i] = String.format("%02d", i);
 		}
 		JComboBox<String> hours = new JComboBox<>(h);
-	
-		String[] m = new String[61];
-		for (int i = 0; i < m.length; i ++) {
+
+		String[] m = new String[60];
+		for (int i = 0; i < m.length; i++) {
 			m[i] = String.format("%02d", i);
 		}
 		JComboBox<String> minutes = new JComboBox<>(m);
-		String[] amPm = {"", "AM", "PM"};
+		String[] amPm = { "", "AM", "PM" };
 		JComboBox<String> mornNight = new JComboBox<>(amPm);
+
+		// Creates an action listener for the plating time
 		ActionListener time = new ActionListener() {
 
 			@Override
@@ -212,8 +244,10 @@ public class ProcessViewer extends JFrame implements Serializable {
 					setTimes(selectedHour, selectedMin, morningEvening);
 				}
 			}
-			
+
 		};
+
+		// Sets up the panel
 		mornNight.addActionListener(time);
 		minutes.addActionListener(time);
 		hours.addActionListener(time);
@@ -222,6 +256,21 @@ public class ProcessViewer extends JFrame implements Serializable {
 		p.add(new JTextField(":"));
 		p.add(minutes);
 		p.add(mornNight);
+		return p;
+	}
+
+	/**
+	 * Sets up the calorie calculations, plating time, and ingredient removal from
+	 * the inventory.
+	 * 
+	 * @param calories The number of calories in a recipe/meal
+	 * @return A JPanel with the calories, inventory, and plating time
+	 */
+	private JPanel setUpCaloriesAndInventory(double calories) {
+		JPanel p = new JPanel();
+		p.add(new JTextField("Calories: " + Math.round(calories * 10) / 10.0));
+		p.add(setUpRemoveIngredients());
+		p.add(setUpPlatingTime());
 		return p;
 	}
 
@@ -239,7 +288,7 @@ public class ProcessViewer extends JFrame implements Serializable {
 		p = setUpUtensils(recipe.getUtensils());
 		c.setLayout(new BorderLayout());
 		c.add(p, BorderLayout.NORTH);
-		
+
 		steps = recipe.getSteps();
 		p = setUpSteps();
 		c.add(p, BorderLayout.CENTER);
