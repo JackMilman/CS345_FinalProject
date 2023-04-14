@@ -21,18 +21,27 @@ import recipes.Meal;
 import recipes.Recipe;
 import utilities.UnitConversion;
 
+/*
+ * TO DO:
+ * Fix calculations
+ * Test with a meal
+ * Possibly create a private listener class
+ * Check acceptance criteria
+ * Add javadocs
+ */
+
 /**
  * Creates the GUI to view a shopping list.
  * 
  * @author Meara Patterson
- * @version 3/29/2023, Version 1
+ * @version 3/29/2023
  */
 public class ShoppingListViewer extends JFrame
 {
   
-  private static final String CHANGE_UNITS = "change_units";
-  private static final String CHANGE_NUMBER_OF_PEOPLE = "number_of_people";
-  private static final String PURCHASED_INGREDIENT = "purchased_ingredient";
+//  private static final String CHANGE_UNITS = "change_units";
+//  private static final String CHANGE_NUMBER_OF_PEOPLE = "number_of_people";
+//  private static final String PURCHASED_INGREDIENT = "purchased_ingredient";
   private static final int DO_NOT_DISPLAY = -1;
   private static final String[] UNITS = new String[] {"", "Dram", "Ounce", "Gram", "Pound",
       "Pinch", "Teaspoon", "Tablespoon", "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon",
@@ -61,6 +70,7 @@ public class ShoppingListViewer extends JFrame
     this.obj = obj;
     allIngredients = new ArrayList<Ingredient>();
     editedIngredients = new ArrayList<Ingredient>();
+    numPeople = DO_NOT_DISPLAY;
     
     contentPane = (JPanel) getContentPane();
     contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
@@ -104,23 +114,16 @@ public class ShoppingListViewer extends JFrame
     {
       contentPane.remove(scrollPane);
     }
-    
+
     if (!allIngredients.isEmpty())
     {
       allIngredients.clear();
     }
-    
-    // get the number of people you are serving with a Recipe/Meal
-    try
-    {
-      numPeople = Integer.parseInt(info);
-    }
-    catch (NumberFormatException nfe)
-    {
-      numPeople = DO_NOT_DISPLAY;
-    }
-    
-    // collect all ingredients in an unedited ArrayList (may contain duplicates)
+//    if (!editedIngredients.isEmpty())
+//    {
+//      editedIngredients.clear();
+//    }
+
     if (obj instanceof Recipe)
     {
       Recipe recipe = (Recipe) obj;
@@ -136,22 +139,28 @@ public class ShoppingListViewer extends JFrame
         editIngredientList(recipe);
       }
     }
-    
-    scrollArea = new JTextArea(editedIngredients.size(), 1);
-    
-    // display ingredients as a ShoppingListIngredient with a dropdown menu to change units
-    for (Ingredient ing : editedIngredients)
-    {
-      scrollArea.add(new ShoppingListIngredient(ing));
-    }
-    
-    scrollArea.setLayout(new BoxLayout(scrollArea, BoxLayout.Y_AXIS));
-//    scrollArea.setVisible(numPeople != DO_NOT_DISPLAY);
 
-    scrollPane = new JScrollPane(scrollArea);
-    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-    
-    contentPane.add(scrollPane);
+    if (numPeople != DO_NOT_DISPLAY)
+    {
+//      editIngredientList(recipe);
+      // editedIngredients should have all ingredients added up
+      // will probably need to change logic
+
+      scrollArea = new JTextArea(editedIngredients.size(), 1);
+
+      for (Ingredient ing : editedIngredients)
+      {
+        scrollArea.add(new ShoppingListIngredient(ing));
+      }
+
+      scrollArea.setLayout(new BoxLayout(scrollArea, BoxLayout.Y_AXIS));
+      scrollPane = new JScrollPane(scrollArea);
+      scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+      contentPane.add(scrollPane);
+
+    }
+
     contentPane.revalidate();
     contentPane.repaint();
     
@@ -167,34 +176,46 @@ public class ShoppingListViewer extends JFrame
   
   private void editIngredientList(final Recipe recipe)
   {
-    double numBatches = (double) numPeople / (double) recipe.getServings();
-    for (Ingredient ing : allIngredients)
+    
+    if (numPeople != DO_NOT_DISPLAY)
     {
-      if (!editedIngredients.contains(ing))
+    
+      if (recipe.getServings() == 0)
       {
-        Ingredient newIng = new Ingredient(ing.getName(), ing.getDetails(), 
-            ing.getAmount() * numBatches, ing.getUnit(), ing.getCalories(), ing.getDensity());
-        editedIngredients.add(newIng);
+        numPeople = DO_NOT_DISPLAY;
+        return;
       }
-      else
+      
+      double numBatches = (double) numPeople / (double) recipe.getServings();
+      
+      for (Ingredient ing : allIngredients)
       {
-        // change duplicate ingredient's units to units of ingredient in list
-        // add the two together in editedIngredients list
-        Ingredient duplicate = null;
-        for (Ingredient editedIng : editedIngredients)
+        if (!editedIngredients.contains(ing))
         {
-          if (editedIng.equals(ing))
+          Ingredient newIng = new Ingredient(ing.getName(), ing.getDetails(), 
+              ing.getAmount() * numBatches, ing.getUnit(), ing.getCalories(), ing.getDensity());
+          editedIngredients.add(newIng);
+        }
+        else
+        {
+          // change duplicate ingredient's units to units of ingredient in list
+          // add the two together in editedIngredients list
+          Ingredient duplicate = null;
+          for (Ingredient editedIng : editedIngredients)
           {
-            duplicate = editedIng;
-            double newAmount = UnitConversion.convert(ing.getName(), ing.getUnit(), 
-                duplicate.getUnit(), ing.getAmount()) + duplicate.getAmount();
-            Ingredient addIng = new Ingredient(ing.getName(), ing.getDetails(), 
-                newAmount * numBatches, duplicate.getUnit(), ing.getCalories(), ing.getDensity());
-            int index = editedIngredients.indexOf(duplicate);
-            editedIngredients.set(index, addIng);
+            if (editedIng.equals(ing))
+            {
+              // add some kind of check for if an ingredient needs to be changed
+              duplicate = editedIng;
+              double newAmount = UnitConversion.convert(ing.getName(), ing.getUnit(), 
+                  duplicate.getUnit(), ing.getAmount()) + duplicate.getAmount();
+              Ingredient addIng = new Ingredient(ing.getName(), ing.getDetails(), 
+                  newAmount * numBatches, duplicate.getUnit(), ing.getCalories(), ing.getDensity());
+              int index = editedIngredients.indexOf(duplicate);
+              editedIngredients.set(index, addIng);
+            }
           }
         }
-        
       }
     }
   }
