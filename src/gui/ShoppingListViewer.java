@@ -16,6 +16,7 @@ import javax.swing.JTextField;
 
 import config.Translator;
 import recipes.Ingredient;
+import recipes.Inventory;
 import recipes.Meal;
 import recipes.Recipe;
 import utilities.UnitConversion;
@@ -69,14 +70,28 @@ public class ShoppingListViewer extends JFrame
     inputNumPeoplePanel.add(new JLabel(Translator.translate("Number of People") + ":"));
     numPeopleField = new JTextField();
     numPeopleField.setColumns(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
-    numPeopleField.setActionCommand(CHANGE_NUMBER_OF_PEOPLE);
-    numPeopleField.addActionListener(new ShoppingListListener());
+//    numPeopleField.setActionCommand(CHANGE_NUMBER_OF_PEOPLE);
+    numPeopleField.addActionListener(new ActionListener()
+    {
+      public void actionPerformed(final ActionEvent e)
+      {
+        try
+        {
+          numPeople = Integer.parseInt(numPeopleField.getText());
+          updateScrollArea("" + numPeople);
+        }
+        catch (NumberFormatException nfe)
+        {
+          numPeople = DO_NOT_DISPLAY;
+          updateScrollArea("" + numPeople);
+        }
+      }
+    });
     inputNumPeoplePanel.add(numPeopleField);
     contentPane.add(inputNumPeoplePanel);
     
     // create a scroll area with the ingredients
     updateScrollArea(numPeopleField.getText());
-    contentPane.add(scrollPane);
     
     setVisible(true);
     
@@ -85,10 +100,11 @@ public class ShoppingListViewer extends JFrame
   private void updateScrollArea(final String info)
   {
     
-    if (scrollArea != null)
+    if (scrollPane != null)
     {
-      scrollArea.setText(null);
+      contentPane.remove(scrollPane);
     }
+    
     if (!allIngredients.isEmpty())
     {
       allIngredients.clear();
@@ -134,6 +150,10 @@ public class ShoppingListViewer extends JFrame
 
     scrollPane = new JScrollPane(scrollArea);
     scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+    
+    contentPane.add(scrollPane);
+    contentPane.revalidate();
+    contentPane.repaint();
     
   }
   
@@ -204,38 +224,6 @@ public class ShoppingListViewer extends JFrame
     return name;
   }
   
-  private class ShoppingListListener implements ActionListener
-  {
-
-    @Override
-    public void actionPerformed(final ActionEvent e)
-    {
-      String command = e.getActionCommand();
-      if (command.equals(CHANGE_NUMBER_OF_PEOPLE))
-      {
-        try
-        {
-          numPeople = Integer.parseInt(numPeopleField.getText());
-          updateScrollArea("" + numPeople);
-        }
-        catch (NumberFormatException nfe)
-        {
-          numPeople = DO_NOT_DISPLAY;
-          updateScrollArea("" + numPeople);
-        }
-      }
-//      else if (command.equals(CHANGE_UNITS))
-//      {
-//        
-//      }
-      else if (command.equals(PURCHASED_INGREDIENT))
-      {
-        // adds to inventory
-      }
-    }
-    
-  }
-  
   private class ShoppingListIngredient extends JPanel
   {
     
@@ -276,8 +264,15 @@ public class ShoppingListViewer extends JFrame
       });
       
       checkBox = new JCheckBox("Purchased?");
-      checkBox.setActionCommand(PURCHASED_INGREDIENT);
-      checkBox.addActionListener(new ShoppingListListener());
+//      checkBox.setActionCommand(PURCHASED_INGREDIENT);
+      checkBox.addActionListener(new ActionListener()
+      {
+        public void actionPerformed(final ActionEvent e)
+        {
+          Inventory inventory = Inventory.createInstance();
+          inventory.addIngredient(ingredient);
+        }
+      });
       
       updateShoppingListIngredient();
       
