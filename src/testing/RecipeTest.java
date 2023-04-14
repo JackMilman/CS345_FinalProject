@@ -18,27 +18,27 @@ import recipes.*;
  */
 class RecipeTest
 {
-  final String recipeNameValid = "NamedRecipe";
-  final String recipeNameNotValid = "";
-  final String recipeNameNull = null;
-  final String recipeNameDefault = "DefaultRecipeName";
-  final String recipeNameQuirky = "I AM A RECIPE NAME WOOHOO";
+  private final String recipeNameValid = "NamedRecipe";
+  private final String recipeNameNotValid = "";
+  private final String recipeNameNull = null;
+  private final String recipeNameDefault = "DefaultRecipeName";
+  private final String recipeNameQuirky = "I AM A RECIPE NAME WOOHOO";
 
-  final String ingredientName1 = "Cabbage";
-  final String ingredientDetails = "Basic Details for an Ingredient";
-  final String ingredientUnit = "POUNDS";
-  final String ingredientName2 = "Apple";
-  final String ingredientName3 = "Chicken";
+  private final String ingredientName1 = "Cabbage";
+  private final String ingredientDetails = "Basic Details for an Ingredient";
+  private final String ingredientUnit = "POUNDS";
+  private final String ingredientName2 = "Apple";
+  private final String ingredientName3 = "Chicken";
 
-  final String utensilName1 = "Spoon";
-  final String utensilNameDest = "NamedUtensilDestination";
-  final String utensilDetails = "Basic Details for a Utensil";
-  final String utensilName2 = "Fork";
-  final String utensilName3 = "Knife";
+  private final String utensilName1 = "Spoon";
+  private final String utensilNameDest = "NamedUtensilDestination";
+  private final String utensilDetails = "Basic Details for a Utensil";
+  private final String utensilName2 = "Fork";
+  private final String utensilName3 = "Knife";
 
-  final String stepAction = "The Action to be performed in a Step";
-  final String stepDetails = "Basic details of a Step";
-  final int time = 5;
+  private final String stepAction = "The Action to be performed in a Step";
+  private final String stepDetails = "Basic details of a Step";
+  private final int time = 5;
 
   @Test
   public void testGetName()

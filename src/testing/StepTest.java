@@ -15,25 +15,25 @@ import recipes.*;
  */
 class StepTest
 {
-  final String basicAction = "do";
-  final String quirkyAction = "doWell";
+  private final String basicAction = "do";
+  private final String quirkyAction = "doWell";
   
-  final String basicDetails = "details";
-  final String quirkyDetails = "extraDetails";
+  private final String basicDetails = "details";
+  private final String quirkyDetails = "extraDetails";
   
-  final Ingredient basicIngredient = new Ingredient("ingredientName", "ingredientDetails", 1, "POUNDS",
+  private final Ingredient basicIngredient = new Ingredient("ingredientName", "ingredientDetails", 1, "POUNDS",
       IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
-  final Ingredient quirkyIngredient = new Ingredient("quirkyIngredientName", "quirkyIngredientDetails", 2, "DRAMS",
+  private final Ingredient quirkyIngredient = new Ingredient("quirkyIngredientName", "quirkyIngredientDetails", 2, "DRAMS",
       IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
   
-  final Utensil basicSource = new Utensil("utensilName", "utensilDetails");
-  final Utensil quirkySource = new Utensil("quirkyUtensilName", "quirkyUtensilDetails");
+  private final Utensil basicSource = new Utensil("utensilName", "utensilDetails");
+  private final Utensil quirkySource = new Utensil("quirkyUtensilName", "quirkyUtensilDetails");
   
-  final Utensil basicDestination = new Utensil("utensilName_Dest", "utensilDetails_Dest");
-  final Utensil quirkyDestination = new Utensil("quirkyUtensilName_Dest", "quirkyUtensilDetails_Dest");
+  private final Utensil basicDestination = new Utensil("utensilName_Dest", "utensilDetails_Dest");
+  private final Utensil quirkyDestination = new Utensil("quirkyUtensilName_Dest", "quirkyUtensilDetails_Dest");
   
-  final int basicTime = 10;
-  final int quirkyTime = 10000;
+  private final int basicTime = 10;
+  private final int quirkyTime = 10000;
 
   @Test
   public void testGetAction()
