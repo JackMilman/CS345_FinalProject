@@ -73,7 +73,7 @@ class ProcessViewerTest
   public static void main(final String[] args)
   {
     testProcessViewerRecipes();
-    //testProcessViewerMeals();
+    testProcessViewerMeals();
   }
 
 }
