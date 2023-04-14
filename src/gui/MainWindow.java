@@ -51,10 +51,12 @@ public class MainWindow extends JFrame implements Runnable
     setJMenuBar(menuBar);
 
     JMenu file = new JMenu(Translator.translate("File"));
+    file.setActionCommand("File");
     menuBar.add(file);
     // Exit: All windows are closed
     JMenuItem exit = new JMenuItem(Translator.translate("Exit"));
     exit.addActionListener(controller);
+    exit.setActionCommand("Exit");
     file.add(exit);
 
     JMenu edit = new JMenu(Translator.translate("Edit"));
@@ -62,10 +64,12 @@ public class MainWindow extends JFrame implements Runnable
     // Recipe: A RecipeEditor is opened
     JMenuItem recipe = new JMenuItem(Translator.translate("Recipe"));
     recipe.addActionListener(controller);
+    recipe.setActionCommand("Recipe");
     edit.add(recipe);
     // Meal: A MealEditor is opened
     JMenuItem meal = new JMenuItem(Translator.translate("Meal"));
     meal.addActionListener(controller);
+    meal.setActionCommand("Meal");
     edit.add(meal);
 
     // not using search in the 1st sprint.
@@ -73,9 +77,11 @@ public class MainWindow extends JFrame implements Runnable
     // menuBar.add(search);
     // // Recipes: The user is prompted for the ingredients of interest
     // JMenuItem recipes = new JMenuItem(Translator.translate("Recipes"));
+    // recipes.addActionCommand("Recipes");
     // search.add(recipes);
     // // Meals: The user is prompted for the ingredients of interest
     // JMenuItem meals = new JMenuItem("Meals");
+    // meals.setActionCommand("Meals");
     // search.add(meals);
 
     JMenu view = new JMenu(Translator.translate("View"));
@@ -83,10 +89,12 @@ public class MainWindow extends JFrame implements Runnable
     // Shopping List: A ShoppingListViewer is opened
     JMenuItem shoppingList = new JMenuItem(Translator.translate("Shopping List"));
     shoppingList.addActionListener(controller);
+    shoppingList.setActionCommand("Shopping List");
     view.add(shoppingList);
     // Process: A ProcessViewer is opened
     JMenuItem process = new JMenuItem(Translator.translate("Process"));
     process.addActionListener(controller);
+    process.setActionCommand("Process");
     view.add(process);
 
     JMenu tools = new JMenu(Translator.translate("Tools"));
@@ -94,38 +102,38 @@ public class MainWindow extends JFrame implements Runnable
     // Calorie Calculator: Calorie Calculator is opened
     JMenuItem calorieCalculator = new JMenuItem(Translator.translate("Calorie Calculator"));
     calorieCalculator.addActionListener(controller);
+    calorieCalculator.setActionCommand("Calorie Calculator");
     tools.add(calorieCalculator);
-    calorieCalculator.addActionListener(controller);
     // Units Converter: UnitConversionWindow is opened
     JMenuItem unitsConverter = new JMenuItem(Translator.translate("Units Converter"));
     unitsConverter.addActionListener(controller);
+    unitsConverter.setActionCommand("Units Converter");
     tools.add(unitsConverter);
-    unitsConverter.addActionListener(controller);
 
-    // Menu Items not being used
-    // JMenu configure = new JMenu(Translator.translate("Configure"));
-    // menuBar.add(configure);
-    // JMenuItem preferences = new JMenuItem(Translator.translate("Preferences"));
-    // configure.add(preferences);
-    // JMenuItem shortcuts = new JMenuItem(Translator.translate("Shortcuts"));
-    // configure.add(shortcuts);
-    // JMenuItem nutrition = new JMenuItem(Translator.translate("Nutrition"));
-    // configure.add(nutrition);
-    //
-    // JMenu help = new JMenu(Translator.translate("Help"));
-    // menuBar.add(help);
-    // JMenuItem about = new JMenuItem(Translator.translate("About"));
-    // help.add(about);
-    // JMenuItem userGuide = new JMenuItem(Translator.translate("User Guide"));
-    // help.add(userGuide);
+    JMenu configure = new JMenu(Translator.translate("Configure"));
+    menuBar.add(configure);
+    JMenuItem preferences = new JMenuItem(Translator.translate("Preferences"));
+    configure.add(preferences);
+    JMenuItem shortcuts = new JMenuItem(Translator.translate("Shortcuts"));
+    configure.add(shortcuts);
+    JMenuItem nutrition = new JMenuItem(Translator.translate("Nutrition"));
+    configure.add(nutrition);
+    
+    // Help items
+    JMenu help = new JMenu(Translator.translate("Help"));
+    menuBar.add(help);
+    //JMenuItem about = new JMenuItem(Translator.translate("About"));
+    //help.add(about);
+    JMenuItem userGuide = new JMenuItem(Translator.translate("User Guide"));
+    help.add(userGuide);
 
     // add the company logo to the window
     // Josiah's changes:
     ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResource("KILowBites_Logo.png"));
     JLabel logoLabel = new JLabel(logo);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
-//    ImageIcon logo = new ImageIcon(PATH);
-//    JLabel logoLabel = new JLabel(logo);
+    // ImageIcon logo = new ImageIcon(PATH);
+    // JLabel logoLabel = new JLabel(logo);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
     setVisible(true);
   }

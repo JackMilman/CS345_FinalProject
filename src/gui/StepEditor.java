@@ -83,7 +83,7 @@ public class StepEditor extends JComponent implements TextListener
     
     Container inputFields = new Container();
     inputFields.setLayout(new FlowLayout(FlowLayout.LEFT));
-    inputFields.add(new JLabel(Translator.translate("Action)" + ":")));
+    inputFields.add(new JLabel(Translator.translate("Action") + ":"));
     inputFields.add(actionSelect);
     inputFields.add(new JLabel(Translator.translate("On") + ":"));
     inputFields.add(onSelect);

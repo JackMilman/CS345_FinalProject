@@ -16,11 +16,11 @@ import recipes.Utensil;
 class UtensilTest
 {
 
-  final String basicName = "name";
-  final String quirkyName = "extraName";
+  private final String basicName = "name";
+  private final String quirkyName = "extraName";
 
-  final String basicDetails = "details";
-  final String quirkyDetails = "extraDetails";
+  private final String basicDetails = "details";
+  private final String quirkyDetails = "extraDetails";
 
   @Test
   public void testGetName()

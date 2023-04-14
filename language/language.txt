@@ -1,53 +1,57 @@
 Add	Ajouter	Agregar
-Delete	Supprimer
-File	Lime
-Exit	Sortie
-Edit	Editer
-Recipe	Recette
-Meal	Repas
-View	Vue
-Shopping list	Liste de courses
-Process	Processus
-Tools	Outils
-Calorie calculator	Calculatrice de calories
-Units converter	Convertisseur d'unites
-Name	Nom
-Serves	Sert
-Utensils	Ustensiles
-Details	Details
-Ingredients	Ingredients
-Amount	Quantite
-Units	Unites
-Calories	Calories
-Density	Densite
-Steps	Escalier
-Action	Action
-On	Sur
-Utensil	Ustensile
-Minutes	Compte-rendu
-Recipes	Recettes
-Add recipe	Ajouter une recetter
-KiLowBites Main Window	Fenetre principale de KiLowBites
-KiLowBites Recipe Editor	Editrice de recettes KiLowBites
-KiLowBites Meal Editor	Editrice de repas KiLowBites
-Ingredient	Ingredient
-From units	A partir d'unites
-To units	Aux unites
-From amount	A partir du montat
-Result	Resultat
-Number of people	Nombre de personnes
-Invalid amount
-File could not be saved
-Open recipe or meal
-Search
-Configure
-Preferences
-Shortcuts
-Nutrition
-Help
-About
-User guide
-You must input a name
-File name
-Invalid file
-Printer error
+Delete	Supprimer	Borrar
+File	Lime	Archivo
+Exit	Sortie	Salida
+Edit	Éditer	Editar
+Recipe	Recette	Receta
+Meal	Repas	Comida
+View	Vue	Vista
+Shopping List	Liste de courses	Lista de la compra
+Process	Processus	Proceso
+Tools	Outils	Herramientas
+Calorie calculator	Calculateur de calories	Calculadora de calorías
+Units converter	Convertisseur d’unités	Convertidor de unidades
+Name	Nom	Nombre
+Serves	Sert	Sirve
+Utensils	Ustensiles	Utensilios
+Details	Détails	Detalles
+Ingredients	Ingrédients	Ingredientes
+Amount	Quantité	Importe
+Units	Unités	Unidades
+Calories	Calories	Calorías
+Density	Densité	Densidad
+Steps	Escalier	Pasos
+Action	Action	Acción
+On	Sur	En
+Utensil	Ustensile	Utensilio
+Minutes	Compte-rendu	Acta
+Recipes	Recettes	Recetas
+Add recipe	Ajouter une recetter	Añadir receta
+KiLowBites Main Window	Fenêtre principale de KiLowBites	Ventana principal de KiLowBites
+KiLowBites Recipe Editor	Éditeur de recettes KiLowBites	Editora de recetas KiLowBites
+KiLowBites Meal Editor	Éditeur de repas KiLowBites	Editora de comidas KiLowBites
+Ingredient	Ingrédient	Ingrediente
+From units	À partir d’unités	Desde unidades
+To units	Vers les unités	A las unidades
+From amount	À partir du montant	Desde la cantidad
+Result	Résultat	Resultado
+Number of people	Nombre de personnes	Número de personas
+Invalid amount	Montant non valide	Importe no válido
+File could not be saved	Le fichier n’a pas pu être enregistré	No se pudo guardar el archivo
+Open recipe or meal	Recette ou repas ouvert	Abrir receta o comida
+Search	Rechercher	Buscar
+Configure	Configurer	Configurar
+Preferences	Préférences	Preferencias
+Shortcuts	Raccourcis	Métodos abreviados
+Nutrition	Nutrition	Nutrición
+Help	Aide	Ayuda
+About	Environ	Acerca de
+User guide	Guide de l’utilisateur	Guía del usuario
+You must input a name	Vous devez entrer un nom	Debe introducir un nombre
+File name	Nom du fichier	Nombre de archivo
+Invalid file	Fichier non valide	Archivo no válido
+Printer error	Erreur d’imprimante	Error de impresora
+KiLowBites Shopping List Viewer	Visionneuse de liste d’achats KiLowBites	Visor de listas de compras KiLowBites
+KiLowBites Process Viewer	Visionneuse de processus KiLowBites	Visor de procesos KiLowBites
+KiLowBites Unit Converter	Convertisseur d’unité KiLowBites	Convertidor de unidades KiLowBites
+KiLowBites Calorie Calculator	Calculatrice de calories KiLowBites	Calculadora de calorías KiLowBites

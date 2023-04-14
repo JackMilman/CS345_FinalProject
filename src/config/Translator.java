@@ -16,6 +16,7 @@ public class Translator
    */
   public static String translate(final String englishText)
   {
+    if(language == Language.English) return englishText;
     if(!Language.isLoaded()) Language.loadLanguages();
     
     String translation = language.getTranslation(englishText);

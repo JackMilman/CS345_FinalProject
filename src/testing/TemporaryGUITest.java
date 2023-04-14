@@ -42,9 +42,12 @@ public class TemporaryGUITest
   {
 
     ArrayList<Ingredient> ingredients = new ArrayList<>();
-//    ingredients.add(new Ingredient("chicken", " ", 1, "g"));
-//    ingredients.add(new Ingredient("rice", " ", 1, "g"));
-//    ingredients.add(new Ingredient("broccoli", " ", 1, "g"));
+    ingredients.add(new Ingredient("chicken", " ", 1, "Gram", 
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+    ingredients.add(new Ingredient("rice", " ", 1, "Gram", 
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+    ingredients.add(new Ingredient("broccoli", " ", 1, "Gram", 
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 
     ArrayList<Utensil> utensils = new ArrayList<>();
     utensils.add(new Utensil("fork", " "));
@@ -55,6 +58,7 @@ public class TemporaryGUITest
 
     Recipe recipe = new Recipe("Shopping List Test", 2, ingredients, utensils, steps);
     ShoppingListViewer shoppingList = new ShoppingListViewer(recipe);
+    
   }
 
   /**
@@ -63,7 +67,7 @@ public class TemporaryGUITest
    */
   public static void main(final String[] args)
   {
-    ingredientEditorTest();
+    shoppingListViewerTest();
   }
 
 }

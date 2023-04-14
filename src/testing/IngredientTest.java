@@ -15,10 +15,10 @@ import recipes.Ingredient;
  */
 class IngredientTest
 {
-  final String ingredientName = "NamedIngredient";
-  final String ingredientDetails = "Basic details for an Ingredient";
-  final String ingredientUnit = "lbs";
-  final String ingredientUnitMetric = "liters";
+  private final String ingredientName = "NamedIngredient";
+  private final String ingredientDetails = "Basic details for an Ingredient";
+  private final String ingredientUnit = "lbs";
+  private final String ingredientUnitMetric = "liters";
 
   @Test
   public void testGetName()
@@ -101,16 +101,21 @@ class IngredientTest
   {
     Ingredient ingredient1 = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
-    try
-    {
-      ingredient1.hashCode();
-      // Should not reach this line
-      fail();
-    }
-    catch (UnsupportedOperationException uoe)
-    {
-      // Want to get here!
-    }
+    Ingredient ingredient2 = new Ingredient(ingredientName, ingredientDetails, 1687, "MADE UP UNIT",
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+    Ingredient differentName = new Ingredient("NewName", ingredientDetails, 1687, "MADE UP UNIT",
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+    Ingredient differentDetails = new Ingredient(ingredientName, "NewDetails", 1687, "MADE UP UNIT",
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+    
+      int firstCode = ingredient1.hashCode();
+      int secondCode = ingredient2.hashCode();
+      int differentNameCode = differentName.hashCode();
+      int differentDetailsCode = differentDetails.hashCode();
+      assertEquals(firstCode, secondCode);
+      assertNotEquals(firstCode, differentNameCode);
+      assertNotEquals(firstCode, differentDetailsCode);
+      assertNotEquals(differentNameCode, differentDetailsCode);
   }
 
 }

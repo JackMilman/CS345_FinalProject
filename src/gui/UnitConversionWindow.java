@@ -23,7 +23,7 @@ public class UnitConversionWindow extends JFrame
   private static UnitConversionWindow unitWindow = null;
 
   private String[] units = {"", "DRAM", "OUNCE", "GRAM", "POUND", "PINCH", "TEASPOON", "TABLESPOON",
-      "FLUID_OUNCE", "CUP", "PINT", "QUART", "GALLON", "MILLILITER"};
+      "FLUID OUNCE", "CUP", "PINT", "QUART", "GALLON", "MILLILITER"};
 
   private JComboBox<String> fromunitBox = new JComboBox<String>();
   private JComboBox<String> tounitBox = new JComboBox<String>();
@@ -94,14 +94,14 @@ public class UnitConversionWindow extends JFrame
     
     fromunitBox.addItemListener(new FromComboBoxHandler());
     tounitBox.addItemListener(new ToComboBoxHandler());
-    NutritionInfo[] ingredients = NutritionInfo.values();
+    String[] ingredients = (String[]) NutritionInfo.getIngredientsInMap().toArray();
     JLabel ingredientLabel = new JLabel(Translator.translate("Ingredient") + ":");
     ingredientBox = new JComboBox<String>();
 
     ingredientBox.addItem("");
     for (int i = 0; i < ingredients.length; i++)
     {
-      ingredientBox.addItem(ingredients[i].getName());
+      ingredientBox.addItem(ingredients[i]);
     }
 
     unitMenu.add(fromunitLabel);
