@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.*;
 
+import branding.KitchIntelMenuBar;
 import branding.Logo;
 import config.Language;
 import config.Translator;
@@ -47,7 +48,7 @@ public class MainWindow extends JFrame implements Runnable
     KiLowBitesController controller = new KiLowBitesController(this);
 
     // create a menu bar and add the items
-    JMenuBar menuBar = new JMenuBar();
+    JMenuBar menuBar = new KitchIntelMenuBar();
     setJMenuBar(menuBar);
 
     JMenu file = new JMenu(Translator.translate("File"));
