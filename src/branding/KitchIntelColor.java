@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.io.IOException;
 import java.util.Scanner;
 
-import config.Language;
 
 /**
  * An enumeration of the colors for KitchIntel. The values of each color can be changed during
@@ -38,9 +37,12 @@ public enum KitchIntelColor
         if(line.startsWith(source))
         {
           Scanner intScanner = new Scanner(line);
-//          r = intScanner.nextInt();
-//          g = intScanner.nextInt();
-//          b = intScanner.nextInt();
+          intScanner.next();
+          
+          r = intScanner.nextInt();
+          g = intScanner.nextInt();
+          b = intScanner.nextInt();
+          
           intScanner.close();
           
           break;

@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.*;
 
+import branding.KitchIntelJFrame;
 import branding.KitchIntelMenuBar;
 import branding.Logo;
 import config.Language;
@@ -18,7 +19,7 @@ import config.Translator;
  * @author Shelsey Vega
  *
  */
-public class MainWindow extends JFrame implements Runnable
+public class MainWindow extends KitchIntelJFrame implements Runnable
 {
   private static final long serialVersionUID = 1L;
 
@@ -38,7 +39,6 @@ public class MainWindow extends JFrame implements Runnable
   public void run()
   {
     // set the the frame
-    getContentPane().setBackground(Color.WHITE);
     setTitle(Translator.translate("KiLowBites Main Window"));
     getContentPane().setLayout(new BorderLayout());
     setSize(700, 500);

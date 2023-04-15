@@ -19,6 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import branding.KitchIntelButton;
+import branding.KitchIntelJFrame;
 import config.Translator;
 import recipes.Ingredient;
 import recipes.NutritionInfo;
@@ -32,7 +33,7 @@ import recipes.NutritionInfo;
  * @author Allie O'Keeffe
  *
  */
-public class CalorieCalculatorWindow extends JFrame {
+public class CalorieCalculatorWindow extends KitchIntelJFrame {
 
 
   private static final long serialVersionUID = 1L;

@@ -6,6 +6,7 @@ import utilities.UnitConversion;
 import javax.swing.*;
 
 import branding.KitchIntelButton;
+import branding.KitchIntelJFrame;
 import config.Translator;
 import recipes.NutritionInfo;
 
@@ -14,7 +15,7 @@ import recipes.NutritionInfo;
  * @author 
  *
  */
-public class UnitConversionWindow extends JFrame
+public class UnitConversionWindow extends KitchIntelJFrame
 {
   private static final long serialVersionUID = 1L;
   private static final int DEFAULT_TEXT_FIELD_WIDTH = 8;

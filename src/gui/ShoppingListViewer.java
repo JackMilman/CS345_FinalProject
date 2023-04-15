@@ -14,6 +14,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import branding.KitchIntelJFrame;
 import config.Translator;
 import recipes.Ingredient;
 import recipes.Inventory;
@@ -36,7 +37,7 @@ import utilities.UnitConversion;
  * @author Meara Patterson
  * @version 3/29/2023
  */
-public class ShoppingListViewer extends JFrame
+public class ShoppingListViewer extends KitchIntelJFrame
 {
   
 //  private static final String CHANGE_UNITS = "change_units";

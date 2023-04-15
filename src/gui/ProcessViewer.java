@@ -23,6 +23,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import branding.KitchIntelJFrame;
 import config.Translator;
 import recipes.Meal;
 import recipes.Recipe;
@@ -38,7 +39,7 @@ import utilities.SortLists;
  * @author Allie O'Keeffe, KichIntel
  *
  */
-public class ProcessViewer extends JFrame implements Serializable {
+public class ProcessViewer extends KitchIntelJFrame implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	//private static final String RECIPEEXT = "rcp";
