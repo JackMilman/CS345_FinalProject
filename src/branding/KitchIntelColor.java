@@ -38,9 +38,9 @@ public enum KitchIntelColor
         if(line.startsWith(source))
         {
           Scanner intScanner = new Scanner(line);
-          r = intScanner.nextInt();
-          g = intScanner.nextInt();
-          b = intScanner.nextInt();
+//          r = intScanner.nextInt();
+//          g = intScanner.nextInt();
+//          b = intScanner.nextInt();
           intScanner.close();
           
           break;
