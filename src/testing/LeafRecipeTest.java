@@ -16,7 +16,7 @@ import recipes.*;
  * @author Jack Milman, KichIntel
  *
  */
-class RecipeTest
+class LeafRecipeTest
 {
   private final String recipeNameValid = "NamedRecipe";
   private final String recipeNameNotValid = "";

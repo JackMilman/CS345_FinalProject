@@ -268,14 +268,6 @@ public abstract class Recipe implements Serializable
    * @return the total number of calories in the Recipe
    */
   abstract public double calculateCalories();
-//  {
-//    double calories = 0;
-//    for (Ingredient ingredient : ingredients)
-//    {
-//      calories += ingredient.getCaloriesPerGram();
-//    }
-//    return calories;
-//  }
 
   /**
    * Serializes this recipe into a file name filename.rcp.

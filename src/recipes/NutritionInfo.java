@@ -4,6 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Utility Class for maintaining a map of ingredients and nutritional information for those ingredients.
+ * 
+ * @author Jack Milman, KichIntel
+ * @version 4/14/2023 V2
+ *
+ */
 public class NutritionInfo
 {
   private final static Map<String, CalorieGram> nutritionMap = initializeNutrition();
@@ -114,6 +121,8 @@ public class NutritionInfo
   }
 
   /**
+   * Returns the Set of keys (a.k.a. ingredient names) in the NutritionInfo map.
+   * 
    * @return
    */
   public static Set<String> getIngredientsInMap()
