@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import gui.IngredientEditor;
 import recipes.Ingredient;
+import recipes.NutritionInfo;
 
 /**
  * Test cases for the Ingredient class.
@@ -64,7 +65,7 @@ class IngredientTest
   public void testGetCalories()
   {
     Ingredient ingredient = new Ingredient("Alcohol", "Scotch", 5, "GRAM",
-        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+        NutritionInfo.getCalPerGram("Alcohol"), NutritionInfo.getGramPerML("Alcohol"));
     // Alcohol cal/gram = 2.75. 2.75 * 5 = 13.75
     double expectedPerGram = 13.75;
     // Alcohol cal/gram = 2.75. 2.75 * 5 = 13.75

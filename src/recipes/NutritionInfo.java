@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Utility Class for maintaining a map of ingredients and nutritional information for those 
+ * Utility Class for maintaining a map of ingredients and nutritional information for those
  * ingredients.
  * 
  * @author Jack Milman, KichIntel
@@ -101,7 +101,9 @@ public class NutritionInfo
 
   /**
    * Returns whether Nutrition info is stored for the named ingredient.
-   * @param ingredientName the name of an ingredient
+   * 
+   * @param ingredientName
+   *          the name of an ingredient
    * @return true if there is nutrition information for the ingredient, false otherwise.
    */
   public static boolean contains(final String ingredientName)
@@ -122,8 +124,7 @@ public class NutritionInfo
    */
   public static void addIngredient(final String name, final Double calories, final Double density)
   {
-    if (!NUTRITION_MAP.containsKey(name))
-      NUTRITION_MAP.put(name, new CalorieGram(calories, density));
+    NUTRITION_MAP.put(name, new CalorieGram(calories, density));
   }
 
   /**
@@ -137,7 +138,7 @@ public class NutritionInfo
   }
 
   /**
-   * Returns the calorie information of the ingredient, if it exists in the map and has calorie 
+   * Returns the calorie information of the ingredient, if it exists in the map and has calorie
    * information. Else, returns 0.0.
    * 
    * @param ingredientName
