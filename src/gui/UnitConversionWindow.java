@@ -127,6 +127,9 @@ public class UnitConversionWindow extends KitchIntelJFrame
     inputPanel.add(fromAmount);
     inputPanel.add(amount);
     inputPanel.add(resultLabel);
+    
+    inputPanel.setOpaque(false);
+    
     return inputPanel;
   }
 
