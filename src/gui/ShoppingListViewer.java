@@ -39,7 +39,7 @@ import utilities.UnitConversion;
  * @author Meara Patterson
  * @version 3/29/2023
  */
-public class ShoppingListViewer extends KitchIntelJDialog
+public class ShoppingListViewer extends /*KitchIntelJDialog*/ JFrame
 {
 
   // private static final String CHANGE_UNITS = "change_units";
@@ -102,7 +102,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
       }
     });
     inputNumPeoplePanel.add(numPeopleField);
-    inputNumPeoplePanel.setOpaque(false); // allows the panel to take the background color
+//    inputNumPeoplePanel.setOpaque(false); // allows the panel to take the background color
     contentPane.add(inputNumPeoplePanel);
 
     // create a scroll area with the ingredients
@@ -114,11 +114,6 @@ public class ShoppingListViewer extends KitchIntelJDialog
 
   private void updateScrollArea(final String info)
   {
-
-    if (scrollPane != null)
-    {
-      contentPane.remove(scrollPane);
-    }
 
     if (!allIngredients.isEmpty())
     {
@@ -145,6 +140,18 @@ public class ShoppingListViewer extends KitchIntelJDialog
       }
     }
 
+    updateScrollAreaHelper();
+
+  }
+  
+  private void updateScrollAreaHelper()
+  {
+    
+    if (scrollPane != null)
+    {
+      contentPane.remove(scrollPane);
+    }
+      
     if (numPeople != DO_NOT_DISPLAY)
     {
       // editIngredientList(recipe);
@@ -168,7 +175,6 @@ public class ShoppingListViewer extends KitchIntelJDialog
 
     contentPane.revalidate();
     contentPane.repaint();
-
   }
 
   private void addToAllIngredients(final Recipe recipe)
@@ -265,7 +271,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
       super();
       setSize(600, 50);
       label = new JLabel(ingredient.toString());
-      setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
+//      setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
       // this.ingredient = ingredient;
 
       units = new JComboBox<>();
@@ -285,14 +291,14 @@ public class ShoppingListViewer extends KitchIntelJDialog
           Ingredient newIng = new Ingredient(ingredient.getName(), ingredient.getDetails(),
               ingredient.getAmount(), newUnit, ingredient.getCalories(), ingredient.getDensity());
           editedIngredients.set(index, newIng);
-          updateScrollArea("" + numPeople);
+          updateScrollAreaHelper();
           label = new JLabel(newIng.toString());
           updateShoppingListIngredient();
         }
       });
 
       checkBox = new JCheckBox("Purchased?");
-      checkBox.setOpaque(false); // required to make the background color correct
+//      checkBox.setOpaque(false); // required to make the background color correct
       // checkBox.setActionCommand(PURCHASED_INGREDIENT);
       checkBox.addActionListener(new ActionListener()
       {
@@ -315,21 +321,6 @@ public class ShoppingListViewer extends KitchIntelJDialog
       add(checkBox);
     }
 
-    // public String toString()
-    // {
-    // return ingredient.getName() + " " + ingredient.getUnit();
-    // }
-
   }
-
-  // must account for the fact that recipes are designed to serves multiple people
-  // e.g. if a recipe of two servings is used to feed five people, each ingredient must be
-  // multiplied by 2.5
-  // double numberOfBatches = (double) numPeople / (double) recipe.getServings();
-  // for (Ingredient ing : recipe.getIngredients())
-  // {
-  // String info = String.format("%.1f %ss of %s\n", ing.getAmount() * numberOfBatches,
-  // ing.getUnit(), ing.getName());
-  // messageArea.append(info);
 
 }
