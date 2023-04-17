@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 
 import config.Translator;
 import recipes.Ingredient;
+import recipes.LeafRecipe;
 import recipes.Recipe;
 import recipes.Step;
 import recipes.Utensil;
@@ -168,7 +169,11 @@ public class RecipeEditor extends Editor
     utensils = utensilEditor.getUtensils();
     steps = stepEditor.getSteps();
     
-    return new Recipe(name, servings, ingredients, utensils, steps);
+    Recipe result = new LeafRecipe(name, servings);
+    result.addAllIngredients(ingredients);
+    result.addAllUtensils(utensils);
+    result.addAllSteps(steps);
+    return result;
   }
   
   private void loadRecipe(final Recipe recipe, final String fileName)

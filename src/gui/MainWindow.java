@@ -6,6 +6,9 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.*;
 
+import branding.KitchIntelJFrame;
+import branding.KitchIntelMenuBar;
+import branding.Logo;
 import config.Language;
 import config.Translator;
 
@@ -16,10 +19,9 @@ import config.Translator;
  * @author Shelsey Vega
  *
  */
-public class MainWindow extends JFrame implements Runnable
+public class MainWindow extends KitchIntelJFrame implements Runnable
 {
   private static final long serialVersionUID = 1L;
-  private static final String PATH = "images/KILowBites_Logo.png";
 
   /**
    * 
@@ -37,7 +39,6 @@ public class MainWindow extends JFrame implements Runnable
   public void run()
   {
     // set the the frame
-    getContentPane().setBackground(Color.WHITE);
     setTitle(Translator.translate("KiLowBites Main Window"));
     getContentPane().setLayout(new BorderLayout());
     setSize(700, 500);
@@ -47,7 +48,7 @@ public class MainWindow extends JFrame implements Runnable
     KiLowBitesController controller = new KiLowBitesController(this);
 
     // create a menu bar and add the items
-    JMenuBar menuBar = new JMenuBar();
+    JMenuBar menuBar = new KitchIntelMenuBar();
     setJMenuBar(menuBar);
 
     JMenu file = new JMenu(Translator.translate("File"));
@@ -129,7 +130,7 @@ public class MainWindow extends JFrame implements Runnable
 
     // add the company logo to the window
     // Josiah's changes:
-    ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResource("KILowBites_Logo.png"));
+    ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResource(Logo.path()));
     JLabel logoLabel = new JLabel(logo);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
     // ImageIcon logo = new ImageIcon(PATH);

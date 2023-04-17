@@ -4,13 +4,16 @@ import java.awt.Window;
 
 import javax.swing.JDialog;
 
+import branding.KitchIntelButton;
+import branding.KitchIntelJDialog;
+
 /**
  * Abstract parent class of all editors. Encapsulates functionality like the buttons that all 
  * editors have in common.
  * @author Josiah Leach
  * @version 04.04.2023
  */
-public abstract class Editor extends JDialog
+public abstract class Editor extends KitchIntelJDialog
 {
   
   protected static final String ERROR_MESSAGE = "File could not be saved";

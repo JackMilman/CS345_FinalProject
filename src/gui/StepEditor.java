@@ -18,6 +18,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import branding.KitchIntelBorder;
 import config.Translator;
 import recipes.Ingredient;
 import recipes.Step;

@@ -1,0 +1,2 @@
+Menubar: 100 100 100
+Background: 255 231 231

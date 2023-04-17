@@ -16,6 +16,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+import branding.KitchIntelBorder;
 import config.Translator;
 import recipes.Ingredient;
 import utilities.SortLists;
@@ -28,7 +29,7 @@ import utilities.SortLists;
 public class IngredientEditor extends JComponent
 {
 
-  public static final double NO_INPUT = -1.0;
+  public static final Double NO_INPUT = null; // Changed 4/13: Updated to Double and value to null. -Jack
   private static final String[] UNITS = new String[] {"", "Dram", "Ounce", "Gram", "Pound",
       "Pinch", "Teaspoon", "Tablespoon", "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon",
       "Individual"};

@@ -14,6 +14,8 @@ import java.io.Serializable;
  */
 public class Step implements Serializable
 {
+  private static final long serialVersionUID = 1L;
+
   private String action;
 
   private String details;

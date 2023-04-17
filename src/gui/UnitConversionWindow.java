@@ -5,6 +5,8 @@ import java.awt.event.*;
 import utilities.UnitConversion;
 import javax.swing.*;
 
+import branding.KitchIntelButton;
+import branding.KitchIntelJFrame;
 import config.Translator;
 import recipes.NutritionInfo;
 
@@ -13,7 +15,7 @@ import recipes.NutritionInfo;
  * @author 
  *
  */
-public class UnitConversionWindow extends JFrame
+public class UnitConversionWindow extends KitchIntelJFrame
 {
   private static final long serialVersionUID = 1L;
   private static final int DEFAULT_TEXT_FIELD_WIDTH = 8;
@@ -94,7 +96,7 @@ public class UnitConversionWindow extends JFrame
     
     fromunitBox.addItemListener(new FromComboBoxHandler());
     tounitBox.addItemListener(new ToComboBoxHandler());
-    String[] ingredients = (String[]) NutritionInfo.getKeys().toArray();
+    String[] ingredients = (String[]) NutritionInfo.getIngredientsInMap().toArray();
     JLabel ingredientLabel = new JLabel(Translator.translate("Ingredient") + ":");
     ingredientBox = new JComboBox<String>();
 
