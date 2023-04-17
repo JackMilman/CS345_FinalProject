@@ -25,16 +25,15 @@ import recipes.Ingredient;
 import recipes.NutritionInfo;
 
 /**
- * This class is a GUI for calculating calories. The user is able to select and
- * ingredient and unit and enter the amount. This will then be used to calculate
- * the number of calories. It uses the singleton design pattern so only one
- * window can be opened at a time.
+ * This class is a GUI for calculating calories. The user is able to select and ingredient and unit
+ * and enter the amount. This will then be used to calculate the number of calories. It uses the
+ * singleton design pattern so only one window can be opened at a time.
  * 
  * @author Allie O'Keeffe
  *
  */
-public class CalorieCalculatorWindow extends KitchIntelJFrame {
-
+public class CalorieCalculatorWindow extends KitchIntelJFrame
+{
 
   private static final long serialVersionUID = 1L;
   // private String selectedIngredient, selectedUnits, enteredAmount;
@@ -51,7 +50,7 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame {
     setUp();
     setDefaultCloseOperation(HIDE_ON_CLOSE);
   }
-  
+
   public static CalorieCalculatorWindow getCalorieCalculatorWindow()
   {
     if (calorieWindow == null)
@@ -166,8 +165,6 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame {
     pack();
   }
 
-
-
   private class Calories extends JLabel implements ActionListener
   {
 
@@ -202,7 +199,8 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame {
           double amountOfIngredients = Double.parseDouble(enteredText);
           Ingredient temp = new Ingredient(selectedIngredient, "", amountOfIngredients,
               selectedUnits, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
-          calorie.setText(Translator.translate("Calories") + ": " + (Math.round(temp.getCaloriesPerGram() * 10)/10.0));
+          calorie.setText(Translator.translate("Calories") + ": "
+              + (Math.round(temp.getCaloriesPerGram() * 10) / 10.0));
         }
         catch (NumberFormatException exc)
         {

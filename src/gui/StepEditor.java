@@ -26,23 +26,24 @@ import recipes.Utensil;
 
 /**
  * A class for the step editor component of the recipe editor.
+ * 
  * @author Josiah Leach, KitchIntel
  * @version 03.29.2023
  */
 public class StepEditor extends JComponent implements TextListener
 {
-  private static final String[] ACTIONS = new String[] {"", "Put", "Melt", "Simmer",
-      "Heat", "Ignite", "Boil", "Drain", "Saute", "Cook", "Bake", "Dip"};
-  
+  private static final String[] ACTIONS = new String[] {"", "Put", "Melt", "Simmer", "Heat",
+      "Ignite", "Boil", "Drain", "Saute", "Cook", "Bake", "Dip"};
+
   private static final String ADD = "Add";
   private static final String DELETE = "Delete";
   private static final String BLANK = "            ";
-  
+
   /**
    * 
    */
   private static final long serialVersionUID = 1L;
-  
+
   private JComboBox<String> actionSelect, onSelect, utensilSelect;
   private JTextField detailField, timeField;
   private List<Step> steps;
@@ -50,26 +51,29 @@ public class StepEditor extends JComponent implements TextListener
   private List<Utensil> utensils;
   private List<Ingredient> ingredients;
   private JButton addButton, deleteButton;
-  
+
   /**
    * Creates a new StepEditor.
-   * @param utensils The utensils which can be used in a step. Must be a reference to
-   * the list used by the corresponding UtensilEditor.
-   * @param ingredients The ingredients which can be used in a step. Must be a reference to 
-   * the list used by the corresponding IngredientEditor.
+   * 
+   * @param utensils
+   *          The utensils which can be used in a step. Must be a reference to the list used by the
+   *          corresponding UtensilEditor.
+   * @param ingredients
+   *          The ingredients which can be used in a step. Must be a reference to the list used by
+   *          the corresponding IngredientEditor.
    */
   public StepEditor(final List<Utensil> utensils, final List<Ingredient> ingredients)
   {
     super();
     setLayout(new BorderLayout());
     setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Steps")));
-    
+
     this.utensils = utensils;
     this.ingredients = ingredients;
     this.steps = new ArrayList<Step>();
-    
+
     StepEditorListener listener = new StepEditorListener(this);
-    
+
     actionSelect = new JComboBox<String>(ACTIONS);
     onSelect = new JComboBox<String>(new String[] {BLANK});
     utensilSelect = new JComboBox<String>(new String[] {BLANK});
@@ -78,10 +82,10 @@ public class StepEditor extends JComponent implements TextListener
 
     addButton = new JButton(Translator.translate(ADD));
     deleteButton = new JButton(Translator.translate(DELETE));
-    
+
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);
-    
+
     Container inputFields = new Container();
     inputFields.setLayout(new FlowLayout(FlowLayout.LEFT));
     inputFields.add(new JLabel(Translator.translate("Action") + ":"));
@@ -95,174 +99,178 @@ public class StepEditor extends JComponent implements TextListener
     inputFields.add(new JLabel(Translator.translate("Minutes") + ":"));
     inputFields.add(timeField);
     inputFields.add(addButton);
-    
+
     add(inputFields, BorderLayout.NORTH);
-    
+
     add(deleteButton, BorderLayout.EAST);
-    
+
     display = new TextArea();
     display.setEditable(false);
     add(display, BorderLayout.CENTER);
-    
+
     setVisible(true);
   }
-  
+
   private void add()
   {
-    String action =  actionSelect.getSelectedItem().toString();
-    String on =      onSelect.getSelectedItem().toString();
+    String action = actionSelect.getSelectedItem().toString();
+    String on = onSelect.getSelectedItem().toString();
     String utensil = utensilSelect.getSelectedItem().toString();
     String details = detailField.getText();
     int time;
-    
+
     try
     {
       time = Integer.valueOf(timeField.getText());
     }
-    catch(NumberFormatException nfe)
+    catch (NumberFormatException nfe)
     {
       return;
     }
-    
-    if(action.equals("") || on.equals("") || utensil.equals("")) 
+
+    if (action.equals("") || on.equals("") || utensil.equals(""))
     {
       return;
     }
-    
+
     Utensil destinationUtensil = null;
     Utensil sourceUtensil = null;
-    
-    for(int i = 0; i < utensils.size(); i++)
+
+    for (int i = 0; i < utensils.size(); i++)
     {
-      if(on.equals(utensils.get(i).getName()))
+      if (on.equals(utensils.get(i).getName()))
       {
         sourceUtensil = utensils.get(i);
       }
-      if(utensil.equals(utensils.get(i).getName()))
+      if (utensil.equals(utensils.get(i).getName()))
       {
         destinationUtensil = utensils.get(i);
       }
     }
-    
+
     Ingredient objectIngredient = null;
-        
-    for(int i = 0; i < ingredients.size(); i++)
+
+    for (int i = 0; i < ingredients.size(); i++)
     {
-      if(on.equals(ingredients.get(i).getName()))
+      if (on.equals(ingredients.get(i).getName()))
       {
         objectIngredient = ingredients.get(i);
       }
     }
-    
-    Step step = new Step(action, objectIngredient, sourceUtensil, destinationUtensil, details, 
+
+    Step step = new Step(action, objectIngredient, sourceUtensil, destinationUtensil, details,
         time);
     steps.add(step);
-        
+
     updateDisplay();
-    
+
     actionSelect.setSelectedIndex(0);
     onSelect.setSelectedIndex(0);
     utensilSelect.setSelectedIndex(0);
     timeField.setText("");
     detailField.setText("");
   }
-  
+
   private void delete()
   {
-    if(steps.size() == 0) return;
-    
+    if (steps.size() == 0)
+      return;
+
     int selectionStart = display.getSelectionStart();
     int linesSelected = 0;
     int linesSkipped = 0;
     String selectedText = display.getSelectedText();
-    
-    if(selectedText == null || selectedText.length() < 0) return;
-    
+
+    if (selectedText == null || selectedText.length() < 0)
+      return;
+
     char[] characters = selectedText.toCharArray();
-    
-    //counts the number of newline characters to determine the number of lines selected
-    for(char character : characters)
+
+    // counts the number of newline characters to determine the number of lines selected
+    for (char character : characters)
     {
-      if(character == '\n')
+      if (character == '\n')
       {
         linesSelected++;
       }
     }
-    
-    //if the last selected character isn't a newline character, then there is one uncounted line.
-    if(characters[characters.length - 1] != '\n') linesSelected++;
-    
+
+    // if the last selected character isn't a newline character, then there is one uncounted line.
+    if (characters[characters.length - 1] != '\n')
+      linesSelected++;
+
     String skipped = display.getText().substring(0, selectionStart);
-    
+
     char[] skippedChars = skipped.toCharArray();
-    
-    for(char skippedChar : skippedChars)
+
+    for (char skippedChar : skippedChars)
     {
-      if(skippedChar == '\n') linesSkipped++;
+      if (skippedChar == '\n')
+        linesSkipped++;
     }
-        
-    for(int i = 0; i < linesSelected; i++)
+
+    for (int i = 0; i < linesSelected; i++)
     {
       steps.remove(linesSkipped);
     }
-    
+
     updateDisplay();
   }
-  
+
   private void updateDisplay()
   {
     String displayText = "";
-    
-    for(Step step : steps)
+
+    for (Step step : steps)
     {
       displayText += String.format("%s\n", step.toString());
     }
-    
+
     display.setText(displayText);
   }
-  
+
   /**
-   * updates the selectable "on" options. Should be called after loadUtensil or loadIngredient is 
+   * updates the selectable "on" options. Should be called after loadUtensil or loadIngredient is
    * called on the corresponding UtensilEditor or IngredientEditor.
    */
   public void updateOn()
   {
     onSelect.removeAllItems();
-    
+
     onSelect.addItem(BLANK);
-    
-    for(Utensil utensil : utensils) 
+
+    for (Utensil utensil : utensils)
     {
       onSelect.addItem(utensil.getName());
     }
-    
-    for(Ingredient ingredient : ingredients)
+
+    for (Ingredient ingredient : ingredients)
     {
       onSelect.addItem(ingredient.getName());
     }
-    
+
   }
-  
+
   /**
-   * updates the selectable "utensil" options. Should be called after loadUtensil is called on the 
+   * updates the selectable "utensil" options. Should be called after loadUtensil is called on the
    * corresponding UtensilEditor.
    */
   public void updateUtensil()
   {
     utensilSelect.removeAllItems();
-    
+
     utensilSelect.addItem(BLANK);
-        
-    for(Utensil utensil : utensils) 
+
+    for (Utensil utensil : utensils)
     {
       utensilSelect.addItem(utensil.getName());
     }
   }
-  
+
   private class StepEditorListener implements ActionListener
   {
     private StepEditor subject;
-    
+
     private StepEditorListener(final StepEditor subject)
     {
       this.subject = subject;
@@ -271,7 +279,7 @@ public class StepEditor extends JComponent implements TextListener
     @Override
     public void actionPerformed(final ActionEvent e)
     {
-      if(e.getActionCommand().equals(ADD))
+      if (e.getActionCommand().equals(ADD))
       {
         subject.add();
       }
@@ -280,10 +288,8 @@ public class StepEditor extends JComponent implements TextListener
         subject.delete();
       }
     }
-    
+
   }
-
-
 
   @Override
   public void textValueChanged(final TextEvent e)
@@ -291,31 +297,35 @@ public class StepEditor extends JComponent implements TextListener
     updateOn();
     updateUtensil();
   }
-  
+
   List<Step> getSteps()
   {
     return steps;
   }
 
   /**
-   * Adds an action listener to the buttons in this StepEditor which can cause the
-   * document to change.
-   * @param listener The actionListener to listen to these changes.
+   * Adds an action listener to the buttons in this StepEditor which can cause the document to
+   * change.
+   * 
+   * @param listener
+   *          The actionListener to listen to these changes.
    */
   public void addChangeListener(final ActionListener listener)
   {
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);
   }
-  
+
   /**
    * Loads the given steps.
-   * @param newSteps The new steps for this StepEditor to display.
+   * 
+   * @param newSteps
+   *          The new steps for this StepEditor to display.
    */
   public void loadSteps(final List<Step> newSteps)
   {
     this.steps = newSteps;
-    
+
     updateDisplay();
   }
 

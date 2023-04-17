@@ -23,24 +23,25 @@ import utilities.SortLists;
 
 /**
  * A class for the ingredient editor component of the meal editor.
+ * 
  * @author Josiah Leach, Meara Patterson, KitchIntel
  * @version 03.29.2023
  */
 public class IngredientEditor extends JComponent
 {
 
-  public static final Double NO_INPUT = null; // Changed 4/13: Updated to Double and value to null. -Jack
-  private static final String[] UNITS = new String[] {"", "Dram", "Ounce", "Gram", "Pound",
-      "Pinch", "Teaspoon", "Tablespoon", "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon",
-      "Individual"};
+  public static final Double NO_INPUT = null; // Changed 4/13: Updated to Double and value to null.
+                                              // -Jack
+  private static final String[] UNITS = new String[] {"", "Dram", "Ounce", "Gram", "Pound", "Pinch",
+      "Teaspoon", "Tablespoon", "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon", "Individual"};
   private static final String ADD = "Add";
   private static final String DELETE = "Delete";
-  
+
   /**
    * 
    */
   private static final long serialVersionUID = 1L;
-  
+
   private JTextField nameField;
   private JTextField detailField;
   private JTextField amountField;
@@ -60,56 +61,56 @@ public class IngredientEditor extends JComponent
     super();
     setLayout(new BorderLayout());
     setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Ingredients")));
-    
+
     IngredientEditorListener listener = new IngredientEditorListener(this);
-    
+
     addButton = new JButton(Translator.translate(ADD));
     deleteButton = new JButton(Translator.translate(DELETE));
-        
+
     addButton.setActionCommand(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND);
     deleteButton.setActionCommand(RecipeEditor.INGREDIENT_DELETE_ACTION_COMMAND);
-    
+
     nameField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     detailField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     amountField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     calorieField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     densityField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
-    
+
     unitSelect = new JComboBox<String>(UNITS);
-    
+
     ingredients = new ArrayList<Ingredient>();
-    
+
     ingredientDisplay = new TextArea(0, 0);
-    
+
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);
-    
+
     Container inputFields = new Container();
     inputFields.setLayout(new FlowLayout(FlowLayout.LEFT));
-    inputFields.add(new JLabel(Translator.translate("Name")+":"));
+    inputFields.add(new JLabel(Translator.translate("Name") + ":"));
     inputFields.add(nameField);
-    inputFields.add(new JLabel(Translator.translate("Details")+":"));
+    inputFields.add(new JLabel(Translator.translate("Details") + ":"));
     inputFields.add(detailField);
-    inputFields.add(new JLabel(Translator.translate("Amount")+":"));
+    inputFields.add(new JLabel(Translator.translate("Amount") + ":"));
     inputFields.add(amountField);
-    inputFields.add(new JLabel(Translator.translate("Units")+":"));
+    inputFields.add(new JLabel(Translator.translate("Units") + ":"));
     inputFields.add(unitSelect);
-    inputFields.add(new JLabel(Translator.translate("Calories")+":"));
+    inputFields.add(new JLabel(Translator.translate("Calories") + ":"));
     inputFields.add(calorieField);
-    inputFields.add(new JLabel(Translator.translate("Density")+":"));
+    inputFields.add(new JLabel(Translator.translate("Density") + ":"));
     inputFields.add(densityField);
     inputFields.add(addButton);
-    
+
     add(inputFields, BorderLayout.NORTH);
-    
+
     add(deleteButton, BorderLayout.EAST);
-    
+
     ingredientDisplay.setEditable(false);
     add(ingredientDisplay, BorderLayout.CENTER);
-    
+
     setVisible(true);
   }
-  
+
   private void add()
   {
     String name = nameField.getText();
@@ -118,7 +119,7 @@ public class IngredientEditor extends JComponent
     double amount;
     double calories;
     double density;
-    
+
     try
     {
       amount = Double.valueOf(amountField.getText());
@@ -127,8 +128,8 @@ public class IngredientEditor extends JComponent
     {
       return;
     }
-    
-    // User is allowed to not input calories or density. 
+
+    // User is allowed to not input calories or density.
     // If they don't, those values are set to NO_INPUT
     try
     {
@@ -138,7 +139,7 @@ public class IngredientEditor extends JComponent
     {
       calories = NO_INPUT;
     }
-    
+
     try
     {
       density = Double.valueOf(densityField.getText());
@@ -147,98 +148,104 @@ public class IngredientEditor extends JComponent
     {
       density = NO_INPUT;
     }
-    
-    if(name.equals("") || unit.equals("")) return;
-        
+
+    if (name.equals("") || unit.equals(""))
+      return;
+
     Ingredient ingredient = new Ingredient(name, details, amount, unit, calories, density);
     ingredients.add(ingredient);
-    
+
     SortLists.sortIngredients(ingredients);
-    
+
     nameField.setText("");
     detailField.setText("");
     unitSelect.setSelectedIndex(0);
     amountField.setText("");
     calorieField.setText("");
     densityField.setText("");
-    
+
     updateTextArea();
   }
-  
+
   private void delete()
   {
-    if(ingredients.size() == 0) return;
-    
+    if (ingredients.size() == 0)
+      return;
+
     int selectionStart = ingredientDisplay.getSelectionStart();
     int linesSelected = 0;
     int linesSkipped = 0;
     String selectedText = ingredientDisplay.getSelectedText();
-    
-    if(selectedText == null || selectedText.length() < 0) return;
-    
+
+    if (selectedText == null || selectedText.length() < 0)
+      return;
+
     char[] characters = selectedText.toCharArray();
-    
-    //counts the number of newline characters to determine the number of lines selected
-    for(char character : characters)
+
+    // counts the number of newline characters to determine the number of lines selected
+    for (char character : characters)
     {
-      if(character == '\n')
+      if (character == '\n')
       {
         linesSelected++;
       }
     }
-    
-    //if the last selected character isn't a newline character, then there is one uncounted line.
-    if(characters[characters.length - 1] != '\n') linesSelected++;
-    
+
+    // if the last selected character isn't a newline character, then there is one uncounted line.
+    if (characters[characters.length - 1] != '\n')
+      linesSelected++;
+
     String skipped = ingredientDisplay.getText().substring(0, selectionStart);
-    
+
     char[] skippedChars = skipped.toCharArray();
-    
-    for(char skippedChar : skippedChars)
+
+    for (char skippedChar : skippedChars)
     {
-      if(skippedChar == '\n') linesSkipped++;
+      if (skippedChar == '\n')
+        linesSkipped++;
     }
-        
-    for(int i = 0; i < linesSelected; i++)
+
+    for (int i = 0; i < linesSelected; i++)
     {
       ingredients.remove(linesSkipped);
     }
-    
+
     updateTextArea();
   }
-  
+
   private void updateTextArea()
   {
     String text = "";
-    
-    for(Ingredient ingredient : ingredients)
+
+    for (Ingredient ingredient : ingredients)
     {
       text += String.format("%s\n", ingredient.toString());
     }
-    
+
     ingredientDisplay.setText(text);
   }
-  
+
   List<Ingredient> getIngredients()
   {
     return ingredients;
   }
-  
+
   /**
    * Adds a text listener to the text area of the ingredient editor.
    * 
-   * @param listener the text listener to add to the display text area.
+   * @param listener
+   *          the text listener to add to the display text area.
    */
   public void addTextListener(final TextListener listener)
   {
     ingredientDisplay.addTextListener(listener);
   }
-  
+
   private class IngredientEditorListener implements ActionListener
   {
     private final IngredientEditor subject;
-    
-    IngredientEditorListener (final IngredientEditor subject)
+
+    IngredientEditorListener(final IngredientEditor subject)
     {
       this.subject = subject;
     }
@@ -246,7 +253,7 @@ public class IngredientEditor extends JComponent
     @Override
     public void actionPerformed(final ActionEvent e)
     {
-      if(e.getActionCommand().equals(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND))
+      if (e.getActionCommand().equals(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND))
       {
         subject.add();
       }
@@ -254,31 +261,33 @@ public class IngredientEditor extends JComponent
       {
         subject.delete();
       }
-      
+
     }
-    
+
   }
 
   /**
-   * Adds an action listener to the buttons in this IngredientEditor which can cause the
-   * document to change.
-   * @param listener The actionListener to listen to these changes.
+   * Adds an action listener to the buttons in this IngredientEditor which can cause the document to
+   * change.
+   * 
+   * @param listener
+   *          The actionListener to listen to these changes.
    */
   public void addChangeListener(final ActionListener listener)
   {
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);
   }
-  
+
   void loadIngredients(final List<Ingredient> newIngredients)
   {
     this.ingredients.clear();
-    
-    for(Ingredient ingredient : newIngredients)
+
+    for (Ingredient ingredient : newIngredients)
     {
       ingredients.add(ingredient);
     }
-    
+
     updateTextArea();
   }
 }
