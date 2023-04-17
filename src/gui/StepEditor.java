@@ -161,6 +161,8 @@ public class StepEditor extends JComponent implements TextListener
     Step step = new Step(action, objectIngredient, sourceUtensil, destinationUtensil, details,
         time);
     steps.add(step);
+    
+    System.out.println(step);
 
     updateDisplay();
 

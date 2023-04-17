@@ -21,6 +21,9 @@ import recipes.Utensil;
  */
 public class TemporaryGUITest
 {
+  
+  private static final String[] UNITS = new String[] {"", "Dram", "Ounce", "Gram", "Pound", "Pinch",
+      "Teaspoon", "Tablespoon", "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon", "Individual"};
  
   /**
    * Creates an IngredientEditor.
@@ -42,27 +45,44 @@ public class TemporaryGUITest
   public static void shoppingListViewerTest()
   {
 
+    Recipe recipe = bananasFoster();
+    ShoppingListViewer shoppingList = new ShoppingListViewer(recipe);
+    
+  }
+  
+  private static Recipe bananasFoster()
+  {
+    
     ArrayList<Ingredient> ingredients = new ArrayList<>();
-    ingredients.add(new Ingredient("chicken", " ", 1, "Gram", 
+    ingredients.add(new Ingredient("butter", "", 0.33, UNITS[9],
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("rice", " ", 1, "Gram", 
+    ingredients.add(new Ingredient("brown sugar", "", 0.33, UNITS[9],
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("broccoli", " ", 1, "Gram", 
+    ingredients.add(new Ingredient("bananas", "sliced ripe", 3, UNITS[13],
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-
+    ingredients.add(new Ingredient("creme de cacao", "", 2, UNITS[7],
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+    ingredients.add(new Ingredient("rum", "", 0.25, UNITS[9],
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+    ingredients.add(new Ingredient("ice cream", "vanilla", 2, UNITS[9],
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+    ingredients.add(new Ingredient("cinnamon", "ground", 0.25, UNITS[6],
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+    
     ArrayList<Utensil> utensils = new ArrayList<>();
-    utensils.add(new Utensil("fork", " "));
-    utensils.add(new Utensil("knife", " "));
-
+    utensils.add(new Utensil("skillet", "large"));
+    utensils.add(new Utensil("saucepan", ""));
+    utensils.add(new Utensil("plate", ""));
+    
     ArrayList<Step> steps = new ArrayList<>();
-    steps.add(new Step("cut", ingredients.get(0), utensils.get(0), utensils.get(1), " ", 5));
-
-    Recipe recipe = new LeafRecipe("Shopping List Test", 2);
+    steps.add(new Step("put", ingredients.get(0), utensils.get(0), utensils.get(0), "", 5));
+    
+    Recipe recipe = new LeafRecipe("Bananas Foster Test", 3);
     recipe.addAllIngredients(ingredients);
     recipe.addAllUtensils(utensils);
     recipe.addAllSteps(steps);
-    ShoppingListViewer shoppingList = new ShoppingListViewer(recipe);
     
+    return recipe;
   }
 
   /**

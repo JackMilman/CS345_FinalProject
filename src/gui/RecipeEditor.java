@@ -18,6 +18,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import config.Translator;
+import recipes.CompositeRecipe;
 import recipes.Ingredient;
 import recipes.LeafRecipe;
 import recipes.Recipe;
@@ -167,7 +168,7 @@ public class RecipeEditor extends Editor
     utensils = utensilEditor.getUtensils();
     steps = stepEditor.getSteps();
 
-    Recipe result = new LeafRecipe(name, servings);
+    Recipe result = new CompositeRecipe(name, servings);
     result.addAllIngredients(ingredients);
     result.addAllUtensils(utensils);
     result.addAllSteps(steps);
@@ -231,7 +232,8 @@ public class RecipeEditor extends Editor
   {
     if (nameField.getText().equals(""))
     {
-      JOptionPane.showMessageDialog(null, Translator.translate("You must input a name"));
+      JOptionPane.showMessageDialog(null, Translator.translate("You must input a name"), 
+          Translator.translate("Error"), JOptionPane.PLAIN_MESSAGE);
       return;
     }
 

@@ -210,7 +210,8 @@ public class MealEditor extends Editor
   {
     if (nameField.getText().equals(""))
     {
-      JOptionPane.showMessageDialog(null, Translator.translate("You must input a name"));
+      JOptionPane.showMessageDialog(null, Translator.translate("You must input a name"), 
+          Translator.translate("Error"), JOptionPane.PLAIN_MESSAGE);
       return;
     }
     String newFileName;
@@ -229,7 +230,7 @@ public class MealEditor extends Editor
     catch (IOException ioe)
     {
       ioe.printStackTrace();
-      JOptionPane.showMessageDialog(null, ERROR_MESSAGE);
+      JOptionPane.showMessageDialog(null, ERROR_MESSAGE, "error", JOptionPane.PLAIN_MESSAGE);
     }
   }
 
@@ -237,7 +238,8 @@ public class MealEditor extends Editor
   {
     if (nameField.getText().equals(""))
     {
-      JOptionPane.showMessageDialog(null, Translator.translate("You must input a name"));
+      JOptionPane.showMessageDialog(null, Translator.translate("You must input a name"), 
+          Translator.translate("Error"), JOptionPane.PLAIN_MESSAGE);
       return;
     }
     if (fileName == null)
