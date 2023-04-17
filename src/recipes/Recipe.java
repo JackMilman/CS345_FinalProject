@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.text.html.parser.ParserDelegator;
@@ -33,6 +34,8 @@ public abstract class Recipe implements Serializable
   private int servings;
 
   protected List<Ingredient> ingredients = new ArrayList<Ingredient>();
+
+  protected HashMap<Ingredient, List<Ingredient>> substitutes = new HashMap<Ingredient, List<Ingredient>>();
 
   protected List<Utensil> utensils = new ArrayList<Utensil>();
 
@@ -72,7 +75,7 @@ public abstract class Recipe implements Serializable
 
   public boolean addAllIngredients(final List<Ingredient> ingredients)
   {
-    int sizeBefore = ingredients.size();
+    int sizeBefore = this.ingredients.size();
     for (Ingredient ingredient : ingredients)
     {
       addIngredient(ingredient);
@@ -83,7 +86,7 @@ public abstract class Recipe implements Serializable
 
   public boolean addAllUtensils(final List<Utensil> utensils)
   {
-    int sizeBefore = utensils.size();
+    int sizeBefore = this.utensils.size();
     for (Utensil utensil : utensils)
     {
       addUtensil(utensil);
@@ -94,13 +97,43 @@ public abstract class Recipe implements Serializable
 
   public boolean addAllSteps(final List<Step> steps)
   {
-    int sizeBefore = steps.size();
+    int sizeBefore = this.steps.size();
     for (Step step : steps)
     {
       addStep(step);
     }
     // If the list changed as a result of this operation
     return sizeBefore != steps.size();
+  }
+
+  public boolean addSubstitute(final Ingredient ingredient, final Ingredient substitute)
+  {
+    int index = ingredients.indexOf(ingredient);
+    if (index != -1)
+    {
+      if (substitutes.containsKey(ingredient))
+      {
+        substitutes.get(ingredient).add(substitute);
+      }
+      else
+      {
+        List<Ingredient> subs = new ArrayList<Ingredient>();
+        subs.add(substitute);
+        substitutes.put(ingredient, subs);
+      }
+      return true;
+    }
+    return false;
+  }
+  
+  /**
+   * Gets the substitute Ingredients in the Recipe.
+   * 
+   * @return the substitute ingredients in the recipe.
+   */
+  public HashMap<Ingredient, List<Ingredient>> getSubstitutes()
+  {
+    return new HashMap<Ingredient, List<Ingredient>>(substitutes);
   }
 
   /**
@@ -180,7 +213,7 @@ public abstract class Recipe implements Serializable
     boolean hasSource = utensils.contains(step.getSource());
     boolean hasDestination = utensils.contains(step.getDestination());
 
-    boolean isValid = hasIngredient && hasSource && hasDestination;
+    boolean isValid = (hasIngredient || hasSource) && hasDestination;
     if (isValid)
     {
       return steps.add(step);

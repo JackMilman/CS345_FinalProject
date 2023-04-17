@@ -297,6 +297,7 @@ class LeafRecipeTest
 
     
     List<Step> expectedMissingIngr = new ArrayList<Step>();
+    expectedMissingIngr.add(step);
     Recipe recipeMissingIngr = new LeafRecipe(recipeNameValid, 500);
     recipeMissingIngr.addUtensil(utensilSource);
     recipeMissingIngr.addUtensil(utensilDestination);
@@ -307,10 +308,11 @@ class LeafRecipeTest
 
     
     List<Step> expectedMissingSource = new ArrayList<Step>();
+    expectedMissingSource.add(step);
     Recipe recipeMissingSource = new LeafRecipe(recipeNameValid, 500);
-    recipe.addIngredient(ingr);
-    recipeMissingIngr.addUtensil(utensilDestination);
-    recipeMissingIngr.addStep(step);
+    recipeMissingSource.addIngredient(ingr);
+    recipeMissingSource.addUtensil(utensilDestination);
+    recipeMissingSource.addStep(step);
     
     List<Step> actualMissingSource = recipeMissingSource.getSteps();
     assertEquals(expectedMissingSource, actualMissingSource);
@@ -318,9 +320,9 @@ class LeafRecipeTest
     
     List<Step> expectedMissingDestination = new ArrayList<Step>();
     Recipe recipeMissingDestination = new LeafRecipe(recipeNameValid, 500);
-    recipe.addIngredient(ingr);
-    recipeMissingIngr.addUtensil(utensilSource);
-    recipeMissingIngr.addStep(step);
+    recipeMissingDestination.addIngredient(ingr);
+    recipeMissingDestination.addUtensil(utensilSource);
+    recipeMissingDestination.addStep(step);
     
     List<Step> actualMissingDestination = recipeMissingDestination.getSteps();
     assertEquals(expectedMissingDestination, actualMissingDestination);
