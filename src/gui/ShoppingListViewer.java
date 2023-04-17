@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -26,7 +27,6 @@ import utilities.UnitConversion;
 
 /*
  * TO DO:
- * Fix calculations
  * Test with a meal
  * Possibly create a private listener class
  * Check acceptance criteria
@@ -39,7 +39,7 @@ import utilities.UnitConversion;
  * @author Meara Patterson
  * @version 3/29/2023
  */
-public class ShoppingListViewer extends /*KitchIntelJDialog*/ JFrame
+public class ShoppingListViewer extends KitchIntelJDialog
 {
 
   // private static final String CHANGE_UNITS = "change_units";
@@ -55,15 +55,14 @@ public class ShoppingListViewer extends /*KitchIntelJDialog*/ JFrame
   private JTextField numPeopleField;
   private int numPeople;
   private JScrollPane scrollPane;
-  private JTextArea scrollArea;
+  private JPanel scrollArea;
   private ArrayList<Ingredient> allIngredients;
   private ArrayList<Ingredient> editedIngredients;
 
   /**
    * Creates a ShoppingListViewer panel that displays the ingredients of the given recipe.
    * 
-   * @param obj
-   *          should be a Recipe or Meal
+   * @param obj should be a Recipe or Meal
    */
   public ShoppingListViewer(final Object obj)
   {
@@ -102,7 +101,7 @@ public class ShoppingListViewer extends /*KitchIntelJDialog*/ JFrame
       }
     });
     inputNumPeoplePanel.add(numPeopleField);
-//    inputNumPeoplePanel.setOpaque(false); // allows the panel to take the background color
+    inputNumPeoplePanel.setOpaque(false); // allows the panel to take the background color
     contentPane.add(inputNumPeoplePanel);
 
     // create a scroll area with the ingredients
@@ -158,7 +157,7 @@ public class ShoppingListViewer extends /*KitchIntelJDialog*/ JFrame
       // editedIngredients should have all ingredients added up
       // will probably need to change logic
 
-      scrollArea = new JTextArea(editedIngredients.size(), 1);
+      scrollArea = new JPanel();
 
       for (Ingredient ing : editedIngredients)
       {
@@ -167,8 +166,10 @@ public class ShoppingListViewer extends /*KitchIntelJDialog*/ JFrame
 
       scrollArea.setLayout(new BoxLayout(scrollArea, BoxLayout.Y_AXIS));
       scrollPane = new JScrollPane(scrollArea);
+      scrollPane.createVerticalScrollBar();
       scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
+      scrollPane.setPreferredSize(new Dimension(600, 200));
+      
       contentPane.add(scrollPane);
 
     }
@@ -234,8 +235,7 @@ public class ShoppingListViewer extends /*KitchIntelJDialog*/ JFrame
   /**
    * Get the name of a Recipe or Meal.
    * 
-   * @param obj
-   *          should be a Recipe or Meal
+   * @param obj should be a Recipe or Meal
    * @return name
    */
   public static String getName(final Object obj)
@@ -271,7 +271,7 @@ public class ShoppingListViewer extends /*KitchIntelJDialog*/ JFrame
       super();
       setSize(600, 50);
       label = new JLabel(ingredient.toString());
-//      setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
+      setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
       // this.ingredient = ingredient;
 
       units = new JComboBox<>();
@@ -298,7 +298,7 @@ public class ShoppingListViewer extends /*KitchIntelJDialog*/ JFrame
       });
 
       checkBox = new JCheckBox("Purchased?");
-//      checkBox.setOpaque(false); // required to make the background color correct
+      checkBox.setOpaque(false); // required to make the background color correct
       // checkBox.setActionCommand(PURCHASED_INGREDIENT);
       checkBox.addActionListener(new ActionListener()
       {
