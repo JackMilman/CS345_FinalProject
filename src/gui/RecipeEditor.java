@@ -231,7 +231,8 @@ public class RecipeEditor extends Editor
   {
     if (nameField.getText().equals(""))
     {
-      JOptionPane.showMessageDialog(null, Translator.translate("You must input a name"));
+      JOptionPane.showMessageDialog(null, Translator.translate("You must input a name"), 
+          Translator.translate("Error"), JOptionPane.PLAIN_MESSAGE);
       return;
     }
 

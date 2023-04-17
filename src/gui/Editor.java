@@ -4,7 +4,7 @@ import java.awt.Window;
 
 import javax.swing.JDialog;
 
-import branding.KitchIntelButton;
+import branding.KitchIntelIconButton;
 import branding.KitchIntelJDialog;
 
 /**
@@ -26,11 +26,11 @@ public abstract class Editor extends KitchIntelJDialog
    */
   private static final long serialVersionUID = 1L;
 
-  protected KitchIntelButton newButton;
-  protected KitchIntelButton openButton;
-  protected KitchIntelButton saveButton;
-  protected KitchIntelButton saveAsButton;
-  protected KitchIntelButton closeButton;
+  protected KitchIntelIconButton newButton;
+  protected KitchIntelIconButton openButton;
+  protected KitchIntelIconButton saveButton;
+  protected KitchIntelIconButton saveAsButton;
+  protected KitchIntelIconButton closeButton;
 
   protected DocumentState state;
 
@@ -55,11 +55,11 @@ public abstract class Editor extends KitchIntelJDialog
     this.fileName = null;
     this.state = DocumentState.UNCHANGED;
 
-    newButton = new KitchIntelButton(KitchIntelButton.NEW_IMAGE);
-    openButton = new KitchIntelButton(KitchIntelButton.OPEN_IMAGE);
-    saveButton = new KitchIntelButton(KitchIntelButton.SAVE_IMAGE);
-    saveAsButton = new KitchIntelButton(KitchIntelButton.SAVE_AS_IMAGE);
-    closeButton = new KitchIntelButton(KitchIntelButton.CLOSE_IMAGE);
+    newButton = new KitchIntelIconButton(KitchIntelIconButton.NEW_IMAGE);
+    openButton = new KitchIntelIconButton(KitchIntelIconButton.OPEN_IMAGE);
+    saveButton = new KitchIntelIconButton(KitchIntelIconButton.SAVE_IMAGE);
+    saveAsButton = new KitchIntelIconButton(KitchIntelIconButton.SAVE_AS_IMAGE);
+    closeButton = new KitchIntelIconButton(KitchIntelIconButton.CLOSE_IMAGE);
 
     updateButtons();
 
