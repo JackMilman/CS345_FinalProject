@@ -140,6 +140,21 @@ public class KiLowBitesController implements ActionListener
       CalorieCalculatorWindow.getCalorieCalculatorWindow();
     }
 
+    // open the User Guide in a browser
+    if (e.getActionCommand().equals(HELP))
+    {
+      File htmlFile = new File("/UserGuide.html");
+      try
+      {
+        Desktop.getDesktop().browse(htmlFile.toURI());
+      }
+      catch (IOException e1)
+      {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
+      }
+    }
+
   }
 
   /**
