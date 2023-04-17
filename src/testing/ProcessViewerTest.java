@@ -16,11 +16,11 @@ class ProcessViewerTest
   public static void testProcessViewerRecipes()
   {
     ArrayList<Ingredient> ingredients = new ArrayList<>();
-    ingredients.add(new Ingredient("chicken", " ", 1, "g",
+    ingredients.add(new Ingredient("chicken", " ", 2, "POUND",
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("lettuce", " ", 1, "g",
+    ingredients.add(new Ingredient("lettuce", " ", 0.5, "POUND",
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("broccoli", " ", 1, "g",
+    ingredients.add(new Ingredient("broccoli", " ", 6, "OUNCE",
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 
     ArrayList<Utensil> utensils = new ArrayList<>();
@@ -44,11 +44,11 @@ class ProcessViewerTest
   public static void testProcessViewerMeals()
   {
     ArrayList<Ingredient> ingredients = new ArrayList<>();
-    ingredients.add(new Ingredient("salmon", " ", 1, "g",
+    ingredients.add(new Ingredient("salmon", " ", 8.0, "OUNCE",
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("rice", " ", 1, "g",
+    ingredients.add(new Ingredient("rice", " ", 1, "POUND",
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("broccoli", " ", 1, "g",
+    ingredients.add(new Ingredient("broccoli", " ", 0.5, "POUND",
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 
     ArrayList<Utensil> utensils = new ArrayList<>();

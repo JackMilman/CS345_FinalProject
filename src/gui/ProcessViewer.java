@@ -186,7 +186,9 @@ public class ProcessViewer extends JFrame implements Serializable {
 		DefaultTableModel model = ((DefaultTableModel) table.getModel());
 		for (int i = steps.size() - 1; i >= 0; i--) {
 			int duration = steps.get(i).getTime();
+			System.out.println(duration);
 			totalTimeInMins = totalTimeInMins - duration;
+			System.out.println(totalTimeInMins);
 			model.setValueAt(convertMinsToTime(totalTimeInMins), i, 1);
 		}
 	}
@@ -269,6 +271,8 @@ public class ProcessViewer extends JFrame implements Serializable {
 	private JPanel setUpCaloriesAndInventory(double calories) {
 		JPanel p = new JPanel();
 		p.setLayout(new BoxLayout(p, BoxLayout.PAGE_AXIS));
+		
+		System.out.println(calories);
 		
 		JPanel temp = new JPanel();
 		temp.add(new JTextField("Calories: " + Math.round(calories * 10) / 10.0));
