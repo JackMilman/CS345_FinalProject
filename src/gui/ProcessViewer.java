@@ -139,7 +139,7 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
       }
 
     };
-
+    
     // Creates JTable with steps and their corresponding times
     String[] stepData = new String[steps.size()];
     String[] timeData = new String[steps.size()];
@@ -149,19 +149,18 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
       stepData[r] = item.toString(false) + "";
       r++;
     }
-    tableModel.addColumn("Steps", stepData);
-    tableModel.addColumn("Time", timeData);
+    tableModel.addColumn(Translator.translate("Steps"), stepData);
+    tableModel.addColumn(Translator.translate("Time"), timeData);
     table = new JTable(tableModel);
     table.getColumnModel().getColumn(0).setPreferredWidth(300);
-
-    // Sets up scroll panel
+    
     JScrollPane p = new JScrollPane(table);
     p.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     p.setBorder(BorderFactory.createTitledBorder(Translator.translate("Steps")));
     p.setPreferredSize(new Dimension(575, 300));
     return p;
   }
-
+    
   /**
    * Converts the time back to standard time.
    * 
@@ -173,7 +172,6 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
   {
     String indicator;
     int hour;
-    System.out.print(total);
 
     // Finds if the time crosses from AM to PM or vice versa
     if (total > 719)
@@ -226,15 +224,15 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
    */
   private JButton setUpRemoveIngredients()
   {
-    JButton removeIngredients = new JButton("Recipe Complete");
+    JButton removeIngredients = new JButton(Translator.translate("Recipe Complete"));
     removeIngredients.addActionListener(new ActionListener()
     {
       @Override
       public void actionPerformed(ActionEvent e)
       {
         // TODO: Remove ingredients from inventory
-        JOptionPane.showMessageDialog(null, "Successful removal of ingredients.",
-            "Ingredient Removal", JOptionPane.PLAIN_MESSAGE,
+        JOptionPane.showMessageDialog(null, Translator.translate("Successful removal of ingredients."),
+            Translator.translate("Ingredient Removal"), JOptionPane.PLAIN_MESSAGE,
             new ImageIcon(getClass().getClassLoader().getResource("KILowBites_Logo.png")));
       }
     });
@@ -264,36 +262,35 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
     JComboBox<String> minutes = new JComboBox<>(m);
     String[] amPm = {"", "AM", "PM"};
     JComboBox<String> mornNight = new JComboBox<>(amPm);
-
-    // Creates an action listener for the plating time
-    ActionListener time = new ActionListener()
+    
+ // Creates an action listener for the plating time
+    ActionListener time = new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e)
     {
-
-      @Override
-      public void actionPerformed(ActionEvent e)
+      Integer selectedHour = Integer.parseInt((String) hours.getSelectedItem());
+      Integer selectedMin = Integer.parseInt((String) minutes.getSelectedItem());
+      String morningEvening = (String) mornNight.getSelectedItem();
+      if (!(selectedHour == 0) && !morningEvening.equals(""))
       {
-        Integer selectedHour = Integer.parseInt((String) hours.getSelectedItem());
-        Integer selectedMin = Integer.parseInt((String) minutes.getSelectedItem());
-        String morningEvening = (String) mornNight.getSelectedItem();
-        if (!(selectedHour == 0) && !morningEvening.equals(""))
-        {
-          setTimes(selectedHour, selectedMin, morningEvening);
-        }
+        setTimes(selectedHour, selectedMin, morningEvening);
       }
+    }
 
-    };
+  };
 
-    // Sets up the panel
-    mornNight.addActionListener(time);
-    minutes.addActionListener(time);
-    hours.addActionListener(time);
-    p.add(new JTextField("Enter Plating Time: "));
-    p.add(hours);
-    p.add(new JTextField(":"));
-    p.add(minutes);
-    p.add(mornNight);
-    return p;
+  // Sets up the panel
+  mornNight.addActionListener(time);
+  minutes.addActionListener(time);
+  hours.addActionListener(time);
+  p.add(new JTextField(Translator.translate("Enter Plating Time: ")));
+  p.add(hours);
+  p.add(new JTextField(":"));
+  p.add(minutes);
+  p.add(mornNight);
+  return p;
   }
+
 
   /**
    * Sets up the calorie calculations, plating time, and ingredient removal from the inventory.
@@ -308,7 +305,7 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
     p.setLayout(new BoxLayout(p, BoxLayout.PAGE_AXIS));
 
     JPanel temp = new JPanel();
-    temp.add(new JTextField("Calories: " + Math.round(calories * 10) / 10.0));
+    temp.add(new JTextField(Translator.translate("Calories: ") + Math.round(calories * 10) / 10.0));
     temp.add(setUpRemoveIngredients());
     temp.setOpaque(false);
 
@@ -380,13 +377,17 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
     }
 
     p = setUpUtensils(utensils);
+    p.setOpaque(false);
     c.setLayout(new BorderLayout());
     c.add(p, BorderLayout.NORTH);
 
     p = setUpSteps();
+    p.setOpaque(false);
     c.add(p, BorderLayout.CENTER);
-
-    c.add(setUpCaloriesAndInventory(meal.calculateCalories()), BorderLayout.SOUTH);
+    
+    JPanel panel = setUpCaloriesAndInventory(meal.calculateCalories());
+    panel.setOpaque(false);
+    c.add(panel, BorderLayout.SOUTH);
     setSize(600, 450);
     setVisible(true);
   }

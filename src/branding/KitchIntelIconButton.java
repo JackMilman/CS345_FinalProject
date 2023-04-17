@@ -9,7 +9,7 @@ import javax.swing.JButton;
  * @author Josiah Leach
  * @version 03.29.2023
  */
-public class KitchIntelButton extends JButton
+public class KitchIntelIconButton extends JButton
 {
 
   public static final String CALCULATE_IMAGE = "calculate.png";
@@ -30,7 +30,7 @@ public class KitchIntelButton extends JButton
    * 
    * @param buttonImage
    */
-  public KitchIntelButton(final String buttonImage)
+  public KitchIntelIconButton(final String buttonImage)
   {
     // Josiah's changes:
     // super();

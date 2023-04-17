@@ -18,7 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import branding.KitchIntelButton;
+import branding.KitchIntelIconButton;
 import branding.KitchIntelJFrame;
 import config.Translator;
 import recipes.Ingredient;
@@ -67,8 +67,8 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame
   {
     Container icons = new Container();
     icons.setLayout(new FlowLayout(FlowLayout.LEFT));
-    JButton calcButton = new KitchIntelButton(KitchIntelButton.CALCULATE_IMAGE);
-    JButton resetButton = new KitchIntelButton(KitchIntelButton.RESET_IMAGE);
+    JButton calcButton = new KitchIntelIconButton(KitchIntelIconButton.CALCULATE_IMAGE);
+    JButton resetButton = new KitchIntelIconButton(KitchIntelIconButton.RESET_IMAGE);
 
     calcButton.setActionCommand(CALCULATION_COMMAND);
     resetButton.setActionCommand(RESET);

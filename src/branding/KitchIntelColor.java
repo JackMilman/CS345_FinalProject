@@ -13,7 +13,8 @@ import java.util.Scanner;
  */
 public enum KitchIntelColor
 {
-  MENUBAR_COLOR("Menubar", null), BACKGROUND_COLOR("Background", null);
+  MENUBAR_COLOR("Menubar", null), BACKGROUND_COLOR("Background", null), 
+  BUTTON_COLOR("Button", null);
 
   private Color color;
 

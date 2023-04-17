@@ -5,7 +5,7 @@ import java.awt.event.*;
 import utilities.UnitConversion;
 import javax.swing.*;
 
-import branding.KitchIntelButton;
+import branding.KitchIntelIconButton;
 import branding.KitchIntelJFrame;
 import config.Translator;
 import recipes.NutritionInfo;
@@ -65,8 +65,8 @@ public class UnitConversionWindow extends KitchIntelJFrame
   {
     Container icons = new Container();
     icons.setLayout(new FlowLayout(FlowLayout.LEFT));
-    JButton calcButton = new KitchIntelButton(KitchIntelButton.CALCULATE_IMAGE);
-    JButton resetButton = new KitchIntelButton(KitchIntelButton.RESET_IMAGE);
+    JButton calcButton = new KitchIntelIconButton(KitchIntelIconButton.CALCULATE_IMAGE);
+    JButton resetButton = new KitchIntelIconButton(KitchIntelIconButton.RESET_IMAGE);
 
     calcButton.setActionCommand(CALCULATION_COMMAND);
     resetButton.setActionCommand(RESET);

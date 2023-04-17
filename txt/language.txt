@@ -55,3 +55,4 @@ KiLowBites Shopping List Viewer	Visionneuse de liste d’achats KiLowBites	Visor
 KiLowBites Process Viewer	Visionneuse de processus KiLowBites	Visor de procesos KiLowBites
 KiLowBites Unit Converter	Convertisseur d’unité KiLowBites	Convertidor de unidades KiLowBites
 KiLowBites Calorie Calculator	Calculatrice de calories KiLowBites	Calculadora de calorías KiLowBites
+Error Erreur Error

@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -26,7 +27,6 @@ import utilities.UnitConversion;
 
 /*
  * TO DO:
- * Fix calculations
  * Test with a meal
  * Possibly create a private listener class
  * Check acceptance criteria
@@ -55,15 +55,14 @@ public class ShoppingListViewer extends KitchIntelJDialog
   private JTextField numPeopleField;
   private int numPeople;
   private JScrollPane scrollPane;
-  private JTextArea scrollArea;
+  private JPanel scrollArea;
   private ArrayList<Ingredient> allIngredients;
   private ArrayList<Ingredient> editedIngredients;
 
   /**
    * Creates a ShoppingListViewer panel that displays the ingredients of the given recipe.
    * 
-   * @param obj
-   *          should be a Recipe or Meal
+   * @param obj should be a Recipe or Meal
    */
   public ShoppingListViewer(final Object obj)
   {
@@ -115,11 +114,6 @@ public class ShoppingListViewer extends KitchIntelJDialog
   private void updateScrollArea(final String info)
   {
 
-    if (scrollPane != null)
-    {
-      contentPane.remove(scrollPane);
-    }
-
     if (!allIngredients.isEmpty())
     {
       allIngredients.clear();
@@ -145,13 +139,25 @@ public class ShoppingListViewer extends KitchIntelJDialog
       }
     }
 
+    updateScrollAreaHelper();
+
+  }
+  
+  private void updateScrollAreaHelper()
+  {
+    
+    if (scrollPane != null)
+    {
+      contentPane.remove(scrollPane);
+    }
+      
     if (numPeople != DO_NOT_DISPLAY)
     {
       // editIngredientList(recipe);
       // editedIngredients should have all ingredients added up
       // will probably need to change logic
 
-      scrollArea = new JTextArea(editedIngredients.size(), 1);
+      scrollArea = new JPanel();
 
       for (Ingredient ing : editedIngredients)
       {
@@ -160,15 +166,16 @@ public class ShoppingListViewer extends KitchIntelJDialog
 
       scrollArea.setLayout(new BoxLayout(scrollArea, BoxLayout.Y_AXIS));
       scrollPane = new JScrollPane(scrollArea);
+      scrollPane.createVerticalScrollBar();
       scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
+      scrollPane.setPreferredSize(new Dimension(600, 200));
+      
       contentPane.add(scrollPane);
 
     }
 
     contentPane.revalidate();
     contentPane.repaint();
-
   }
 
   private void addToAllIngredients(final Recipe recipe)
@@ -228,8 +235,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
   /**
    * Get the name of a Recipe or Meal.
    * 
-   * @param obj
-   *          should be a Recipe or Meal
+   * @param obj should be a Recipe or Meal
    * @return name
    */
   public static String getName(final Object obj)
@@ -285,7 +291,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
           Ingredient newIng = new Ingredient(ingredient.getName(), ingredient.getDetails(),
               ingredient.getAmount(), newUnit, ingredient.getCalories(), ingredient.getDensity());
           editedIngredients.set(index, newIng);
-          updateScrollArea("" + numPeople);
+          updateScrollAreaHelper();
           label = new JLabel(newIng.toString());
           updateShoppingListIngredient();
         }
@@ -315,21 +321,6 @@ public class ShoppingListViewer extends KitchIntelJDialog
       add(checkBox);
     }
 
-    // public String toString()
-    // {
-    // return ingredient.getName() + " " + ingredient.getUnit();
-    // }
-
   }
-
-  // must account for the fact that recipes are designed to serves multiple people
-  // e.g. if a recipe of two servings is used to feed five people, each ingredient must be
-  // multiplied by 2.5
-  // double numberOfBatches = (double) numPeople / (double) recipe.getServings();
-  // for (Ingredient ing : recipe.getIngredients())
-  // {
-  // String info = String.format("%.1f %ss of %s\n", ing.getAmount() * numberOfBatches,
-  // ing.getUnit(), ing.getName());
-  // messageArea.append(info);
 
 }
