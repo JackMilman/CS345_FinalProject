@@ -72,7 +72,7 @@ public abstract class Recipe implements Serializable
 
   public boolean addAllIngredients(final List<Ingredient> ingredients)
   {
-    int sizeBefore = ingredients.size();
+    int sizeBefore = this.ingredients.size();
     for (Ingredient ingredient : ingredients)
     {
       addIngredient(ingredient);
@@ -83,7 +83,7 @@ public abstract class Recipe implements Serializable
 
   public boolean addAllUtensils(final List<Utensil> utensils)
   {
-    int sizeBefore = utensils.size();
+    int sizeBefore = this.utensils.size();
     for (Utensil utensil : utensils)
     {
       addUtensil(utensil);
@@ -94,7 +94,7 @@ public abstract class Recipe implements Serializable
 
   public boolean addAllSteps(final List<Step> steps)
   {
-    int sizeBefore = steps.size();
+    int sizeBefore = this.steps.size();
     for (Step step : steps)
     {
       addStep(step);
