@@ -14,6 +14,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import branding.KitchIntelColor;
+import branding.KitchIntelJDialog;
 import branding.KitchIntelJFrame;
 import config.Translator;
 import recipes.Ingredient;
@@ -37,7 +39,7 @@ import utilities.UnitConversion;
  * @author Meara Patterson
  * @version 3/29/2023
  */
-public class ShoppingListViewer extends KitchIntelJFrame
+public class ShoppingListViewer extends KitchIntelJDialog
 {
   
 //  private static final String CHANGE_UNITS = "change_units";
@@ -66,7 +68,7 @@ public class ShoppingListViewer extends KitchIntelJFrame
   {
     
     super(Translator.translate("KiLowBites Shopping List Viewer") + "\t" + getName(obj));
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setSize(600, 400);
     this.obj = obj;
     allIngredients = new ArrayList<Ingredient>();
@@ -99,6 +101,7 @@ public class ShoppingListViewer extends KitchIntelJFrame
       }
     });
     inputNumPeoplePanel.add(numPeopleField);
+    inputNumPeoplePanel.setOpaque(false); // allows the panel to take the background color
     contentPane.add(inputNumPeoplePanel);
     
     // create a scroll area with the ingredients
@@ -260,6 +263,7 @@ public class ShoppingListViewer extends KitchIntelJFrame
       super();
       setSize(600, 50);
       label = new JLabel(ingredient.toString());
+      setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
 //      this.ingredient = ingredient;
       
       units = new JComboBox<>();
@@ -286,6 +290,7 @@ public class ShoppingListViewer extends KitchIntelJFrame
       });
       
       checkBox = new JCheckBox("Purchased?");
+      checkBox.setOpaque(false); // required to make the background color correct
 //      checkBox.setActionCommand(PURCHASED_INGREDIENT);
       checkBox.addActionListener(new ActionListener()
       {

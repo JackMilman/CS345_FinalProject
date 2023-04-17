@@ -86,6 +86,7 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame {
   private JPanel inputMenu()
   {
     JPanel inputs = new JPanel();
+    inputs.setOpaque(false);
     inputs.setLayout(new FlowLayout(FlowLayout.LEFT));
     inputs.add(createLabels(Translator.translate("Ingredient")));
     inputs.add(ingredients);

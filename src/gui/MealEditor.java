@@ -96,6 +96,7 @@ public class MealEditor extends Editor
     setLayout(new BorderLayout());
     
     JPanel buttons = new JPanel();
+    buttons.setOpaque(false);
     buttons.setLayout(new FlowLayout(FlowLayout.LEFT));
     buttons.add(newButton);
     buttons.add(openButton);
@@ -106,6 +107,7 @@ public class MealEditor extends Editor
     add(buttons, BorderLayout.NORTH);
     
     JPanel name = new JPanel();
+    name.setOpaque(false);
     name.setLayout(new FlowLayout(FlowLayout.LEFT));
     name.add(new JLabel(Translator.translate("Name") + ":"));
     name.add(nameField);
@@ -113,6 +115,7 @@ public class MealEditor extends Editor
     add(name, BorderLayout.CENTER);
     
     JPanel edit = new JPanel();
+    edit.setOpaque(false);
     edit.setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Recipes")));
     edit.setLayout(new BorderLayout());
     edit.add(addRecipeButton, BorderLayout.NORTH);

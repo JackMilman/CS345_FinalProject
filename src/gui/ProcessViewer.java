@@ -274,9 +274,12 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable {
 		JPanel temp = new JPanel();
 		temp.add(new JTextField("Calories: " + Math.round(calories * 10) / 10.0));
 		temp.add(setUpRemoveIngredients());
+		temp.setOpaque(false);
 		
 		p.add(temp);
-		p.add(setUpPlatingTime());
+		JPanel platingTime = setUpPlatingTime();
+		platingTime.setOpaque(false);
+		p.add(platingTime);
 		return p;
 	}
 
@@ -292,15 +295,19 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable {
 
 		c = getContentPane();
 		p = setUpUtensils(recipe.getUtensils());
+    p.setOpaque(false);
 		c.setLayout(new BorderLayout());
 		c.add(p, BorderLayout.NORTH);
 
 		steps = recipe.getSteps();
 		p = setUpSteps();
+    p.setOpaque(false);
 		c.add(p, BorderLayout.CENTER);
 
-		c.add(setUpCaloriesAndInventory(recipe.calculateCalories()), BorderLayout.SOUTH);
-
+		JPanel caloriesAndInventory = setUpCaloriesAndInventory(recipe.calculateCalories());
+		caloriesAndInventory.setOpaque(false);
+		c.add(caloriesAndInventory, BorderLayout.SOUTH);
+		
 		setSize(700, 450);
 		pack();
 		setVisible(true);

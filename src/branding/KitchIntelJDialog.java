@@ -28,4 +28,13 @@ public abstract class KitchIntelJDialog extends JDialog
     
     getContentPane().setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
   }
+  
+  /**
+   * Creates a new KitchIntelJDialog with the proper color scheme.
+   * @param title The title of the JDialog
+   */
+  public KitchIntelJDialog(final String title)
+  {
+    this(null, title);
+  }
 }
