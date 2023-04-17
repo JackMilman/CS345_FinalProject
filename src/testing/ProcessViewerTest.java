@@ -1,3 +1,4 @@
+
 package testing;
 
 import java.util.ArrayList;
@@ -40,8 +41,8 @@ class ProcessViewerTest {
 
 		Recipe recipe = new LeafRecipe("Garlic Butter Salmon", 2);
 		recipe.addAllIngredients(ingredients);
-		recipe.addAllSteps(steps);
 		recipe.addAllUtensils(utensils);
+		recipe.addAllSteps(steps);
 		ProcessViewer pv = new ProcessViewer(recipe);
 	}
 
@@ -70,8 +71,8 @@ class ProcessViewerTest {
 
 		Recipe recipe = new LeafRecipe("Garlic Butter Salmon", 2);
 		recipe.addAllIngredients(ingredients);
-		recipe.addAllSteps(steps);
 		recipe.addAllUtensils(utensils);
+		recipe.addAllSteps(steps);
 
 		ingredients = new ArrayList<>();
 		ingredients
@@ -91,13 +92,13 @@ class ProcessViewerTest {
 		steps.add(new Step("wash", ingredients.get(1), utensils.get(1), utensils.get(2), " ", 15));
 		steps.add(new Step("wash", ingredients.get(2), utensils.get(1), utensils.get(2), " ", 15));
 		steps.add(new Step("cut", ingredients.get(0), utensils.get(0), utensils.get(1), " ", 20));
-		steps.add(new Step("cut", ingredients.get(1), utensils.get(0), utensils.get(3), " ", 5));
-		steps.add(new Step("cut", ingredients.get(2), utensils.get(0), utensils.get(3), " ", 10));
+		steps.add(new Step("cut", ingredients.get(1), utensils.get(0), utensils.get(2), " ", 5));
+		steps.add(new Step("cut", ingredients.get(2), utensils.get(0), utensils.get(2), " ", 10));
 
 		Recipe salad = new LeafRecipe("Ceaser Salad", 2);
 		salad.addAllIngredients(ingredients);
-		salad.addAllSteps(steps);
 		salad.addAllUtensils(utensils);
+		salad.addAllSteps(steps);
 
 		List<Recipe> recipes = new ArrayList<>();
 		recipes.add(salad);

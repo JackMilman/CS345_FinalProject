@@ -25,7 +25,7 @@ public class Step implements Serializable
   private Utensil source;
 
   private Utensil destination;
-  
+
   private int time;
 
   /**
@@ -152,7 +152,7 @@ public class Step implements Serializable
   {
     this.destination = destination;
   }
-  
+
   /**
    * Gets the time in minutes of the Step.
    * 
@@ -173,62 +173,62 @@ public class Step implements Serializable
   {
     this.time = time;
   }
-  
+
   @Override
   public String toString()
   {
     // if the destination is a utensil
-    if(source != null)
+    if (source != null)
     {
-      //if the source and destination utensil are the same
-      if(source.equals(destination))
+      // if the source and destination utensil are the same
+      if (source.equals(destination))
       {
         return String.format("%s the contents of the %s %s\t\t%s minutes", action, source.getName(),
             details, time).strip();
       }
-      //if the source and destination utensil are different
+      // if the source and destination utensil are different
       else
       {
-        return String.format("%s the contents of the %s in the %s %s\t\t%s minutes", action, 
+        return String.format("%s the contents of the %s in the %s %s\t\t%s minutes", action,
             source.getName(), destination.getName(), details, time).strip();
       }
     }
-   
-    
-    //if the source is an ingredient
-    return 
-        String.format("%s the %s on the %s %s\t\t%s minutes", action, ingredient.getName(), 
-            destination.getName(), details, time).strip();
-    
+
+    // if the source is an ingredient
+    return String.format("%s the %s on the %s %s\t\t%s minutes", action, ingredient.getName(),
+        destination.getName(), details, time).strip();
+
   }
-  
-  public String toString(boolean verbose) {
-  	if (verbose) {
-  		return toString();
-  	} else {
-  	    // if the destination is a utensil
-  	    if(source != null)
-  	    {
-  	      //if the source and destination utensil are the same
-  	      if(source.equals(destination))
-  	      {
-  	        return String.format("%s the contents of the %s", action, source.getName(),
-  	            details).strip();
-  	      }
-  	      //if the source and destination utensil are different
-  	      else
-  	      {
-  	        return String.format("%s the contents of the %s in the %s", action, 
-  	            source.getName(), destination.getName(), details).strip();
-  	      }
-  	    }
-  	   
-  	    
-  	    //if the source is an ingredient
-  	    return 
-  	        String.format("%s the %s on the %s", action, ingredient.getName(), 
-  	            destination.getName(), details).strip();
-  	}
+
+  public String toString(boolean verbose)
+  {
+    if (verbose)
+    {
+      return toString();
+    }
+    else
+    {
+      // if the destination is a utensil
+      if (source != null)
+      {
+        // if the source and destination utensil are the same
+        if (source.equals(destination))
+        {
+          return String.format("%s the contents of the %s", action, source.getName(), details)
+              .strip();
+        }
+        // if the source and destination utensil are different
+        else
+        {
+          return String.format("%s the contents of the %s in the %s", action, source.getName(),
+              destination.getName(), details).strip();
+        }
+      }
+
+      // if the source is an ingredient
+      return String.format("%s the %s on the %s", action, ingredient.getName(),
+          destination.getName(), details).strip();
+    }
   }
-  
+
 }

@@ -69,28 +69,34 @@ public abstract class Recipe implements Serializable
       this.servings = servings;
     }
   }
-  
-  public boolean addAllIngredients(final List<Ingredient> ingredients) {
+
+  public boolean addAllIngredients(final List<Ingredient> ingredients)
+  {
     int sizeBefore = ingredients.size();
-    for (Ingredient ingredient : ingredients) {
+    for (Ingredient ingredient : ingredients)
+    {
       addIngredient(ingredient);
     }
     // If the list changed as a result of this operation
     return sizeBefore != ingredients.size();
   }
-  
-  public boolean addAllUtensils(final List<Utensil> utensils) {
+
+  public boolean addAllUtensils(final List<Utensil> utensils)
+  {
     int sizeBefore = utensils.size();
-    for (Utensil utensil : utensils) {
+    for (Utensil utensil : utensils)
+    {
       addUtensil(utensil);
     }
     // If the list changed as a result of this operation
     return sizeBefore != utensils.size();
   }
-  
-  public boolean addAllSteps(final List<Step> steps) {
+
+  public boolean addAllSteps(final List<Step> steps)
+  {
     int sizeBefore = steps.size();
-    for (Step step: steps) {
+    for (Step step : steps)
+    {
       addStep(step);
     }
     // If the list changed as a result of this operation
@@ -107,7 +113,8 @@ public abstract class Recipe implements Serializable
    */
   public boolean addIngredient(final Ingredient ingredient)
   {
-    if (!ingredients.contains(ingredient)) {
+    if (!ingredients.contains(ingredient))
+    {
       return ingredients.add(ingredient);
     }
     return false;
@@ -122,10 +129,10 @@ public abstract class Recipe implements Serializable
    * 
    * @return true if the ingredient was successfully removed, else false
    */
-   public boolean removeIngredient(final Ingredient ingredient)
-   {
-     return ingredients.remove(ingredient);
-   }
+  public boolean removeIngredient(final Ingredient ingredient)
+  {
+    return ingredients.remove(ingredient);
+  }
 
   /**
    * Adds an utensil to the list of Utensils.

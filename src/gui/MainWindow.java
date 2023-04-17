@@ -119,12 +119,12 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     configure.add(shortcuts);
     JMenuItem nutrition = new JMenuItem(Translator.translate("Nutrition"));
     configure.add(nutrition);
-    
+
     // Help items
     JMenu help = new JMenu(Translator.translate("Help"));
     menuBar.add(help);
-    //JMenuItem about = new JMenuItem(Translator.translate("About"));
-    //help.add(about);
+    // JMenuItem about = new JMenuItem(Translator.translate("About"));
+    // help.add(about);
     JMenuItem userGuide = new JMenuItem(Translator.translate("User Guide"));
     help.add(userGuide);
 

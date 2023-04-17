@@ -86,7 +86,7 @@ public class KiLowBitesController implements ActionListener
     // Open Calorie Calculator Window
     if (e.getActionCommand().equals(CALORIECALCULATOR))
     {
-     CalorieCalculatorWindow.getCalorieCalculatorWindow();
+      CalorieCalculatorWindow.getCalorieCalculatorWindow();
     }
 
     // Open ShoppingListViewer
@@ -119,11 +119,11 @@ public class KiLowBitesController implements ActionListener
         new ProcessViewer(meal);
       }
     }
-    
-    //open calorie calculator
+
+    // open calorie calculator
     if (e.getActionCommand().equals(CALORIECALCULATOR))
     {
-    	CalorieCalculatorWindow.getCalorieCalculatorWindow();
+      CalorieCalculatorWindow.getCalorieCalculatorWindow();
     }
 
   }
@@ -136,7 +136,7 @@ public class KiLowBitesController implements ActionListener
   {
     recipe = null;
     meal = null;
-    
+
     fileChooser.setFileFilter(fileFilter);
     int result = fileChooser.showOpenDialog(null);
     fileChooser.setDialogTitle(Translator.translate("Open Recipe or Meal"));
@@ -178,7 +178,7 @@ public class KiLowBitesController implements ActionListener
           }
         }
       }
-      if(recipe == null && meal == null)
+      if (recipe == null && meal == null)
       {
         JOptionPane.showMessageDialog(null, INVALID_FILE_TYPE, ERROR, JOptionPane.ERROR_MESSAGE);
       }

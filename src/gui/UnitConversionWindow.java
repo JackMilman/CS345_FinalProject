@@ -12,7 +12,7 @@ import recipes.NutritionInfo;
 
 /**
  * 
- * @author 
+ * @author
  *
  */
 public class UnitConversionWindow extends KitchIntelJFrame
@@ -21,7 +21,7 @@ public class UnitConversionWindow extends KitchIntelJFrame
   private static final int DEFAULT_TEXT_FIELD_WIDTH = 8;
   private static final String CALCULATION_COMMAND = "calc";
   private static final String RESET = "reset";
-  
+
   private static UnitConversionWindow unitWindow = null;
 
   private String[] units = {"", "DRAM", "OUNCE", "GRAM", "POUND", "PINCH", "TEASPOON", "TABLESPOON",
@@ -48,18 +48,19 @@ public class UnitConversionWindow extends KitchIntelJFrame
     setUp();
     setDefaultCloseOperation(HIDE_ON_CLOSE);
   }
+
   public static UnitConversionWindow getUnitConversionWindow()
   {
-    if(unitWindow == null)
+    if (unitWindow == null)
     {
       unitWindow = new UnitConversionWindow(null);
-      
+
     }
     unitWindow.setVisible(true);
-   
-    
+
     return unitWindow;
   }
+
   private Container createIcons()
   {
     Container icons = new Container();
@@ -78,6 +79,7 @@ public class UnitConversionWindow extends KitchIntelJFrame
 
     return icons;
   }
+
   private Container createUnitMenu()
   {
     Container unitMenu = new Container();
@@ -93,17 +95,16 @@ public class UnitConversionWindow extends KitchIntelJFrame
       tounitBox.addItem(units[i]);
     }
 
-    
     fromunitBox.addItemListener(new FromComboBoxHandler());
     tounitBox.addItemListener(new ToComboBoxHandler());
-    String[] ingredients = (String[]) NutritionInfo.getIngredientsInMap().toArray();
+    Object[] ingredients = NutritionInfo.getIngredientsInMap().toArray();
     JLabel ingredientLabel = new JLabel(Translator.translate("Ingredient") + ":");
     ingredientBox = new JComboBox<String>();
 
     ingredientBox.addItem("");
     for (int i = 0; i < ingredients.length; i++)
     {
-      ingredientBox.addItem(ingredients[i]);
+      ingredientBox.addItem((String) ingredients[i]);
     }
 
     unitMenu.add(fromunitLabel);
@@ -115,7 +116,7 @@ public class UnitConversionWindow extends KitchIntelJFrame
     ingredientBox.addItemListener(new IngredientComboBoxHandler());
     return unitMenu;
   }
-  
+
   private JPanel createInputPanel()
   {
     JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -126,10 +127,16 @@ public class UnitConversionWindow extends KitchIntelJFrame
     inputPanel.add(fromAmount);
     inputPanel.add(amount);
     inputPanel.add(resultLabel);
+    
+    inputPanel.setOpaque(false);
+    
     return inputPanel;
   }
-  private void setUp() {
-    Container c = getContentPane();;
+
+  private void setUp()
+  {
+    Container c = getContentPane();
+    ;
     Container icons = createIcons();
     c.add(icons, BorderLayout.NORTH);
     Container unitMenu = createUnitMenu();
@@ -141,7 +148,6 @@ public class UnitConversionWindow extends KitchIntelJFrame
     setResizable(false);
     pack();
   }
-
 
   private class FromComboBoxHandler implements ItemListener
   {

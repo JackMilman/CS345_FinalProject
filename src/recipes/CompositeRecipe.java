@@ -12,33 +12,36 @@ public class CompositeRecipe extends Recipe
   {
     super(name, servings);
   }
-  
+
   /**
    * Adds a new recipe to the list of this recipe's sub recipes.
    * 
    * @param recipe
    * @return true if the list was changed as a result of this operation
    */
-  public boolean addRecipe(final Recipe recipe) {
+  public boolean addRecipe(final Recipe recipe)
+  {
     return subRecipes.add(recipe);
   }
-  
+
   /**
    * Removes recipe from the list of this recipe's sub recipes.
    * 
    * @param recipe
    * @return true if the list was changed as a result of this operation
    */
-  public boolean removeRecipe(final Recipe recipe) {
+  public boolean removeRecipe(final Recipe recipe)
+  {
     return subRecipes.remove(recipe);
   }
-  
+
   /**
    * Gets a copy of the list of subRecipes.
    * 
    * @return
    */
-  public List<Recipe> getSubRecipes() {
+  public List<Recipe> getSubRecipes()
+  {
     return new ArrayList<Recipe>(subRecipes);
   }
 
@@ -51,7 +54,8 @@ public class CompositeRecipe extends Recipe
   public List<Ingredient> getIngredients()
   {
     List<Ingredient> compositeList = new ArrayList<Ingredient>();
-    for (Recipe subRecipe : subRecipes) {
+    for (Recipe subRecipe : subRecipes)
+    {
       compositeList.addAll(subRecipe.getIngredients());
     }
     compositeList.addAll(ingredients);
@@ -67,7 +71,8 @@ public class CompositeRecipe extends Recipe
   public List<Utensil> getUtensils()
   {
     List<Utensil> compositeList = new ArrayList<Utensil>();
-    for (Recipe subRecipe : subRecipes) {
+    for (Recipe subRecipe : subRecipes)
+    {
       compositeList.addAll(subRecipe.getUtensils());
     }
     compositeList.addAll(utensils);
@@ -78,14 +83,16 @@ public class CompositeRecipe extends Recipe
   public double calculateCalories()
   {
     double result = 0;
-    for (Ingredient ingredient : ingredients) {
+    for (Ingredient ingredient : ingredients)
+    {
       result += ingredient.getCaloriesPerGram();
     }
-    
-    for (Recipe recipe : subRecipes) {
+
+    for (Recipe recipe : subRecipes)
+    {
       result += recipe.calculateCalories();
     }
-    
+
     return result;
   }
 

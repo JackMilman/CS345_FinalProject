@@ -5,7 +5,8 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Utility Class for maintaining a map of ingredients and nutritional information for those ingredients.
+ * Utility Class for maintaining a map of ingredients and nutritional information for those 
+ * ingredients.
  * 
  * @author Jack Milman, KichIntel
  * @version 4/14/2023 V2
@@ -13,7 +14,7 @@ import java.util.Set;
  */
 public class NutritionInfo
 {
-  private final static Map<String, CalorieGram> nutritionMap = initializeNutrition();
+  private static final Map<String, CalorieGram> NUTRITION_MAP = initializeNutrition();
 
   private static Map<String, CalorieGram> initializeNutrition()
   {
@@ -98,9 +99,14 @@ public class NutritionInfo
     return map;
   }
 
+  /**
+   * Returns whether Nutrition info is stored for the named ingredient.
+   * @param ingredientName the name of an ingredient
+   * @return true if there is nutrition information for the ingredient, false otherwise.
+   */
   public static boolean contains(final String ingredientName)
   {
-    return nutritionMap.containsKey(ingredientName);
+    return NUTRITION_MAP.containsKey(ingredientName);
   }
 
   /**
@@ -116,22 +122,23 @@ public class NutritionInfo
    */
   public static void addIngredient(final String name, final Double calories, final Double density)
   {
-    if (!nutritionMap.containsKey(name))
-      nutritionMap.put(name, new CalorieGram(calories, density));
+    if (!NUTRITION_MAP.containsKey(name))
+      NUTRITION_MAP.put(name, new CalorieGram(calories, density));
   }
 
   /**
    * Returns the Set of keys (a.k.a. ingredient names) in the NutritionInfo map.
    * 
-   * @return
+   * @return A set of String keys
    */
   public static Set<String> getIngredientsInMap()
   {
-    return nutritionMap.keySet();
+    return NUTRITION_MAP.keySet();
   }
 
   /**
-   * Returns the calorie information of the ingredient, if it exists in the map and has calorie information. Else, returns 0.0.
+   * Returns the calorie information of the ingredient, if it exists in the map and has calorie 
+   * information. Else, returns 0.0.
    * 
    * @param ingredientName
    *          the ingredient whose calorie info we want to find
@@ -139,7 +146,7 @@ public class NutritionInfo
    */
   public static Double getCalPerGram(final String ingredientName)
   {
-    CalorieGram mapping = nutritionMap.get(ingredientName);
+    CalorieGram mapping = NUTRITION_MAP.get(ingredientName);
     if (mapping != null && mapping.getCal() != null)
     {
       return mapping.getCal();
@@ -160,7 +167,7 @@ public class NutritionInfo
    */
   public static Double getGramPerML(final String ingredientName)
   {
-    CalorieGram mapping = nutritionMap.get(ingredientName);
+    CalorieGram mapping = NUTRITION_MAP.get(ingredientName);
     if (mapping != null && mapping.getDensity() != null)
     {
       return mapping.getDensity();
