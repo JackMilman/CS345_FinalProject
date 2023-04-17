@@ -23,7 +23,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import branding.KitchIntelButton;
 import branding.KitchIntelJFrame;
 import config.Translator;
 import recipes.Meal;
