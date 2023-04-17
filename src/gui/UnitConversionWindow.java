@@ -97,14 +97,14 @@ public class UnitConversionWindow extends KitchIntelJFrame
 
     fromunitBox.addItemListener(new FromComboBoxHandler());
     tounitBox.addItemListener(new ToComboBoxHandler());
-    String[] ingredients = (String[]) NutritionInfo.getIngredientsInMap().toArray();
+    Object[] ingredients = NutritionInfo.getIngredientsInMap().toArray();
     JLabel ingredientLabel = new JLabel(Translator.translate("Ingredient") + ":");
     ingredientBox = new JComboBox<String>();
 
     ingredientBox.addItem("");
     for (int i = 0; i < ingredients.length; i++)
     {
-      ingredientBox.addItem(ingredients[i]);
+      ingredientBox.addItem((String) ingredients[i]);
     }
 
     unitMenu.add(fromunitLabel);
