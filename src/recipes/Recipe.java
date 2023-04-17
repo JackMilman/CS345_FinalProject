@@ -125,6 +125,16 @@ public abstract class Recipe implements Serializable
     }
     return false;
   }
+  
+  /**
+   * Gets the substitute Ingredients in the Recipe.
+   * 
+   * @return the substitute ingredients in the recipe.
+   */
+  public HashMap<Ingredient, List<Ingredient>> getSubstitutes()
+  {
+    return new HashMap<Ingredient, List<Ingredient>>(substitutes);
+  }
 
   /**
    * Adds an ingredient to the list of Ingredients.
