@@ -80,7 +80,7 @@ class ProcessViewerTest
   @Test
   void testProcessViewerRecipes()
   {
-    ProcessViewer pv = new ProcessViewer(recipe1());
+    new ProcessViewer(recipe1());
   }
 
   @Test
@@ -93,7 +93,7 @@ class ProcessViewerTest
 
     Meal meal = new Meal("Dinner", recipes, 4);
 
-    ProcessViewer pv = new ProcessViewer(meal);
+    new ProcessViewer(meal);
   }
 
   public static void main(final String[] args)
