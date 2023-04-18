@@ -156,6 +156,20 @@ public class Inventory
    */
   public boolean reduceIngredient(final Ingredient reducingIngredient)
   {
+    for(Ingredient temp : ingredients)
+    {
+    	if (temp.getName().equalsIgnoreCase(reducingIngredient.getName())) {
+    		double amount = temp.getAmount() - UnitConversion.convert(temp.getName(),temp.getUnit(), reducingIngredient.getUnit(), reducingIngredient.getAmount());
+    		if (amount > 0) {
+    			Ingredient newIngredient = new Ingredient(temp.getName(), temp.getDetails(), amount, temp.getUnit(), temp.getCalories(), temp.getDensity());
+    			//final String name, final String details, final double amount, final String unit,
+    		    //final Double calories, final Double density
+    	
+    		}
+    		ingredients.remove(temp);
+    		return true;
+    	}	
+    }
     return false;
   }
 

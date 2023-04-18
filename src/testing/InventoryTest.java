@@ -110,6 +110,29 @@ class InventoryTest
     Inventory.clear();
     assertEquals(0, instance.size());
   }
+  
+  
+  @Test
+  public void testRemoveIngredient() {
+	  Inventory instance = Inventory.createInstance();
+	  Ingredient ingredient1 = new Ingredient(ingredientName + "1", ingredientDetails  + "1", ingredientAmount,
+		        ingredientUnit, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+	  Ingredient ingredient2 = new Ingredient(ingredientName + "2", ingredientDetails  + "2", ingredientAmount,
+		        ingredientUnit, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+	  Ingredient ingredient3 = new Ingredient(ingredientName + "3", ingredientDetails  + "3", ingredientAmount,
+		        ingredientUnit, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+	  
+	  instance.addIngredient(ingredient1);
+	  instance.addIngredient(ingredient2);
+	  instance.addIngredient(ingredient3);
+	  
+	  Ingredient remove1 = new Ingredient(ingredientName + "1", ingredientDetails  + "1", 5,
+		        ingredientUnit, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+	  
+	  instance.reduceIngredient(remove1);
+	  instance.reduceIngredient(remove1);
+	  assertEquals(2, instance.size());
+  }
 
   
 }
