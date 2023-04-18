@@ -110,9 +110,9 @@ public class UnitConversion
 
   private static double mass_to_volume(String name, Unit from, Unit to, double amount)
   {
-    if (NutritionInfo.contains(name))
+    if (NutritionInfo.contains(name.toLowerCase()))
     {
-      double gramsPerMilliliter = NutritionInfo.getGramPerML(name);
+      double gramsPerMilliliter = NutritionInfo.getGramPerML(name.toLowerCase());
       double massInGrams = convert(name, from, Unit.GRAM, amount);
       double volume = (massInGrams / gramsPerMilliliter);
       return volume;
@@ -123,9 +123,9 @@ public class UnitConversion
 
   private static double volume_to_mass(String name, Unit from, Unit to, double amount)
   {
-    if (NutritionInfo.contains(name))
+    if (NutritionInfo.contains(name.toLowerCase()))
     {
-      double gramsPerMilliliter = NutritionInfo.getGramPerML(name);
+      double gramsPerMilliliter = NutritionInfo.getGramPerML(name.toLowerCase());
       double volumeInMilliliters = convert(name, from, Unit.MILLILITER, amount);
       double mass = (gramsPerMilliliter * volumeInMilliliters);
       return convert(name, Unit.GRAM, to, mass);
