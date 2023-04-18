@@ -14,6 +14,7 @@ import recipes.Recipe;
 import recipes.Step;
 import recipes.Unit;
 import recipes.Utensil;
+import utilities.UnitConversion;
 
 /**
  * Informal class to test if GUI works properly (not using JUnit). Can be deleted later.
@@ -23,9 +24,6 @@ import recipes.Utensil;
  */
 public class TemporaryGUITest
 {
-  
-  private static final String[] UNITS = new String[] {"", "Dram", "Ounce", "Gram", "Pound", "Pinch",
-      "Teaspoon", "Tablespoon", "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon", "Individual"};
  
   /**
    * Creates an IngredientEditor.
@@ -51,6 +49,7 @@ public class TemporaryGUITest
     recipes.add(bananasFoster());
     recipes.add(macNCheese());
     Meal meal = new Meal("Test Meal", recipes, 2);
+    Recipe recipe = bananasFoster();
     ShoppingListViewer shoppingList = new ShoppingListViewer(meal);
     
   }

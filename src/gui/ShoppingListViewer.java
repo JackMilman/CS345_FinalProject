@@ -27,11 +27,8 @@ import utilities.UnitConversion;
 
 /*
  * TO DO:
- * Fix calculations on re-inputting number of people
- * Test with a meal
- * Possibly create a private listener class
+ * Test with inventory
  * Check acceptance criteria
- * Add javadocs
  */
 
 /**
@@ -43,10 +40,8 @@ import utilities.UnitConversion;
 public class ShoppingListViewer extends KitchIntelJDialog
 {
 
-  // private static final String CHANGE_UNITS = "change_units";
-  // private static final String CHANGE_NUMBER_OF_PEOPLE = "number_of_people";
-  // private static final String PURCHASED_INGREDIENT = "purchased_ingredient";
   private static final int DO_NOT_DISPLAY = -1;
+  private static final long serialVersionUID = 1L;
 
   private Object obj;
   private JPanel contentPane;
@@ -82,7 +77,6 @@ public class ShoppingListViewer extends KitchIntelJDialog
     inputNumPeoplePanel.add(new JLabel(Translator.translate("Number of People") + ":"));
     numPeopleField = new JTextField();
     numPeopleField.setColumns(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
-    // numPeopleField.setActionCommand(CHANGE_NUMBER_OF_PEOPLE);
     numPeopleField.addActionListener(new ActionListener()
     {
       public void actionPerformed(final ActionEvent e)
@@ -90,6 +84,10 @@ public class ShoppingListViewer extends KitchIntelJDialog
         try
         {
           numPeople = Integer.parseInt(numPeopleField.getText());
+          if (numPeople == 0)
+          {
+            numPeople = DO_NOT_DISPLAY;
+          }
           updateScrollArea("" + numPeople);
         }
         catch (NumberFormatException nfe)
@@ -134,10 +132,21 @@ public class ShoppingListViewer extends KitchIntelJDialog
       for (Recipe recipe : meal.getRecipes())
       {
         addToAllIngredients(recipe);
+      }
+      for (Recipe recipe : meal.getRecipes())
+      {
         editIngredientList(recipe);
       }
+      // amounts get duplicated for some reason
+      for (Ingredient ing : editedIngredients)
+      {
+        int index = editedIngredients.indexOf(ing);
+        Ingredient newIng = new Ingredient(ing.getName(), ing.getDetails(), ing.getAmount() / 2,
+            ing.getUnit(), ing.getCalories(), ing.getDensity());
+        editedIngredients.set(index, newIng);
+      }
     }
-
+    
     updateScrollAreaHelper();
 
   }
@@ -152,9 +161,6 @@ public class ShoppingListViewer extends KitchIntelJDialog
       
     if (numPeople != DO_NOT_DISPLAY)
     {
-      // editIngredientList(recipe);
-      // editedIngredients should have all ingredients added up
-      // will probably need to change logic
 
       scrollArea = new JPanel();
 
@@ -175,13 +181,16 @@ public class ShoppingListViewer extends KitchIntelJDialog
 
     contentPane.revalidate();
     contentPane.repaint();
+    
   }
 
   private void addToAllIngredients(final Recipe recipe)
   {
+    double numBatches = (double) numPeople / (double) recipe.getServings();
     for (Ingredient ing : recipe.getIngredients())
     {
-      allIngredients.add(ing);
+      allIngredients.add(new Ingredient(ing.getName(), ing.getDetails(), 
+          ing.getAmount() * numBatches, ing.getUnit(), ing.getCalories(), ing.getDensity()));
     }
   }
 
@@ -197,14 +206,14 @@ public class ShoppingListViewer extends KitchIntelJDialog
         return;
       }
 
-      double numBatches = (double) numPeople / (double) recipe.getServings();
 
       for (Ingredient ing : allIngredients)
       {
         if (!editedIngredients.contains(ing))
         {
           Ingredient newIng = new Ingredient(ing.getName(), ing.getDetails(),
-              ing.getAmount() * numBatches, ing.getUnit(), ing.getCalories(), ing.getDensity());
+              ing.getAmount(), ing.getUnit(), ing.getCalories(), 
+              ing.getDensity());
           editedIngredients.add(newIng);
         }
         else
@@ -216,12 +225,12 @@ public class ShoppingListViewer extends KitchIntelJDialog
           {
             if (editedIng.equals(ing))
             {
-              // add some kind of check for if an ingredient needs to be changed
               duplicate = editedIng;
               double newAmount = UnitConversion.convert(ing.getName(), ing.getUnit(),
                   duplicate.getUnit(), ing.getAmount()) + duplicate.getAmount();
               Ingredient addIng = new Ingredient(ing.getName(), ing.getDetails(),
-                  newAmount * numBatches, duplicate.getUnit(), ing.getCalories(), ing.getDensity());
+                  newAmount, duplicate.getUnit(), ing.getCalories(), 
+                  ing.getDensity());
               int index = editedIngredients.indexOf(duplicate);
               editedIngredients.set(index, addIng);
             }
@@ -229,7 +238,10 @@ public class ShoppingListViewer extends KitchIntelJDialog
         }
       }
     }
+    
+    // sort alphabetically
     Collections.sort(editedIngredients);
+    
   }
 
   /**
@@ -260,10 +272,11 @@ public class ShoppingListViewer extends KitchIntelJDialog
   private class ShoppingListIngredient extends JPanel
   {
 
+    private static final long serialVersionUID = 1L;
+    
     JLabel label;
     JComboBox<String> units;
     JCheckBox checkBox;
-    // Ingredient ingredient;
 
     ShoppingListIngredient(final Ingredient ingredient)
     {
@@ -272,7 +285,6 @@ public class ShoppingListViewer extends KitchIntelJDialog
       setSize(600, 50);
       label = new JLabel(ingredient.toString());
       setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
-      // this.ingredient = ingredient;
 
       units = new JComboBox<>();
       for (Unit unit : Unit.values())
@@ -280,8 +292,6 @@ public class ShoppingListViewer extends KitchIntelJDialog
         units.addItem(unit.getName());
       }
       units.setSelectedItem(ingredient.getUnit());
-      // units.setActionCommand(CHANGE_UNITS);
-      // units.addActionListener(new ShoppingListListener());
       units.addActionListener(new ActionListener()
       {
         public void actionPerformed(final ActionEvent e)
@@ -301,7 +311,6 @@ public class ShoppingListViewer extends KitchIntelJDialog
 
       checkBox = new JCheckBox("Purchased?");
       checkBox.setOpaque(false); // required to make the background color correct
-      // checkBox.setActionCommand(PURCHASED_INGREDIENT);
       checkBox.addActionListener(new ActionListener()
       {
         public void actionPerformed(final ActionEvent e)
@@ -350,8 +359,5 @@ public class ShoppingListViewer extends KitchIntelJDialog
     }
 
   }
-
-//double numberOfBatches = (double) numPeople / (double) recipe.getServings();
-  //amount * numberOfBatches
   
 }
