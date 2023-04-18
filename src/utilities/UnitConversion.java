@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.Map;
 
 import recipes.NutritionInfo;
+import recipes.Unit;
 
 /**
  * Utility class for converting between units and between volumes and masses.
@@ -27,10 +28,10 @@ public class UnitConversion
   {
     Map<String, Double> map = new HashMap<String, Double>();
 
-    map.put("DRAM", 1.0 / 16.0);
-    map.put("OUNCE", 1.0); // base unit
-    map.put("GRAM", 1.0 / OUNCES_TO_GRAMS);
-    map.put("POUND", 16.0);
+    map.put(Unit.DRAM.getName(), 1.0 / 16.0);
+    map.put(Unit.OUNCE.getName(), 1.0); // base unit
+    map.put(Unit.GRAM.getName(), 1.0 / OUNCES_TO_GRAMS);
+    map.put(Unit.POUND.getName(), 16.0);
 
     return map;
   }
@@ -43,15 +44,15 @@ public class UnitConversion
     Map<String, Double> map = new HashMap<String, Double>();
 
     // Volume conversions
-    map.put("PINCH", 1 / 48.0);
-    map.put("MILLILITER", 1 / TABLESPOON_TO_MILLILITERS);
-    map.put("TEASPOON", 1 / 3.0);
-    map.put("TABLESPOON", 1.0); // base unit
-    map.put("FLUID OUNCE", 2.0);
-    map.put("CUP", 16.0);
-    map.put("PINT", 32.0);
-    map.put("QUART", 64.0);
-    map.put("GALLON", 256.0);
+    map.put(Unit.PINCH.getName(), 1 / 48.0);
+    map.put(Unit.MILLILITER.getName(), 1 / TABLESPOON_TO_MILLILITERS);
+    map.put(Unit.TEASPOON.getName(), 1 / 3.0);
+    map.put(Unit.TABLESPOON.getName(), 1.0); // base unit
+    map.put(Unit.FLUID_OUNCE.getName(), 2.0);
+    map.put(Unit.CUP.getName(), 16.0);
+    map.put(Unit.PINT.getName(), 32.0);
+    map.put(Unit.QUART.getName(), 64.0);
+    map.put(Unit.GALLON.getName(), 256.0);
 
     return map;
   }
@@ -75,6 +76,8 @@ public class UnitConversion
   public static double convert(final String name, final String from, final String to,
       final double amount)
   {
+    initializeMasses();
+    initializeVolumes();
     boolean massToMass = massConversions.containsKey(from) && massConversions.containsKey(to);
     boolean volumeToVolume = volumeConversions.containsKey(from)
         && volumeConversions.containsKey(to);

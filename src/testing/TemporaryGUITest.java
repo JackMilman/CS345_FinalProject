@@ -11,6 +11,7 @@ import recipes.Ingredient;
 import recipes.LeafRecipe;
 import recipes.Recipe;
 import recipes.Step;
+import recipes.Unit;
 import recipes.Utensil;
 
 /**
@@ -54,19 +55,19 @@ public class TemporaryGUITest
   {
     
     ArrayList<Ingredient> ingredients = new ArrayList<>();
-    ingredients.add(new Ingredient("butter", "", 0.33, UNITS[9],
+    ingredients.add(new Ingredient("butter", "", 0.33, Unit.CUP.getName(),
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("brown sugar", "", 0.33, UNITS[9],
+    ingredients.add(new Ingredient("brown sugar", "", 0.33, Unit.CUP.getName(),
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("bananas", "sliced ripe", 3, UNITS[13],
+    ingredients.add(new Ingredient("bananas", "sliced ripe", 3, Unit.INDIVIDUAL.getName(),
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("creme de cacao", "", 2, UNITS[7],
+    ingredients.add(new Ingredient("creme de cacao", "", 2, Unit.TABLESPOON.getName(),
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("rum", "", 0.25, UNITS[9],
+    ingredients.add(new Ingredient("rum", "", 0.25, Unit.CUP.getName(),
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("ice cream", "vanilla", 2, UNITS[9],
+    ingredients.add(new Ingredient("ice cream", "vanilla", 2, Unit.CUP.getName(),
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("cinnamon", "ground", 0.25, UNITS[6],
+    ingredients.add(new Ingredient("cinnamon", "ground", 0.25, Unit.TEASPOON.getName(),
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
     
     ArrayList<Utensil> utensils = new ArrayList<>();
