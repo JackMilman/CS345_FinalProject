@@ -25,6 +25,8 @@ import javax.swing.table.DefaultTableModel;
 
 import branding.KitchIntelJFrame;
 import config.Translator;
+import recipes.Ingredient;
+import recipes.Inventory;
 import recipes.Meal;
 import recipes.Recipe;
 import recipes.Step;
@@ -47,6 +49,8 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
   // private static final String MEALEXT = "mel";
   private JTable table;
   private List<Step> steps;
+  private List<Ingredient> ingredients;
+  private Inventory inventory;
 
   /**
    * Recipe constructor.
@@ -59,6 +63,19 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
         recipe.getName()));
     setUp(recipe);
   }
+  
+  /**
+   * Recipe constructor.
+   * 
+   * @param recipe
+   */
+  public ProcessViewer(final Recipe recipe, final Inventory inventory)
+  {
+    super(String.format("%s	%s", Translator.translate("KiLowBites Process Viewer"),
+        recipe.getName()));
+    this.inventory = inventory;
+    setUp(recipe);
+  }
 
   /**
    * Meal constructor.
@@ -69,6 +86,19 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
   {
     super(
         String.format("%s %s", Translator.translate("KiLowBites Process Viewer"), meal.getName()));
+    setUp(meal);
+  }
+  
+  /**
+   * Meal constructor.
+   * 
+   * @param meal
+   */
+  public ProcessViewer(final Meal meal, final Inventory inventory)
+  {
+    super(
+        String.format("%s %s", Translator.translate("KiLowBites Process Viewer"), meal.getName()));
+    this.inventory = inventory;
     setUp(meal);
   }
 
@@ -230,12 +260,15 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        // TODO: Remove ingredients from inventory
+        for (Ingredient tempIngredient: ingredients) {
+        	inventory.reduceIngredient(tempIngredient);
+        }
         JOptionPane.showMessageDialog(null, Translator.translate("Successful removal of ingredients."),
             Translator.translate("Ingredient Removal"), JOptionPane.PLAIN_MESSAGE,
             new ImageIcon(getClass().getClassLoader().getResource("KILowBites_Logo.png")));
       }
     });
+    
     return removeIngredients;
   }
 
@@ -293,7 +326,7 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
 
 
   /**
-   * Sets up the calorie calculations, plating time, and ingredient removal from the inventory.
+   * Sets up the calorie calculations, plating time, and ingredient removal from the inventory. The ingredient removal button is only added when the process viewer has an inventory. 
    * 
    * @param calories
    *          The number of calories in a recipe/meal
@@ -306,7 +339,9 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
 
     JPanel temp = new JPanel();
     temp.add(new JTextField(Translator.translate("Calories: ") + Math.round(calories * 10) / 10.0));
-    temp.add(setUpRemoveIngredients());
+    if (inventory != null) {
+    	temp.add(setUpRemoveIngredients());
+    }
     temp.setOpaque(false);
 
     p.add(temp);
@@ -334,6 +369,7 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
     c.add(p, BorderLayout.NORTH);
 
     steps = recipe.getSteps();
+    ingredients = recipe.getIngredients();
     p = setUpSteps();
     p.setOpaque(false);
     c.add(p, BorderLayout.CENTER);
@@ -362,6 +398,7 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
 
     // Gets each utensil and step in the meals
     ArrayList<Utensil> utensils = new ArrayList<>();
+    ingredients = new ArrayList<>();
     steps = new ArrayList<>();
     for (Recipe recipe : meal.getRecipes())
     {
@@ -370,10 +407,8 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
         if (!utensils.contains(utensil))
           utensils.add(utensil);
       }
-      for (Step step : recipe.getSteps())
-      {
-        steps.add(step);
-      }
+      steps.addAll(recipe.getSteps());
+      ingredients.addAll(recipe.getIngredients());
     }
 
     p = setUpUtensils(utensils);
