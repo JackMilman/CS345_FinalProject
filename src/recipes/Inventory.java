@@ -55,11 +55,11 @@ public class Inventory
    * Gets an ingredient by searching for an ingredient in the list with the same name (such as
    * "Potato") and details (such as "Peeled"). If the ingredient is not present in the inventory,
    * returns null.
-   *  
+   * 
    * @param name
-   *          the name of the ingredient
+   *                  the name of the ingredient
    * @param details
-   *          the details of the ingredient
+   *                  the details of the ingredient
    * @return the ingredient (from the *inventory*) that is equivalent to the ingredient being passed
    *         or null if it is not present
    */
@@ -86,7 +86,7 @@ public class Inventory
    * equivalence.
    * 
    * @param ingredient
-   *          the ingredient we are searching for
+   *                     the ingredient we are searching for
    * @return the ingredient (from the *inventory*) that is equivalent to the ingredient being passed
    *         or null if it is not present
    */
@@ -109,7 +109,7 @@ public class Inventory
    * Ingredient already in the inventory.
    * 
    * @param addingIngredient
-   *          the ingredient we are adding to the inventory
+   *                           the ingredient we are adding to the inventory
    * @return true if the operation was a success, false otherwise
    */
   public boolean addIngredient(final Ingredient addingIngredient)
@@ -156,10 +156,30 @@ public class Inventory
    */
   public boolean reduceIngredient(final Ingredient reducingIngredient)
   {
-    return false;
+    int index = ingredients.indexOf(reducingIngredient);
+    Ingredient presentIngredient = ingredients.get(index);
+    String name = presentIngredient.getName();
+    String details = presentIngredient.getDetails();
+    String presentUnit = presentIngredient.getUnit();
+    double presentAmount = presentIngredient.getAmount();
+
+    String subUnit = reducingIngredient.getUnit();
+    double reducingAmount = reducingIngredient.getAmount();
+    reducingAmount = UnitConversion.convert(name, subUnit, presentUnit, reducingAmount);
+
+    double endAmount = presentAmount - reducingAmount;
+    Ingredient reducedIngredient = new Ingredient(name, details, endAmount, presentUnit, null, null);
+    if (reducingAmount <= 0)
+      return ingredients.remove(reducedIngredient);
+    else {
+      ingredients.set(index,  reducedIngredient);
+      return true;
+    }
+
   }
-  
-  public List<Ingredient> getIngredientList(){
+
+  public List<Ingredient> getIngredientList()
+  {
     return ingredients;
   }
 

@@ -23,6 +23,7 @@ public class InventoryWindow extends JFrame
   private JTextField ingredientName = new JTextField(DEFAULT_TEXT_FIELD_WIDTH);
   private JTextField ingredientDetails = new JTextField(DEFAULT_TEXT_FIELD_WIDTH);
   private JTextField ingredientAmount = new JTextField(DEFAULT_TEXT_FIELD_WIDTH);
+  private JLabel amountItems = new JLabel();
 
   private String[] units = {"", "DRAM", "OUNCE", "GRAM", "POUND", "PINCH", "TEASPOON", "TABLESPOON",
       "FLUID OUNCE", "CUP", "PINT", "QUART", "GALLON", "MILLILITER"};
@@ -52,14 +53,27 @@ public class InventoryWindow extends JFrame
     c = getContentPane();
     c.setLayout(new FlowLayout(FlowLayout.LEFT));
     c.add(topMenuBar(), BorderLayout.NORTH);
+    c.add(infoMenuBar(), BorderLayout.AFTER_LINE_ENDS);
     c.add(infoContainer(), BorderLayout.SOUTH);
     setVisible(true);
-    setSize(810,500);
+    setSize(810, 500);
     setResizable(false);
 
   }
 
   private Container topMenuBar()
+  {
+    Container basicInfo = new Container();
+    basicInfo.setLayout(new FlowLayout(FlowLayout.LEFT));
+    JLabel items = new JLabel("Amount of Items:");
+    basicInfo.add(items);
+    amountItems.setText(String.format("%d", inventory.size()));
+    basicInfo.add(amountItems);
+    amountItems.setEnabled(false);
+    return basicInfo;
+  }
+
+  private Container infoMenuBar()
   {
     Container unitMenu = new Container();
     unitMenu.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -85,6 +99,8 @@ public class InventoryWindow extends JFrame
     addButton.setEnabled(false);
     addButton.addActionListener(new addOperationHandler());
     subButton.setText("-");
+    subButton.addActionListener(new subOperationHandler());
+    subButton.setEnabled(false);
     unitMenu.add(addButton);
     unitMenu.add(subButton);
     return unitMenu;
@@ -103,8 +119,9 @@ public class InventoryWindow extends JFrame
 
     @Override
     public void itemStateChanged(ItemEvent e)
-    { 
+    {
       addButton.setEnabled(true);
+      subButton.setEnabled(true);
       unit = (String) e.getItem();
 
     }
@@ -121,6 +138,8 @@ public class InventoryWindow extends JFrame
       name = ingredientName.getText();
       details = ingredientDetails.getText();
       amount = Double.parseDouble(ingredientAmount.getText());
+      if (amount < 0)
+        amount = 0;
       inventoryItem = new Ingredient(name, details, amount, unit, 0.0, 0.0);
       inventory.addIngredient(inventoryItem);
       ingredientName.setText("");
@@ -128,11 +147,38 @@ public class InventoryWindow extends JFrame
       ingredientAmount.setText("");
       ingredientUnit.setSelectedItem("");
       addButton.setEnabled(false);
-      for (Ingredient info: inventory.getIngredientList())
-      inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " " + info.getAmount() + " " + info.getUnit().toLowerCase() + "\n"));
+      for (Ingredient info : inventory.getIngredientList())
+        inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
+            + info.getAmount() + " " + info.getUnit().toLowerCase() + "\n"));
+      amountItems.setText(String.format("%d", inventory.size()));
+      amountItems.setEnabled(true);
+    }
+  }
 
+  private class subOperationHandler implements ActionListener
+  {
+
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+      inventoryPanel.setText("");
+      name = ingredientName.getText();
+      details = ingredientDetails.getText();
+      amount = Double.parseDouble(ingredientAmount.getText());
+      inventoryItem = new Ingredient(name, details, amount, unit, 0.0, 0.0);
+      inventory.reduceIngredient(inventoryItem);
+      ingredientName.setText("");
+      ingredientDetails.setText("");
+      ingredientAmount.setText("");
+      ingredientUnit.setSelectedItem("");
+      subButton.setEnabled(false);
+      for (Ingredient info : inventory.getIngredientList())
+        inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
+            + info.getAmount() + " " + info.getUnit().toLowerCase() + "\n"));
+
+    }
   }
-  }
+
   public static void main(String[] args)
   {
     InventoryWindow frame = new InventoryWindow();

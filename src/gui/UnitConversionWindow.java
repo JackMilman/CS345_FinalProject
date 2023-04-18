@@ -205,6 +205,7 @@ public class UnitConversionWindow extends JFrame
       else if (command.equals(CALCULATION_COMMAND))
       {
         amountvalue = Integer.parseInt(amount.getText());
+        if (amountvalue < 0) amountvalue = 0;
         double value = UnitConversion.convert(ingredient, fromUnit, toUnit, amountvalue);
         double truncate = Math.floor(value * 100 ) / 100;
         resultLabel.setText(Translator.translate("Result") + ":   " + String.format("%.2f", truncate));
