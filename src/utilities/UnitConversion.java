@@ -76,8 +76,6 @@ public class UnitConversion
   public static double convert(final String name, final Unit from, final Unit to,
       final double amount)
   {
-    initializeMasses();
-    initializeVolumes();
     boolean massToMass = massConversions.containsKey(from) && massConversions.containsKey(to);
     boolean volumeToVolume = volumeConversions.containsKey(from)
         && volumeConversions.containsKey(to);
@@ -125,6 +123,7 @@ public class UnitConversion
   {
     if (NutritionInfo.contains(name.toLowerCase()))
     {
+      // need to refactor to include no input for density
       double gramsPerMilliliter = NutritionInfo.getGramPerML(name.toLowerCase());
       double volumeInMilliliters = convert(name, from, Unit.MILLILITER, amount);
       double mass = (gramsPerMilliliter * volumeInMilliliters);
