@@ -174,22 +174,4 @@ public class Inventory
 
   }
 
-//  public List<Ingredient> getIngredientList()
-//  {
-//    return ingredients;
-//    for(Ingredient temp : ingredients)
-//    {
-//    	if (temp.getName().equalsIgnoreCase(reducingIngredient.getName())) {
-//    		double amount = temp.getAmount() - UnitConversion.convert(reducingIngredient.getName(),reducingIngredient.getUnit(), temp.getUnit(), reducingIngredient.getAmount());
-//    		if (amount > 0) {
-//    			Ingredient newIngredient = new Ingredient(temp.getName(), temp.getDetails(), amount, temp.getUnit(), temp.getCalories(), temp.getDensity());
-//    			ingredients.add(newIngredient);
-//    		}
-//    		ingredients.remove(temp);
-//    		return true;
-//    	}	
-//    }
-//    return false;
-//  }
-
 }
