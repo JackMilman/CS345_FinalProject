@@ -22,7 +22,7 @@ public class Ingredient implements Serializable, Comparable<Ingredient>
 
   private final double amount;
 
-  private final String unit;
+  private final Unit unit;
 
   private final Double calories;
 
@@ -38,7 +38,7 @@ public class Ingredient implements Serializable, Comparable<Ingredient>
    * @param calories
    * @param density
    */
-  public Ingredient(final String name, final String details, final double amount, final String unit,
+  public Ingredient(final String name, final String details, final double amount, final Unit unit,
       final Double calories, final Double density)
   {
     this.name = name;
@@ -85,7 +85,7 @@ public class Ingredient implements Serializable, Comparable<Ingredient>
    * 
    * @return the unit of the Ingredient
    */
-  public String getUnit()
+  public Unit getUnit()
   {
     return unit;
   }
@@ -117,7 +117,7 @@ public class Ingredient implements Serializable, Comparable<Ingredient>
    */
   public double getCaloriesPerGram()
   {
-    double amountInGrams = UnitConversion.convert(name, unit, "GRAM", amount);
+    double amountInGrams = UnitConversion.convert(name, unit, Unit.GRAM, amount);
     double calPerGram = NutritionInfo.getCalPerGram(name);
     return amountInGrams * calPerGram;
   }
@@ -173,9 +173,9 @@ public class Ingredient implements Serializable, Comparable<Ingredient>
   {
     if (details == null)
     {
-      return String.format("%.2f %ss of %s", amount, unit.toLowerCase(), name).toString();
+      return String.format("%.2f %ss of %s", amount, unit.getName().toLowerCase(), name).toString();
     }
-    return String.format("%.2f %ss of %s %s", amount, unit.toLowerCase(), details, name).toString();
+    return String.format("%.2f %ss of %s %s", amount, unit.getName().toLowerCase(), details, name).toString();
   }
   
   @Override

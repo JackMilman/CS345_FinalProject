@@ -12,7 +12,7 @@ public enum Unit
   NONE(""), DRAM("Dram"), OUNCE("Ounce"), GRAM("Gram"), POUND("Pound"), PINCH("Pinch"), 
   TEASPOON("Teaspoon"), TABLESPOON("Tablespoon"), FLUID_OUNCE("Fluid Ounce"), CUP("Cup"), 
   PINT("Pint"), QUART("Quart"), GALLON("Gallon"), INDIVIDUAL("Individual"), 
-  MILLILITER("Milliliter");
+  MILLILITER("Milliliter"), LITER("Liter");
   
   private final String name;
   
@@ -29,6 +29,18 @@ public enum Unit
   public String getName()
   {
     return this.name;
+  }
+  
+  /**
+   * 
+   */
+  public static Unit parseUnit(String unit) {
+    for (Unit item: Unit.values()) {
+      if (unit.equalsIgnoreCase(item.getName())) {
+        return item;
+      }
+    }
+    return null;
   }
   
 }

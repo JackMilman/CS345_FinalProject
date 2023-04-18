@@ -12,6 +12,7 @@ import recipes.LeafRecipe;
 import recipes.Meal;
 import recipes.Recipe;
 import recipes.Step;
+import recipes.Unit;
 import recipes.Utensil;
 
 class ProcessViewerTest {
@@ -19,19 +20,19 @@ class ProcessViewerTest {
 	public static void testProcessViewerRecipes() {
 	  
 	  Inventory inventory = Inventory.createInstance();
-	  inventory.addIngredient(new Ingredient("chicken", " ", 5, "POUND", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-	  inventory.addIngredient(new Ingredient("lettuce", " ", 5, "POUND", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-	  inventory.addIngredient(new Ingredient("broccoli", " ", 1, "POUND", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+	  inventory.addIngredient(new Ingredient("chicken", " ", 5, Unit.POUND, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+	  inventory.addIngredient(new Ingredient("lettuce", " ", 5, Unit.POUND, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+	  inventory.addIngredient(new Ingredient("broccoli", " ", 1, Unit.POUND, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 	  
 		ArrayList<Ingredient> ingredients = new ArrayList<>();
 		ingredients
-				.add(new Ingredient("chicken", " ", 1, "POUND", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+				.add(new Ingredient("chicken", " ", 1, Unit.POUND, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 		ingredients.add(
-				new Ingredient("lettuce", " ", 0.5, "POUND", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+				new Ingredient("lettuce", " ", 0.5, Unit.POUND, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 		ingredients
-				.add(new Ingredient("broccoli", " ", 6, "OUNCE", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+				.add(new Ingredient("broccoli", " ", 6, Unit.OUNCE, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 //		ingredients
-//		.add(new Ingredient("invalid", " ", 6, "OUNCE", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+//		.add(new Ingredient("invalid", " ", 6, Unit.OUNCE, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 
 		ArrayList<Utensil> utensils = new ArrayList<>();
 		utensils.add(new Utensil("fork", " "));
@@ -57,11 +58,11 @@ class ProcessViewerTest {
 	public static void testProcessViewerMeals() {
 		ArrayList<Ingredient> ingredients = new ArrayList<>();
 		ingredients
-				.add(new Ingredient("chicken", " ", 1, "POUND", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+				.add(new Ingredient("chicken", " ", 1, Unit.POUND, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 		ingredients.add(
-				new Ingredient("lettuce", " ", 0.5, "POUND", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+				new Ingredient("lettuce", " ", 0.5, Unit.POUND, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 		ingredients
-				.add(new Ingredient("broccoli", " ", 6, "OUNCE", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+				.add(new Ingredient("broccoli", " ", 6, Unit.OUNCE, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 
 		ArrayList<Utensil> utensils = new ArrayList<>();
 		utensils.add(new Utensil("fork", " "));
@@ -84,11 +85,11 @@ class ProcessViewerTest {
 
 		ingredients = new ArrayList<>();
 		ingredients
-				.add(new Ingredient("tomatos", " ", 2, "POUND", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+				.add(new Ingredient("tomatos", " ", 2, Unit.POUND, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 		ingredients.add(
-				new Ingredient("lettuce", " ", 0.5, "POUND", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+				new Ingredient("lettuce", " ", 0.5, Unit.POUND, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 		ingredients
-				.add(new Ingredient("carrots", " ", 6, "OUNCE", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+				.add(new Ingredient("carrots", " ", 6, Unit.OUNCE, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 
 		utensils = new ArrayList<>();
 		utensils.add(new Utensil("knife", " "));

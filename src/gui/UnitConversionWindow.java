@@ -9,6 +9,7 @@ import branding.KitchIntelIconButton;
 import branding.KitchIntelJFrame;
 import config.Translator;
 import recipes.NutritionInfo;
+import recipes.Unit;
 
 /**
  * 
@@ -202,7 +203,7 @@ public class UnitConversionWindow extends KitchIntelJFrame
       else if (command.equals(CALCULATION_COMMAND))
       {
         amountvalue = Integer.parseInt(amount.getText());
-        double value = UnitConversion.convert(ingredient, fromUnit, toUnit, amountvalue);
+        double value = UnitConversion.convert(ingredient, Unit.parseUnit(fromUnit), Unit.parseUnit(toUnit), amountvalue);
         resultLabel.setText(Translator.translate("Result") + ":   " + Double.toString(value));
       }
 

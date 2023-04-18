@@ -59,19 +59,19 @@ public class TemporaryGUITest
   {
     
     ArrayList<Ingredient> ingredients = new ArrayList<>();
-    ingredients.add(new Ingredient("butter", "", 0.33, Unit.CUP.getName(),
+    ingredients.add(new Ingredient("butter", "", 0.33, Unit.CUP,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("brown sugar", "", 0.33, Unit.CUP.getName(),
+    ingredients.add(new Ingredient("brown sugar", "", 0.33, Unit.CUP,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("bananas", "sliced ripe", 3, Unit.INDIVIDUAL.getName(),
+    ingredients.add(new Ingredient("bananas", "sliced ripe", 3, Unit.INDIVIDUAL,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("creme de cacao", "", 2, Unit.TABLESPOON.getName(),
+    ingredients.add(new Ingredient("creme de cacao", "", 2, Unit.TABLESPOON,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("rum", "", 0.25, Unit.CUP.getName(),
+    ingredients.add(new Ingredient("rum", "", 0.25, Unit.CUP,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("ice cream", "vanilla", 2, Unit.CUP.getName(),
+    ingredients.add(new Ingredient("ice cream", "vanilla", 2, Unit.CUP,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("cinnamon", "ground", 0.25, Unit.TEASPOON.getName(),
+    ingredients.add(new Ingredient("cinnamon", "ground", 0.25, Unit.TEASPOON,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
     
     ArrayList<Utensil> utensils = new ArrayList<>();
@@ -94,21 +94,21 @@ public class TemporaryGUITest
   {
     
     ArrayList<Ingredient> ingredients = new ArrayList<>();
-    ingredients.add(new Ingredient("macaroni", "dried elbow", 1, Unit.CUP.getName(),
+    ingredients.add(new Ingredient("macaroni", "dried elbow", 1, Unit.CUP,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("butter", "", 1, Unit.TABLESPOON.getName(),
+    ingredients.add(new Ingredient("butter", "", 1, Unit.TABLESPOON,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("onion", "chopped", 0.25, Unit.CUP.getName(),
+    ingredients.add(new Ingredient("onion", "chopped", 0.25, Unit.CUP,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("flour", "all-purpose", 1, Unit.TABLESPOON.getName(),
+    ingredients.add(new Ingredient("flour", "all-purpose", 1, Unit.TABLESPOON,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("pepper", "black", 1, Unit.PINCH.getName(),
+    ingredients.add(new Ingredient("pepper", "black", 1, Unit.PINCH,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("milk", "", 1.25, Unit.CUP.getName(),
+    ingredients.add(new Ingredient("milk", "", 1.25, Unit.CUP,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("American cheese", "shredded", 1.5, Unit.CUP.getName(),
+    ingredients.add(new Ingredient("American cheese", "shredded", 1.5, Unit.CUP,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-    ingredients.add(new Ingredient("tomato", "sliced medium", 1, Unit.NONE.getName(),
+    ingredients.add(new Ingredient("tomato", "sliced medium", 1, Unit.NONE,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
     
     ArrayList<Utensil> utensils = new ArrayList<>();

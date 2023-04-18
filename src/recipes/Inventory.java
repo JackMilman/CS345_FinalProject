@@ -50,6 +50,10 @@ public class Inventory
   {
     return ingredients.size();
   }
+  
+  public List<Ingredient> getInventory() {
+    return ingredients;
+  }
 
   /**
    * Gets an ingredient by searching for an ingredient in the list with the same name (such as
@@ -121,13 +125,13 @@ public class Inventory
       Ingredient presentIngredient = ingredients.get(index);
       String name = presentIngredient.getName();
       String details = presentIngredient.getDetails();
-      String presentUnit = presentIngredient.getUnit();
+      Unit presentUnit = presentIngredient.getUnit();
       double presentAmount = presentIngredient.getAmount();
 
       // Get the amount and the units of the ingredient so we can convert the amount in the one
       // we're adding to that unit.
       double addingAmount = addingIngredient.getAmount();
-      String addingUnit = addingIngredient.getUnit();
+      Unit addingUnit = addingIngredient.getUnit();
 
       // Convert the addingIngredient's amount to the unit already in the inventory.
       addingAmount = UnitConversion.convert(name, addingUnit, presentUnit, addingAmount);
@@ -159,7 +163,7 @@ public class Inventory
     for(Ingredient temp : ingredients)
     {
     	if (temp.getName().equalsIgnoreCase(reducingIngredient.getName())) {
-    		double amount = temp.getAmount() - UnitConversion.convert(temp.getName(),temp.getUnit(), reducingIngredient.getUnit(), reducingIngredient.getAmount());
+    		double amount = temp.getAmount() - UnitConversion.convert(reducingIngredient.getName(),reducingIngredient.getUnit(), temp.getUnit(), reducingIngredient.getAmount());
     		if (amount > 0) {
     			Ingredient newIngredient = new Ingredient(temp.getName(), temp.getDetails(), amount, temp.getUnit(), temp.getCalories(), temp.getDensity());
     			ingredients.add(newIngredient);

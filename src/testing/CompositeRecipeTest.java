@@ -12,6 +12,7 @@ import recipes.CompositeRecipe;
 import recipes.Ingredient;
 import recipes.LeafRecipe;
 import recipes.Recipe;
+import recipes.Unit;
 
 class CompositeRecipeTest
 {
@@ -19,8 +20,8 @@ class CompositeRecipeTest
 
   private final String ingredientName1 = "RANDOM";
   private final String ingredientDetails = "Basic Details for an Ingredient";
-  private final String ingredientUnit = "POUND";
-  private final String ingredientUnit2 = "GRAM";
+  private final Unit ingredientUnit = Unit.POUND;
+  private final Unit ingredientUnit2 = Unit.GRAM;
   private final String ingredientName2 = "RAMDOM";
   private final String ingredientName3 = "RABDOM";
   private final String ingredientName4 = "Real Ingredient";

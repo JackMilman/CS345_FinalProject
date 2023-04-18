@@ -26,7 +26,7 @@ class LeafRecipeTest
 
   private final String ingredientName1 = "Cabbage";
   private final String ingredientDetails = "Basic Details for an Ingredient";
-  private final String ingredientUnit = "POUNDS";
+  private final Unit ingredientUnit = Unit.POUND;
   private final String ingredientName2 = "Apple";
   private final String ingredientName3 = "Chicken";
 

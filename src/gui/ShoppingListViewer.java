@@ -287,7 +287,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
         public void actionPerformed(final ActionEvent e)
         {
           int index = editedIngredients.indexOf(ingredient);
-          String newUnit = (String) units.getSelectedItem();
+          Unit newUnit = Unit.parseUnit((String)units.getSelectedItem());
           Ingredient newIng = new Ingredient(ingredient.getName(), ingredient.getDetails(),
               UnitConversion.convert(ingredient.getName(), ingredient.getUnit(), 
                   newUnit, ingredient.getAmount()), newUnit, ingredient.getCalories(), 
@@ -318,11 +318,12 @@ public class ShoppingListViewer extends KitchIntelJDialog
     private double updateIngredientAmount(final Ingredient ingredient, final String newUnit)
     {
       double newAmount = -1;
+      Unit unit = Unit.parseUnit(newUnit);
       if (obj instanceof Recipe)
       {
         Recipe recipe = (Recipe) obj;
         double convertedAmount = UnitConversion.convert(ingredient.getName(), ingredient.getUnit(), 
-            newUnit, ingredient.getAmount());
+            unit, ingredient.getAmount());
         newAmount = (double) numPeople / (double) recipe.getServings() * convertedAmount;
       }
       else if (obj instanceof Meal)

@@ -23,6 +23,7 @@ import branding.KitchIntelJFrame;
 import config.Translator;
 import recipes.Ingredient;
 import recipes.NutritionInfo;
+import recipes.Unit;
 
 /**
  * This class is a GUI for calculating calories. The user is able to select and ingredient and unit
@@ -179,7 +180,7 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame
     public void actionPerformed(ActionEvent e)
     {
       String selectedIngredient = getSelectedIngredients();
-      String selectedUnits = getSelectedUnits();
+      Unit selectedUnits = Unit.parseUnit(getSelectedUnits());
       String enteredText = getEnteredAmount();
 
       String command = e.getActionCommand();

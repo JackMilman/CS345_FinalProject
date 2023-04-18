@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import branding.KitchIntelBorder;
 import config.Translator;
 import recipes.Ingredient;
+import recipes.Unit;
 import utilities.SortLists;
 
 /**
@@ -152,7 +153,7 @@ public class IngredientEditor extends JComponent
     if (name.equals("") || unit.equals(""))
       return;
 
-    Ingredient ingredient = new Ingredient(name, details, amount, unit, calories, density);
+    Ingredient ingredient = new Ingredient(name, details, amount, Unit.parseUnit(unit), calories, density);
     ingredients.add(ingredient);
 
     SortLists.sortIngredients(ingredients);

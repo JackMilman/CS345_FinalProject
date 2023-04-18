@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import gui.IngredientEditor;
 import recipes.Ingredient;
 import recipes.Inventory;
+import recipes.Unit;
 
 class InventoryTest
 {
@@ -14,8 +15,8 @@ class InventoryTest
   private final String newName = "NewName";
   private final String ingredientDetails = "Basic details for an Ingredient";
   private final double ingredientAmount = 10.0;
-  private final String ingredientUnit = "POUND";
-  private final String ingredientUnitOunce = "OUNCE";
+  private final Unit ingredientUnit = Unit.POUND;
+  private final Unit ingredientUnitOunce = Unit.OUNCE;
 
   @Test
   public void testCreateInstance()
