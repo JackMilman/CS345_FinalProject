@@ -15,8 +15,8 @@ import recipes.Unit;
  */
 public class UnitConversion
 {
-  private final static Map<String, Double> massConversions = initializeMasses();
-  private final static Map<String, Double> volumeConversions = initializeVolumes();
+  private final static Map<Unit, Double> massConversions = initializeMasses();
+  private final static Map<Unit, Double> volumeConversions = initializeVolumes();
   // Special Cases
   private final static double OUNCES_TO_GRAMS = 28.34952;
   private final static double TABLESPOON_TO_MILLILITERS = 14.7867648;
@@ -24,14 +24,14 @@ public class UnitConversion
   /*
    * Initializes the map of masses.
    */
-  private static Map<String, Double> initializeMasses()
+  private static Map<Unit, Double> initializeMasses()
   {
-    Map<String, Double> map = new HashMap<String, Double>();
+    Map<Unit, Double> map = new HashMap<Unit, Double>();
 
-    map.put(Unit.DRAM.getName(), 1.0 / 16.0);
-    map.put(Unit.OUNCE.getName(), 1.0); // base unit
-    map.put(Unit.GRAM.getName(), 1.0 / OUNCES_TO_GRAMS);
-    map.put(Unit.POUND.getName(), 16.0);
+    map.put(Unit.DRAM, 1.0 / 16.0);
+    map.put(Unit.OUNCE, 1.0); // base unit
+    map.put(Unit.GRAM, 1.0 / OUNCES_TO_GRAMS);
+    map.put(Unit.POUND, 16.0);
 
     return map;
   }
@@ -39,20 +39,20 @@ public class UnitConversion
   /*
    * Initializes the map of volumes.
    */
-  private static Map<String, Double> initializeVolumes()
+  private static Map<Unit, Double> initializeVolumes()
   {
-    Map<String, Double> map = new HashMap<String, Double>();
+    Map<Unit, Double> map = new HashMap<Unit, Double>();
 
     // Volume conversions
-    map.put(Unit.PINCH.getName(), 1 / 48.0);
-    map.put(Unit.MILLILITER.getName(), 1 / TABLESPOON_TO_MILLILITERS);
-    map.put(Unit.TEASPOON.getName(), 1 / 3.0);
-    map.put(Unit.TABLESPOON.getName(), 1.0); // base unit
-    map.put(Unit.FLUID_OUNCE.getName(), 2.0);
-    map.put(Unit.CUP.getName(), 16.0);
-    map.put(Unit.PINT.getName(), 32.0);
-    map.put(Unit.QUART.getName(), 64.0);
-    map.put(Unit.GALLON.getName(), 256.0);
+    map.put(Unit.PINCH, 1 / 48.0);
+    map.put(Unit.MILLILITER, 1 / TABLESPOON_TO_MILLILITERS);
+    map.put(Unit.TEASPOON, 1 / 3.0);
+    map.put(Unit.TABLESPOON, 1.0); // base unit
+    map.put(Unit.FLUID_OUNCE, 2.0);
+    map.put(Unit.CUP, 16.0);
+    map.put(Unit.PINT, 32.0);
+    map.put(Unit.QUART, 64.0);
+    map.put(Unit.GALLON, 256.0);
 
     return map;
   }

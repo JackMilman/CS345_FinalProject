@@ -227,14 +227,8 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable {
 		removeIngredients.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-	       for (Ingredient temp : inventory.getInventory()) {
-	          System.out.print(temp);
-	        }
 				for (Ingredient tempIngredient : ingredients) {
 					inventory.reduceIngredient(tempIngredient);
-				}
-				for (Ingredient temp : inventory.getInventory()) {
-				  System.out.print(temp);
 				}
 				JOptionPane.showMessageDialog(null, Translator.translate("Successful removal of ingredients."),
 						Translator.translate("Ingredient Removal"), JOptionPane.PLAIN_MESSAGE,
