@@ -24,10 +24,12 @@ import javax.swing.JFileChooser;
 public class KiLowBitesController implements ActionListener
 {
   public static final String EXIT = "Exit";
+  public static final String INGREDIENT = "Ingredient";
   public static final String RECIPE = "Recipe";
   public static final String MEAL = "Meal";
   public static final String SHOPPING = "Shopping List";
   public static final String PROCESS = "Process";
+  public static final String INVENTORY = "Inventory";
   public static final String CALORIECALCULATOR = "Calorie Calculator";
   public static final String UNITSCONVERTER = "Units Converter";
   public static final String ERROR_OPENING_FILE = "Error Opening File";
@@ -63,6 +65,12 @@ public class KiLowBitesController implements ActionListener
     if (e.getActionCommand().equals(EXIT))
     {
       System.exit(0);
+    }
+    
+    // Open IngredientEditor
+    if (e.getActionCommand().equals(INGREDIENT))
+    {
+      new IngredientEditor(); // currently doesn't work
     }
 
     // Open RecipeEditor
@@ -118,6 +126,12 @@ public class KiLowBitesController implements ActionListener
       {
         new ProcessViewer(meal);
       }
+    }
+    
+    // Open InventoryViewer
+    if (e.getActionCommand().equals(INVENTORY))
+    {
+      
     }
 
     // open calorie calculator
