@@ -130,6 +130,7 @@ class InventoryTest
 		        ingredientUnit, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
 	  
 	  instance.reduceIngredient(remove1);
+	  assertEquals(5, instance.getIngredient(ingredient1).getAmount());
 	  instance.reduceIngredient(remove1);
 	  assertEquals(2, instance.size());
   }

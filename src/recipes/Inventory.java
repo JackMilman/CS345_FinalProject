@@ -162,9 +162,7 @@ public class Inventory
     		double amount = temp.getAmount() - UnitConversion.convert(temp.getName(),temp.getUnit(), reducingIngredient.getUnit(), reducingIngredient.getAmount());
     		if (amount > 0) {
     			Ingredient newIngredient = new Ingredient(temp.getName(), temp.getDetails(), amount, temp.getUnit(), temp.getCalories(), temp.getDensity());
-    			//final String name, final String details, final double amount, final String unit,
-    		    //final Double calories, final Double density
-    	
+    			ingredients.add(newIngredient);
     		}
     		ingredients.remove(temp);
     		return true;
