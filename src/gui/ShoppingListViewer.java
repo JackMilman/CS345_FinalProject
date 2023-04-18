@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
@@ -12,12 +13,10 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import branding.KitchIntelColor;
 import branding.KitchIntelJDialog;
-import branding.KitchIntelJFrame;
 import config.Translator;
 import recipes.Ingredient;
 import recipes.Inventory;
@@ -230,6 +229,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
         }
       }
     }
+    Collections.sort(editedIngredients);
   }
 
   /**
