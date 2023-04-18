@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author Jack Milman, Meara Patterson, KichIntel
  *
  */
-public class Ingredient implements Serializable
+public class Ingredient implements Serializable, Comparable<Ingredient>
 {
   private static final long serialVersionUID = 1L;
 
@@ -176,6 +176,12 @@ public class Ingredient implements Serializable
       return String.format("%.2f %ss of %s", amount, unit.toLowerCase(), name).toString();
     }
     return String.format("%.2f %ss of %s %s", amount, unit.toLowerCase(), details, name).toString();
+  }
+  
+  @Override
+  public int compareTo(final Ingredient other)
+  {
+    return this.getName().substring(0, 1).compareTo(other.getName().substring(0, 1));
   }
 
 }
