@@ -1,7 +1,6 @@
 package utilities;
 
 import java.util.*;
-import java.util.Map;
 
 import recipes.NutritionInfo;
 
@@ -63,13 +62,13 @@ public class UnitConversion
    * within the preset accepted units.
    * 
    * @param name
-   *          the name of the Ingredient
+   *                 the name of the Ingredient
    * @param from
-   *          the unit the amount is already measured in
+   *                 the unit the amount is already measured in
    * @param to
-   *          the unit we want to measure the amount in
+   *                 the unit we want to measure the amount in
    * @param amount
-   *          the amount of the Ingredient in whatever unit it is currently measured
+   *                 the amount of the Ingredient in whatever unit it is currently measured
    * @return the converted
    */
   public static double convert(final String name, final String from, final String to,
@@ -83,11 +82,13 @@ public class UnitConversion
 
     if (massToMass)
     {
-      return amount * (massConversions.get(from) / massConversions.get(to));
+      double total = amount * (massConversions.get(from) / massConversions.get(to));
+      return Math.floor(total * 100) / 100;
     }
     else if (volumeToVolume)
     {
-      return amount * (volumeConversions.get(from) / volumeConversions.get(to));
+      double total = amount * (volumeConversions.get(from) / volumeConversions.get(to));
+      return Math.floor(total * 100) / 100;
     }
 
     else if (massToVolume)
@@ -112,7 +113,7 @@ public class UnitConversion
       double gramsPerMilliliter = NutritionInfo.getGramPerML(name);
       double massInGrams = convert(name, from, "GRAM", amount);
       double volume = (massInGrams / gramsPerMilliliter);
-      double truncate = (volume * 100) / 100;
+      double truncate = Math.floor(volume * 1000) / 1000;
       return truncate;
     }
     else
@@ -127,11 +128,32 @@ public class UnitConversion
       double volumeInMilliliters = convert(name, from, "MILLILITER", amount);
       double mass = (gramsPerMilliliter * volumeInMilliliters);
       double value = convert(name, "GRAM", to, mass);
-      double truncate = (value * 100) / 100;
+      double truncate = Math.floor(value * 100) / 100;
       return truncate;
     }
     else
       return 0;
 
+  }
+
+  public static boolean isMass(String unit)
+  {
+    Set<String> keyValues = massConversions.keySet();
+    for (String key : keyValues)
+    {
+      if (unit.equals(key))
+        return true;
+    }
+    return false;
+  }
+  public static boolean isVolume(String unit)
+  {
+    Set<String> keyValues = volumeConversions.keySet();
+    for (String key : keyValues)
+    {
+      if (unit.equals(key))
+        return true;
+    }
+    return false;
   }
 }

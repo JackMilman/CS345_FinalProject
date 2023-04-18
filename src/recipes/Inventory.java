@@ -55,7 +55,7 @@ public class Inventory
    * Gets an ingredient by searching for an ingredient in the list with the same name (such as
    * "Potato") and details (such as "Peeled"). If the ingredient is not present in the inventory,
    * returns null.
-   * 
+   *  
    * @param name
    *          the name of the ingredient
    * @param details
@@ -157,6 +157,10 @@ public class Inventory
   public boolean reduceIngredient(final Ingredient reducingIngredient)
   {
     return false;
+  }
+  
+  public List<Ingredient> getIngredientList(){
+    return ingredients;
   }
 
 }

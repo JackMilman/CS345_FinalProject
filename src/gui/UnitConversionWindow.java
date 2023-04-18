@@ -2,15 +2,16 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Set;
+
 import utilities.UnitConversion;
 import javax.swing.*;
-
 import config.Translator;
 import recipes.NutritionInfo;
 
 /**
  * 
- * @author 
+ * @author
  *
  */
 public class UnitConversionWindow extends JFrame
@@ -19,7 +20,7 @@ public class UnitConversionWindow extends JFrame
   private static final int DEFAULT_TEXT_FIELD_WIDTH = 8;
   private static final String CALCULATION_COMMAND = "calc";
   private static final String RESET = "reset";
-  
+
   private static UnitConversionWindow unitWindow = null;
 
   private String[] units = {"", "DRAM", "OUNCE", "GRAM", "POUND", "PINCH", "TEASPOON", "TABLESPOON",
@@ -35,6 +36,7 @@ public class UnitConversionWindow extends JFrame
   private String toUnit;
   private String ingredient;
   private int amountvalue;
+  private boolean open = false;
 
   /**
    * 
@@ -44,20 +46,23 @@ public class UnitConversionWindow extends JFrame
   {
     super(Translator.translate("KiLowBites Unit Converter"));
     setUp();
+    ingredientBox.setEnabled(false);
+    
     setDefaultCloseOperation(HIDE_ON_CLOSE);
   }
+
   public static UnitConversionWindow getUnitConversionWindow()
   {
-    if(unitWindow == null)
+    if (unitWindow == null)
     {
       unitWindow = new UnitConversionWindow(null);
-      
+
     }
     unitWindow.setVisible(true);
-   
-    
+
     return unitWindow;
   }
+
   private Container createIcons()
   {
     Container icons = new Container();
@@ -76,6 +81,7 @@ public class UnitConversionWindow extends JFrame
 
     return icons;
   }
+
   private Container createUnitMenu()
   {
     Container unitMenu = new Container();
@@ -91,19 +97,16 @@ public class UnitConversionWindow extends JFrame
       tounitBox.addItem(units[i]);
     }
 
-    
     fromunitBox.addItemListener(new FromComboBoxHandler());
     tounitBox.addItemListener(new ToComboBoxHandler());
-    String[] ingredients = (String[]) NutritionInfo.getIngredientsInMap().toArray();
+    Set<String> ingredients = NutritionInfo.getIngredientsInMap();
     JLabel ingredientLabel = new JLabel(Translator.translate("Ingredient") + ":");
     ingredientBox = new JComboBox<String>();
-
     ingredientBox.addItem("");
-    for (int i = 0; i < ingredients.length; i++)
+    for (String info : ingredients)
     {
-      ingredientBox.addItem(ingredients[i]);
+      ingredientBox.addItem(info);
     }
-
     unitMenu.add(fromunitLabel);
     unitMenu.add(fromunitBox);
     unitMenu.add(tounitLabel);
@@ -111,9 +114,10 @@ public class UnitConversionWindow extends JFrame
     unitMenu.add(ingredientLabel);
     unitMenu.add(ingredientBox);
     ingredientBox.addItemListener(new IngredientComboBoxHandler());
+
     return unitMenu;
   }
-  
+
   private JPanel createInputPanel()
   {
     JPanel inputPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
@@ -126,20 +130,22 @@ public class UnitConversionWindow extends JFrame
     inputPanel.add(resultLabel);
     return inputPanel;
   }
-  private void setUp() {
-    Container c = getContentPane();;
+
+  private void setUp()
+  {
+    Container c = getContentPane();
+    ;
     Container icons = createIcons();
     c.add(icons, BorderLayout.NORTH);
     Container unitMenu = createUnitMenu();
     c.add(unitMenu, BorderLayout.AFTER_LINE_ENDS);
     JPanel inputPanel = createInputPanel();
-    c.add(inputPanel, BorderLayout.SOUTH);
+    c.add(inputPanel, BorderLayout.AFTER_LAST_LINE);
     // Result
     setVisible(true);
-    setResizable(false);
     pack();
+    setResizable(false);
   }
-
 
   private class FromComboBoxHandler implements ItemListener
   {
@@ -156,12 +162,16 @@ public class UnitConversionWindow extends JFrame
     public void itemStateChanged(ItemEvent e)
     {
       toUnit = (String) e.getItem();
+      if ((UnitConversion.isMass(fromUnit) && UnitConversion.isVolume(toUnit))
+          || (UnitConversion.isVolume(fromUnit) && UnitConversion.isMass(toUnit)))
+      {
+        ingredientBox.setEnabled(true);
+      }
     }
   }
 
   private class IngredientComboBoxHandler implements ItemListener
   {
-    
     public void itemStateChanged(ItemEvent e)
     {
       ingredient = (String) e.getItem();
@@ -189,15 +199,25 @@ public class UnitConversionWindow extends JFrame
         tounitBox.setSelectedItem("");
         ingredientBox.setSelectedItem("");
         amount.setText("");
-        resultLabel.setText(Translator.translate("Result") + ": ");
+        resultLabel.setText(Translator.translate("Result") + ":  ___________ ");
+        ingredientBox.setEnabled(false);
       }
       else if (command.equals(CALCULATION_COMMAND))
       {
         amountvalue = Integer.parseInt(amount.getText());
         double value = UnitConversion.convert(ingredient, fromUnit, toUnit, amountvalue);
-        resultLabel.setText(Translator.translate("Result") + ":   " + Double.toString(value));
+        double truncate = Math.floor(value * 100 ) / 100;
+        resultLabel.setText(Translator.translate("Result") + ":   " + String.format("%.2f", truncate));
       }
 
     }
+
+  }
+
+  public static void main(String[] args)
+  {
+    MainWindow main = new MainWindow();
+    UnitConversionWindow frame = new UnitConversionWindow(main);
+    frame.setVisible(true);
   }
 }

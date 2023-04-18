@@ -151,7 +151,8 @@ public class ShoppingListViewer extends JFrame
     scrollPane = new JScrollPane(scrollArea);
     scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
     
-    contentPane.add(scrollPane);
+    contentPane.add(scrollPane); 
+    contentPane.setSize(getPreferredSize());
     contentPane.revalidate();
     contentPane.repaint();
     

@@ -90,7 +90,7 @@ public class NutritionInfo
     map.put("Wine", new CalorieGram(0.83, 0.99));
     return map;
   }
-
+  
   public static boolean contains(final String ingredientName)
   {
     return nutritionMap.containsKey(ingredientName);
