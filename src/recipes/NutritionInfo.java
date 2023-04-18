@@ -148,7 +148,7 @@ public class NutritionInfo
    */
   public static Double getCalPerGram(final String ingredientName)
   {
-    CalorieGram mapping = NUTRITION_MAP.get(ingredientName);
+    CalorieGram mapping = NUTRITION_MAP.get(ingredientName.toLowerCase());
     if (mapping != null && mapping.getCal() != null)
     {
       return mapping.getCal();

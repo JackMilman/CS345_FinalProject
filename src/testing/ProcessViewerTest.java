@@ -10,6 +10,7 @@ import recipes.Ingredient;
 import recipes.Inventory;
 import recipes.LeafRecipe;
 import recipes.Meal;
+import recipes.NutritionInfo;
 import recipes.Recipe;
 import recipes.Step;
 import recipes.Unit;
@@ -113,6 +114,10 @@ class ProcessViewerTest {
 		recipes.add(salad);
 		recipes.add(recipe);
 		Meal meal = new Meal("Dinner", recipes, 2);
+		
+		if(NutritionInfo.contains("chicken")) {
+		  System.out.print(true);
+		}
 
 		ProcessViewer pv = new ProcessViewer(meal);
 	}
