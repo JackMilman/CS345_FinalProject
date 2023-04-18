@@ -2,11 +2,10 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Set;
+import branding.*;
 import utilities.UnitConversion;
 import javax.swing.*;
-
-import branding.KitchIntelIconButton;
-import branding.KitchIntelJFrame;
 import config.Translator;
 import recipes.NutritionInfo;
 import recipes.Unit;
@@ -16,7 +15,7 @@ import recipes.Unit;
  * @author
  *
  */
-public class UnitConversionWindow extends KitchIntelJFrame
+public class UnitConversionWindow extends JFrame
 {
   private static final long serialVersionUID = 1L;
   private static final int DEFAULT_TEXT_FIELD_WIDTH = 8;
@@ -38,6 +37,7 @@ public class UnitConversionWindow extends KitchIntelJFrame
   private String toUnit;
   private String ingredient;
   private int amountvalue;
+  private boolean open = false;
 
   /**
    * 
@@ -47,6 +47,8 @@ public class UnitConversionWindow extends KitchIntelJFrame
   {
     super(Translator.translate("KiLowBites Unit Converter"));
     setUp();
+    ingredientBox.setEnabled(false);
+
     setDefaultCloseOperation(HIDE_ON_CLOSE);
   }
 
@@ -98,16 +100,14 @@ public class UnitConversionWindow extends KitchIntelJFrame
 
     fromunitBox.addItemListener(new FromComboBoxHandler());
     tounitBox.addItemListener(new ToComboBoxHandler());
-    Object[] ingredients = NutritionInfo.getIngredientsInMap().toArray();
+    Set<String> ingredients = NutritionInfo.getIngredientsInMap();
     JLabel ingredientLabel = new JLabel(Translator.translate("Ingredient") + ":");
     ingredientBox = new JComboBox<String>();
-
     ingredientBox.addItem("");
-    for (int i = 0; i < ingredients.length; i++)
+    for (String info : ingredients)
     {
-      ingredientBox.addItem((String) ingredients[i]);
+      ingredientBox.addItem(info);
     }
-
     unitMenu.add(fromunitLabel);
     unitMenu.add(fromunitBox);
     unitMenu.add(tounitLabel);
@@ -115,6 +115,7 @@ public class UnitConversionWindow extends KitchIntelJFrame
     unitMenu.add(ingredientLabel);
     unitMenu.add(ingredientBox);
     ingredientBox.addItemListener(new IngredientComboBoxHandler());
+
     return unitMenu;
   }
 
@@ -128,9 +129,6 @@ public class UnitConversionWindow extends KitchIntelJFrame
     inputPanel.add(fromAmount);
     inputPanel.add(amount);
     inputPanel.add(resultLabel);
-    
-    inputPanel.setOpaque(false);
-    
     return inputPanel;
   }
 
@@ -143,11 +141,11 @@ public class UnitConversionWindow extends KitchIntelJFrame
     Container unitMenu = createUnitMenu();
     c.add(unitMenu, BorderLayout.AFTER_LINE_ENDS);
     JPanel inputPanel = createInputPanel();
-    c.add(inputPanel, BorderLayout.SOUTH);
+    c.add(inputPanel, BorderLayout.AFTER_LAST_LINE);
     // Result
     setVisible(true);
-    setResizable(false);
     pack();
+    setResizable(false);
   }
 
   private class FromComboBoxHandler implements ItemListener
@@ -165,12 +163,16 @@ public class UnitConversionWindow extends KitchIntelJFrame
     public void itemStateChanged(ItemEvent e)
     {
       toUnit = (String) e.getItem();
+      if ((UnitConversion.isMass(fromUnit) && UnitConversion.isVolume(toUnit))
+          || (UnitConversion.isVolume(fromUnit) && UnitConversion.isMass(toUnit)))
+      {
+        ingredientBox.setEnabled(true);
+      }
     }
   }
 
   private class IngredientComboBoxHandler implements ItemListener
   {
-
     public void itemStateChanged(ItemEvent e)
     {
       ingredient = (String) e.getItem();
@@ -198,15 +200,22 @@ public class UnitConversionWindow extends KitchIntelJFrame
         tounitBox.setSelectedItem("");
         ingredientBox.setSelectedItem("");
         amount.setText("");
-        resultLabel.setText(Translator.translate("Result") + ": ");
+        resultLabel.setText(Translator.translate("Result") + ":  ___________ ");
+        ingredientBox.setEnabled(false);
       }
       else if (command.equals(CALCULATION_COMMAND))
       {
         amountvalue = Integer.parseInt(amount.getText());
+        if (amountvalue < 0)
+          amountvalue = 0;
         double value = UnitConversion.convert(ingredient, Unit.parseUnit(fromUnit), Unit.parseUnit(toUnit), amountvalue);
-        resultLabel.setText(Translator.translate("Result") + ":   " + Double.toString(value));
+        double truncate = Math.floor(value * 100) / 100;
+        resultLabel
+            .setText(Translator.translate("Result") + ":   " + String.format("%.2f", truncate));
       }
 
     }
+
   }
+
 }

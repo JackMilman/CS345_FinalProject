@@ -384,5 +384,4 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable {
 		setSize(600, 450);
 		setVisible(true);
 	}
-
 }

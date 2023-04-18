@@ -30,10 +30,10 @@ class UnitConversionTest
   }
   @Test
   void volumeNorm_tests() {
-
     assertEquals(96.0, UnitConversion.convert("Apple",Unit.CUP, Unit.TEASPOON, 2));
     assertEquals(.0625, UnitConversion.convert("Apple",Unit.CUP, Unit.GALLON, 1));
     assertEquals(8, UnitConversion.convert("Apple",Unit.CUP, Unit.FLUID_OUNCE, 1)); 
+
   }
   @Test
   void specialCase_tests() {
@@ -74,6 +74,7 @@ class UnitConversionTest
     double trunc = UnitConversion.convert("Apple",Unit.MILLILITER, Unit.CUP, 20);
     trunc = Math.floor(trunc * 10000) / 10000;
     assertEquals(.0845, trunc);
+
     double trunc1 = UnitConversion.convert("Apple",Unit.MILLILITER, Unit.FLUID_OUNCE, 1);
     trunc1 = Math.floor(trunc1 * 1000) / 1000;
     assertEquals(.033, trunc1);

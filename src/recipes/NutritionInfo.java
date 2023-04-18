@@ -99,7 +99,6 @@ public class NutritionInfo
     map.put("wine", new CalorieGram(0.83, 0.99));
     return map;
   }
-
   /**
    * Returns whether Nutrition info is stored for the named ingredient.
    * 

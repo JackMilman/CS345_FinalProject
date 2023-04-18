@@ -154,7 +154,8 @@ public class ShoppingListViewer extends KitchIntelJDialog
   
   private void updateScrollAreaHelper()
   {
-    
+    contentPane.add(scrollPane); 
+    contentPane.setSize(getPreferredSize());
     if (scrollPane != null)
     {
       contentPane.remove(scrollPane);
@@ -179,7 +180,6 @@ public class ShoppingListViewer extends KitchIntelJDialog
       contentPane.add(scrollPane);
 
     }
-
     contentPane.revalidate();
     contentPane.repaint();
     

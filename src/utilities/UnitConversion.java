@@ -1,7 +1,6 @@
 package utilities;
 
 import java.util.*;
-import java.util.Map;
 
 import recipes.NutritionInfo;
 import recipes.Unit;
@@ -132,5 +131,27 @@ public class UnitConversion
     else
       return 0;
 
+  }
+  @SuppressWarnings("unlikely-arg-type")
+  public static boolean isMass(String unit)
+  {
+    Set<Unit> keyValues = massConversions.keySet();
+    for (Unit key : keyValues)
+    {
+      if (unit.equals(key))
+        return true;
+    }
+    return false;
+  }
+  @SuppressWarnings("unlikely-arg-type")
+  public static boolean isVolume(String unit)
+  {
+    Set<Unit> keyValues = volumeConversions.keySet();
+    for (Unit key : keyValues)
+    {
+      if (unit.equals(key))
+        return true;
+    }
+    return false;
   }
 }
