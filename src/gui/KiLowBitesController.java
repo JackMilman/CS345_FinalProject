@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -24,6 +25,7 @@ import javax.swing.JFileChooser;
 public class KiLowBitesController implements ActionListener
 {
   public static final String EXIT = "Exit";
+  public static final String HELP = "Help";
   public static final String INGREDIENT = "Ingredient";
   public static final String RECIPE = "Recipe";
   public static final String MEAL = "Meal";

@@ -147,13 +147,15 @@ public class IngredientEditor extends JComponent
     }
     catch (NumberFormatException nfe)
     {
-      density = NO_INPUT;
+//      density = NO_INPUT;
+      density = 1;
     }
 
     if (name.equals("") || unit.equals(""))
       return;
 
-    Ingredient ingredient = new Ingredient(name, details, amount, Unit.parseUnit(unit), calories, density);
+    Ingredient ingredient = new Ingredient(name, details, amount, Unit.parseUnit(unit), 
+        calories, density);
     ingredients.add(ingredient);
 
     SortLists.sortIngredients(ingredients);
