@@ -6,7 +6,6 @@ import java.util.List;
 
 import gui.IngredientEditor;
 import gui.ProcessViewer;
-import recipes.CompositeRecipe;
 import recipes.Ingredient;
 import recipes.LeafRecipe;
 import recipes.Meal;
@@ -24,6 +23,8 @@ class ProcessViewerTest {
 				new Ingredient("lettuce", " ", 0.5, "POUND", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 		ingredients
 				.add(new Ingredient("broccoli", " ", 6, "OUNCE", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+		//ingredients
+		//.add(new Ingredient("invalid", " ", 6, "OUNCE", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 
 		ArrayList<Utensil> utensils = new ArrayList<>();
 		utensils.add(new Utensil("fork", " "));
