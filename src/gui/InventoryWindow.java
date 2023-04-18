@@ -40,7 +40,7 @@ public class InventoryWindow extends JFrame
   String unit;
   Ingredient inventoryItem;
 
-  public InventoryWindow()
+  public InventoryWindow(final Window main)
   {
     super(Translator.translate("KiLowBites Inventory"));
     setUp();
@@ -123,7 +123,6 @@ public class InventoryWindow extends JFrame
       addButton.setEnabled(true);
       subButton.setEnabled(true);
       unit = (String) e.getItem();
-
     }
 
   }
@@ -147,6 +146,7 @@ public class InventoryWindow extends JFrame
       ingredientAmount.setText("");
       ingredientUnit.setSelectedItem("");
       addButton.setEnabled(false);
+      subButton.setEnabled(false);
       for (Ingredient info : inventory.getIngredientList())
         inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
             + info.getAmount() + " " + info.getUnit().toLowerCase() + "\n"));
@@ -171,17 +171,12 @@ public class InventoryWindow extends JFrame
       ingredientDetails.setText("");
       ingredientAmount.setText("");
       ingredientUnit.setSelectedItem("");
+      addButton.setEnabled(false);
       subButton.setEnabled(false);
       for (Ingredient info : inventory.getIngredientList())
         inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
             + info.getAmount() + " " + info.getUnit().toLowerCase() + "\n"));
 
     }
-  }
-
-  public static void main(String[] args)
-  {
-    InventoryWindow frame = new InventoryWindow();
-    frame.setVisible(true);
   }
 }

@@ -47,7 +47,7 @@ public class UnitConversionWindow extends JFrame
     super(Translator.translate("KiLowBites Unit Converter"));
     setUp();
     ingredientBox.setEnabled(false);
-    
+
     setDefaultCloseOperation(HIDE_ON_CLOSE);
   }
 
@@ -205,20 +205,16 @@ public class UnitConversionWindow extends JFrame
       else if (command.equals(CALCULATION_COMMAND))
       {
         amountvalue = Integer.parseInt(amount.getText());
-        if (amountvalue < 0) amountvalue = 0;
+        if (amountvalue < 0)
+          amountvalue = 0;
         double value = UnitConversion.convert(ingredient, fromUnit, toUnit, amountvalue);
-        double truncate = Math.floor(value * 100 ) / 100;
-        resultLabel.setText(Translator.translate("Result") + ":   " + String.format("%.2f", truncate));
+        double truncate = Math.floor(value * 100) / 100;
+        resultLabel
+            .setText(Translator.translate("Result") + ":   " + String.format("%.2f", truncate));
       }
 
     }
 
   }
 
-  public static void main(String[] args)
-  {
-    MainWindow main = new MainWindow();
-    UnitConversionWindow frame = new UnitConversionWindow(main);
-    frame.setVisible(true);
-  }
 }

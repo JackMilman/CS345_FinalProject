@@ -341,5 +341,4 @@ public class ProcessViewer extends JFrame implements Serializable {
 		setSize(600, 450);
 		setVisible(true);
 	}
-
 }
