@@ -171,11 +171,38 @@ public class Ingredient implements Serializable, Comparable<Ingredient>
   @Override
   public String toString()
   {
-    if (details == null)
+    
+    // accounting for details like plural pinch being "pinches" not "pinchs"
+    String result = "%.2f ";
+    String strDetails = "";
+    
+    switch (unit)
     {
-      return String.format("%.2f %ss of %s", amount, unit.toLowerCase(), name).toString();
+      case "Pinch":
+        result += "%ses of ";
+        break;
+      case "Individual":
+        result += "%s ";
+        break;
+      case "":
+        result += "%s";
+        break;
+      default:
+        result += "%ss of ";
     }
-    return String.format("%.2f %ss of %s %s", amount, unit.toLowerCase(), details, name).toString();
+    
+    if (details != null)
+    {
+      strDetails = details;
+      result += "%s %s";
+    }
+    else
+    {
+      result += "%s%s";
+    }
+    
+    return String.format(result, amount, unit.toLowerCase(), strDetails, name);
+    
   }
   
   @Override

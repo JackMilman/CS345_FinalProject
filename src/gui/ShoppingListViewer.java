@@ -84,6 +84,10 @@ public class ShoppingListViewer extends KitchIntelJDialog
         try
         {
           numPeople = Integer.parseInt(numPeopleField.getText());
+          if (numPeople == 0)
+          {
+            numPeople = DO_NOT_DISPLAY;
+          }
           updateScrollArea("" + numPeople);
         }
         catch (NumberFormatException nfe)
