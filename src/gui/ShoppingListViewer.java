@@ -1,8 +1,10 @@
 package gui;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.BoxLayout;
 import javax.swing.JCheckBox;
@@ -11,66 +13,70 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import branding.KitchIntelColor;
+import branding.KitchIntelJDialog;
 import config.Translator;
 import recipes.Ingredient;
 import recipes.Inventory;
 import recipes.Meal;
 import recipes.Recipe;
+import recipes.Unit;
 import utilities.UnitConversion;
+
+/*
+ * TO DO:
+ * Test with inventory
+ * Check acceptance criteria
+ */
 
 /**
  * Creates the GUI to view a shopping list.
  * 
  * @author Meara Patterson
- * @version 3/29/2023, Version 1
+ * @version 3/29/2023
  */
-public class ShoppingListViewer extends JFrame
+public class ShoppingListViewer extends KitchIntelJDialog
 {
-  
-  private static final String CHANGE_UNITS = "change_units";
-  private static final String CHANGE_NUMBER_OF_PEOPLE = "number_of_people";
-  private static final String PURCHASED_INGREDIENT = "purchased_ingredient";
+
   private static final int DO_NOT_DISPLAY = -1;
-  private static final String[] UNITS = new String[] {"", "Dram", "Ounce", "Gram", "Pound",
-      "Pinch", "Teaspoon", "Tablespoon", "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon",
-      "Individual"};
-  
+  private static final long serialVersionUID = 1L;
+
   private Object obj;
   private JPanel contentPane;
   private JPanel inputNumPeoplePanel;
   private JTextField numPeopleField;
   private int numPeople;
   private JScrollPane scrollPane;
-  private JTextArea scrollArea;
+  private JPanel scrollArea;
   private ArrayList<Ingredient> allIngredients;
   private ArrayList<Ingredient> editedIngredients;
 
   /**
    * Creates a ShoppingListViewer panel that displays the ingredients of the given recipe.
+   * 
    * @param obj should be a Recipe or Meal
    */
   public ShoppingListViewer(final Object obj)
   {
-    
+
     super(Translator.translate("KiLowBites Shopping List Viewer") + "\t" + getName(obj));
-    setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setSize(600, 400);
     this.obj = obj;
     allIngredients = new ArrayList<Ingredient>();
     editedIngredients = new ArrayList<Ingredient>();
-    
+    numPeople = DO_NOT_DISPLAY;
+
     contentPane = (JPanel) getContentPane();
     contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-    
+
     // create a panel to input the number of people served
     inputNumPeoplePanel = new JPanel();
     inputNumPeoplePanel.add(new JLabel(Translator.translate("Number of People") + ":"));
     numPeopleField = new JTextField();
     numPeopleField.setColumns(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
-//    numPeopleField.setActionCommand(CHANGE_NUMBER_OF_PEOPLE);
     numPeopleField.addActionListener(new ActionListener()
     {
       public void actionPerformed(final ActionEvent e)
@@ -78,6 +84,10 @@ public class ShoppingListViewer extends JFrame
         try
         {
           numPeople = Integer.parseInt(numPeopleField.getText());
+          if (numPeople == 0)
+          {
+            numPeople = DO_NOT_DISPLAY;
+          }
           updateScrollArea("" + numPeople);
         }
         catch (NumberFormatException nfe)
@@ -88,39 +98,28 @@ public class ShoppingListViewer extends JFrame
       }
     });
     inputNumPeoplePanel.add(numPeopleField);
+    inputNumPeoplePanel.setOpaque(false); // allows the panel to take the background color
     contentPane.add(inputNumPeoplePanel);
-    
+
     // create a scroll area with the ingredients
     updateScrollArea(numPeopleField.getText());
-    
+
     setVisible(true);
-    
+
   }
-  
+
   private void updateScrollArea(final String info)
   {
-    
-    if (scrollPane != null)
-    {
-      contentPane.remove(scrollPane);
-    }
-    
+
     if (!allIngredients.isEmpty())
     {
       allIngredients.clear();
     }
-    
-    // get the number of people you are serving with a Recipe/Meal
-    try
+    if (!editedIngredients.isEmpty())
     {
-      numPeople = Integer.parseInt(info);
+      editedIngredients.clear();
     }
-    catch (NumberFormatException nfe)
-    {
-      numPeople = DO_NOT_DISPLAY;
-    }
-    
-    // collect all ingredients in an unedited ArrayList (may contain duplicates)
+
     if (obj instanceof Recipe)
     {
       Recipe recipe = (Recipe) obj;
@@ -133,73 +132,118 @@ public class ShoppingListViewer extends JFrame
       for (Recipe recipe : meal.getRecipes())
       {
         addToAllIngredients(recipe);
+      }
+      for (Recipe recipe : meal.getRecipes())
+      {
         editIngredientList(recipe);
+      }
+      // amounts get duplicated for some reason
+      for (Ingredient ing : editedIngredients)
+      {
+        int index = editedIngredients.indexOf(ing);
+        Ingredient newIng = new Ingredient(ing.getName(), ing.getDetails(), ing.getAmount() / 2,
+            ing.getUnit(), ing.getCalories(), ing.getDensity());
+        editedIngredients.set(index, newIng);
       }
     }
     
-    scrollArea = new JTextArea(editedIngredients.size(), 1);
-    
-    // display ingredients as a ShoppingListIngredient with a dropdown menu to change units
-    for (Ingredient ing : editedIngredients)
-    {
-      scrollArea.add(new ShoppingListIngredient(ing));
-    }
-    
-    scrollArea.setLayout(new BoxLayout(scrollArea, BoxLayout.Y_AXIS));
-//    scrollArea.setVisible(numPeople != DO_NOT_DISPLAY);
+    updateScrollAreaHelper();
 
-    scrollPane = new JScrollPane(scrollArea);
-    scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-    
+  }
+  
+  private void updateScrollAreaHelper()
+  {
     contentPane.add(scrollPane); 
     contentPane.setSize(getPreferredSize());
+    if (scrollPane != null)
+    {
+      contentPane.remove(scrollPane);
+    }
+      
+    if (numPeople != DO_NOT_DISPLAY)
+    {
+
+      scrollArea = new JPanel();
+
+      for (Ingredient ing : editedIngredients)
+      {
+        scrollArea.add(new ShoppingListIngredient(ing));
+      }
+
+      scrollArea.setLayout(new BoxLayout(scrollArea, BoxLayout.Y_AXIS));
+      scrollPane = new JScrollPane(scrollArea);
+      scrollPane.createVerticalScrollBar();
+      scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+      scrollPane.setPreferredSize(new Dimension(600, 200));
+      
+      contentPane.add(scrollPane);
+
+    }
     contentPane.revalidate();
     contentPane.repaint();
     
   }
-  
+
   private void addToAllIngredients(final Recipe recipe)
   {
+    double numBatches = (double) numPeople / (double) recipe.getServings();
     for (Ingredient ing : recipe.getIngredients())
     {
-      allIngredients.add(ing);
+      allIngredients.add(new Ingredient(ing.getName(), ing.getDetails(), 
+          ing.getAmount() * numBatches, ing.getUnit(), ing.getCalories(), ing.getDensity()));
     }
   }
-  
+
   private void editIngredientList(final Recipe recipe)
   {
-    double numBatches = (double) numPeople / (double) recipe.getServings();
-    for (Ingredient ing : allIngredients)
+
+    if (numPeople != DO_NOT_DISPLAY)
     {
-      if (!editedIngredients.contains(ing))
+
+      if (recipe.getServings() == 0)
       {
-        Ingredient newIng = new Ingredient(ing.getName(), ing.getDetails(), 
-            ing.getAmount() * numBatches, ing.getUnit(), ing.getCalories(), ing.getDensity());
-        editedIngredients.add(newIng);
+        numPeople = DO_NOT_DISPLAY;
+        return;
       }
-      else
+
+
+      for (Ingredient ing : allIngredients)
       {
-        // change duplicate ingredient's units to units of ingredient in list
-        // add the two together in editedIngredients list
-        Ingredient duplicate = null;
-        for (Ingredient editedIng : editedIngredients)
+        if (!editedIngredients.contains(ing))
         {
-          if (editedIng.equals(ing))
+          Ingredient newIng = new Ingredient(ing.getName(), ing.getDetails(),
+              ing.getAmount(), ing.getUnit(), ing.getCalories(), 
+              ing.getDensity());
+          editedIngredients.add(newIng);
+        }
+        else
+        {
+          // change duplicate ingredient's units to units of ingredient in list
+          // add the two together in editedIngredients list
+          Ingredient duplicate = null;
+          for (Ingredient editedIng : editedIngredients)
           {
-            duplicate = editedIng;
-            double newAmount = UnitConversion.convert(ing.getName(), ing.getUnit(), 
-                duplicate.getUnit(), ing.getAmount()) + duplicate.getAmount();
-            Ingredient addIng = new Ingredient(ing.getName(), ing.getDetails(), 
-                newAmount * numBatches, duplicate.getUnit(), ing.getCalories(), ing.getDensity());
-            int index = editedIngredients.indexOf(duplicate);
-            editedIngredients.set(index, addIng);
+            if (editedIng.equals(ing))
+            {
+              duplicate = editedIng;
+              double newAmount = UnitConversion.convert(ing.getName(), ing.getUnit(),
+                  duplicate.getUnit(), ing.getAmount()) + duplicate.getAmount();
+              Ingredient addIng = new Ingredient(ing.getName(), ing.getDetails(),
+                  newAmount, duplicate.getUnit(), ing.getCalories(), 
+                  ing.getDensity());
+              int index = editedIngredients.indexOf(duplicate);
+              editedIngredients.set(index, addIng);
+            }
           }
         }
-        
       }
     }
+    
+    // sort alphabetically
+    Collections.sort(editedIngredients);
+    
   }
-  
+
   /**
    * Get the name of a Recipe or Meal.
    * 
@@ -211,11 +255,11 @@ public class ShoppingListViewer extends JFrame
     String name = "";
     if (obj instanceof Recipe)
     {
-      name = ((Recipe)obj).getName();
+      name = ((Recipe) obj).getName();
     }
     else if (obj instanceof Meal)
     {
-      name = ((Meal)obj).getName();
+      name = ((Meal) obj).getName();
     }
     else
     {
@@ -224,48 +268,49 @@ public class ShoppingListViewer extends JFrame
     }
     return name;
   }
-  
+
   private class ShoppingListIngredient extends JPanel
   {
+
+    private static final long serialVersionUID = 1L;
     
     JLabel label;
     JComboBox<String> units;
     JCheckBox checkBox;
-//    Ingredient ingredient;
-    
+
     ShoppingListIngredient(final Ingredient ingredient)
     {
-      
+
       super();
       setSize(600, 50);
       label = new JLabel(ingredient.toString());
-//      this.ingredient = ingredient;
-      
+      setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
+
       units = new JComboBox<>();
-      for (String unit : UNITS)
+      for (Unit unit : Unit.values())
       {
-        units.addItem(unit);
+        units.addItem(unit.getName());
       }
       units.setSelectedItem(ingredient.getUnit());
-//      units.setActionCommand(CHANGE_UNITS);
-//      units.addActionListener(new ShoppingListListener());
-      units.addActionListener(new ActionListener() 
+      units.addActionListener(new ActionListener()
       {
         public void actionPerformed(final ActionEvent e)
         {
           int index = editedIngredients.indexOf(ingredient);
-          String newUnit = (String) units.getSelectedItem();
-          Ingredient newIng = new Ingredient(ingredient.getName(), ingredient.getDetails(), 
-              ingredient.getAmount(), newUnit, ingredient.getCalories(), ingredient.getDensity());
+          Unit newUnit = Unit.parseUnit((String)units.getSelectedItem());
+          Ingredient newIng = new Ingredient(ingredient.getName(), ingredient.getDetails(),
+              UnitConversion.convert(ingredient.getName(), ingredient.getUnit(), 
+                  newUnit, ingredient.getAmount()), newUnit, ingredient.getCalories(), 
+              ingredient.getDensity());
           editedIngredients.set(index, newIng);
-          updateScrollArea("" + numPeople);
+          updateScrollAreaHelper();
           label = new JLabel(newIng.toString());
           updateShoppingListIngredient();
         }
       });
-      
+
       checkBox = new JCheckBox("Purchased?");
-//      checkBox.setActionCommand(PURCHASED_INGREDIENT);
+      checkBox.setOpaque(false); // required to make the background color correct
       checkBox.addActionListener(new ActionListener()
       {
         public void actionPerformed(final ActionEvent e)
@@ -274,34 +319,45 @@ public class ShoppingListViewer extends JFrame
           inventory.addIngredient(ingredient);
         }
       });
-      
+
       updateShoppingListIngredient();
-      
+
     }
     
-    public void updateShoppingListIngredient()
+    private double updateIngredientAmount(final Ingredient ingredient, final String newUnit)
+    {
+      double newAmount = -1;
+      Unit unit = Unit.parseUnit(newUnit);
+      if (obj instanceof Recipe)
+      {
+        Recipe recipe = (Recipe) obj;
+        double convertedAmount = UnitConversion.convert(ingredient.getName(), ingredient.getUnit(), 
+            unit, ingredient.getAmount());
+        newAmount = (double) numPeople / (double) recipe.getServings() * convertedAmount;
+      }
+      else if (obj instanceof Meal)
+      {
+        Meal meal = (Meal) obj;
+        for (Recipe recipe : meal.getRecipes())
+        {
+          if (recipe.getIngredients().contains(ingredient))
+          {
+            // not good
+            newAmount = (double) numPeople / (double) recipe.getServings() * ingredient.getAmount();
+          }
+        }
+      }
+      return newAmount;
+    }
+
+    private void updateShoppingListIngredient()
     {
       removeAll();
       add(label);
       add(units);
       add(checkBox);
     }
-    
-//    public String toString()
-//    {
-//      return ingredient.getName() + " " + ingredient.getUnit();
-//    }
-    
+
   }
-  
-//must account for the fact that recipes are designed to serves multiple people
-  //e.g. if a recipe of two servings is used to feed five people, each ingredient must be 
-  //multiplied by 2.5
-//  double numberOfBatches = (double) numPeople / (double) recipe.getServings();
-//  for (Ingredient ing : recipe.getIngredients())
-//  {
-//    String info = String.format("%.1f %ss of %s\n", ing.getAmount() * numberOfBatches, 
-//        ing.getUnit(), ing.getName());
-//    messageArea.append(info);
   
 }

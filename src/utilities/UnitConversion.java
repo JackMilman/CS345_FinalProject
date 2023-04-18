@@ -3,6 +3,7 @@ package utilities;
 import java.util.*;
 
 import recipes.NutritionInfo;
+import recipes.Unit;
 
 /**
  * Utility class for converting between units and between volumes and masses.
@@ -13,8 +14,8 @@ import recipes.NutritionInfo;
  */
 public class UnitConversion
 {
-  private final static Map<String, Double> massConversions = initializeMasses();
-  private final static Map<String, Double> volumeConversions = initializeVolumes();
+  private final static Map<Unit, Double> massConversions = initializeMasses();
+  private final static Map<Unit, Double> volumeConversions = initializeVolumes();
   // Special Cases
   private final static double OUNCES_TO_GRAMS = 28.34952;
   private final static double TABLESPOON_TO_MILLILITERS = 14.7867648;
@@ -22,14 +23,14 @@ public class UnitConversion
   /*
    * Initializes the map of masses.
    */
-  private static Map<String, Double> initializeMasses()
+  private static Map<Unit, Double> initializeMasses()
   {
-    Map<String, Double> map = new HashMap<String, Double>();
+    Map<Unit, Double> map = new HashMap<Unit, Double>();
 
-    map.put("DRAM", 1.0 / 16.0);
-    map.put("OUNCE", 1.0); // base unit
-    map.put("GRAM", 1.0 / OUNCES_TO_GRAMS);
-    map.put("POUND", 16.0);
+    map.put(Unit.DRAM, 1.0 / 16.0);
+    map.put(Unit.OUNCE, 1.0); // base unit
+    map.put(Unit.GRAM, 1.0 / OUNCES_TO_GRAMS);
+    map.put(Unit.POUND, 16.0);
 
     return map;
   }
@@ -37,20 +38,20 @@ public class UnitConversion
   /*
    * Initializes the map of volumes.
    */
-  private static Map<String, Double> initializeVolumes()
+  private static Map<Unit, Double> initializeVolumes()
   {
-    Map<String, Double> map = new HashMap<String, Double>();
+    Map<Unit, Double> map = new HashMap<Unit, Double>();
 
     // Volume conversions
-    map.put("PINCH", 1 / 48.0);
-    map.put("MILLILITER", 1 / TABLESPOON_TO_MILLILITERS);
-    map.put("TEASPOON", 1 / 3.0);
-    map.put("TABLESPOON", 1.0); // base unit
-    map.put("FLUID_OUNCE", 2.0);
-    map.put("CUP", 16.0);
-    map.put("PINT", 32.0);
-    map.put("QUART", 64.0);
-    map.put("GALLON", 256.0);
+    map.put(Unit.PINCH, 1 / 48.0);
+    map.put(Unit.MILLILITER, 1 / TABLESPOON_TO_MILLILITERS);
+    map.put(Unit.TEASPOON, 1 / 3.0);
+    map.put(Unit.TABLESPOON, 1.0); // base unit
+    map.put(Unit.FLUID_OUNCE, 2.0);
+    map.put(Unit.CUP, 16.0);
+    map.put(Unit.PINT, 32.0);
+    map.put(Unit.QUART, 64.0);
+    map.put(Unit.GALLON, 256.0);
 
     return map;
   }
@@ -62,18 +63,20 @@ public class UnitConversion
    * within the preset accepted units.
    * 
    * @param name
-   *                 the name of the Ingredient
+   *          the name of the Ingredient
    * @param from
-   *                 the unit the amount is already measured in
+   *          the unit the amount is already measured in
    * @param to
-   *                 the unit we want to measure the amount in
+   *          the unit we want to measure the amount in
    * @param amount
-   *                 the amount of the Ingredient in whatever unit it is currently measured
+   *          the amount of the Ingredient in whatever unit it is currently measured
    * @return the converted
    */
-  public static double convert(final String name, final String from, final String to,
+  public static double convert(final String name, final Unit from, final Unit to,
       final double amount)
   {
+    initializeMasses();
+    initializeVolumes();
     boolean massToMass = massConversions.containsKey(from) && massConversions.containsKey(to);
     boolean volumeToVolume = volumeConversions.containsKey(from)
         && volumeConversions.containsKey(to);
@@ -82,13 +85,11 @@ public class UnitConversion
 
     if (massToMass)
     {
-      double total = amount * (massConversions.get(from) / massConversions.get(to));
-      return Math.floor(total * 100) / 100;
+      return amount * (massConversions.get(from) / massConversions.get(to));
     }
     else if (volumeToVolume)
     {
-      double total = amount * (volumeConversions.get(from) / volumeConversions.get(to));
-      return Math.floor(total * 100) / 100;
+      return amount * (volumeConversions.get(from) / volumeConversions.get(to));
     }
 
     else if (massToVolume)
@@ -106,50 +107,48 @@ public class UnitConversion
 
   }
 
-  private static double mass_to_volume(String name, String from, String to, double amount)
+  private static double mass_to_volume(String name, Unit from, Unit to, double amount)
   {
     if (NutritionInfo.contains(name))
     {
       double gramsPerMilliliter = NutritionInfo.getGramPerML(name);
-      double massInGrams = convert(name, from, "GRAM", amount);
+      double massInGrams = convert(name, from, Unit.GRAM, amount);
       double volume = (massInGrams / gramsPerMilliliter);
-      double truncate = Math.floor(volume * 1000) / 1000;
-      return truncate;
+      return volume;
     }
     else
       return 0;
   }
 
-  private static double volume_to_mass(String name, String from, String to, double amount)
+  private static double volume_to_mass(String name, Unit from, Unit to, double amount)
   {
     if (NutritionInfo.contains(name))
     {
       double gramsPerMilliliter = NutritionInfo.getGramPerML(name);
-      double volumeInMilliliters = convert(name, from, "MILLILITER", amount);
+      double volumeInMilliliters = convert(name, from, Unit.MILLILITER, amount);
       double mass = (gramsPerMilliliter * volumeInMilliliters);
-      double value = convert(name, "GRAM", to, mass);
-      double truncate = Math.floor(value * 100) / 100;
-      return truncate;
+      return convert(name, Unit.GRAM, to, mass);
     }
     else
       return 0;
 
   }
-
+  @SuppressWarnings("unlikely-arg-type")
   public static boolean isMass(String unit)
   {
-    Set<String> keyValues = massConversions.keySet();
-    for (String key : keyValues)
+    Set<Unit> keyValues = massConversions.keySet();
+    for (Unit key : keyValues)
     {
       if (unit.equals(key))
         return true;
     }
     return false;
   }
+  @SuppressWarnings("unlikely-arg-type")
   public static boolean isVolume(String unit)
   {
-    Set<String> keyValues = volumeConversions.keySet();
-    for (String key : keyValues)
+    Set<Unit> keyValues = volumeConversions.keySet();
+    for (Unit key : keyValues)
     {
       if (unit.equals(key))
         return true;

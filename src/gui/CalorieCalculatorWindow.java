@@ -18,21 +18,23 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import branding.KitchIntelIconButton;
+import branding.KitchIntelJFrame;
 import config.Translator;
 import recipes.Ingredient;
 import recipes.NutritionInfo;
+import recipes.Unit;
 
 /**
- * This class is a GUI for calculating calories. The user is able to select and
- * ingredient and unit and enter the amount. This will then be used to calculate
- * the number of calories. It uses the singleton design pattern so only one
- * window can be opened at a time.
+ * This class is a GUI for calculating calories. The user is able to select and ingredient and unit
+ * and enter the amount. This will then be used to calculate the number of calories. It uses the
+ * singleton design pattern so only one window can be opened at a time.
  * 
  * @author Allie O'Keeffe
  *
  */
-public class CalorieCalculatorWindow extends JFrame {
-
+public class CalorieCalculatorWindow extends KitchIntelJFrame
+{
 
   private static final long serialVersionUID = 1L;
   // private String selectedIngredient, selectedUnits, enteredAmount;
@@ -49,7 +51,7 @@ public class CalorieCalculatorWindow extends JFrame {
     setUp();
     setDefaultCloseOperation(HIDE_ON_CLOSE);
   }
-  
+
   public static CalorieCalculatorWindow getCalorieCalculatorWindow()
   {
     if (calorieWindow == null)
@@ -66,8 +68,8 @@ public class CalorieCalculatorWindow extends JFrame {
   {
     Container icons = new Container();
     icons.setLayout(new FlowLayout(FlowLayout.LEFT));
-    JButton calcButton = new KitchIntelButton(KitchIntelButton.CALCULATE_IMAGE);
-    JButton resetButton = new KitchIntelButton(KitchIntelButton.RESET_IMAGE);
+    JButton calcButton = new KitchIntelIconButton(KitchIntelIconButton.CALCULATE_IMAGE);
+    JButton resetButton = new KitchIntelIconButton(KitchIntelIconButton.RESET_IMAGE);
 
     calcButton.setActionCommand(CALCULATION_COMMAND);
     resetButton.setActionCommand(RESET);
@@ -84,6 +86,7 @@ public class CalorieCalculatorWindow extends JFrame {
   private JPanel inputMenu()
   {
     JPanel inputs = new JPanel();
+    inputs.setOpaque(false);
     inputs.setLayout(new FlowLayout(FlowLayout.LEFT));
     inputs.add(createLabels(Translator.translate("Ingredient")));
     inputs.add(ingredients);
@@ -163,8 +166,6 @@ public class CalorieCalculatorWindow extends JFrame {
     pack();
   }
 
-
-
   private class Calories extends JLabel implements ActionListener
   {
 
@@ -179,7 +180,7 @@ public class CalorieCalculatorWindow extends JFrame {
     public void actionPerformed(ActionEvent e)
     {
       String selectedIngredient = getSelectedIngredients();
-      String selectedUnits = getSelectedUnits();
+      Unit selectedUnits = Unit.parseUnit(getSelectedUnits());
       String enteredText = getEnteredAmount();
 
       String command = e.getActionCommand();
@@ -199,7 +200,8 @@ public class CalorieCalculatorWindow extends JFrame {
           double amountOfIngredients = Double.parseDouble(enteredText);
           Ingredient temp = new Ingredient(selectedIngredient, "", amountOfIngredients,
               selectedUnits, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
-          calorie.setText(Translator.translate("Calories") + ": " + (Math.round(temp.getCaloriesPerGram() * 10)/10.0));
+          calorie.setText(Translator.translate("Calories") + ": "
+              + (Math.round(temp.getCaloriesPerGram() * 10) / 10.0));
         }
         catch (NumberFormatException exc)
         {

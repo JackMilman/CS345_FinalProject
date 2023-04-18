@@ -6,6 +6,9 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.*;
 
+import branding.KitchIntelJFrame;
+import branding.KitchIntelMenuBar;
+import branding.Logo;
 import config.Language;
 import config.Translator;
 
@@ -16,10 +19,9 @@ import config.Translator;
  * @author Shelsey Vega
  *
  */
-public class MainWindow extends JFrame implements Runnable
+public class MainWindow extends KitchIntelJFrame implements Runnable
 {
   private static final long serialVersionUID = 1L;
-  private static final String PATH = "images/KILowBites_Logo.png";
 
   /**
    * 
@@ -37,7 +39,6 @@ public class MainWindow extends JFrame implements Runnable
   public void run()
   {
     // set the the frame
-    getContentPane().setBackground(Color.WHITE);
     setTitle(Translator.translate("KiLowBites Main Window"));
     getContentPane().setLayout(new BorderLayout());
     setSize(700, 500);
@@ -47,30 +48,35 @@ public class MainWindow extends JFrame implements Runnable
     KiLowBitesController controller = new KiLowBitesController(this);
 
     // create a menu bar and add the items
-    JMenuBar menuBar = new JMenuBar();
+    JMenuBar menuBar = new KitchIntelMenuBar();
     setJMenuBar(menuBar);
 
     JMenu file = new JMenu(Translator.translate("File"));
-    file.setActionCommand("File");
     menuBar.add(file);
     // Exit: All windows are closed
-    JMenuItem exit = new JMenuItem(Translator.translate("Exit"));
+    JMenuItem exit = new JMenuItem(Translator.translate(KiLowBitesController.EXIT));
     exit.addActionListener(controller);
-    exit.setActionCommand("Exit");
+    exit.setActionCommand(KiLowBitesController.EXIT);
     file.add(exit);
 
     JMenu edit = new JMenu(Translator.translate("Edit"));
     menuBar.add(edit);
+    // Ingredient: An IngredientEditor is opened
+    JMenuItem ingredient = new JMenuItem(Translator.translate(KiLowBitesController.INGREDIENT));
+    ingredient.addActionListener(controller);
+    ingredient.setActionCommand(KiLowBitesController.INGREDIENT);
+    edit.add(ingredient);
     // Recipe: A RecipeEditor is opened
-    JMenuItem recipe = new JMenuItem(Translator.translate("Recipe"));
+    JMenuItem recipe = new JMenuItem(Translator.translate(KiLowBitesController.RECIPE));
     recipe.addActionListener(controller);
-    recipe.setActionCommand("Recipe");
+    recipe.setActionCommand(KiLowBitesController.RECIPE);
     edit.add(recipe);
     // Meal: A MealEditor is opened
-    JMenuItem meal = new JMenuItem(Translator.translate("Meal"));
+    JMenuItem meal = new JMenuItem(Translator.translate(KiLowBitesController.MEAL));
     meal.addActionListener(controller);
-    meal.setActionCommand("Meal");
+    meal.setActionCommand(KiLowBitesController.MEAL);
     edit.add(meal);
+    
 
     // not using search in the 1st sprint.
     // JMenu search = new JMenu(Translator.translate("Search"));
@@ -87,27 +93,34 @@ public class MainWindow extends JFrame implements Runnable
     JMenu view = new JMenu(Translator.translate("View"));
     menuBar.add(view);
     // Shopping List: A ShoppingListViewer is opened
-    JMenuItem shoppingList = new JMenuItem(Translator.translate("Shopping List"));
+    JMenuItem shoppingList = new JMenuItem(Translator.translate(KiLowBitesController.SHOPPING));
     shoppingList.addActionListener(controller);
-    shoppingList.setActionCommand("Shopping List");
+    shoppingList.setActionCommand(KiLowBitesController.SHOPPING);
     view.add(shoppingList);
     // Process: A ProcessViewer is opened
-    JMenuItem process = new JMenuItem(Translator.translate("Process"));
+    JMenuItem process = new JMenuItem(Translator.translate(KiLowBitesController.PROCESS));
     process.addActionListener(controller);
-    process.setActionCommand("Process");
+    process.setActionCommand(KiLowBitesController.PROCESS);
     view.add(process);
+    // Inventory: A InventoryViewer is opened
+    JMenuItem inventory = new JMenuItem(Translator.translate(KiLowBitesController.INVENTORY));
+    inventory.addActionListener(controller);
+    inventory.setActionCommand(KiLowBitesController.INVENTORY);
+    view.add(inventory);
 
     JMenu tools = new JMenu(Translator.translate("Tools"));
     menuBar.add(tools);
     // Calorie Calculator: Calorie Calculator is opened
-    JMenuItem calorieCalculator = new JMenuItem(Translator.translate("Calorie Calculator"));
+    JMenuItem calorieCalculator = new JMenuItem(
+        Translator.translate(KiLowBitesController.CALORIECALCULATOR));
     calorieCalculator.addActionListener(controller);
-    calorieCalculator.setActionCommand("Calorie Calculator");
+    calorieCalculator.setActionCommand(KiLowBitesController.CALORIECALCULATOR);
     tools.add(calorieCalculator);
     // Units Converter: UnitConversionWindow is opened
-    JMenuItem unitsConverter = new JMenuItem(Translator.translate("Units Converter"));
+    JMenuItem unitsConverter = new JMenuItem(
+        Translator.translate(KiLowBitesController.UNITSCONVERTER));
     unitsConverter.addActionListener(controller);
-    unitsConverter.setActionCommand("Units Converter");
+    unitsConverter.setActionCommand(KiLowBitesController.UNITSCONVERTER);
     tools.add(unitsConverter);
 
     JMenu configure = new JMenu(Translator.translate("Configure"));
@@ -118,18 +131,19 @@ public class MainWindow extends JFrame implements Runnable
     configure.add(shortcuts);
     JMenuItem nutrition = new JMenuItem(Translator.translate("Nutrition"));
     configure.add(nutrition);
-    
+
     // Help items
     JMenu help = new JMenu(Translator.translate("Help"));
     menuBar.add(help);
-    //JMenuItem about = new JMenuItem(Translator.translate("About"));
-    //help.add(about);
+    // JMenuItem about = new JMenuItem(Translator.translate("About"));
+    // help.add(about);
+    // Open the user guide in the default browser
     JMenuItem userGuide = new JMenuItem(Translator.translate("User Guide"));
     help.add(userGuide);
-
+    userGuide.addActionListener(controller);
     // add the company logo to the window
     // Josiah's changes:
-    ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResource("KILowBites_Logo.png"));
+    ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResource(Logo.path()));
     JLabel logoLabel = new JLabel(logo);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
     // ImageIcon logo = new ImageIcon(PATH);

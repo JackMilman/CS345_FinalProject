@@ -24,10 +24,12 @@ import javax.swing.JFileChooser;
 public class KiLowBitesController implements ActionListener
 {
   public static final String EXIT = "Exit";
+  public static final String INGREDIENT = "Ingredient";
   public static final String RECIPE = "Recipe";
   public static final String MEAL = "Meal";
   public static final String SHOPPING = "Shopping List";
   public static final String PROCESS = "Process";
+  public static final String INVENTORY = "Inventory";
   public static final String CALORIECALCULATOR = "Calorie Calculator";
   public static final String UNITSCONVERTER = "Units Converter";
   public static final String ERROR_OPENING_FILE = "Error Opening File";
@@ -64,6 +66,12 @@ public class KiLowBitesController implements ActionListener
     {
       System.exit(0);
     }
+    
+    // Open IngredientEditor
+    if (e.getActionCommand().equals(INGREDIENT))
+    {
+      new IngredientEditor(); // currently doesn't work
+    }
 
     // Open RecipeEditor
     if (e.getActionCommand().equals(RECIPE))
@@ -86,7 +94,7 @@ public class KiLowBitesController implements ActionListener
     // Open Calorie Calculator Window
     if (e.getActionCommand().equals(CALORIECALCULATOR))
     {
-     CalorieCalculatorWindow.getCalorieCalculatorWindow();
+      CalorieCalculatorWindow.getCalorieCalculatorWindow();
     }
 
     // Open ShoppingListViewer
@@ -120,10 +128,31 @@ public class KiLowBitesController implements ActionListener
       }
     }
     
-    //open calorie calculator
+    // Open InventoryViewer
+    if (e.getActionCommand().equals(INVENTORY))
+    {
+      
+    }
+
+    // open calorie calculator
     if (e.getActionCommand().equals(CALORIECALCULATOR))
     {
-    	CalorieCalculatorWindow.getCalorieCalculatorWindow();
+      CalorieCalculatorWindow.getCalorieCalculatorWindow();
+    }
+
+    // open the User Guide in a browser
+    if (e.getActionCommand().equals(HELP))
+    {
+      File htmlFile = new File("/UserGuide.html");
+      try
+      {
+        Desktop.getDesktop().browse(htmlFile.toURI());
+      }
+      catch (IOException e1)
+      {
+        // TODO Auto-generated catch block
+        e1.printStackTrace();
+      }
     }
 
   }
@@ -136,7 +165,7 @@ public class KiLowBitesController implements ActionListener
   {
     recipe = null;
     meal = null;
-    
+
     fileChooser.setFileFilter(fileFilter);
     int result = fileChooser.showOpenDialog(null);
     fileChooser.setDialogTitle(Translator.translate("Open Recipe or Meal"));
@@ -178,7 +207,7 @@ public class KiLowBitesController implements ActionListener
           }
         }
       }
-      if(recipe == null && meal == null)
+      if (recipe == null && meal == null)
       {
         JOptionPane.showMessageDialog(null, INVALID_FILE_TYPE, ERROR, JOptionPane.ERROR_MESSAGE);
       }

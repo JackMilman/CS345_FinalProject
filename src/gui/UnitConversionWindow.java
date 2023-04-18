@@ -3,11 +3,12 @@ package gui;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Set;
-
+import branding.*;
 import utilities.UnitConversion;
 import javax.swing.*;
 import config.Translator;
 import recipes.NutritionInfo;
+import recipes.Unit;
 
 /**
  * 
@@ -67,8 +68,8 @@ public class UnitConversionWindow extends JFrame
   {
     Container icons = new Container();
     icons.setLayout(new FlowLayout(FlowLayout.LEFT));
-    JButton calcButton = new KitchIntelButton(KitchIntelButton.CALCULATE_IMAGE);
-    JButton resetButton = new KitchIntelButton(KitchIntelButton.RESET_IMAGE);
+    JButton calcButton = new KitchIntelIconButton(KitchIntelIconButton.CALCULATE_IMAGE);
+    JButton resetButton = new KitchIntelIconButton(KitchIntelIconButton.RESET_IMAGE);
 
     calcButton.setActionCommand(CALCULATION_COMMAND);
     resetButton.setActionCommand(RESET);
@@ -207,7 +208,7 @@ public class UnitConversionWindow extends JFrame
         amountvalue = Integer.parseInt(amount.getText());
         if (amountvalue < 0)
           amountvalue = 0;
-        double value = UnitConversion.convert(ingredient, fromUnit, toUnit, amountvalue);
+        double value = UnitConversion.convert(ingredient, Unit.parseUnit(fromUnit), Unit.parseUnit(toUnit), amountvalue);
         double truncate = Math.floor(value * 100) / 100;
         resultLabel
             .setText(Translator.translate("Result") + ":   " + String.format("%.2f", truncate));

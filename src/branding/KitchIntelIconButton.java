@@ -1,4 +1,4 @@
-package gui;
+package branding;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -9,7 +9,7 @@ import javax.swing.JButton;
  * @author Josiah Leach
  * @version 03.29.2023
  */
-public class KitchIntelButton extends JButton
+public class KitchIntelIconButton extends JButton
 {
 
   public static final String CALCULATE_IMAGE = "calculate.png";
@@ -30,10 +30,10 @@ public class KitchIntelButton extends JButton
    * 
    * @param buttonImage
    */
-  public KitchIntelButton(final String buttonImage)
+  public KitchIntelIconButton(final String buttonImage)
   {
     // Josiah's changes:
-//    super();
+    // super();
     super(new ImageIcon(PATH + buttonImage));
     setBorderPainted(false);
     setContentAreaFilled(false);
@@ -42,13 +42,13 @@ public class KitchIntelButton extends JButton
 
     // Josiah's changes:
     setIcon(new ImageIcon(getClass().getClassLoader().getResource(buttonImage)));
-    
-    setPressedIcon(new ImageIcon(
-        getClass().getClassLoader().getResource(PRESSED_MODIFIER + buttonImage)));
-    setDisabledIcon(new ImageIcon(
-        getClass().getClassLoader().getResource(PRESSED_MODIFIER + buttonImage)));
-    
-//    setPressedIcon(new ImageIcon(PATH + PRESSED_MODIFIER + buttonImage));
-//    setDisabledIcon(new ImageIcon(PATH + PRESSED_MODIFIER + buttonImage));
+
+    setPressedIcon(
+        new ImageIcon(getClass().getClassLoader().getResource(PRESSED_MODIFIER + buttonImage)));
+    setDisabledIcon(
+        new ImageIcon(getClass().getClassLoader().getResource(PRESSED_MODIFIER + buttonImage)));
+
+    // setPressedIcon(new ImageIcon(PATH + PRESSED_MODIFIER + buttonImage));
+    // setDisabledIcon(new ImageIcon(PATH + PRESSED_MODIFIER + buttonImage));
   }
 }

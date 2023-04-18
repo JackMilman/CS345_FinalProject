@@ -9,6 +9,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.text.html.parser.ParserDelegator;
@@ -24,7 +25,7 @@ import utilities.SortLists;
  * @author Jack Milman, KichIntel
  *
  */
-public class Recipe implements Serializable
+public abstract class Recipe implements Serializable
 {
   private static final long serialVersionUID = 1L;
 
@@ -32,13 +33,13 @@ public class Recipe implements Serializable
 
   private int servings;
 
-  private List<Ingredient> ingredients = new ArrayList<Ingredient>();
+  protected List<Ingredient> ingredients = new ArrayList<Ingredient>();
 
-  private List<Utensil> utensils = new ArrayList<Utensil>();
+  protected HashMap<Ingredient, List<Ingredient>> substitutes = new HashMap<Ingredient, List<Ingredient>>();
 
-  private List<Step> steps = new ArrayList<Step>();
+  protected List<Utensil> utensils = new ArrayList<Utensil>();
 
-  private String category;
+  protected List<Step> steps = new ArrayList<Step>();
 
   /**
    * Constructs a new Recipe. The name of a recipe may not be null and must be at least 1 character
@@ -51,8 +52,7 @@ public class Recipe implements Serializable
    * @param utensils
    * @param steps
    */
-  public Recipe(final String name, final int servings, final List<Ingredient> ingredients,
-      final List<Utensil> utensils, final List<Step> steps)
+  public Recipe(final String name, final int servings)
   {
     if (name == null || name.equals(""))
     {
@@ -71,15 +71,69 @@ public class Recipe implements Serializable
     {
       this.servings = servings;
     }
+  }
 
-    if (ingredients != null)
-      this.ingredients = ingredients;
+  public boolean addAllIngredients(final List<Ingredient> ingredients)
+  {
+    int sizeBefore = this.ingredients.size();
+    for (Ingredient ingredient : ingredients)
+    {
+      addIngredient(ingredient);
+    }
+    // If the list changed as a result of this operation
+    return sizeBefore != ingredients.size();
+  }
 
-    if (utensils != null)
-      this.utensils = utensils;
+  public boolean addAllUtensils(final List<Utensil> utensils)
+  {
+    int sizeBefore = this.utensils.size();
+    for (Utensil utensil : utensils)
+    {
+      addUtensil(utensil);
+    }
+    // If the list changed as a result of this operation
+    return sizeBefore != utensils.size();
+  }
 
-    if (steps != null)
-      this.steps = steps;
+  public boolean addAllSteps(final List<Step> steps)
+  {
+    int sizeBefore = this.steps.size();
+    for (Step step : steps)
+    {
+      addStep(step);
+    }
+    // If the list changed as a result of this operation
+    return sizeBefore != steps.size();
+  }
+
+  public boolean addSubstitute(final Ingredient ingredient, final Ingredient substitute)
+  {
+    int index = ingredients.indexOf(ingredient);
+    if (index != -1)
+    {
+      if (substitutes.containsKey(ingredient))
+      {
+        substitutes.get(ingredient).add(substitute);
+      }
+      else
+      {
+        List<Ingredient> subs = new ArrayList<Ingredient>();
+        subs.add(substitute);
+        substitutes.put(ingredient, subs);
+      }
+      return true;
+    }
+    return false;
+  }
+  
+  /**
+   * Gets the substitute Ingredients in the Recipe.
+   * 
+   * @return the substitute ingredients in the recipe.
+   */
+  public HashMap<Ingredient, List<Ingredient>> getSubstitutes()
+  {
+    return new HashMap<Ingredient, List<Ingredient>>(substitutes);
   }
 
   /**
@@ -92,7 +146,11 @@ public class Recipe implements Serializable
    */
   public boolean addIngredient(final Ingredient ingredient)
   {
-    return ingredients.add(ingredient);
+    if (!ingredients.contains(ingredient))
+    {
+      return ingredients.add(ingredient);
+    }
+    return false;
   }
 
   /**
@@ -119,7 +177,11 @@ public class Recipe implements Serializable
    */
   public boolean addUtensil(final Utensil utensil)
   {
-    return utensils.add(utensil);
+    if (!utensils.contains(utensil))
+    {
+      return utensils.add(utensil);
+    }
+    return false;
   }
 
   /**
@@ -151,7 +213,7 @@ public class Recipe implements Serializable
     boolean hasSource = utensils.contains(step.getSource());
     boolean hasDestination = utensils.contains(step.getDestination());
 
-    boolean isValid = hasIngredient && hasSource && hasDestination;
+    boolean isValid = (hasIngredient || hasSource) && hasDestination;
     if (isValid)
     {
       return steps.add(step);
@@ -220,24 +282,14 @@ public class Recipe implements Serializable
    * 
    * @return the Ingredients used in the Recipe.
    */
-  public List<Ingredient> getIngredients()
-  {
-    // Removed the call to Sort the Ingredients List. Lists should be sorted outside of this class
-    // -Jack 3/30
-    return ingredients;
-  }
+  abstract public List<Ingredient> getIngredients();
 
   /**
    * Gets the Utensils used in the Recipe.
    * 
    * @return the Utensils used in the Recipe.
    */
-  public List<Utensil> getUtensils()
-  {
-    // Removed the call to Sort the utensils List. Lists should be sorted outside of this class
-    // -Jack 3/30
-    return utensils;
-  }
+  abstract public List<Utensil> getUtensils();
 
   /**
    * Gets the Steps to follow in order to make the Recipe.
@@ -246,24 +298,16 @@ public class Recipe implements Serializable
    */
   public List<Step> getSteps()
   {
-    return steps;
+    return new ArrayList<Step>(steps);
   }
 
   /**
    * Calculates the total number of calories in the Recipe by totaling each Ingredient's calorie
    * count.
    * 
-   * @return the  total number of calories in the Recipe
+   * @return the total number of calories in the Recipe
    */
-  public double calculateCalories()
-  {
-    double calories = 0;
-    for (Ingredient ingredient : ingredients)
-    {
-      calories += ingredient.getCaloriesPerGram();
-    }
-    return calories;
-  }
+  abstract public double calculateCalories();
 
   /**
    * Serializes this recipe into a file name filename.rcp.

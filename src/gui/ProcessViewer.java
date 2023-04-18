@@ -23,7 +23,10 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import branding.KitchIntelJFrame;
 import config.Translator;
+import recipes.Ingredient;
+import recipes.Inventory;
 import recipes.Meal;
 import recipes.Recipe;
 import recipes.Step;
@@ -38,13 +41,15 @@ import utilities.SortLists;
  * @author Allie O'Keeffe, KichIntel
  *
  */
-public class ProcessViewer extends JFrame implements Serializable {
+public class ProcessViewer extends KitchIntelJFrame implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	//private static final String RECIPEEXT = "rcp";
-	//private static final String MEALEXT = "mel";
+	// private static final String RECIPEEXT = "rcp";
+	// private static final String MEALEXT = "mel";
 	private JTable table;
 	private List<Step> steps;
+	private List<Ingredient> ingredients;
+	private Inventory inventory;
 
 	/**
 	 * Recipe constructor.
@@ -53,6 +58,17 @@ public class ProcessViewer extends JFrame implements Serializable {
 	 */
 	public ProcessViewer(final Recipe recipe) {
 		super(String.format("%s	%s", Translator.translate("KiLowBites Process Viewer"), recipe.getName()));
+		setUp(recipe);
+	}
+
+	/**
+	 * Recipe constructor.
+	 * 
+	 * @param recipe
+	 */
+	public ProcessViewer(final Recipe recipe, final Inventory inventory) {
+		super(String.format("%s	%s", Translator.translate("KiLowBites Process Viewer"), recipe.getName()));
+		this.inventory = inventory;
 		setUp(recipe);
 	}
 
@@ -67,6 +83,17 @@ public class ProcessViewer extends JFrame implements Serializable {
 	}
 
 	/**
+	 * Meal constructor.
+	 * 
+	 * @param meal
+	 */
+	public ProcessViewer(final Meal meal, final Inventory inventory) {
+		super(String.format("%s %s", Translator.translate("KiLowBites Process Viewer"), meal.getName()));
+		this.inventory = inventory;
+		setUp(meal);
+	}
+
+	/**
 	 * Sets up to panel for the utensils.
 	 * 
 	 * @param utensils The list of utensils used in a recipe
@@ -74,9 +101,9 @@ public class ProcessViewer extends JFrame implements Serializable {
 	 */
 	private JScrollPane setUpUtensils(final List<Utensil> utensils) {
 		SortLists.sortUtensils(utensils); // Added since change to Recipe's get() methods do not return
-											// an automatically sorted list anymore - Jack, 3/30
-		
-		//Creates table model and sets editable to false
+		// an automatically sorted list anymore - Jack, 3/30
+
+		// Creates table model and sets editable to false
 		DefaultTableModel tableModel = new DefaultTableModel() {
 
 			private static final long serialVersionUID = 1L;
@@ -86,8 +113,8 @@ public class ProcessViewer extends JFrame implements Serializable {
 				return false;
 			}
 		};
-		
-		//Creates JTable
+
+		// Creates JTable
 		String[] data = new String[utensils.size()];
 		int r = 0;
 		for (Utensil item : utensils) {
@@ -124,8 +151,8 @@ public class ProcessViewer extends JFrame implements Serializable {
 			}
 
 		};
-		
-		//Creates JTable with steps and their corresponding times
+
+		// Creates JTable with steps and their corresponding times
 		String[] stepData = new String[steps.size()];
 		String[] timeData = new String[steps.size()];
 		int r = 0;
@@ -133,12 +160,11 @@ public class ProcessViewer extends JFrame implements Serializable {
 			stepData[r] = item.toString(false) + "";
 			r++;
 		}
-		tableModel.addColumn("Steps", stepData);
-		tableModel.addColumn("Time", timeData);
+		tableModel.addColumn(Translator.translate("Steps"), stepData);
+		tableModel.addColumn(Translator.translate("Time"), timeData);
 		table = new JTable(tableModel);
 		table.getColumnModel().getColumn(0).setPreferredWidth(300);
-		
-		// Sets up scroll panel
+
 		JScrollPane p = new JScrollPane(table);
 		p.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		p.setBorder(BorderFactory.createTitledBorder(Translator.translate("Steps")));
@@ -147,7 +173,7 @@ public class ProcessViewer extends JFrame implements Serializable {
 	}
 
 	/**
-	 * Converts the time  back to standard time. 
+	 * Converts the time back to standard time.
 	 * 
 	 * @param total The time in minutes and military time
 	 * @return A string representation of the time
@@ -155,7 +181,6 @@ public class ProcessViewer extends JFrame implements Serializable {
 	private String convertMinsToTime(int total) {
 		String indicator;
 		int hour;
-		System.out.print(total);
 
 		// Finds if the time crosses from AM to PM or vice versa
 		if (total > 719) {
@@ -198,23 +223,27 @@ public class ProcessViewer extends JFrame implements Serializable {
 	 * @return A button to click and remove the ingredients
 	 */
 	private JButton setUpRemoveIngredients() {
-		JButton removeIngredients = new JButton("Recipe Complete");
+		JButton removeIngredients = new JButton(Translator.translate("Recipe Complete"));
 		removeIngredients.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO: Remove ingredients from inventory
-				JOptionPane.showMessageDialog(null, "Successful removal of ingredients.", "Ingredient Removal",
-						JOptionPane.PLAIN_MESSAGE,
+				for (Ingredient tempIngredient : ingredients) {
+					inventory.reduceIngredient(tempIngredient);
+				}
+				JOptionPane.showMessageDialog(null, Translator.translate("Successful removal of ingredients."),
+						Translator.translate("Ingredient Removal"), JOptionPane.PLAIN_MESSAGE,
 						new ImageIcon(getClass().getClassLoader().getResource("KILowBites_Logo.png")));
 			}
 		});
+
 		return removeIngredients;
 	}
 
 	/**
-	 * Sets up the plating time inputs. This includes the some JTextFields and the two JComboBoxes. 
+	 * Sets up the plating time inputs. This includes the some JTextFields and the
+	 * two JComboBoxes.
 	 * 
-	 * @return A panel with the plating time inputs. 
+	 * @return A panel with the plating time inputs.
 	 */
 	private JPanel setUpPlatingTime() {
 		JPanel p = new JPanel();
@@ -234,7 +263,6 @@ public class ProcessViewer extends JFrame implements Serializable {
 
 		// Creates an action listener for the plating time
 		ActionListener time = new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				Integer selectedHour = Integer.parseInt((String) hours.getSelectedItem());
@@ -251,7 +279,7 @@ public class ProcessViewer extends JFrame implements Serializable {
 		mornNight.addActionListener(time);
 		minutes.addActionListener(time);
 		hours.addActionListener(time);
-		p.add(new JTextField("Enter Plating Time: "));
+		p.add(new JTextField(Translator.translate("Enter Plating Time: ")));
 		p.add(hours);
 		p.add(new JTextField(":"));
 		p.add(minutes);
@@ -261,7 +289,8 @@ public class ProcessViewer extends JFrame implements Serializable {
 
 	/**
 	 * Sets up the calorie calculations, plating time, and ingredient removal from
-	 * the inventory.
+	 * the inventory. The ingredient removal button is only added when the process
+	 * viewer has an inventory.
 	 * 
 	 * @param calories The number of calories in a recipe/meal
 	 * @return A JPanel with the calories, inventory, and plating time
@@ -269,13 +298,18 @@ public class ProcessViewer extends JFrame implements Serializable {
 	private JPanel setUpCaloriesAndInventory(double calories) {
 		JPanel p = new JPanel();
 		p.setLayout(new BoxLayout(p, BoxLayout.PAGE_AXIS));
-		
+
 		JPanel temp = new JPanel();
-		temp.add(new JTextField("Calories: " + Math.round(calories * 10) / 10.0));
-		temp.add(setUpRemoveIngredients());
-		
+		temp.add(new JTextField(Translator.translate("Calories: ") + Math.round(calories * 10) / 10.0));
+		if (inventory != null) {
+			temp.add(setUpRemoveIngredients());
+		}
+		temp.setOpaque(false);
+
 		p.add(temp);
-		p.add(setUpPlatingTime());
+		JPanel platingTime = setUpPlatingTime();
+		platingTime.setOpaque(false);
+		p.add(platingTime);
 		return p;
 	}
 
@@ -291,14 +325,19 @@ public class ProcessViewer extends JFrame implements Serializable {
 
 		c = getContentPane();
 		p = setUpUtensils(recipe.getUtensils());
+		p.setOpaque(false);
 		c.setLayout(new BorderLayout());
 		c.add(p, BorderLayout.NORTH);
 
 		steps = recipe.getSteps();
+		ingredients = recipe.getIngredients();
 		p = setUpSteps();
+		p.setOpaque(false);
 		c.add(p, BorderLayout.CENTER);
 
-		c.add(setUpCaloriesAndInventory(recipe.calculateCalories()), BorderLayout.SOUTH);
+		JPanel caloriesAndInventory = setUpCaloriesAndInventory(recipe.calculateCalories());
+		caloriesAndInventory.setOpaque(false);
+		c.add(caloriesAndInventory, BorderLayout.SOUTH);
 
 		setSize(700, 450);
 		pack();
@@ -319,25 +358,29 @@ public class ProcessViewer extends JFrame implements Serializable {
 
 		// Gets each utensil and step in the meals
 		ArrayList<Utensil> utensils = new ArrayList<>();
+		ingredients = new ArrayList<>();
 		steps = new ArrayList<>();
 		for (Recipe recipe : meal.getRecipes()) {
 			for (Utensil utensil : recipe.getUtensils()) {
 				if (!utensils.contains(utensil))
 					utensils.add(utensil);
 			}
-			for (Step step : recipe.getSteps()) {
-				steps.add(step);
-			}
+			steps.addAll(recipe.getSteps());
+			ingredients.addAll(recipe.getIngredients());
 		}
 
 		p = setUpUtensils(utensils);
+		p.setOpaque(false);
 		c.setLayout(new BorderLayout());
 		c.add(p, BorderLayout.NORTH);
 
 		p = setUpSteps();
+		p.setOpaque(false);
 		c.add(p, BorderLayout.CENTER);
-		
-		c.add(setUpCaloriesAndInventory(meal.calculateCalories()), BorderLayout.SOUTH);
+
+		JPanel panel = setUpCaloriesAndInventory(meal.calculateCalories());
+		panel.setOpaque(false);
+		c.add(panel, BorderLayout.SOUTH);
 		setSize(600, 450);
 		setVisible(true);
 	}

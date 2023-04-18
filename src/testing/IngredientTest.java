@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import gui.IngredientEditor;
 import recipes.Ingredient;
+import recipes.NutritionInfo;
+import recipes.Unit;
 
 /**
  * Test cases for the Ingredient class.
@@ -17,8 +19,8 @@ class IngredientTest
 {
   private final String ingredientName = "NamedIngredient";
   private final String ingredientDetails = "Basic details for an Ingredient";
-  private final String ingredientUnit = "lbs";
-  private final String ingredientUnitMetric = "liters";
+  private final Unit ingredientUnit = Unit.POUND;
+  private final Unit ingredientUnitMetric = Unit.LITER;
 
   @Test
   public void testGetName()
@@ -53,18 +55,18 @@ class IngredientTest
   @Test
   public void testGetUnit()
   {
-    String expected = ingredientUnit;
+    Unit expected = ingredientUnit;
     Ingredient ingredient = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
-    String actual = ingredient.getUnit();
+    Unit actual = ingredient.getUnit();
     assertEquals(expected, actual);
   }
   
   @Test
   public void testGetCalories()
   {
-    Ingredient ingredient = new Ingredient("Alcohol", "Scotch", 5, "GRAM",
-        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+    Ingredient ingredient = new Ingredient("Alcohol", "Scotch", 5, Unit.GRAM,
+        NutritionInfo.getCalPerGram("Alcohol"), NutritionInfo.getGramPerML("Alcohol"));
     // Alcohol cal/gram = 2.75. 2.75 * 5 = 13.75
     double expectedPerGram = 13.75;
     // Alcohol cal/gram = 2.75. 2.75 * 5 = 13.75
@@ -101,11 +103,11 @@ class IngredientTest
   {
     Ingredient ingredient1 = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
-    Ingredient ingredient2 = new Ingredient(ingredientName, ingredientDetails, 1687, "MADE UP UNIT",
+    Ingredient ingredient2 = new Ingredient(ingredientName, ingredientDetails, 1687, Unit.NONE,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
-    Ingredient differentName = new Ingredient("NewName", ingredientDetails, 1687, "MADE UP UNIT",
+    Ingredient differentName = new Ingredient("NewName", ingredientDetails, 1687, Unit.NONE,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
-    Ingredient differentDetails = new Ingredient(ingredientName, "NewDetails", 1687, "MADE UP UNIT",
+    Ingredient differentDetails = new Ingredient(ingredientName, "NewDetails", 1687, Unit.NONE,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
     
       int firstCode = ingredient1.hashCode();

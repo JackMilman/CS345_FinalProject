@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author Jack Milman, Meara Patterson, KichIntel
  *
  */
-public class Ingredient implements Serializable
+public class Ingredient implements Serializable, Comparable<Ingredient>
 {
   private static final long serialVersionUID = 1L;
 
@@ -22,7 +22,7 @@ public class Ingredient implements Serializable
 
   private final double amount;
 
-  private final String unit;
+  private final Unit unit;
 
   private final Double calories;
 
@@ -38,7 +38,7 @@ public class Ingredient implements Serializable
    * @param calories
    * @param density
    */
-  public Ingredient(final String name, final String details, final double amount, final String unit,
+  public Ingredient(final String name, final String details, final double amount, final Unit unit,
       final Double calories, final Double density)
   {
     this.name = name;
@@ -85,7 +85,7 @@ public class Ingredient implements Serializable
    * 
    * @return the unit of the Ingredient
    */
-  public String getUnit()
+  public Unit getUnit()
   {
     return unit;
   }
@@ -117,7 +117,7 @@ public class Ingredient implements Serializable
    */
   public double getCaloriesPerGram()
   {
-    double amountInGrams = UnitConversion.convert(name, unit, "GRAM", amount);
+    double amountInGrams = UnitConversion.convert(name, unit, Unit.GRAM, amount);
     double calPerGram = NutritionInfo.getCalPerGram(name);
     return amountInGrams * calPerGram;
   }
@@ -171,11 +171,43 @@ public class Ingredient implements Serializable
   @Override
   public String toString()
   {
-    if (details == null)
+    
+    // accounting for details like plural pinch being "pinches" not "pinchs"
+    String result = "%.2f ";
+    String strDetails = "";
+    
+    switch (unit.getName())
     {
-      return String.format("%.2f %ss of %s", amount, unit.toLowerCase(), name).toString();
+      case "Pinch":
+        result += "%ses of ";
+        break;
+      case "Individual":
+        result += "%s ";
+        break;
+      case "":
+        result += "%s";
+        break;
+      default:
+        result += "%ss of ";
     }
-    return String.format("%.2f %ss of %s %s", amount, unit.toLowerCase(), details, name).toString();
+    if (details != null)
+    {
+      strDetails = details;
+      result += "%s %s";
+    }
+    else
+    {
+      result += "%s%s";
+    }
+    
+    return String.format(result, amount, unit.getName().toLowerCase(), strDetails, name);
+
+  }
+  
+  @Override
+  public int compareTo(final Ingredient other)
+  {
+    return this.getName().substring(0, 1).compareTo(other.getName().substring(0, 1));
   }
 
 }
