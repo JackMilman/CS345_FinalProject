@@ -7,6 +7,7 @@ import java.util.List;
 import gui.IngredientEditor;
 import gui.ProcessViewer;
 import recipes.Ingredient;
+import recipes.Inventory;
 import recipes.LeafRecipe;
 import recipes.Meal;
 import recipes.Recipe;
@@ -16,6 +17,12 @@ import recipes.Utensil;
 class ProcessViewerTest {
 
 	public static void testProcessViewerRecipes() {
+	  
+	  Inventory inventory = Inventory.createInstance();
+	  inventory.addIngredient(new Ingredient("chicken", " ", 5, "POUND", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+	  inventory.addIngredient(new Ingredient("lettuce", " ", 5, "POUND", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+	  inventory.addIngredient(new Ingredient("broccoli", " ", 1, "POUND", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+	  
 		ArrayList<Ingredient> ingredients = new ArrayList<>();
 		ingredients
 				.add(new Ingredient("chicken", " ", 1, "POUND", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
@@ -23,8 +30,8 @@ class ProcessViewerTest {
 				new Ingredient("lettuce", " ", 0.5, "POUND", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 		ingredients
 				.add(new Ingredient("broccoli", " ", 6, "OUNCE", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-		//ingredients
-		//.add(new Ingredient("invalid", " ", 6, "OUNCE", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+//		ingredients
+//		.add(new Ingredient("invalid", " ", 6, "OUNCE", IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
 
 		ArrayList<Utensil> utensils = new ArrayList<>();
 		utensils.add(new Utensil("fork", " "));
@@ -44,7 +51,7 @@ class ProcessViewerTest {
 		recipe.addAllIngredients(ingredients);
 		recipe.addAllUtensils(utensils);
 		recipe.addAllSteps(steps);
-		ProcessViewer pv = new ProcessViewer(recipe);
+		ProcessViewer pv = new ProcessViewer(recipe, inventory);
 	}
 
 	public static void testProcessViewerMeals() {
@@ -109,6 +116,7 @@ class ProcessViewerTest {
 		ProcessViewer pv = new ProcessViewer(meal);
 	}
 
+	
 	public static void main(final String[] args) {
 		testProcessViewerRecipes();
 		testProcessViewerMeals();
