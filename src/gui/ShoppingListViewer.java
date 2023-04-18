@@ -27,11 +27,8 @@ import utilities.UnitConversion;
 
 /*
  * TO DO:
- * Fix calculations on re-inputting number of people
- * Test with a meal
- * Possibly create a private listener class
+ * Test with inventory
  * Check acceptance criteria
- * Add javadocs
  */
 
 /**
@@ -44,6 +41,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
 {
 
   private static final int DO_NOT_DISPLAY = -1;
+  private static final long serialVersionUID = 1L;
 
   private Object obj;
   private JPanel contentPane;
@@ -135,18 +133,16 @@ public class ShoppingListViewer extends KitchIntelJDialog
       {
         editIngredientList(recipe);
       }
-      
+      // amounts get duplicated for some reason
+      for (Ingredient ing : editedIngredients)
+      {
+        int index = editedIngredients.indexOf(ing);
+        Ingredient newIng = new Ingredient(ing.getName(), ing.getDetails(), ing.getAmount() / 2,
+            ing.getUnit(), ing.getCalories(), ing.getDensity());
+        editedIngredients.set(index, newIng);
+      }
     }
     
-    // amounts get duplicated for some reason
-    for (Ingredient ing : editedIngredients)
-    {
-      int index = editedIngredients.indexOf(ing);
-      Ingredient newIng = new Ingredient(ing.getName(), ing.getDetails(), ing.getAmount() / 2,
-          ing.getUnit(), ing.getCalories(), ing.getDensity());
-      editedIngredients.set(index, newIng);
-    }
-
     updateScrollAreaHelper();
 
   }
@@ -206,7 +202,6 @@ public class ShoppingListViewer extends KitchIntelJDialog
         return;
       }
 
-//      double numBatches = (double) numPeople / (double) recipe.getServings();
 
       for (Ingredient ing : allIngredients)
       {
@@ -273,10 +268,11 @@ public class ShoppingListViewer extends KitchIntelJDialog
   private class ShoppingListIngredient extends JPanel
   {
 
+    private static final long serialVersionUID = 1L;
+    
     JLabel label;
     JComboBox<String> units;
     JCheckBox checkBox;
-    // Ingredient ingredient;
 
     ShoppingListIngredient(final Ingredient ingredient)
     {
@@ -285,7 +281,6 @@ public class ShoppingListViewer extends KitchIntelJDialog
       setSize(600, 50);
       label = new JLabel(ingredient.toString());
       setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
-      // this.ingredient = ingredient;
 
       units = new JComboBox<>();
       for (Unit unit : Unit.values())
@@ -293,8 +288,6 @@ public class ShoppingListViewer extends KitchIntelJDialog
         units.addItem(unit.getName());
       }
       units.setSelectedItem(ingredient.getUnit());
-      // units.setActionCommand(CHANGE_UNITS);
-      // units.addActionListener(new ShoppingListListener());
       units.addActionListener(new ActionListener()
       {
         public void actionPerformed(final ActionEvent e)
@@ -314,7 +307,6 @@ public class ShoppingListViewer extends KitchIntelJDialog
 
       checkBox = new JCheckBox("Purchased?");
       checkBox.setOpaque(false); // required to make the background color correct
-      // checkBox.setActionCommand(PURCHASED_INGREDIENT);
       checkBox.addActionListener(new ActionListener()
       {
         public void actionPerformed(final ActionEvent e)
@@ -327,31 +319,6 @@ public class ShoppingListViewer extends KitchIntelJDialog
       updateShoppingListIngredient();
 
     }
-    
-    private double updateIngredientAmount(final Ingredient ingredient, final String newUnit)
-    {
-      double newAmount = -1;
-      if (obj instanceof Recipe)
-      {
-        Recipe recipe = (Recipe) obj;
-        double convertedAmount = UnitConversion.convert(ingredient.getName(), ingredient.getUnit(), 
-            newUnit, ingredient.getAmount());
-        newAmount = (double) numPeople / (double) recipe.getServings() * convertedAmount;
-      }
-      else if (obj instanceof Meal)
-      {
-        Meal meal = (Meal) obj;
-        for (Recipe recipe : meal.getRecipes())
-        {
-          if (recipe.getIngredients().contains(ingredient))
-          {
-            // not good
-            newAmount = (double) numPeople / (double) recipe.getServings() * ingredient.getAmount();
-          }
-        }
-      }
-      return newAmount;
-    }
 
     private void updateShoppingListIngredient()
     {
@@ -362,8 +329,5 @@ public class ShoppingListViewer extends KitchIntelJDialog
     }
 
   }
-
-//double numberOfBatches = (double) numPeople / (double) recipe.getServings();
-  //amount * numberOfBatches
   
 }

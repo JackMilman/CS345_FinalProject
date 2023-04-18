@@ -49,6 +49,7 @@ public class TemporaryGUITest
     recipes.add(bananasFoster());
     recipes.add(macNCheese());
     Meal meal = new Meal("Test Meal", recipes, 2);
+    Recipe recipe = bananasFoster();
     ShoppingListViewer shoppingList = new ShoppingListViewer(meal);
     
   }
