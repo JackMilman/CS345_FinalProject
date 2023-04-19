@@ -26,13 +26,6 @@ import recipes.Recipe;
 import recipes.Unit;
 import utilities.UnitConversion;
 
-/*
- * TO DO:
- * Change so it works with density information
- * Test with inventory
- * Check acceptance criteria
- */
-
 /**
  * Creates the GUI to view a shopping list.
  * 

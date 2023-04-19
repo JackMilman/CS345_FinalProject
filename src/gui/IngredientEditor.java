@@ -33,9 +33,8 @@ import utilities.SortLists;
 public class IngredientEditor extends JPanel
 {
 
-  public static final Double NO_INPUT = -1.0; // Changed 4/13: Updated to Double and value to null.
+  public static final Double NO_INPUT = null; // Changed 4/13: Updated to Double and value to null.
                                               // -Jack
-                                              // Changed back - Meara
   private static final String[] UNITS = new String[] {"", "Dram", "Ounce", "Gram", "Pound", "Pinch",
       "Teaspoon", "Tablespoon", "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon", "Individual"};
   private static final String ADD = "Add";
@@ -182,8 +181,11 @@ public class IngredientEditor extends JPanel
     }
     catch (NumberFormatException nfe)
     {
-//      density = NO_INPUT;
-      density = 1;
+      density = NO_INPUT;
+    }
+    catch (NullPointerException npe)
+    {
+      density = NO_INPUT;
     }
 
     if (name.equals("") || unit.equals(""))
@@ -328,16 +330,21 @@ public class IngredientEditor extends JPanel
         addButton.setEnabled(false);
         return;
       }
+      else
+      {
+        addButton.setEnabled(true);
+      }
       
       if(NutritionInfo.contains(nameField.getText()))
       {
         addButton.setEnabled(true);
       }
-      else
-      {
-        boolean filled = calorieField.getText().length() > 0 && densityField.getText().length() > 0;
-        addButton.setEnabled(filled);
-      }
+      // You can input an ingredient without giving the calorie and density
+//      else
+//      {
+//        boolean filled = calorieField.getText().length() > 0 && densityField.getText().length() > 0;
+//        addButton.setEnabled(filled);
+//      }
     }
   }
 
