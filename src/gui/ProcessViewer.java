@@ -424,7 +424,14 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
 
     JPanel caloriesAndInventory = setUpCaloriesAndInventory(recipe.calculateCalories());
     caloriesAndInventory.setOpaque(false);
-    c.add(caloriesAndInventory, BorderLayout.SOUTH);
+    JPanel temp = new JPanel();
+    temp.setLayout(new BorderLayout());
+    JPanel embedded = setUpEmbeddedRecipesBox();
+    embedded.setOpaque(false);
+    temp.add(embedded, BorderLayout.NORTH);
+    temp.add(caloriesAndInventory, BorderLayout.SOUTH);
+    temp.setOpaque(false);
+    c.add(temp, BorderLayout.SOUTH);
     c.add(setUpEmbeddedRecipesBox(), BorderLayout.AFTER_LAST_LINE);
 
     setSize(700, 450);
