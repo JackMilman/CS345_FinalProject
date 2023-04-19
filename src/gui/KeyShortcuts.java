@@ -2,13 +2,12 @@ package gui;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Properties;
+import java.io.*;
+import java.util.*;
 
 import javax.swing.*;
+import config.Shortcut;
+import utilities.ShortcutsParser;
 
 /**
  * 
