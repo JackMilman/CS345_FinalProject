@@ -6,6 +6,9 @@ import java.io.*;
 import java.util.*;
 
 import javax.swing.*;
+
+import branding.KitchIntelColor;
+import branding.KitchIntelJFrame;
 import config.Shortcut;
 import utilities.ShortcutsParser;
 
@@ -14,7 +17,7 @@ import utilities.ShortcutsParser;
  * @author shelseyvega
  *
  */
-public class KeyShortcuts extends JFrame
+public class KeyShortcuts extends KitchIntelJFrame
 {
 
   private JLabel instructionsLabel;

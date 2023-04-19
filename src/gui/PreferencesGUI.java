@@ -4,6 +4,9 @@ import config.Language;
 import config.Translator;
 
 import javax.swing.*;
+
+import branding.KitchIntelJFrame;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +14,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-public class PreferencesGUI extends JFrame implements ActionListener
+public class PreferencesGUI extends KitchIntelJFrame implements ActionListener
 {
   private static final long serialVersionUID = 1L;
   private JComboBox<String> languageComboBox;
