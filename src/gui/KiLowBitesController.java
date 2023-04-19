@@ -40,6 +40,8 @@ public class KiLowBitesController implements ActionListener
   public static final String ERROR = "Error";
   public static final String RECIPEEXT = "rcp";
   public static final String MEALEXT = "mel";
+  public static final String USERGUIDE = "User Guide";
+
 
   private JFrame main;
   private Recipe recipe;
@@ -143,9 +145,9 @@ public class KiLowBitesController implements ActionListener
     }
 
     // open the User Guide in a browser
-    if (e.getActionCommand().equals(HELP))
+    if (e.getActionCommand().equals("User Guide"))
     {
-      File htmlFile = new File("/UserGuide.html");
+      File htmlFile = new File("UserGuide.html");
       try
       {
         Desktop.getDesktop().browse(htmlFile.toURI());

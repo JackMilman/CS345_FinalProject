@@ -141,6 +141,7 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     JMenuItem userGuide = new JMenuItem(Translator.translate("User Guide"));
     help.add(userGuide);
     userGuide.addActionListener(controller);
+    userGuide.setActionCommand("User Guide");
     // add the company logo to the window
     // Josiah's changes:
     ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResource(Logo.path()));
