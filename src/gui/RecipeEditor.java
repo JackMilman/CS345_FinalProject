@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -54,6 +55,7 @@ public class RecipeEditor extends Editor
 
   private UtensilEditor utensilEditor;
   private IngredientEditor ingredientEditor;
+  private SubstituteEditor substituteEditor;
   private StepEditor stepEditor;
 
   private JTextField nameField;
@@ -78,6 +80,7 @@ public class RecipeEditor extends Editor
 
     utensilEditor = new UtensilEditor();
     ingredientEditor = new IngredientEditor();
+    substituteEditor = new SubstituteEditor();
     stepEditor = new StepEditor(utensilEditor.getUtensils(), ingredientEditor.getIngredients());
 
     newButton.setActionCommand(NEW_BUTTON_ACTION_COMMAND);
@@ -100,6 +103,7 @@ public class RecipeEditor extends Editor
 
     utensilEditor.addChangeListener(cListener);
     ingredientEditor.addChangeListener(cListener);
+    substituteEditor.addChangeListener(cListener);
     stepEditor.addChangeListener(cListener);
     nameField.addActionListener(cListener);
     servingsField.addActionListener(cListener);
@@ -113,7 +117,11 @@ public class RecipeEditor extends Editor
     Container mainEditors = new Container();
     mainEditors.setLayout(new BorderLayout());
     mainEditors.add(utensilEditor, BorderLayout.NORTH);
-    mainEditors.add(ingredientEditor, BorderLayout.CENTER);
+    Container ingAndSub = new Container();
+    ingAndSub.setLayout(new BorderLayout());
+    ingAndSub.add(ingredientEditor, BorderLayout.NORTH);
+    ingAndSub.add(substituteEditor, BorderLayout.SOUTH);
+    mainEditors.add(ingAndSub);
     mainEditors.add(stepEditor, BorderLayout.SOUTH);
     
     JPanel p = new JPanel();
@@ -150,6 +158,7 @@ public class RecipeEditor extends Editor
     int servings;
     List<Ingredient> ingredients;
     List<Utensil> utensils;
+    HashMap<Ingredient, List<Ingredient>> substitutes;
     List<Step> steps;
 
     name = nameField.getText();
@@ -164,11 +173,13 @@ public class RecipeEditor extends Editor
     }
 
     ingredients = ingredientEditor.getIngredients();
+    substitutes = substituteEditor.getSubstitutes();
     utensils = utensilEditor.getUtensils();
     steps = stepEditor.getSteps();
 
     Recipe result = new CompositeRecipe(name, servings);
     result.addAllIngredients(ingredients);
+    result.addAllSubstitutes(substitutes);
     result.addAllUtensils(utensils);
     result.addAllSteps(steps);
     return result;
@@ -180,6 +191,8 @@ public class RecipeEditor extends Editor
     servingsField.setText(recipe.getServings() + "");
     utensilEditor.loadUtensils(recipe.getUtensils());
     ingredientEditor.loadIngredients(recipe.getIngredients());
+    substituteEditor.loadIngredients(recipe.getIngredients());
+    substituteEditor.loadSubstitutes(recipe.getSubstitutes());
     stepEditor.loadSteps(recipe.getSteps());
 
     this.fileName = fileName;

@@ -105,6 +105,24 @@ public abstract class Recipe implements Serializable
     // If the list changed as a result of this operation
     return sizeBefore != steps.size();
   }
+  
+  public boolean addAllSubstitutes(final HashMap<Ingredient, List<Ingredient>> newSubs) {
+    int sizeBefore = 0;
+    for (Ingredient key : substitutes.keySet()) {
+      sizeBefore += substitutes.get(key).size();
+    }
+    for (Ingredient key : newSubs.keySet()) {
+      for (Ingredient substitute: newSubs.get(key)) {
+        addSubstitute(key, substitute);
+      }
+    }
+    
+    int sizeAfter = 0;
+    for (Ingredient key : substitutes.keySet()) {
+      sizeAfter += substitutes.get(key).size();
+    }
+    return sizeBefore != sizeAfter;
+  }
 
   public boolean addSubstitute(final Ingredient ingredient, final Ingredient substitute)
   {
