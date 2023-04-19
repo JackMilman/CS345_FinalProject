@@ -5,14 +5,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import config.Shortcut;
 import config.Translator;
 import recipes.Meal;
 import recipes.Recipe;
+import utilities.ShortcutsParser;
+
 import javax.swing.JFileChooser;
 
 /**
@@ -48,6 +54,7 @@ public class KiLowBitesController implements ActionListener
   private Meal meal;
   private JFileChooser fileChooser;
   private FileNameExtensionFilter fileFilter;
+  private Map<String, String> shortcuts = new HashMap<>();
 
   /**
    * 
@@ -162,7 +169,27 @@ public class KiLowBitesController implements ActionListener
     {
       new KeyShortcuts();
     }
+    loadShortcuts();
 
+  }
+
+  private void loadShortcuts()
+  {
+    ShortcutsParser parser = new ShortcutsParser();
+    try
+    {
+      List<Shortcut> shortcutList = parser.parse("shortcuts.cfg");
+      for (Shortcut shortcut : shortcutList)
+      {
+        String keyCombination = shortcut.getKeyCombination();
+        String command = shortcut.getCommand();
+        shortcuts.put(keyCombination, command);
+      }
+    }
+    catch (IOException e)
+    {
+      System.err.println("Failed to load shortcuts: " + e.getMessage());
+    }
   }
 
   /**
@@ -221,5 +248,4 @@ public class KiLowBitesController implements ActionListener
       }
     }
   }
-
 }
