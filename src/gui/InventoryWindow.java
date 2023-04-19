@@ -11,6 +11,7 @@ import javax.swing.*;
 import config.Translator;
 import recipes.Ingredient;
 import recipes.Inventory;
+import recipes.Unit;
 
 import java.util.*;
 
@@ -37,7 +38,7 @@ public class InventoryWindow extends JFrame
   String name;
   String details;
   double amount;
-  String unit;
+  Unit unit;
   Ingredient inventoryItem;
 
   public InventoryWindow(final Window main)
@@ -122,7 +123,7 @@ public class InventoryWindow extends JFrame
     {
       addButton.setEnabled(true);
       subButton.setEnabled(true);
-      unit = (String) e.getItem();
+      unit = Unit.parseUnit((String) e.getItem());
     }
 
   }
@@ -147,9 +148,9 @@ public class InventoryWindow extends JFrame
       ingredientUnit.setSelectedItem("");
       addButton.setEnabled(false);
       subButton.setEnabled(false);
-      for (Ingredient info : inventory.getIngredientList())
+      for (Ingredient info : inventory.getInventory())
         inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
-            + info.getAmount() + " " + info.getUnit().toLowerCase() + "\n"));
+            + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
       amountItems.setText(String.format("%d", inventory.size()));
       amountItems.setEnabled(true);
     }
@@ -173,9 +174,9 @@ public class InventoryWindow extends JFrame
       ingredientUnit.setSelectedItem("");
       addButton.setEnabled(false);
       subButton.setEnabled(false);
-      for (Ingredient info : inventory.getIngredientList())
+      for (Ingredient info : inventory.getInventory())
         inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
-            + info.getAmount() + " " + info.getUnit().toLowerCase() + "\n"));
+            + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
 
     }
   }

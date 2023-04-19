@@ -105,6 +105,29 @@ public abstract class Recipe implements Serializable
     // If the list changed as a result of this operation
     return sizeBefore != steps.size();
   }
+  
+  public boolean addAllSubstitutes(final HashMap<Ingredient, List<Ingredient>> subs)
+  {
+    int sizeBefore = 0;
+    for (List<Ingredient> subValues : substitutes.values()) {
+      sizeBefore += subValues.size();
+    }
+    
+    // For each ingredient in the passed map, add all the substitutes of that ingredient.
+    for (Ingredient ingredient : subs.keySet()) {
+      for (Ingredient substitute : subs.get(ingredient)) {
+        addSubstitute(ingredient, substitute);
+      }
+    }
+    
+    int sizeAfter = 0;
+    for (List<Ingredient> subValues : substitutes.values()) {
+      sizeAfter += subValues.size();
+    }
+    
+    // If the list changed as a result of this operation
+    return sizeBefore != sizeAfter;
+  }  
 
   public boolean addSubstitute(final Ingredient ingredient, final Ingredient substitute)
   {
@@ -122,6 +145,20 @@ public abstract class Recipe implements Serializable
         substitutes.put(ingredient, subs);
       }
       return true;
+    }
+    return false;
+  }
+  
+  public boolean removeSubstitute(final Ingredient ingredient, final Ingredient substitute)
+  {
+    int index = ingredients.indexOf(ingredient);
+    if (index != -1)
+    {
+      if (substitutes.containsKey(ingredient))
+      {
+        substitutes.get(ingredient).remove(substitute);
+        return true;
+      }
     }
     return false;
   }
@@ -164,6 +201,9 @@ public abstract class Recipe implements Serializable
    */
   public boolean removeIngredient(final Ingredient ingredient)
   {
+    if (substitutes.containsKey(ingredient)) {
+      substitutes.remove(ingredient);
+    }
     return ingredients.remove(ingredient);
   }
 

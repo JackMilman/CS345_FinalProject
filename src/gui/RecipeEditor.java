@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.swing.JFileChooser;
@@ -150,6 +151,7 @@ public class RecipeEditor extends Editor
     String name;
     int servings;
     List<Ingredient> ingredients;
+    HashMap<Ingredient, List<Ingredient>> substitutes;
     List<Utensil> utensils;
     List<Step> steps;
 
@@ -165,11 +167,13 @@ public class RecipeEditor extends Editor
     }
 
     ingredients = ingredientEditor.getIngredients();
+    substitutes = ingredientEditor.getSubstitutes();
     utensils = utensilEditor.getUtensils();
     steps = stepEditor.getSteps();
 
     Recipe result = new CompositeRecipe(name, servings);
     result.addAllIngredients(ingredients);
+    result.addAllSubstitutes(substitutes);
     result.addAllUtensils(utensils);
     result.addAllSteps(steps);
     return result;
@@ -181,6 +185,7 @@ public class RecipeEditor extends Editor
     servingsField.setText(recipe.getServings() + "");
     utensilEditor.loadUtensils(recipe.getUtensils());
     ingredientEditor.loadIngredients(recipe.getIngredients());
+    ingredientEditor.loadSubstitutes(recipe.getSubstitutes());
     stepEditor.loadSteps(recipe.getSteps());
 
     this.fileName = fileName;

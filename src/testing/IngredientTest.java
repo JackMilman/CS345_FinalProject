@@ -66,7 +66,7 @@ class IngredientTest
   public void testGetCalories()
   {
     Ingredient ingredient = new Ingredient("Alcohol", "Scotch", 5, Unit.GRAM,
-        NutritionInfo.getCalPerGram("Alcohol"), NutritionInfo.getGramPerML("Alcohol"));
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
     // Alcohol cal/gram = 2.75. 2.75 * 5 = 13.75
     double expectedPerGram = 13.75;
     // Alcohol cal/gram = 2.75. 2.75 * 5 = 13.75
