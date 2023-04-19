@@ -8,13 +8,15 @@ import java.awt.event.ItemListener;
 
 import javax.swing.*;
 
+import branding.KitchIntelJFrame;
 import config.Translator;
 import recipes.Ingredient;
 import recipes.Inventory;
+import recipes.Unit;
 
 import java.util.*;
 
-public class InventoryWindow extends JFrame
+public class InventoryWindow extends KitchIntelJFrame
 {
   private static final long serialVersionUID = 1L;
   private static final int DEFAULT_TEXT_FIELD_WIDTH = 8;
@@ -139,7 +141,7 @@ public class InventoryWindow extends JFrame
       amount = Double.parseDouble(ingredientAmount.getText());
       if (amount < 0)
         amount = 0;
-      inventoryItem = new Ingredient(name, details, amount, unit, 0.0, 0.0);
+      inventoryItem = new Ingredient(name, details, amount, Unit.parseUnit(unit), 0.0, 0.0);
       inventory.addIngredient(inventoryItem);
       ingredientName.setText("");
       ingredientDetails.setText("");
@@ -149,7 +151,7 @@ public class InventoryWindow extends JFrame
       subButton.setEnabled(false);
       for (Ingredient info : inventory.getIngredientList())
         inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
-            + info.getAmount() + " " + info.getUnit().toLowerCase() + "\n"));
+            + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
       amountItems.setText(String.format("%d", inventory.size()));
       amountItems.setEnabled(true);
     }
@@ -165,7 +167,7 @@ public class InventoryWindow extends JFrame
       name = ingredientName.getText();
       details = ingredientDetails.getText();
       amount = Double.parseDouble(ingredientAmount.getText());
-      inventoryItem = new Ingredient(name, details, amount, unit, 0.0, 0.0);
+      inventoryItem = new Ingredient(name, details, amount, Unit.parseUnit(unit), 0.0, 0.0);
       inventory.reduceIngredient(inventoryItem);
       ingredientName.setText("");
       ingredientDetails.setText("");
@@ -175,7 +177,7 @@ public class InventoryWindow extends JFrame
       subButton.setEnabled(false);
       for (Ingredient info : inventory.getIngredientList())
         inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
-            + info.getAmount() + " " + info.getUnit().toLowerCase() + "\n"));
+            + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
 
     }
   }

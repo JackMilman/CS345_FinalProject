@@ -13,6 +13,7 @@ import java.util.List;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -114,7 +115,9 @@ public class RecipeEditor extends Editor
     mainEditors.add(ingredientEditor, BorderLayout.CENTER);
     mainEditors.add(stepEditor, BorderLayout.SOUTH);
 
-    add(mainEditors, BorderLayout.SOUTH);
+    JPanel p = new JPanel();
+    p.setLayout(new BorderLayout());
+    p.add(mainEditors, BorderLayout.SOUTH);
 
     Container icons = new Container();
     icons.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -129,7 +132,10 @@ public class RecipeEditor extends Editor
     icons.add(servesLabel);
     icons.add(servingsField);
 
-    add(icons, BorderLayout.NORTH);
+    p.add(icons, BorderLayout.NORTH);
+    p.setOpaque(false);
+    JScrollPane scrollPane = new JScrollPane(p);
+    scrollPane.setOpaque(false);
 
     // Container nameAndServings = new Container();
     // nameAndServings.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -139,7 +145,8 @@ public class RecipeEditor extends Editor
     // nameAndServings.add(servingsField);
     //
     // add(nameAndServings, BorderLayout.CENTER);
-
+    
+    add(scrollPane);
     setVisible(true);
     setResizable(true);
     pack();

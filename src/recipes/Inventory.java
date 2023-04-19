@@ -170,8 +170,13 @@ public class Inventory
         }
         ingredients.remove(temp);
       return true;
+      }
+
     }
-
+    return false;
   }
-
+  
+  public List<Ingredient> getIngredientList(){
+    return ingredients;
+  }
 }
