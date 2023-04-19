@@ -133,7 +133,7 @@ public class KiLowBitesController implements ActionListener
     // Open InventoryViewer
     if (e.getActionCommand().equals(INVENTORY))
     {
-      
+      new InventoryWindow(main);
     }
 
     // open calorie calculator

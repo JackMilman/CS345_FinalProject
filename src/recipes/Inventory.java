@@ -180,4 +180,9 @@ public class Inventory
     }
     return false;
   }
+  
+  public List<Ingredient> getIngredientList(){
+    return ingredients;
+  }
+
 }
