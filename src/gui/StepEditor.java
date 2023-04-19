@@ -9,18 +9,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.TextEvent;
 import java.awt.event.TextListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import branding.KitchIntelBorder;
 import config.Translator;
 import recipes.Ingredient;
+import recipes.Recipe;
 import recipes.Step;
 import recipes.Utensil;
 
@@ -38,7 +42,7 @@ public class StepEditor extends JComponent implements TextListener
   private static final String ADD = "Add";
   private static final String DELETE = "Delete";
   private static final String BLANK = "            ";
-
+  protected static final String CURRENT_DIRECTORY = ".";
   /**
    * 
    */
@@ -50,7 +54,8 @@ public class StepEditor extends JComponent implements TextListener
   private TextArea display;
   private List<Utensil> utensils;
   private List<Ingredient> ingredients;
-  private JButton addButton, deleteButton;
+  private JButton addButton, deleteButton, embeddedRecipe;
+  public String fileName;
 
   /**
    * Creates a new StepEditor.
@@ -83,9 +88,10 @@ public class StepEditor extends JComponent implements TextListener
 
     addButton = new JButton(Translator.translate(ADD));
     deleteButton = new JButton(Translator.translate(DELETE));
-
+    embeddedRecipe= new JButton("EmbeddedRecipe");
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);
+    embeddedRecipe.addActionListener(listener);
     
     actionSelect.addActionListener(enabler);
     onSelect.addActionListener(enabler);
@@ -106,6 +112,7 @@ public class StepEditor extends JComponent implements TextListener
     inputFields.add(detailField);
     inputFields.add(new JLabel(Translator.translate("Minutes") + ":"));
     inputFields.add(timeField);
+    inputFields.add(embeddedRecipe);
     inputFields.add(addButton);
 
     add(inputFields, BorderLayout.NORTH);
@@ -155,22 +162,35 @@ public class StepEditor extends JComponent implements TextListener
         destinationUtensil = utensils.get(i);
       }
     }
-
+    if (on.startsWith("*")) {
+      try {
+      Recipe objectIngredient =  Recipe.read(fileName);
+      Step step = new Step(action, objectIngredient, sourceUtensil, destinationUtensil, details,
+          time);
+      steps.add(step);
+      System.out.println(step);
+      }
+      catch (IOException e1)
+      {
+        e1.printStackTrace();
+      }
+    }
+    else {
     Ingredient objectIngredient = null;
-
     for (int i = 0; i < ingredients.size(); i++)
     {
       if (on.equals(ingredients.get(i).getName()))
       {
         objectIngredient = ingredients.get(i);
       }
+      
     }
-
     Step step = new Step(action, objectIngredient, sourceUtensil, destinationUtensil, details,
         time);
     steps.add(step);
-    
     System.out.println(step);
+    }
+   
 
     updateDisplay();
 
@@ -262,7 +282,7 @@ public class StepEditor extends JComponent implements TextListener
   }
 
   /**
-   * updates the selectable "utensil" options. Should be called after loadUtensil is called on the
+   * updates the sele)ctable "utensil" options. Should be called after loadUtensil is called on the
    * corresponding UtensilEditor.
    */
   public void updateUtensil()
@@ -296,6 +316,22 @@ public class StepEditor extends JComponent implements TextListener
       else if (e.getActionCommand().equals(DELETE))
       {
         subject.delete();
+      }
+      else if (e.getActionCommand().equals("EmbeddedRecipe")) {
+        JFileChooser chooser = new JFileChooser(new File(CURRENT_DIRECTORY));
+        chooser.showOpenDialog(null);
+
+        fileName = chooser.getSelectedFile().getPath();
+        fileName = fileName.substring(0, fileName.indexOf(CURRENT_DIRECTORY));
+        try {
+        
+        String eRecipe = "*" + Recipe.read(fileName).getName();
+        onSelect.addItem(eRecipe);
+        }
+        catch (IOException e1)
+        {
+          e1.printStackTrace();
+        }
       }
     }
 
