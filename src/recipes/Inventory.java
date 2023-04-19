@@ -50,8 +50,9 @@ public class Inventory
   {
     return ingredients.size();
   }
-  
-  public List<Ingredient> getInventory() {
+
+  public List<Ingredient> getInventory()
+  {
     return ingredients;
   }
 
@@ -160,16 +161,20 @@ public class Inventory
    */
   public boolean reduceIngredient(final Ingredient reducingIngredient)
   {
-    for(Ingredient temp : ingredients)
+    for (Ingredient temp : ingredients)
     {
-      if (temp.getName().equalsIgnoreCase(reducingIngredient.getName())) {
-        double amount = temp.getAmount() - UnitConversion.convert(reducingIngredient.getName(),reducingIngredient.getUnit(), temp.getUnit(), reducingIngredient.getAmount());
-        if (amount > 0) {
-          Ingredient newIngredient = new Ingredient(temp.getName(), temp.getDetails(), amount, temp.getUnit(), temp.getCalories(), temp.getDensity());
+      if (temp.getName().equalsIgnoreCase(reducingIngredient.getName()))
+      {
+        double amount = temp.getAmount() - UnitConversion.convert(reducingIngredient.getName(),
+            reducingIngredient.getUnit(), temp.getUnit(), reducingIngredient.getAmount());
+        if (amount > 0)
+        {
+          Ingredient newIngredient = new Ingredient(temp.getName(), temp.getDetails(), amount,
+              temp.getUnit(), temp.getCalories(), temp.getDensity());
           ingredients.add(newIngredient);
         }
         ingredients.remove(temp);
-      return true;
+        return true;
       }
 
     }
@@ -179,4 +184,5 @@ public class Inventory
   public List<Ingredient> getIngredientList(){
     return ingredients;
   }
+
 }
