@@ -174,6 +174,10 @@ public class IngredientEditor extends JPanel
     {
       calories = NO_INPUT;
     }
+    catch (NullPointerException npe)
+    {
+      calories = NO_INPUT;
+    }
 
     try
     {
