@@ -56,3 +56,6 @@ KiLowBites Process Viewer	Visionneuse de processus KiLowBites	Visor de procesos 
 KiLowBites Unit Converter	Convertisseur d’unité KiLowBites	Convertidor de unidades KiLowBites
 KiLowBites Calorie Calculator	Calculatrice de calories KiLowBites	Calculadora de calorías KiLowBites
 Error Erreur Error
+Language	Langue	Idioma
+Save	sauvegarder	Salvar
+Restart the program for this change to take full effect.	Redémarrez le programme pour que cette modification prenne pleinement effet.	Reinicie el programa para que este cambio surta efecto.
