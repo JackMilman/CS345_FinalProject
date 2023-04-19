@@ -14,11 +14,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import branding.KitchIntelBorder;
 import config.Translator;
 import recipes.Ingredient;
+import recipes.NutritionInfo;
 import recipes.Unit;
 import utilities.SortLists;
 
@@ -28,7 +30,7 @@ import utilities.SortLists;
  * @author Josiah Leach, Meara Patterson, KitchIntel
  * @version 03.29.2023
  */
-public class IngredientEditor extends JComponent
+public class IngredientEditor extends JPanel
 {
 
   public static final Double NO_INPUT = -1.0; // Changed 4/13: Updated to Double and value to null.
@@ -86,6 +88,25 @@ public class IngredientEditor extends JComponent
 
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);
+    
+    addButton.addActionListener(new ActionListener()
+    {
+      @Override
+      public void actionPerformed(final ActionEvent evt)
+      {
+        try
+        {
+          NutritionInfo.addIngredient(nameField.getText(), 
+              Double.parseDouble(calorieField.getText()), 
+              Double.parseDouble(densityField.getText()));
+        }
+        catch (NumberFormatException nfe)
+        {
+          NutritionInfo.addIngredient(nameField.getText(), 
+              NO_INPUT, NO_INPUT);
+        }
+      }
+    });
 
     Container inputFields = new Container();
     inputFields.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -294,4 +315,5 @@ public class IngredientEditor extends JComponent
 
     updateTextArea();
   }
+  
 }

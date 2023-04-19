@@ -124,7 +124,10 @@ public class NutritionInfo
    */
   public static void addIngredient(final String name, final Double calories, final Double density)
   {
-    NUTRITION_MAP.put(name, new CalorieGram(calories, density));
+    if (!NUTRITION_MAP.containsKey(name))
+    {
+      NUTRITION_MAP.put(name, new CalorieGram(calories, density));
+    }
   }
 
   /**
