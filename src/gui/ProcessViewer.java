@@ -251,15 +251,15 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable {
 		for (int i = 0; i < h.length; i++) {
 			h[i] = String.format("%02d", i);
 		}
-		JComboBox<String> hours = new JComboBox<>(h);
+		final JComboBox<String> hours = new JComboBox<>(h);
 
 		String[] m = new String[60];
 		for (int i = 0; i < m.length; i++) {
 			m[i] = String.format("%02d", i);
 		}
-		JComboBox<String> minutes = new JComboBox<>(m);
+		final JComboBox<String> minutes = new JComboBox<>(m);
 		String[] amPm = { "", "AM", "PM" };
-		JComboBox<String> mornNight = new JComboBox<>(amPm);
+		final JComboBox<String> mornNight = new JComboBox<>(amPm);
 
 		// Creates an action listener for the plating time
 		ActionListener time = new ActionListener() {

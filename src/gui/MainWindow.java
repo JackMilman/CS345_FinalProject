@@ -122,6 +122,8 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     menuBar.add(configure);
     JMenuItem preferences = new JMenuItem(Translator.translate("Preferences"));
     configure.add(preferences);
+    preferences.addActionListener(controller);
+    preferences.setActionCommand("Preferences");
     JMenuItem shortcuts = new JMenuItem(Translator.translate("Shortcuts"));
     configure.add(shortcuts);
     JMenuItem nutrition = new JMenuItem(Translator.translate("Nutrition"));
@@ -137,6 +139,7 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     help.add(userGuide);
     userGuide.addActionListener(controller);
     userGuide.setActionCommand("User Guide");
+
     // add the company logo to the window
     // Josiah's changes:
     ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResource(Logo.path()));

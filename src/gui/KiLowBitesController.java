@@ -41,6 +41,8 @@ public class KiLowBitesController implements ActionListener
   public static final String RECIPEEXT = "rcp";
   public static final String MEALEXT = "mel";
   public static final String USERGUIDE = "User Guide";
+  public static final String PREFERENCES = "Preferences";
+
 
 
   private JFrame main;
@@ -151,6 +153,11 @@ public class KiLowBitesController implements ActionListener
         // TODO Auto-generated catch block
         e1.printStackTrace();
       }
+    }
+ // open calorie calculator
+    if (e.getActionCommand().equals(PREFERENCES))
+    {
+      new PreferencesGUI();
     }
 
   }
