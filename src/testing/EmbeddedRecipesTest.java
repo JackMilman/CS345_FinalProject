@@ -68,6 +68,8 @@ public class EmbeddedRecipesTest
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
     ingredients.add(new Ingredient("tomato", "sliced medium", 1, Unit.NONE,
         IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+    ingredients.add(new Ingredient("new ingredient", "sliced medium", 1, Unit.NONE,
+        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
     
     ArrayList<Utensil> utensils = new ArrayList<>();
     utensils.add(new Utensil("pot", "large"));
@@ -77,7 +79,7 @@ public class EmbeddedRecipesTest
     
     ArrayList<Step> steps = new ArrayList<>();
     steps.add(new Step("boil", ingredients.get(0), utensils.get(0), utensils.get(0), "", 10));
-    steps.add(new Step("Embedded Recipe", bananasFoster(), utensils.get(0), utensils.get(0), "", 10));
+    steps.add(new Step("Embedded Recipe*", bananasFoster(), utensils.get(0), utensils.get(0), "", 10));
     
     Recipe recipe = new LeafRecipe("Mac and Cheese Test", 2);
     recipe.addAllIngredients(ingredients);
