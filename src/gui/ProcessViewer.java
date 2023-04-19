@@ -57,6 +57,7 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
   private Inventory inventory;
   private String eRecipe;
   private JButton open = new JButton("Open");
+  private boolean containsEmbedded = false;
 
   /**
    * Recipe constructor.
@@ -182,7 +183,8 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
     int r = 0;
     for (Step item : steps)
     {
-      if (item.toString().startsWith("*")) {
+      if (item.toString().contains("*")) {
+        containsEmbedded = true;
         embeddedRecipes.addItem(item.toString());
       }
       stepData[r] = item.toString(false) + "";
@@ -350,7 +352,17 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
     p.setLayout(new BoxLayout(p, BoxLayout.PAGE_AXIS));
 
     JPanel temp = new JPanel();
-    temp.add(new JTextField(Translator.translate("Calories: ") + Math.round(calories * 10) / 10.0));
+    boolean missingCalVals = false;
+    for (Ingredient ing: ingredients) {
+      if (ing.getCalories() == null) {
+        missingCalVals = true;
+      }
+    }
+    String caloriesName = Translator.translate("Calories: ") + (Math.round(calories * 10) / 10.0);
+    if (missingCalVals) {
+      caloriesName = caloriesName + "**";
+    }
+    temp.add(new JTextField(caloriesName));
     if (inventory != null)
     {
       temp.add(setUpRemoveIngredients());
@@ -363,13 +375,13 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
     p.add(platingTime);
     return p;
   }
+  
   private JPanel setUpEmbeddedRecipesBox() {
     JPanel p = new JPanel();
     embeddedRecipes.addItemListener(new eRecipeComboBoxHandler());
     p.add(embeddedRecipes); 
     open.addActionListener(embeddedRecipes);;
     p.add(open);
-    
     
     return p;
   }
@@ -424,8 +436,18 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
 
     JPanel caloriesAndInventory = setUpCaloriesAndInventory(recipe.calculateCalories());
     caloriesAndInventory.setOpaque(false);
-    c.add(caloriesAndInventory, BorderLayout.SOUTH);
-    c.add(setUpEmbeddedRecipesBox(), BorderLayout.AFTER_LAST_LINE);
+    if (containsEmbedded) {
+      JPanel temp = new JPanel();
+      temp.setLayout(new BorderLayout());
+      JPanel embedded = setUpEmbeddedRecipesBox();
+      embedded.setOpaque(false);
+      temp.add(embedded, BorderLayout.NORTH);
+      temp.add(caloriesAndInventory, BorderLayout.SOUTH);
+      temp.setOpaque(false);
+      c.add(temp, BorderLayout.SOUTH);
+    } else {
+      c.add(caloriesAndInventory, BorderLayout.SOUTH);
+    }
 
     setSize(700, 450);
     pack();

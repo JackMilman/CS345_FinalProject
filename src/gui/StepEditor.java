@@ -282,7 +282,7 @@ public class StepEditor extends JComponent implements TextListener
   }
 
   /**
-   * updates the sele)ctable "utensil" options. Should be called after loadUtensil is called on the
+   * updates the selectable "utensil" options. Should be called after loadUtensil is called on the
    * corresponding UtensilEditor.
    */
   public void updateUtensil()
