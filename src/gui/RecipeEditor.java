@@ -18,6 +18,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import branding.KitchIntelColor;
 import config.Translator;
 import recipes.CompositeRecipe;
 import recipes.Ingredient;
@@ -114,8 +115,10 @@ public class RecipeEditor extends Editor
     mainEditors.add(utensilEditor, BorderLayout.NORTH);
     mainEditors.add(ingredientEditor, BorderLayout.CENTER);
     mainEditors.add(stepEditor, BorderLayout.SOUTH);
-
+    
     JPanel p = new JPanel();
+    p.setOpaque(true);
+    p.setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
     p.setLayout(new BorderLayout());
     p.add(mainEditors, BorderLayout.SOUTH);
 
@@ -133,18 +136,7 @@ public class RecipeEditor extends Editor
     icons.add(servingsField);
 
     p.add(icons, BorderLayout.NORTH);
-    p.setOpaque(false);
     JScrollPane scrollPane = new JScrollPane(p);
-    scrollPane.setOpaque(false);
-
-    // Container nameAndServings = new Container();
-    // nameAndServings.setLayout(new FlowLayout(FlowLayout.LEFT));
-    // nameAndServings.add(nameLabel);
-    // nameAndServings.add(nameField);
-    // nameAndServings.add(servesLabel);
-    // nameAndServings.add(servingsField);
-    //
-    // add(nameAndServings, BorderLayout.CENTER);
     
     add(scrollPane);
     setVisible(true);
@@ -333,11 +325,5 @@ public class RecipeEditor extends Editor
       updateButtons();
     }
 
-  }
-  public static void main(String[] args)
-  {
-    MainWindow main = new MainWindow();
-    RecipeEditor frame = new RecipeEditor(main);
-    frame.setVisible(true);
   }
 }

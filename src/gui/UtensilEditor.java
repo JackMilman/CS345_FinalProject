@@ -6,6 +6,7 @@ import java.awt.FlowLayout;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.TextEvent;
 import java.awt.event.TextListener;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,14 +53,17 @@ public class UtensilEditor extends JComponent
     setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Utensils")));
     utensils = new ArrayList<Utensil>();
 
-    UtensilEditorListener listener = new UtensilEditorListener(this);
+    UtensilEditorListener listener = new UtensilEditorListener();
 
     nameField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     detailField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
+    nameField.addActionListener(new UpdateListener());
 
     addButton = new JButton(Translator.translate(ADD));
     addButton.setActionCommand(RecipeEditor.UTENSIL_ADD_ACTION_COMMAND);
     addButton.addActionListener(listener);
+    
+    addButton.setEnabled(false);
 
     Container inputFields = new Container();
     inputFields.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -99,6 +103,8 @@ public class UtensilEditor extends JComponent
     SortLists.sortUtensils(utensils);
 
     updateText();
+    
+    addButton.setEnabled(false);
   }
 
   private void updateText()
@@ -189,26 +195,36 @@ public class UtensilEditor extends JComponent
 
   private class UtensilEditorListener implements ActionListener
   {
-    UtensilEditor editor;
-
-    private UtensilEditorListener(final UtensilEditor editor)
-    {
-      this.editor = editor;
-    }
 
     @Override
     public void actionPerformed(final ActionEvent e)
     {
       if (e.getActionCommand().equals(RecipeEditor.UTENSIL_ADD_ACTION_COMMAND))
       {
-        editor.add();
+        add();
       }
       else if (e.getActionCommand().equals(RecipeEditor.UTENSIL_DELETE_ACTION_COMMAND))
       {
-        editor.delete();
+        delete();
       }
     }
 
+  }
+  
+  private class UpdateListener implements ActionListener
+  {
+
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+      System.out.println("Action performed");
+      addButton.setEnabled(false);
+      if(nameField.getText().length() > 0)
+      {
+        addButton.setEnabled(true);
+      }    
+    }
+    
   }
 
   /**
