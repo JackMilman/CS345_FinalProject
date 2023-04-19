@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 import javax.swing.BoxLayout;
@@ -43,6 +44,12 @@ public class ShoppingListViewer extends KitchIntelJDialog
 
   private static final int DO_NOT_DISPLAY = -1;
   private static final long serialVersionUID = 1L;
+  // Unit Conversions is currently broken so this is a workaround
+  private static final Unit[] MASSES = {Unit.DRAM, Unit.OUNCE, Unit.GRAM, 
+      Unit.POUND};
+  private static final Unit[] VOLUMES = {Unit.PINCH, Unit.MILLILITER, 
+      Unit.TEASPOON, Unit.TABLESPOON, Unit.FLUID_OUNCE, Unit.CUP, Unit.PINT, 
+      Unit.QUART, Unit.GALLON};
 
   private Object obj;
   private JPanel contentPane;
@@ -154,7 +161,10 @@ public class ShoppingListViewer extends KitchIntelJDialog
   
   private void updateScrollAreaHelper()
   {
-    contentPane.add(scrollPane); 
+    if (scrollPane != null)
+    {
+      contentPane.add(scrollPane); 
+    }
     contentPane.setSize(getPreferredSize());
     if (scrollPane != null)
     {
@@ -288,11 +298,29 @@ public class ShoppingListViewer extends KitchIntelJDialog
       setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
 
       units = new JComboBox<>();
-      for (Unit unit : Unit.values())
+//      for (Unit unit : Unit.values())
+//      {
+//        units.addItem(unit.getName());
+//      }
+      if (Arrays.asList(MASSES).contains(ingredient.getUnit()))
       {
-        units.addItem(unit.getName());
+        for (Unit unit : MASSES)
+        {
+          units.addItem(unit.getName());
+        }
+      } 
+      else if (Arrays.asList(VOLUMES).contains(ingredient.getUnit()))
+      {
+        for (Unit unit : VOLUMES)
+        {
+          units.addItem(unit.getName());
+        }
       }
-      units.setSelectedItem(ingredient.getUnit());
+      else
+      {
+        units.addItem(ingredient.getUnit().getName());
+      }
+      units.setSelectedItem(ingredient.getUnit().getName());
       units.addActionListener(new ActionListener()
       {
         public void actionPerformed(final ActionEvent e)
@@ -323,32 +351,6 @@ public class ShoppingListViewer extends KitchIntelJDialog
 
       updateShoppingListIngredient();
 
-    }
-    
-    private double updateIngredientAmount(final Ingredient ingredient, final String newUnit)
-    {
-      double newAmount = -1;
-      Unit unit = Unit.parseUnit(newUnit);
-      if (obj instanceof Recipe)
-      {
-        Recipe recipe = (Recipe) obj;
-        double convertedAmount = UnitConversion.convert(ingredient.getName(), ingredient.getUnit(), 
-            unit, ingredient.getAmount());
-        newAmount = (double) numPeople / (double) recipe.getServings() * convertedAmount;
-      }
-      else if (obj instanceof Meal)
-      {
-        Meal meal = (Meal) obj;
-        for (Recipe recipe : meal.getRecipes())
-        {
-          if (recipe.getIngredients().contains(ingredient))
-          {
-            // not good
-            newAmount = (double) numPeople / (double) recipe.getServings() * ingredient.getAmount();
-          }
-        }
-      }
-      return newAmount;
     }
 
     private void updateShoppingListIngredient()

@@ -31,8 +31,9 @@ import utilities.SortLists;
 public class IngredientEditor extends JComponent
 {
 
-  public static final Double NO_INPUT = null; // Changed 4/13: Updated to Double and value to null.
+  public static final Double NO_INPUT = -1.0; // Changed 4/13: Updated to Double and value to null.
                                               // -Jack
+                                              // Changed back - Meara
   private static final String[] UNITS = new String[] {"", "Dram", "Ounce", "Gram", "Pound", "Pinch",
       "Teaspoon", "Tablespoon", "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon", "Individual"};
   private static final String ADD = "Add";
