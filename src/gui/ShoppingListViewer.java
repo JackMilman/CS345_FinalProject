@@ -345,7 +345,14 @@ public class ShoppingListViewer extends KitchIntelJDialog
         public void actionPerformed(final ActionEvent e)
         {
           Inventory inventory = Inventory.createInstance();
-          inventory.addIngredient(ingredient);
+          if (checkBox.isSelected())
+          {
+            inventory.addIngredient(ingredient);
+          }
+          else
+          {
+            inventory.reduceIngredient(ingredient);
+          }
         }
       });
 
