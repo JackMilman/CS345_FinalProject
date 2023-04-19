@@ -126,6 +126,8 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     preferences.setActionCommand("Preferences");
     JMenuItem shortcuts = new JMenuItem(Translator.translate("Shortcuts"));
     configure.add(shortcuts);
+    shortcuts.addActionListener(controller);
+    shortcuts.setActionCommand("Shortcuts");
     JMenuItem nutrition = new JMenuItem(Translator.translate("Nutrition"));
     configure.add(nutrition);
 

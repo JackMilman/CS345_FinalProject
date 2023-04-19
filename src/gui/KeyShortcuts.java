@@ -75,11 +75,4 @@ public class KeyShortcuts extends JFrame
     // check if the shortcut is valid (e.g. "Ctrl + Q")
     return shortcut.matches("^[a-zA-Z0-9]+( \\+ [a-zA-Z0-9]+)*$");
   }
-
-  // public static void main(String[] args)
-  // {
-  // KeyShortcuts gui = new KeyShortcuts();
-  // String shortcutKeys = gui.getShortcutKeys();
-  // System.out.println("Shortcut keys: " + shortcutKeys);
-  // }
 }

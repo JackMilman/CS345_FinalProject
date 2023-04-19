@@ -43,8 +43,6 @@ public class KiLowBitesController implements ActionListener
   public static final String USERGUIDE = "User Guide";
   public static final String PREFERENCES = "Preferences";
 
-
-
   private JFrame main;
   private Recipe recipe;
   private Meal meal;
@@ -127,7 +125,7 @@ public class KiLowBitesController implements ActionListener
         new ProcessViewer(meal);
       }
     }
-    
+
     // Open InventoryViewer
     if (e.getActionCommand().equals(INVENTORY))
     {
@@ -154,10 +152,15 @@ public class KiLowBitesController implements ActionListener
         e1.printStackTrace();
       }
     }
- // open calorie calculator
+    // open preferences
     if (e.getActionCommand().equals(PREFERENCES))
     {
       new PreferencesGUI();
+    }
+    // open shortcuts
+    if (e.getActionCommand().equals("Shortcuts"))
+    {
+      new KeyShortcuts();
     }
 
   }
