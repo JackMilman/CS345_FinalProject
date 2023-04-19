@@ -113,6 +113,11 @@ public class InventoryWindow extends KitchIntelJFrame
   {
     Container infoContainer = new Container();
     infoContainer.setLayout(new BorderLayout());
+    inventoryPanel.setText("");
+    for (Ingredient info : inventory.getIngredientList())
+//      inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
+//          + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
+      inventoryPanel.append(info.toString() + "\n");
     infoContainer.add(scrollPane, BorderLayout.WEST);
     return infoContainer;
   }
@@ -151,8 +156,9 @@ public class InventoryWindow extends KitchIntelJFrame
       addButton.setEnabled(false);
       subButton.setEnabled(false);
       for (Ingredient info : inventory.getIngredientList())
-        inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
-            + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
+//        inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
+//            + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
+        inventoryPanel.append(info.toString() + "\n");
       amountItems.setText(String.format("%d", inventory.size()));
       amountItems.setEnabled(true);
     }
@@ -177,8 +183,9 @@ public class InventoryWindow extends KitchIntelJFrame
       addButton.setEnabled(false);
       subButton.setEnabled(false);
       for (Ingredient info : inventory.getIngredientList())
-        inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
-            + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
+//        inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
+//            + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
+        inventoryPanel.append(info.toString() + "\n");
 
     }
   }
