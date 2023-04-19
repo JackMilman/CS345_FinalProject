@@ -51,11 +51,6 @@ public class Inventory
     return ingredients.size();
   }
 
-  public List<Ingredient> getInventory()
-  {
-    return ingredients;
-  }
-
   /**
    * Gets an ingredient by searching for an ingredient in the list with the same name (such as
    * "Potato") and details (such as "Peeled"). If the ingredient is not present in the inventory,
