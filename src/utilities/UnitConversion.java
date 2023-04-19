@@ -132,24 +132,26 @@ public class UnitConversion
       return 0;
 
   }
-  @SuppressWarnings("unlikely-arg-type")
-  public static boolean isMass(String unit)
+
+  public static boolean isMass(final String unit)
   {
+    if(unit == null) return false;
     Set<Unit> keyValues = massConversions.keySet();
     for (Unit key : keyValues)
     {
-      if (unit.equals(key))
+      if (unit.equalsIgnoreCase(key.getName()))
         return true;
     }
     return false;
   }
-  @SuppressWarnings("unlikely-arg-type")
-  public static boolean isVolume(String unit)
+
+  public static boolean isVolume(final String unit)
   {
+    if(unit == null) return false;
     Set<Unit> keyValues = volumeConversions.keySet();
     for (Unit key : keyValues)
     {
-      if (unit.equals(key))
+      if (unit.equalsIgnoreCase(key.getName()))
         return true;
     }
     return false;

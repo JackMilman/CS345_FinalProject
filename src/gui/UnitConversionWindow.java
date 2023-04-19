@@ -147,13 +147,21 @@ public class UnitConversionWindow extends JFrame
     pack();
     setResizable(false);
   }
+  
+  private void updateIngredientAvailability()
+  {
+    ingredientBox.setEnabled((UnitConversion.isMass(fromUnit) && UnitConversion.isVolume(toUnit))
+          || (UnitConversion.isVolume(fromUnit) && UnitConversion.isMass(toUnit)));
+    
+  }
 
   private class FromComboBoxHandler implements ItemListener
   {
-
     public void itemStateChanged(ItemEvent e)
     {
       fromUnit = (String) e.getItem();
+      updateIngredientAvailability();
+      System.out.println("from");
     }
   }
 
@@ -163,11 +171,8 @@ public class UnitConversionWindow extends JFrame
     public void itemStateChanged(ItemEvent e)
     {
       toUnit = (String) e.getItem();
-      if ((UnitConversion.isMass(fromUnit) && UnitConversion.isVolume(toUnit))
-          || (UnitConversion.isVolume(fromUnit) && UnitConversion.isMass(toUnit)))
-      {
-        ingredientBox.setEnabled(true);
-      }
+      updateIngredientAvailability();
+      System.out.println("to");
     }
   }
 
