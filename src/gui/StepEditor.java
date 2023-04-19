@@ -78,6 +78,7 @@ public class StepEditor extends JComponent implements TextListener
     this.steps = new ArrayList<Step>();
 
     StepEditorListener listener = new StepEditorListener(this);
+    EnableListener enabler = new EnableListener();
 
     actionSelect = new JComboBox<String>(ACTIONS);
     onSelect = new JComboBox<String>(new String[] {BLANK});
@@ -91,6 +92,13 @@ public class StepEditor extends JComponent implements TextListener
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);
     embeddedRecipe.addActionListener(listener);
+    
+    actionSelect.addActionListener(enabler);
+    onSelect.addActionListener(enabler);
+    utensilSelect.addActionListener(enabler);
+    timeField.addActionListener(enabler);
+    
+    addButton.setEnabled(false);
 
     Container inputFields = new Container();
     inputFields.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -327,6 +335,17 @@ public class StepEditor extends JComponent implements TextListener
       }
     }
 
+  }
+  
+  private class EnableListener implements ActionListener
+  {
+    @Override
+    public void actionPerformed(final ActionEvent e)
+    {
+      boolean filled = onSelect.getSelectedIndex() != 0 && actionSelect.getSelectedIndex() != 0 
+          && utensilSelect.getSelectedIndex() != 0 && timeField.getText().length() > 0;
+      addButton.setEnabled(filled);
+    }
   }
 
   @Override

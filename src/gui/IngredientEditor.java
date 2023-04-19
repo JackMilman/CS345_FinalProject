@@ -67,9 +67,10 @@ public class IngredientEditor extends JPanel
     setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Ingredients")));
 
     IngredientEditorListener listener = new IngredientEditorListener(this);
+    EnableUpdater addListener = new EnableUpdater();
 
     addButton = new JButton(Translator.translate(ADD));
-    deleteButton = new JButton(Translator.translate(DELETE));
+    deleteButton = new JButton(Translator.translate(DELETE));    
 
     addButton.setActionCommand(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND);
     deleteButton.setActionCommand(RecipeEditor.INGREDIENT_DELETE_ACTION_COMMAND);
@@ -81,6 +82,13 @@ public class IngredientEditor extends JPanel
     densityField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
 
     unitSelect = new JComboBox<String>(UNITS);
+    
+    nameField.addActionListener(addListener);
+    detailField.addActionListener(addListener);
+    amountField.addActionListener(addListener);
+    calorieField.addActionListener(addListener);
+    densityField.addActionListener(addListener);
+    unitSelect.addActionListener(addListener);
 
     ingredients = new ArrayList<Ingredient>();
 
@@ -88,6 +96,10 @@ public class IngredientEditor extends JPanel
 
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);
+    
+    calorieField.setEnabled(false);
+    densityField.setEnabled(false);
+    addButton.setEnabled(false);
     
     addButton.addActionListener(new ActionListener()
     {
@@ -120,7 +132,7 @@ public class IngredientEditor extends JPanel
     inputFields.add(unitSelect);
     inputFields.add(new JLabel(Translator.translate("Calories") + ":"));
     inputFields.add(calorieField);
-    inputFields.add(new JLabel(Translator.translate("Density") + ":"));
+    inputFields.add(new JLabel(Translator.translate("g/mL") + ":"));
     inputFields.add(densityField);
     inputFields.add(addButton);
 
@@ -132,6 +144,7 @@ public class IngredientEditor extends JPanel
     add(ingredientDisplay, BorderLayout.CENTER);
 
     setVisible(true);
+    setOpaque(false);
   }
 
   private void add()
@@ -289,6 +302,43 @@ public class IngredientEditor extends JPanel
 
     }
 
+  }
+  
+  private class EnableUpdater implements ActionListener
+  {
+    @Override
+    public void actionPerformed(final ActionEvent e)
+    {
+      if(NutritionInfo.contains(nameField.getText()) || nameField.getText().equals(""))
+      {
+        calorieField.setEnabled(false);
+        densityField.setEnabled(false);
+        calorieField.setText("");
+        densityField.setText("");
+      }
+      else
+      {
+        calorieField.setEnabled(true);
+        densityField.setEnabled(true);
+      }
+      
+      if(nameField.getText().length() == 0 || amountField.getText().length() == 0 
+          || unitSelect.getSelectedIndex() == 0)
+      {
+        addButton.setEnabled(false);
+        return;
+      }
+      
+      if(NutritionInfo.contains(nameField.getText()))
+      {
+        addButton.setEnabled(true);
+      }
+      else
+      {
+        boolean filled = calorieField.getText().length() > 0 && densityField.getText().length() > 0;
+        addButton.setEnabled(filled);
+      }
+    }
   }
 
   /**
