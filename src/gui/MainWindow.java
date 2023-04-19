@@ -61,11 +61,6 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
 
     JMenu edit = new JMenu(Translator.translate("Edit"));
     menuBar.add(edit);
-    // Ingredient: An IngredientEditor is opened
-    JMenuItem ingredient = new JMenuItem(Translator.translate(KiLowBitesController.INGREDIENT));
-    ingredient.addActionListener(controller);
-    ingredient.setActionCommand(KiLowBitesController.INGREDIENT);
-    edit.add(ingredient);
     // Recipe: A RecipeEditor is opened
     JMenuItem recipe = new JMenuItem(Translator.translate(KiLowBitesController.RECIPE));
     recipe.addActionListener(controller);

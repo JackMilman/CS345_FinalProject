@@ -70,12 +70,6 @@ public class KiLowBitesController implements ActionListener
     {
       System.exit(0);
     }
-    
-    // Open IngredientEditor
-    if (e.getActionCommand().equals(INGREDIENT))
-    {
-      new IngredientEditor(); // currently doesn't work
-    }
 
     // Open RecipeEditor
     if (e.getActionCommand().equals(RECIPE))
