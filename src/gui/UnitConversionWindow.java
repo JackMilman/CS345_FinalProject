@@ -161,7 +161,6 @@ public class UnitConversionWindow extends JFrame
     {
       fromUnit = (String) e.getItem();
       updateIngredientAvailability();
-      System.out.println("from");
     }
   }
 
@@ -172,7 +171,6 @@ public class UnitConversionWindow extends JFrame
     {
       toUnit = (String) e.getItem();
       updateIngredientAvailability();
-      System.out.println("to");
     }
   }
 
