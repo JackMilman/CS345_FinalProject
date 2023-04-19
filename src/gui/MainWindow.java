@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.*;
@@ -65,6 +66,7 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     JMenuItem recipe = new JMenuItem(Translator.translate(KiLowBitesController.RECIPE));
     recipe.addActionListener(controller);
     recipe.setActionCommand(KiLowBitesController.RECIPE);
+    //recipe.addKeyListener(keyListener);
     edit.add(recipe);
     // Meal: A MealEditor is opened
     JMenuItem meal = new JMenuItem(Translator.translate(KiLowBitesController.MEAL));
