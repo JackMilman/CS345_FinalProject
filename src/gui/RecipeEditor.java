@@ -334,10 +334,4 @@ public class RecipeEditor extends Editor
     }
 
   }
-  public static void main(String[] args)
-  {
-    MainWindow main = new MainWindow();
-    RecipeEditor frame = new RecipeEditor(main);
-    frame.setVisible(true);
-  }
 }
