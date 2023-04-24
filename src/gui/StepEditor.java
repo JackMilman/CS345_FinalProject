@@ -91,10 +91,10 @@ public class StepEditor extends JComponent implements TextListener
 
     addButton = new JButton(Translator.translate(ADD));
     deleteButton = new JButton(Translator.translate(DELETE));
-    embeddedRecipe= new JButton("EmbeddedRecipe");
+    //embeddedRecipe= new JButton("EmbeddedRecipe");
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);
-    embeddedRecipe.addActionListener(listener);
+    //embeddedRecipe.addActionListener(listener);
     
     actionSelect.addActionListener(enabler);
     onSelect.addActionListener(enabler);
@@ -115,7 +115,7 @@ public class StepEditor extends JComponent implements TextListener
     inputFields.add(detailField);
     inputFields.add(new JLabel(Translator.translate("Minutes") + ":"));
     inputFields.add(timeField);
-    inputFields.add(embeddedRecipe);
+    //inputFields.add(embeddedRecipe);
     inputFields.add(addButton);
 
     add(inputFields, BorderLayout.NORTH);

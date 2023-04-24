@@ -126,23 +126,23 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     configure.add(preferences);
     preferences.addActionListener(controller);
     preferences.setActionCommand("Preferences");
-    JMenuItem shortcuts = new JMenuItem(Translator.translate("Shortcuts"));
-    configure.add(shortcuts);
-    shortcuts.addActionListener(controller);
-    shortcuts.setActionCommand("Shortcuts");
-    JMenuItem nutrition = new JMenuItem(Translator.translate("Nutrition"));
-    configure.add(nutrition);
+//    JMenuItem shortcuts = new JMenuItem(Translator.translate("Shortcuts"));
+//    configure.add(shortcuts);
+//    shortcuts.addActionListener(controller);
+//    shortcuts.setActionCommand("Shortcuts");
+//    JMenuItem nutrition = new JMenuItem(Translator.translate("Nutrition"));
+//    configure.add(nutrition);
 
-    // Help items
-    JMenu help = new JMenu(Translator.translate("Help"));
-    menuBar.add(help);
-    // JMenuItem about = new JMenuItem(Translator.translate("About"));
-    // help.add(about);
-    // Open the user guide in the default browser
-    JMenuItem userGuide = new JMenuItem(Translator.translate("User Guide"));
-    help.add(userGuide);
-    userGuide.addActionListener(controller);
-    userGuide.setActionCommand("User Guide");
+//    // Help items
+//    JMenu help = new JMenu(Translator.translate("Help"));
+//    menuBar.add(help);
+//    // JMenuItem about = new JMenuItem(Translator.translate("About"));
+//    // help.add(about);
+//    // Open the user guide in the default browser
+//    JMenuItem userGuide = new JMenuItem(Translator.translate("User Guide"));
+//    help.add(userGuide);
+//    userGuide.addActionListener(controller);
+//    userGuide.setActionCommand("User Guide");
 
     // add the company logo to the window
     // Josiah's changes:

@@ -3,6 +3,7 @@ package recipes;
 import java.util.ArrayList;
 import java.util.List;
 
+import gui.IngredientEditor;
 import utilities.UnitConversion;
 
 /**
@@ -123,6 +124,7 @@ public class Inventory
       String details = presentIngredient.getDetails();
       Unit presentUnit = presentIngredient.getUnit();
       double presentAmount = presentIngredient.getAmount();
+      double presentPrice = presentIngredient.getPrice();
 
       // Get the amount and the units of the ingredient so we can convert the amount in the one
       // we're adding to that unit.
@@ -133,8 +135,8 @@ public class Inventory
       addingAmount = UnitConversion.convert(name, addingUnit, presentUnit, addingAmount);
       double endAmount = presentAmount + addingAmount;
 
-      Ingredient convertedAndSummed = new Ingredient(name, details, endAmount, presentUnit, null,
-          null);
+      Ingredient convertedAndSummed = new Ingredient(name, details, endAmount, presentUnit, 
+          IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT, presentPrice);
       ingredients.set(index, convertedAndSummed);
       return true;
     }
@@ -165,7 +167,7 @@ public class Inventory
         if (amount > 0)
         {
           Ingredient newIngredient = new Ingredient(temp.getName(), temp.getDetails(), amount,
-              temp.getUnit(), temp.getCalories(), temp.getDensity());
+              temp.getUnit(), temp.getCalories(), temp.getDensity(), temp.getPrice());
           ingredients.add(newIngredient);
         }
         ingredients.remove(temp);

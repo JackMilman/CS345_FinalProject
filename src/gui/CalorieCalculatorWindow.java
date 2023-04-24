@@ -105,7 +105,16 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame
 
   private String getSelectedIngredients()
   {
-    return (String) ingredients.getSelectedItem();
+   String s = (String)ingredients.getSelectedItem();
+   if (NutritionInfo.contains(s.toLowerCase())) {
+     if (NutritionInfo.getCalPerGram(s) == IngredientEditor.NO_INPUT)
+     {
+       return null;
+     }
+     return (String) ingredients.getSelectedItem();
+   }
+   
+   return null;
   }
 
   private String getSelectedUnits()
@@ -197,11 +206,16 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame
       {
         try
         {
-          double amountOfIngredients = Double.parseDouble(enteredText);
-          Ingredient temp = new Ingredient(selectedIngredient, "", amountOfIngredients,
-              selectedUnits, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
-          calorie.setText(Translator.translate("Calories") + ": "
-              + (Math.round(temp.getCaloriesPerGram() * 10) / 10.0));
+          if (selectedIngredient == null) {
+            calorie.setText(Translator.translate("Calories") + ": "
+                + "Unsupported Ingredient");
+          } else {
+            double amountOfIngredients = Double.parseDouble(enteredText);
+            Ingredient temp = new Ingredient(selectedIngredient, "", amountOfIngredients,
+                selectedUnits, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT, 0);
+            calorie.setText(Translator.translate("Calories") + ": "
+                + (Math.round(temp.getCaloriesPerGram() * 10) / 10.0));
+          }
         }
         catch (NumberFormatException exc)
         {

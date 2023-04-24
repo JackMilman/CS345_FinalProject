@@ -8,41 +8,41 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.TextListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 
 import branding.KitchIntelBorder;
 import config.Translator;
 import recipes.Ingredient;
 import recipes.NutritionInfo;
 import recipes.Unit;
-import utilities.SortLists;
 
-/**
- * A class for the ingredient editor component of the meal editor.
- * 
- * @author Josiah Leach, Meara Patterson, KitchIntel
- * @version 03.29.2023
- */
-public class IngredientEditor extends JPanel
+public class SubstituteEditor extends JPanel
 {
+  /**
+   * A class for the ingredient editor component of the meal editor.
+   * 
+   * @author Josiah Leach, Meara Patterson, KitchIntel
+   * @version 03.29.2023
+   */
 
-  public static final Double NO_INPUT = -1.0; // Changed 4/13: Updated to Double and value to null.
+  public static final Double NO_INPUT = null; // Changed 4/13: Updated to Double and value to null.
                                               // -Jack
   private static final String[] UNITS = new String[] {"", "Dram", "Ounce", "Gram", "Pound", "Pinch",
       "Teaspoon", "Tablespoon", "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon", "Individual"};
   private static final String ADD = "Add";
   private static final String DELETE = "Delete";
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = 1L;
 
   private JTextField nameField;
@@ -50,27 +50,28 @@ public class IngredientEditor extends JPanel
   private JTextField amountField;
   private JTextField calorieField;
   private JTextField densityField;
-  private JTextField priceField;
-  private TextArea ingredientDisplay;
+  private JList<Ingredient> substituteDisplay;
+  private DefaultListModel<Ingredient> listModel;
   private JButton addButton, deleteButton;
   private final JComboBox<String> unitSelect;
+  private final JComboBox<Ingredient> substituteSelect;
 
-  private List<Ingredient> ingredients;
+  private HashMap<Ingredient, List<Ingredient>> substitutes;
 
   /**
-   * 
-   */
-  public IngredientEditor()
+     * 
+     */
+  public SubstituteEditor()
   {
     super();
     setLayout(new BorderLayout());
-    setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Ingredients")));
+    setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Substitutes")));
 
-    IngredientEditorListener listener = new IngredientEditorListener(this);
+    SubstituteEditorListener listener = new SubstituteEditorListener(this);
     EnableUpdater addListener = new EnableUpdater();
 
     addButton = new JButton(Translator.translate(ADD));
-    deleteButton = new JButton(Translator.translate(DELETE));    
+    deleteButton = new JButton(Translator.translate(DELETE));
 
     addButton.setActionCommand(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND);
     deleteButton.setActionCommand(RecipeEditor.INGREDIENT_DELETE_ACTION_COMMAND);
@@ -80,10 +81,10 @@ public class IngredientEditor extends JPanel
     amountField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     calorieField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     densityField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
-    priceField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
 
     unitSelect = new JComboBox<String>(UNITS);
-    
+    substituteSelect = new JComboBox<Ingredient>();
+
     nameField.addActionListener(addListener);
     detailField.addActionListener(addListener);
     amountField.addActionListener(addListener);
@@ -91,17 +92,20 @@ public class IngredientEditor extends JPanel
     densityField.addActionListener(addListener);
     unitSelect.addActionListener(addListener);
 
-    ingredients = new ArrayList<Ingredient>();
+    substitutes = new HashMap<Ingredient, List<Ingredient>>();
 
-    ingredientDisplay = new TextArea(0, 0);
+    listModel = new DefaultListModel<Ingredient>();
+    substituteDisplay = new JList<Ingredient>(listModel);
+    substituteDisplay.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+    substituteDisplay.setLayoutOrientation(JList.VERTICAL_WRAP);
 
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);
-    
+
     calorieField.setEnabled(false);
     densityField.setEnabled(false);
     addButton.setEnabled(false);
-    
+
     addButton.addActionListener(new ActionListener()
     {
       @Override
@@ -109,14 +113,13 @@ public class IngredientEditor extends JPanel
       {
         try
         {
-          NutritionInfo.addIngredient(nameField.getText(), 
-              Double.parseDouble(calorieField.getText()), 
+          NutritionInfo.addIngredient(nameField.getText(),
+              Double.parseDouble(calorieField.getText()),
               Double.parseDouble(densityField.getText()));
         }
         catch (NumberFormatException nfe)
         {
-          NutritionInfo.addIngredient(nameField.getText(), 
-              NO_INPUT, NO_INPUT);
+          NutritionInfo.addIngredient(nameField.getText(), NO_INPUT, NO_INPUT);
         }
       }
     });
@@ -131,8 +134,8 @@ public class IngredientEditor extends JPanel
     inputFields.add(amountField);
     inputFields.add(new JLabel(Translator.translate("Units") + ":"));
     inputFields.add(unitSelect);
-    inputFields.add(new JLabel(Translator.translate("Price") + ": $"));
-    inputFields.add(priceField);
+    inputFields.add(new JLabel(Translator.translate("Substitute") + ":"));
+    inputFields.add(substituteSelect);
     inputFields.add(new JLabel(Translator.translate("Calories") + ":"));
     inputFields.add(calorieField);
     inputFields.add(new JLabel(Translator.translate("g/mL") + ":"));
@@ -143,8 +146,7 @@ public class IngredientEditor extends JPanel
 
     add(deleteButton, BorderLayout.EAST);
 
-    ingredientDisplay.setEditable(false);
-    add(ingredientDisplay, BorderLayout.CENTER);
+    add(substituteDisplay, BorderLayout.CENTER);
 
     setVisible(true);
     setOpaque(false);
@@ -155,10 +157,10 @@ public class IngredientEditor extends JPanel
     String name = nameField.getText();
     String details = detailField.getText();
     String unit = unitSelect.getSelectedItem().toString();
+    Ingredient substitute = (Ingredient) substituteSelect.getSelectedItem();
     double amount;
     double calories;
     double density;
-    double price;
 
     try
     {
@@ -168,15 +170,6 @@ public class IngredientEditor extends JPanel
     {
       return;
     }
-    
-    try
-    {
-      price = Double.valueOf(priceField.getText());
-    }
-    catch (NumberFormatException nfe)
-    {
-      price = 0;
-    }
 
     // User is allowed to not input calories or density.
     // If they don't, those values are set to NO_INPUT
@@ -185,10 +178,6 @@ public class IngredientEditor extends JPanel
       calories = Double.valueOf(calorieField.getText());
     }
     catch (NumberFormatException nfe)
-    {
-      calories = NO_INPUT;
-    }
-    catch (NullPointerException npe)
     {
       calories = NO_INPUT;
     }
@@ -205,107 +194,61 @@ public class IngredientEditor extends JPanel
     {
       density = NO_INPUT;
     }
-    
 
     if (name.equals("") || unit.equals(""))
       return;
 
-    Ingredient ingredient = new Ingredient(name, details, amount, Unit.parseUnit(unit), 
-        calories, density, price);
-    ingredients.add(ingredient);
-
-    SortLists.sortIngredients(ingredients);
+    Ingredient ingredient = new Ingredient(name, details, amount, Unit.parseUnit(unit), calories,
+        density);
+    
+    if (substitutes.containsKey(substitute)) {
+      substitutes.get(substitute).add(ingredient);
+    } else {
+      List<Ingredient> newList = new ArrayList<Ingredient>();
+      newList.add(ingredient);
+      substitutes.put(substitute, newList);
+    }
 
     nameField.setText("");
     detailField.setText("");
     unitSelect.setSelectedIndex(0);
+    substituteSelect.setSelectedIndex(0);
     amountField.setText("");
-    priceField.setText("");
     calorieField.setText("");
     densityField.setText("");
 
-    updateTextArea();
+    updateSubstitutes();
   }
 
   private void delete()
   {
-    if (ingredients.size() == 0)
-      return;
+    int index = listModel.indexOf(substituteDisplay.getSelectedValue());
+    Ingredient substitute = (Ingredient) substituteDisplay.getSelectedValue();
+    substitutes.remove(substitute);
+    
+    listModel.remove(index);
+  }
 
-    int selectionStart = ingredientDisplay.getSelectionStart();
-    int linesSelected = 0;
-    int linesSkipped = 0;
-    String selectedText = ingredientDisplay.getSelectedText();
-
-    if (selectedText == null || selectedText.length() < 0)
-      return;
-
-    char[] characters = selectedText.toCharArray();
-
-    // counts the number of newline characters to determine the number of lines selected
-    for (char character : characters)
-    {
-      if (character == '\n')
-      {
-        linesSelected++;
+  HashMap<Ingredient, List<Ingredient>> getSubstitutes()
+  {
+    return substitutes;
+  }
+  
+  private void updateSubstitutes() {
+    substituteDisplay.removeAll();
+    
+    for (Ingredient key : substitutes.keySet()) {
+      for (Ingredient substitute : substitutes.get(key)) {
+        listModel.addElement(substitute);
       }
     }
-
-    // if the last selected character isn't a newline character, then there is one uncounted line.
-    if (characters[characters.length - 1] != '\n')
-      linesSelected++;
-
-    String skipped = ingredientDisplay.getText().substring(0, selectionStart);
-
-    char[] skippedChars = skipped.toCharArray();
-
-    for (char skippedChar : skippedChars)
-    {
-      if (skippedChar == '\n')
-        linesSkipped++;
-    }
-
-    for (int i = 0; i < linesSelected; i++)
-    {
-      ingredients.remove(linesSkipped);
-    }
-
-    updateTextArea();
   }
 
-  private void updateTextArea()
+  private class SubstituteEditorListener implements ActionListener
   {
-    String text = "";
+    private final SubstituteEditor subject;
 
-    for (Ingredient ingredient : ingredients)
-    {
-      text += String.format("%s\n", ingredient.toString());
-    }
-
-    ingredientDisplay.setText(text);
-  }
-
-  List<Ingredient> getIngredients()
-  {
-    return ingredients;
-  }
-
-  /**
-   * Adds a text listener to the text area of the ingredient editor.
-   * 
-   * @param listener
-   *          the text listener to add to the display text area.
-   */
-  public void addTextListener(final TextListener listener)
-  {
-    ingredientDisplay.addTextListener(listener);
-  }
-
-  private class IngredientEditorListener implements ActionListener
-  {
-    private final IngredientEditor subject;
-
-    IngredientEditorListener(final IngredientEditor subject)
+    SubstituteEditorListener(final SubstituteEditor subject)
     {
       this.subject = subject;
     }
@@ -325,13 +268,13 @@ public class IngredientEditor extends JPanel
     }
 
   }
-  
+
   private class EnableUpdater implements ActionListener
   {
     @Override
     public void actionPerformed(final ActionEvent e)
     {
-      if(NutritionInfo.contains(nameField.getText()) || nameField.getText().equals(""))
+      if (NutritionInfo.contains(nameField.getText()) || nameField.getText().equals(""))
       {
         calorieField.setEnabled(false);
         densityField.setEnabled(false);
@@ -343,8 +286,8 @@ public class IngredientEditor extends JPanel
         calorieField.setEnabled(true);
         densityField.setEnabled(true);
       }
-      
-      if(nameField.getText().length() == 0 || amountField.getText().length() == 0 
+
+      if (nameField.getText().length() == 0 || amountField.getText().length() == 0
           || unitSelect.getSelectedIndex() == 0)
       {
         addButton.setEnabled(false);
@@ -354,17 +297,18 @@ public class IngredientEditor extends JPanel
       {
         addButton.setEnabled(true);
       }
-      
-      if(NutritionInfo.contains(nameField.getText()))
+
+      if (NutritionInfo.contains(nameField.getText()))
       {
         addButton.setEnabled(true);
       }
       // You can input an ingredient without giving the calorie and density
-//      else
-//      {
-//        boolean filled = calorieField.getText().length() > 0 && densityField.getText().length() > 0;
-//        addButton.setEnabled(filled);
-//      }
+      // else
+      // {
+      // boolean filled = calorieField.getText().length() > 0 && densityField.getText().length() >
+      // 0;
+      // addButton.setEnabled(filled);
+      // }
     }
   }
 
@@ -380,17 +324,23 @@ public class IngredientEditor extends JPanel
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);
   }
+  
+  void loadIngredients(List<Ingredient> ingredients) {
+    for (Ingredient item : ingredients) {
+      substituteSelect.addItem(item);
+    }
+  }
 
-  void loadIngredients(final List<Ingredient> newIngredients)
+  void loadSubstitutes(final HashMap<Ingredient, List<Ingredient>> map)
   {
-    this.ingredients.clear();
+    this.substitutes.clear();
 
-    for (Ingredient ingredient : newIngredients)
+    for (Ingredient key : map.keySet())
     {
-      ingredients.add(ingredient);
+      substitutes.put(key, map.get(key));
     }
 
-    updateTextArea();
+    updateSubstitutes();
   }
-  
+
 }
