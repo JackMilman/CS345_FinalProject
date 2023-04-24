@@ -50,6 +50,7 @@ public class IngredientEditor extends JPanel
   private JTextField amountField;
   private JTextField calorieField;
   private JTextField densityField;
+  private JTextField priceField;
   private TextArea ingredientDisplay;
   private JButton addButton, deleteButton;
   private final JComboBox<String> unitSelect;
@@ -79,6 +80,7 @@ public class IngredientEditor extends JPanel
     amountField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     calorieField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     densityField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
+    priceField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
 
     unitSelect = new JComboBox<String>(UNITS);
     

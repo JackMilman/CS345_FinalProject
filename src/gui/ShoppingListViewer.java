@@ -26,6 +26,12 @@ import recipes.Recipe;
 import recipes.Unit;
 import utilities.UnitConversion;
 
+/*
+ * TO DO:
+ * Display prices
+ * Add up prices in meals
+ */
+
 /**
  * Creates the GUI to view a shopping list.
  * 
@@ -143,7 +149,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
       {
         int index = editedIngredients.indexOf(ing);
         Ingredient newIng = new Ingredient(ing.getName(), ing.getDetails(), ing.getAmount() / 2,
-            ing.getUnit(), ing.getCalories(), ing.getDensity());
+            ing.getUnit(), ing.getCalories(), ing.getDensity(), ing.getPrice());
         editedIngredients.set(index, newIng);
       }
     }
@@ -194,7 +200,8 @@ public class ShoppingListViewer extends KitchIntelJDialog
     for (Ingredient ing : recipe.getIngredients())
     {
       allIngredients.add(new Ingredient(ing.getName(), ing.getDetails(), 
-          ing.getAmount() * numBatches, ing.getUnit(), ing.getCalories(), ing.getDensity()));
+          ing.getAmount() * numBatches, ing.getUnit(), ing.getCalories(), 
+          ing.getDensity(), ing.getPrice()));
     }
   }
 
@@ -217,7 +224,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
         {
           Ingredient newIng = new Ingredient(ing.getName(), ing.getDetails(),
               ing.getAmount(), ing.getUnit(), ing.getCalories(), 
-              ing.getDensity());
+              ing.getDensity(), ing.getPrice());
           editedIngredients.add(newIng);
         }
         else
@@ -234,7 +241,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
                   duplicate.getUnit(), ing.getAmount()) + duplicate.getAmount();
               Ingredient addIng = new Ingredient(ing.getName(), ing.getDetails(),
                   newAmount, duplicate.getUnit(), ing.getCalories(), 
-                  ing.getDensity());
+                  ing.getDensity(), ing.getPrice());
               int index = editedIngredients.indexOf(duplicate);
               editedIngredients.set(index, addIng);
             }
@@ -323,7 +330,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
           Ingredient newIng = new Ingredient(ingredient.getName(), ingredient.getDetails(),
               UnitConversion.convert(ingredient.getName(), ingredient.getUnit(), 
                   newUnit, ingredient.getAmount()), newUnit, ingredient.getCalories(), 
-              ingredient.getDensity());
+              ingredient.getDensity(), ingredient.getPrice());
           editedIngredients.set(index, newIng);
           updateScrollAreaHelper();
           label = new JLabel(newIng.toString());

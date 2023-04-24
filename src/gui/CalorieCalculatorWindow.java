@@ -212,7 +212,7 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame
           } else {
             double amountOfIngredients = Double.parseDouble(enteredText);
             Ingredient temp = new Ingredient(selectedIngredient, "", amountOfIngredients,
-                selectedUnits, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+                selectedUnits, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT, 0);
             calorie.setText(Translator.translate("Calories") + ": "
                 + (Math.round(temp.getCaloriesPerGram() * 10) / 10.0));
           }
