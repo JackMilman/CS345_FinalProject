@@ -6,7 +6,7 @@ package recipes;
  * by the user).
  * 
  * Prices are in USD based on listings from arbitrary brands on the Target website
- * (except when I couldn't find them, in which case I used the Walmart website),
+ * (unless Target doesn't have them, in which case the prices are from the Walmart website),
  * converted to the price for one tablespoon and rounded to the nearest hundredth.
  * 
  * @author Meara Patterson
@@ -42,16 +42,16 @@ public enum StandardIngredient
   THYME("thyme", 0.79), TOMATO("tomato", 0.05), WINE("wine", 0.43);
   
   private final String name;
-  private final double pricePerTablespoon;
+  private final Double pricePerTablespoon;
   
-  StandardIngredient(final String name, final double pricePerTablespoon)
+  StandardIngredient(final String name, final Double pricePerTablespoon)
   {
     this.name = name;
     this.pricePerTablespoon = pricePerTablespoon;
   }
   
   /**
-   * Give the name of a built-in ingredient.
+   * Return the name of a built-in ingredient.
    * 
    * @return name
    */
@@ -61,13 +61,34 @@ public enum StandardIngredient
   }
   
   /**
-   * Give the price per tablespoon of a built-in ingredient.
+   * Return the price per tablespoon of a built-in ingredient.
    * 
    * @return price per tablespoon
    */
-  public double getPricePerTablespoon()
+  public Double getPricePerTablespoon()
   {
     return this.pricePerTablespoon;
+  }
+  
+  /**
+   * Return the price per tablespoon of the built-in ingredient with the
+   * given name.
+   * 
+   * If the given name does not match any built-in ingredients, return null.
+   * 
+   * @param find the name of a built-in ingredient
+   * @return the ingredient's price per tablespoon or null
+   */
+  public Double getPricePerTablespoon(final String find)
+  {
+    for (StandardIngredient ing : values())
+    {
+      if (ing.getName().equals(find))
+      {
+        return ing.getPricePerTablespoon();
+      }
+    }
+    return null;
   }
   
 }
