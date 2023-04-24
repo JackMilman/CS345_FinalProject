@@ -5,10 +5,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 
-/*
- * Should we save price too?
- */
-
 /**
  * Utility Class for maintaining a map of ingredients and nutritional information for those
  * ingredients.

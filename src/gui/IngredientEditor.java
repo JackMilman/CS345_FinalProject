@@ -131,6 +131,8 @@ public class IngredientEditor extends JPanel
     inputFields.add(amountField);
     inputFields.add(new JLabel(Translator.translate("Units") + ":"));
     inputFields.add(unitSelect);
+    inputFields.add(new JLabel(Translator.translate("Price") + ": $"));
+    inputFields.add(priceField);
     inputFields.add(new JLabel(Translator.translate("Calories") + ":"));
     inputFields.add(calorieField);
     inputFields.add(new JLabel(Translator.translate("g/mL") + ":"));
@@ -156,6 +158,7 @@ public class IngredientEditor extends JPanel
     double amount;
     double calories;
     double density;
+    double price;
 
     try
     {
@@ -164,6 +167,15 @@ public class IngredientEditor extends JPanel
     catch (NumberFormatException nfe)
     {
       return;
+    }
+    
+    try
+    {
+      price = Double.valueOf(priceField.getText());
+    }
+    catch (NumberFormatException nfe)
+    {
+      price = 0;
     }
 
     // User is allowed to not input calories or density.
@@ -193,12 +205,13 @@ public class IngredientEditor extends JPanel
     {
       density = NO_INPUT;
     }
+    
 
     if (name.equals("") || unit.equals(""))
       return;
 
     Ingredient ingredient = new Ingredient(name, details, amount, Unit.parseUnit(unit), 
-        calories, density);
+        calories, density, price);
     ingredients.add(ingredient);
 
     SortLists.sortIngredients(ingredients);
@@ -207,6 +220,7 @@ public class IngredientEditor extends JPanel
     detailField.setText("");
     unitSelect.setSelectedIndex(0);
     amountField.setText("");
+    priceField.setText("");
     calorieField.setText("");
     densityField.setText("");
 
