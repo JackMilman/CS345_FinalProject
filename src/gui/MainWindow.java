@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.KeyAdapter;
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.*;
@@ -61,15 +62,11 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
 
     JMenu edit = new JMenu(Translator.translate("Edit"));
     menuBar.add(edit);
-    // Ingredient: An IngredientEditor is opened
-    JMenuItem ingredient = new JMenuItem(Translator.translate(KiLowBitesController.INGREDIENT));
-    ingredient.addActionListener(controller);
-    ingredient.setActionCommand(KiLowBitesController.INGREDIENT);
-    edit.add(ingredient);
     // Recipe: A RecipeEditor is opened
     JMenuItem recipe = new JMenuItem(Translator.translate(KiLowBitesController.RECIPE));
     recipe.addActionListener(controller);
     recipe.setActionCommand(KiLowBitesController.RECIPE);
+    //recipe.addKeyListener(keyListener);
     edit.add(recipe);
     // Meal: A MealEditor is opened
     JMenuItem meal = new JMenuItem(Translator.translate(KiLowBitesController.MEAL));
@@ -127,20 +124,26 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     menuBar.add(configure);
     JMenuItem preferences = new JMenuItem(Translator.translate("Preferences"));
     configure.add(preferences);
-    JMenuItem shortcuts = new JMenuItem(Translator.translate("Shortcuts"));
-    configure.add(shortcuts);
-    JMenuItem nutrition = new JMenuItem(Translator.translate("Nutrition"));
-    configure.add(nutrition);
+    preferences.addActionListener(controller);
+    preferences.setActionCommand("Preferences");
+//    JMenuItem shortcuts = new JMenuItem(Translator.translate("Shortcuts"));
+//    configure.add(shortcuts);
+//    shortcuts.addActionListener(controller);
+//    shortcuts.setActionCommand("Shortcuts");
+//    JMenuItem nutrition = new JMenuItem(Translator.translate("Nutrition"));
+//    configure.add(nutrition);
 
-    // Help items
-    JMenu help = new JMenu(Translator.translate("Help"));
-    menuBar.add(help);
-    // JMenuItem about = new JMenuItem(Translator.translate("About"));
-    // help.add(about);
-    // Open the user guide in the default browser
-    JMenuItem userGuide = new JMenuItem(Translator.translate("User Guide"));
-    help.add(userGuide);
-    userGuide.addActionListener(controller);
+//    // Help items
+//    JMenu help = new JMenu(Translator.translate("Help"));
+//    menuBar.add(help);
+//    // JMenuItem about = new JMenuItem(Translator.translate("About"));
+//    // help.add(about);
+//    // Open the user guide in the default browser
+//    JMenuItem userGuide = new JMenuItem(Translator.translate("User Guide"));
+//    help.add(userGuide);
+//    userGuide.addActionListener(controller);
+//    userGuide.setActionCommand("User Guide");
+
     // add the company logo to the window
     // Josiah's changes:
     ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResource(Logo.path()));

@@ -15,7 +15,7 @@ import recipes.Unit;
  * @author
  *
  */
-public class UnitConversionWindow extends JFrame
+public class UnitConversionWindow extends KitchIntelJFrame
 {
   private static final long serialVersionUID = 1L;
   private static final int DEFAULT_TEXT_FIELD_WIDTH = 8;
@@ -48,7 +48,8 @@ public class UnitConversionWindow extends JFrame
     super(Translator.translate("KiLowBites Unit Converter"));
     setUp();
     ingredientBox.setEnabled(false);
-
+    
+ 
     setDefaultCloseOperation(HIDE_ON_CLOSE);
   }
 
@@ -114,6 +115,7 @@ public class UnitConversionWindow extends JFrame
     unitMenu.add(tounitBox);
     unitMenu.add(ingredientLabel);
     unitMenu.add(ingredientBox);
+       
     ingredientBox.addItemListener(new IngredientComboBoxHandler());
 
     return unitMenu;
@@ -126,6 +128,9 @@ public class UnitConversionWindow extends JFrame
     amount = new JTextField(DEFAULT_TEXT_FIELD_WIDTH);
     resultLabel = new JLabel(Translator.translate("Result") + ":  ___________");
 
+    //inputPanel.setOpaque(false);
+    inputPanel.setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
+    
     inputPanel.add(fromAmount);
     inputPanel.add(amount);
     inputPanel.add(resultLabel);
@@ -135,25 +140,36 @@ public class UnitConversionWindow extends JFrame
   private void setUp()
   {
     Container c = getContentPane();
-    ;
+    
     Container icons = createIcons();
     c.add(icons, BorderLayout.NORTH);
     Container unitMenu = createUnitMenu();
     c.add(unitMenu, BorderLayout.AFTER_LINE_ENDS);
     JPanel inputPanel = createInputPanel();
     c.add(inputPanel, BorderLayout.AFTER_LAST_LINE);
+    inputPanel.setOpaque(false);
+    
+    unitMenu.setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
+    
     // Result
     setVisible(true);
     pack();
     setResizable(false);
   }
+  
+  private void updateIngredientAvailability()
+  {
+    ingredientBox.setEnabled((UnitConversion.isMass(fromUnit) && UnitConversion.isVolume(toUnit))
+          || (UnitConversion.isVolume(fromUnit) && UnitConversion.isMass(toUnit)));
+    
+  }
 
   private class FromComboBoxHandler implements ItemListener
   {
-
     public void itemStateChanged(ItemEvent e)
     {
       fromUnit = (String) e.getItem();
+      updateIngredientAvailability();
     }
   }
 
@@ -163,11 +179,7 @@ public class UnitConversionWindow extends JFrame
     public void itemStateChanged(ItemEvent e)
     {
       toUnit = (String) e.getItem();
-      if ((UnitConversion.isMass(fromUnit) && UnitConversion.isVolume(toUnit))
-          || (UnitConversion.isVolume(fromUnit) && UnitConversion.isMass(toUnit)))
-      {
-        ingredientBox.setEnabled(true);
-      }
+      updateIngredientAvailability();
     }
   }
 

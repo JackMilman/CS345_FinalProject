@@ -4,6 +4,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 import javax.swing.BoxLayout;
@@ -27,9 +28,8 @@ import utilities.UnitConversion;
 
 /*
  * TO DO:
- * Change so it works with density information
- * Test with inventory
- * Check acceptance criteria
+ * Display prices
+ * Add up prices in meals
  */
 
 /**
@@ -43,6 +43,12 @@ public class ShoppingListViewer extends KitchIntelJDialog
 
   private static final int DO_NOT_DISPLAY = -1;
   private static final long serialVersionUID = 1L;
+  // Unit Conversions is currently broken so this is a workaround
+  private static final Unit[] MASSES = {Unit.DRAM, Unit.OUNCE, Unit.GRAM, 
+      Unit.POUND};
+  private static final Unit[] VOLUMES = {Unit.PINCH, Unit.MILLILITER, 
+      Unit.TEASPOON, Unit.TABLESPOON, Unit.FLUID_OUNCE, Unit.CUP, Unit.PINT, 
+      Unit.QUART, Unit.GALLON};
 
   private Object obj;
   private JPanel contentPane;
@@ -143,7 +149,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
       {
         int index = editedIngredients.indexOf(ing);
         Ingredient newIng = new Ingredient(ing.getName(), ing.getDetails(), ing.getAmount() / 2,
-            ing.getUnit(), ing.getCalories(), ing.getDensity());
+            ing.getUnit(), ing.getCalories(), ing.getDensity(), ing.getPrice());
         editedIngredients.set(index, newIng);
       }
     }
@@ -154,7 +160,10 @@ public class ShoppingListViewer extends KitchIntelJDialog
   
   private void updateScrollAreaHelper()
   {
-    contentPane.add(scrollPane); 
+    if (scrollPane != null)
+    {
+      contentPane.add(scrollPane); 
+    }
     contentPane.setSize(getPreferredSize());
     if (scrollPane != null)
     {
@@ -191,7 +200,8 @@ public class ShoppingListViewer extends KitchIntelJDialog
     for (Ingredient ing : recipe.getIngredients())
     {
       allIngredients.add(new Ingredient(ing.getName(), ing.getDetails(), 
-          ing.getAmount() * numBatches, ing.getUnit(), ing.getCalories(), ing.getDensity()));
+          ing.getAmount() * numBatches, ing.getUnit(), ing.getCalories(), 
+          ing.getDensity(), ing.getPrice()));
     }
   }
 
@@ -214,7 +224,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
         {
           Ingredient newIng = new Ingredient(ing.getName(), ing.getDetails(),
               ing.getAmount(), ing.getUnit(), ing.getCalories(), 
-              ing.getDensity());
+              ing.getDensity(), ing.getPrice());
           editedIngredients.add(newIng);
         }
         else
@@ -231,7 +241,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
                   duplicate.getUnit(), ing.getAmount()) + duplicate.getAmount();
               Ingredient addIng = new Ingredient(ing.getName(), ing.getDetails(),
                   newAmount, duplicate.getUnit(), ing.getCalories(), 
-                  ing.getDensity());
+                  ing.getDensity(), ing.getPrice());
               int index = editedIngredients.indexOf(duplicate);
               editedIngredients.set(index, addIng);
             }
@@ -288,11 +298,29 @@ public class ShoppingListViewer extends KitchIntelJDialog
       setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
 
       units = new JComboBox<>();
-      for (Unit unit : Unit.values())
+//      for (Unit unit : Unit.values())
+//      {
+//        units.addItem(unit.getName());
+//      }
+      if (Arrays.asList(MASSES).contains(ingredient.getUnit()))
       {
-        units.addItem(unit.getName());
+        for (Unit unit : MASSES)
+        {
+          units.addItem(unit.getName());
+        }
+      } 
+      else if (Arrays.asList(VOLUMES).contains(ingredient.getUnit()))
+      {
+        for (Unit unit : VOLUMES)
+        {
+          units.addItem(unit.getName());
+        }
       }
-      units.setSelectedItem(ingredient.getUnit());
+      else
+      {
+        units.addItem(ingredient.getUnit().getName());
+      }
+      units.setSelectedItem(ingredient.getUnit().getName());
       units.addActionListener(new ActionListener()
       {
         public void actionPerformed(final ActionEvent e)
@@ -302,7 +330,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
           Ingredient newIng = new Ingredient(ingredient.getName(), ingredient.getDetails(),
               UnitConversion.convert(ingredient.getName(), ingredient.getUnit(), 
                   newUnit, ingredient.getAmount()), newUnit, ingredient.getCalories(), 
-              ingredient.getDensity());
+              ingredient.getDensity(), ingredient.getPrice());
           editedIngredients.set(index, newIng);
           updateScrollAreaHelper();
           label = new JLabel(newIng.toString());
@@ -317,38 +345,19 @@ public class ShoppingListViewer extends KitchIntelJDialog
         public void actionPerformed(final ActionEvent e)
         {
           Inventory inventory = Inventory.createInstance();
-          inventory.addIngredient(ingredient);
+          if (checkBox.isSelected())
+          {
+            inventory.addIngredient(ingredient);
+          }
+          else
+          {
+            inventory.reduceIngredient(ingredient);
+          }
         }
       });
 
       updateShoppingListIngredient();
 
-    }
-    
-    private double updateIngredientAmount(final Ingredient ingredient, final String newUnit)
-    {
-      double newAmount = -1;
-      Unit unit = Unit.parseUnit(newUnit);
-      if (obj instanceof Recipe)
-      {
-        Recipe recipe = (Recipe) obj;
-        double convertedAmount = UnitConversion.convert(ingredient.getName(), ingredient.getUnit(), 
-            unit, ingredient.getAmount());
-        newAmount = (double) numPeople / (double) recipe.getServings() * convertedAmount;
-      }
-      else if (obj instanceof Meal)
-      {
-        Meal meal = (Meal) obj;
-        for (Recipe recipe : meal.getRecipes())
-        {
-          if (recipe.getIngredients().contains(ingredient))
-          {
-            // not good
-            newAmount = (double) numPeople / (double) recipe.getServings() * ingredient.getAmount();
-          }
-        }
-      }
-      return newAmount;
     }
 
     private void updateShoppingListIngredient()

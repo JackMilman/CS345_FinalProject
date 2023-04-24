@@ -19,6 +19,7 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import branding.KitchIntelColor;
 import config.Translator;
 import recipes.CompositeRecipe;
 import recipes.Ingredient;
@@ -54,6 +55,7 @@ public class RecipeEditor extends Editor
 
   private UtensilEditor utensilEditor;
   private IngredientEditor ingredientEditor;
+  private SubstituteEditor substituteEditor;
   private StepEditor stepEditor;
 
   private JTextField nameField;
@@ -78,6 +80,7 @@ public class RecipeEditor extends Editor
 
     utensilEditor = new UtensilEditor();
     ingredientEditor = new IngredientEditor();
+    substituteEditor = new SubstituteEditor();
     stepEditor = new StepEditor(utensilEditor.getUtensils(), ingredientEditor.getIngredients());
 
     newButton.setActionCommand(NEW_BUTTON_ACTION_COMMAND);
@@ -100,6 +103,7 @@ public class RecipeEditor extends Editor
 
     utensilEditor.addChangeListener(cListener);
     ingredientEditor.addChangeListener(cListener);
+    substituteEditor.addChangeListener(cListener);
     stepEditor.addChangeListener(cListener);
     nameField.addActionListener(cListener);
     servingsField.addActionListener(cListener);
@@ -113,10 +117,16 @@ public class RecipeEditor extends Editor
     Container mainEditors = new Container();
     mainEditors.setLayout(new BorderLayout());
     mainEditors.add(utensilEditor, BorderLayout.NORTH);
-    mainEditors.add(ingredientEditor, BorderLayout.CENTER);
+    Container ingAndSub = new Container();
+    ingAndSub.setLayout(new BorderLayout());
+    ingAndSub.add(ingredientEditor, BorderLayout.NORTH);
+    ingAndSub.add(substituteEditor, BorderLayout.SOUTH);
+    mainEditors.add(ingAndSub);
     mainEditors.add(stepEditor, BorderLayout.SOUTH);
-
+    
     JPanel p = new JPanel();
+    p.setOpaque(true);
+    p.setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
     p.setLayout(new BorderLayout());
     p.add(mainEditors, BorderLayout.SOUTH);
 
@@ -134,18 +144,7 @@ public class RecipeEditor extends Editor
     icons.add(servingsField);
 
     p.add(icons, BorderLayout.NORTH);
-    p.setOpaque(false);
     JScrollPane scrollPane = new JScrollPane(p);
-    scrollPane.setOpaque(false);
-
-    // Container nameAndServings = new Container();
-    // nameAndServings.setLayout(new FlowLayout(FlowLayout.LEFT));
-    // nameAndServings.add(nameLabel);
-    // nameAndServings.add(nameField);
-    // nameAndServings.add(servesLabel);
-    // nameAndServings.add(servingsField);
-    //
-    // add(nameAndServings, BorderLayout.CENTER);
     
     add(scrollPane);
     setVisible(true);
@@ -160,6 +159,7 @@ public class RecipeEditor extends Editor
     List<Ingredient> ingredients;
     HashMap<Ingredient, List<Ingredient>> substitutes;
     List<Utensil> utensils;
+    HashMap<Ingredient, List<Ingredient>> substitutes;
     List<Step> steps;
 
     name = nameField.getText();
@@ -174,7 +174,11 @@ public class RecipeEditor extends Editor
     }
 
     ingredients = ingredientEditor.getIngredients();
+<<<<<<< HEAD
     substitutes = ingredientEditor.getSubstitutes();
+=======
+    substitutes = substituteEditor.getSubstitutes();
+>>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A.git
     utensils = utensilEditor.getUtensils();
     steps = stepEditor.getSteps();
 
@@ -192,7 +196,12 @@ public class RecipeEditor extends Editor
     servingsField.setText(recipe.getServings() + "");
     utensilEditor.loadUtensils(recipe.getUtensils());
     ingredientEditor.loadIngredients(recipe.getIngredients());
+<<<<<<< HEAD
     ingredientEditor.loadSubstitutes(recipe.getSubstitutes());
+=======
+    substituteEditor.loadIngredients(recipe.getIngredients());
+    substituteEditor.loadSubstitutes(recipe.getSubstitutes());
+>>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A.git
     stepEditor.loadSteps(recipe.getSteps());
 
     this.fileName = fileName;
@@ -338,11 +347,5 @@ public class RecipeEditor extends Editor
       updateButtons();
     }
 
-  }
-  public static void main(String[] args)
-  {
-    MainWindow main = new MainWindow();
-    RecipeEditor frame = new RecipeEditor(main);
-    frame.setVisible(true);
   }
 }

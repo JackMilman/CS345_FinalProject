@@ -80,7 +80,7 @@ public abstract class Editor extends KitchIntelJDialog
         newButton.setEnabled(true);
         openButton.setEnabled(true);
         saveButton.setEnabled(false);
-        saveAsButton.setEnabled(true);
+        saveAsButton.setEnabled(false);
         closeButton.setEnabled(true);
         break;
       case CHANGED:

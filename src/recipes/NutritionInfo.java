@@ -20,83 +20,83 @@ public class NutritionInfo
   private static Map<String, CalorieGram> initializeNutrition()
   {
     Map<String, CalorieGram> map = new HashMap<String, CalorieGram>();
-    map.put("alcohol", new CalorieGram(2.75, 0.79));
-    map.put("almond", new CalorieGram(6.01, 0.46));
-    map.put("american cheese", new CalorieGram(4.40, 0.34));
-    map.put("apple", new CalorieGram(0.44, 0.56));
-    map.put("apple juice", new CalorieGram(0.48, 1.04));
-    map.put("banana", new CalorieGram(0.65, 0.56));
-    map.put("bean", new CalorieGram(1.30, 0.77));
-    map.put("beef", new CalorieGram(2.80, 1.05));
-    map.put("blackberry", new CalorieGram(0.25, 0.53));
-    map.put("black pepper", new CalorieGram(2.55, 1.01));
-    map.put("bread", new CalorieGram(2.40, 0.42));
-    map.put("broccoli", new CalorieGram(0.32, 0.37));
-    map.put("brown sugar", new CalorieGram(3.80, 1.5));
-    map.put("butter", new CalorieGram(7.50, 0.91));
-    map.put("cabbage", new CalorieGram(0.28, 0.36));
-    map.put("carrot", new CalorieGram(0.41, 0.64));
-    map.put("cashew", new CalorieGram(5.53, 0.5));
-    map.put("cauliflower", new CalorieGram(0.25, 0.27));
-    map.put("celery", new CalorieGram(0.14, 0.61));
-    map.put("cheddar cheese", new CalorieGram(4.40, 0.34));
-    map.put("cherry", new CalorieGram(0.50, 1.02));
-    map.put("chicken", new CalorieGram(2.00, 1.04));
-    map.put("chocolate", new CalorieGram(5.00, 1.33));
-    map.put("cinnamon", new CalorieGram(2.61, 0.45));
-    map.put("cod", new CalorieGram(1.00, 0.58));
-    map.put("corn", new CalorieGram(1.30, 0.72));
-    map.put("cornflake", new CalorieGram(3.70, 0.12));
-    map.put("cottage cheese", new CalorieGram(0.98, 0.96));
-    map.put("crab", new CalorieGram(1.10, 0.61));
-    map.put("creme de cacao", new CalorieGram(2.75, 0.79));
-    map.put("cucumber", new CalorieGram(0.10, 0.67));
-    map.put("egg", new CalorieGram(1.50, 0.60));
-    map.put("flour", new CalorieGram(3.64, 0.45));
-    map.put("garlic", new CalorieGram(1.11, 0.32));
-    map.put("grapefruit", new CalorieGram(0.32, 0.33));
-    map.put("grape", new CalorieGram(0.62, 0.37));
-    map.put("grape juice", new CalorieGram(0.60, 1.04));
-    map.put("green bean", new CalorieGram(0.31, 0.53));
-    map.put("haddock", new CalorieGram(1.10, 0.58));
-    map.put("ham", new CalorieGram(2.40, 1.40));
-    map.put("honey", new CalorieGram(2.80, 1.5));
-    map.put("ice cream", new CalorieGram(1.80, 0.55));
-    map.put("kidney bean", new CalorieGram(3.33, 0.79));
-    map.put("lamb", new CalorieGram(2.00, 1.3));
-    map.put("lemon", new CalorieGram(0.29, 0.77));
-    map.put("lentil", new CalorieGram(1.16, 0.85));
-    map.put("lettuce", new CalorieGram(0.15, 0.06));
-    map.put("macaroni", new CalorieGram(3.71, 1.31));
-    map.put("milk", new CalorieGram(0.70, 1.04));
-    map.put("mushroom", new CalorieGram(0.15, 1.17));
-    map.put("oil", new CalorieGram(9.00, 0.88));
-    map.put("olive", new CalorieGram(0.80, 0.65));
-    map.put("onion", new CalorieGram(0.22, 0.75));
-    map.put("orange", new CalorieGram(0.30, 0.77));
-    map.put("paprika", new CalorieGram(2.82, 0.46));
-    map.put("pasta", new CalorieGram(3.71, 1.31));
-    map.put("peach", new CalorieGram(0.30, 0.61));
-    map.put("peanut", new CalorieGram(5.67, 0.53));
-    map.put("pear", new CalorieGram(0.15, 0.61));
-    map.put("peas", new CalorieGram(1.48, 0.73));
-    map.put("pepper", new CalorieGram(0.20, 0.51));
-    map.put("pineapple", new CalorieGram(0.40, 0.54));
-    map.put("plum", new CalorieGram(0.39, 0.58));
-    map.put("pork", new CalorieGram(2.90, 0.7));
-    map.put("rum", new CalorieGram(2.75, 0.79));
-    map.put("salmon", new CalorieGram(1.80, 0.58));
-    map.put("salt", new CalorieGram(0.0, 1.38));
-    map.put("saltine crackers", new CalorieGram(4.21, 0.43));
-    map.put("spaghetti", new CalorieGram(3.71, 1.31));
-    map.put("spinach", new CalorieGram(0.08, 0.08));
-    map.put("strawberries", new CalorieGram(30.0, 0.58));
-    map.put("sugar", new CalorieGram(4.00, 0.95));
-    map.put("sweet potato", new CalorieGram(0.86, 0.65));
-    map.put("syrup", new CalorieGram(2.60, 1.38));
-    map.put("thyme", new CalorieGram(1.01, 0.46));
-    map.put("tomato", new CalorieGram(0.20, 0.67));
-    map.put("wine", new CalorieGram(0.83, 0.99));
+    map.put(StandardIngredient.ALCOHOL.getName(), new CalorieGram(2.75, 0.79));
+    map.put(StandardIngredient.ALMOND.getName(), new CalorieGram(6.01, 0.46));
+    map.put(StandardIngredient.AMERICAN_CHEESE.getName(), new CalorieGram(4.40, 0.34));
+    map.put(StandardIngredient.APPLE.getName(), new CalorieGram(0.44, 0.56));
+    map.put(StandardIngredient.APPLE_JUICE.getName(), new CalorieGram(0.48, 1.04));
+    map.put(StandardIngredient.BANANA.getName(), new CalorieGram(0.65, 0.56));
+    map.put(StandardIngredient.BEAN.getName(), new CalorieGram(1.30, 0.77));
+    map.put(StandardIngredient.BEEF.getName(), new CalorieGram(2.80, 1.05));
+    map.put(StandardIngredient.BLACKBERRY.getName(), new CalorieGram(0.25, 0.53));
+    map.put(StandardIngredient.BLACK_PEPPER.getName(), new CalorieGram(2.55, 1.01));
+    map.put(StandardIngredient.BREAD.getName(), new CalorieGram(2.40, 0.42));
+    map.put(StandardIngredient.BROCCOLI.getName(), new CalorieGram(0.32, 0.37));
+    map.put(StandardIngredient.BROWN_SUGAR.getName(), new CalorieGram(3.80, 1.5));
+    map.put(StandardIngredient.BUTTER.getName(), new CalorieGram(7.50, 0.91));
+    map.put(StandardIngredient.CABBAGE.getName(), new CalorieGram(0.28, 0.36));
+    map.put(StandardIngredient.CARROT.getName(), new CalorieGram(0.41, 0.64));
+    map.put(StandardIngredient.CASHEW.getName(), new CalorieGram(5.53, 0.5));
+    map.put(StandardIngredient.CAULIFLOWER.getName(), new CalorieGram(0.25, 0.27));
+    map.put(StandardIngredient.CELERY.getName(), new CalorieGram(0.14, 0.61));
+    map.put(StandardIngredient.CHEDDAR_CHEESE.getName(), new CalorieGram(4.40, 0.34));
+    map.put(StandardIngredient.CHERRY.getName(), new CalorieGram(0.50, 1.02));
+    map.put(StandardIngredient.CHICKEN.getName(), new CalorieGram(2.00, 1.04));
+    map.put(StandardIngredient.CHOCOLATE.getName(), new CalorieGram(5.00, 1.33));
+    map.put(StandardIngredient.CINNAMON.getName(), new CalorieGram(2.61, 0.45));
+    map.put(StandardIngredient.COD.getName(), new CalorieGram(1.00, 0.58));
+    map.put(StandardIngredient.CORN.getName(), new CalorieGram(1.30, 0.72));
+    map.put(StandardIngredient.CORNFLAKE.getName(), new CalorieGram(3.70, 0.12));
+    map.put(StandardIngredient.COTTAGE_CHEESE.getName(), new CalorieGram(0.98, 0.96));
+    map.put(StandardIngredient.CRAB.getName(), new CalorieGram(1.10, 0.61));
+    map.put(StandardIngredient.CREME_DE_CACAO.getName(), new CalorieGram(2.75, 0.79));
+    map.put(StandardIngredient.CUCUMBER.getName(), new CalorieGram(0.10, 0.67));
+    map.put(StandardIngredient.EGG.getName(), new CalorieGram(1.50, 0.60));
+    map.put(StandardIngredient.FLOUR.getName(), new CalorieGram(3.64, 0.45));
+    map.put(StandardIngredient.GARLIC.getName(), new CalorieGram(1.11, 0.32));
+    map.put(StandardIngredient.GRAPEFRUIT.getName(), new CalorieGram(0.32, 0.33));
+    map.put(StandardIngredient.GRAPE.getName(), new CalorieGram(0.62, 0.37));
+    map.put(StandardIngredient.GRAPE_JUICE.getName(), new CalorieGram(0.60, 1.04));
+    map.put(StandardIngredient.GREEN_BEAN.getName(), new CalorieGram(0.31, 0.53));
+    map.put(StandardIngredient.HADDOCK.getName(), new CalorieGram(1.10, 0.58));
+    map.put(StandardIngredient.HAM.getName(), new CalorieGram(2.40, 1.40));
+    map.put(StandardIngredient.HONEY.getName(), new CalorieGram(2.80, 1.5));
+    map.put(StandardIngredient.ICE_CREAM.getName(), new CalorieGram(1.80, 0.55));
+    map.put(StandardIngredient.KIDNEY_BEAN.getName(), new CalorieGram(3.33, 0.79));
+    map.put(StandardIngredient.LAMB.getName(), new CalorieGram(2.00, 1.3));
+    map.put(StandardIngredient.LEMON.getName(), new CalorieGram(0.29, 0.77));
+    map.put(StandardIngredient.LENTIL.getName(), new CalorieGram(1.16, 0.85));
+    map.put(StandardIngredient.LETTUCE.getName(), new CalorieGram(0.15, 0.06));
+    map.put(StandardIngredient.MACARONI.getName(), new CalorieGram(3.71, 1.31));
+    map.put(StandardIngredient.MILK.getName(), new CalorieGram(0.70, 1.04));
+    map.put(StandardIngredient.MUSHROOM.getName(), new CalorieGram(0.15, 1.17));
+    map.put(StandardIngredient.OIL.getName(), new CalorieGram(9.00, 0.88));
+    map.put(StandardIngredient.OLIVE.getName(), new CalorieGram(0.80, 0.65));
+    map.put(StandardIngredient.ONION.getName(), new CalorieGram(0.22, 0.75));
+    map.put(StandardIngredient.ORANGE.getName(), new CalorieGram(0.30, 0.77));
+    map.put(StandardIngredient.PAPRIKA.getName(), new CalorieGram(2.82, 0.46));
+    map.put(StandardIngredient.PASTA.getName(), new CalorieGram(3.71, 1.31));
+    map.put(StandardIngredient.PEACH.getName(), new CalorieGram(0.30, 0.61));
+    map.put(StandardIngredient.PEANUT.getName(), new CalorieGram(5.67, 0.53));
+    map.put(StandardIngredient.PEAR.getName(), new CalorieGram(0.15, 0.61));
+    map.put(StandardIngredient.PEAS.getName(), new CalorieGram(1.48, 0.73));
+    map.put(StandardIngredient.PEPPER.getName(), new CalorieGram(0.20, 0.51));
+    map.put(StandardIngredient.PINEAPPLE.getName(), new CalorieGram(0.40, 0.54));
+    map.put(StandardIngredient.PLUM.getName(), new CalorieGram(0.39, 0.58));
+    map.put(StandardIngredient.PORK.getName(), new CalorieGram(2.90, 0.7));
+    map.put(StandardIngredient.RUM.getName(), new CalorieGram(2.75, 0.79));
+    map.put(StandardIngredient.SALMON.getName(), new CalorieGram(1.80, 0.58));
+    map.put(StandardIngredient.SALT.getName(), new CalorieGram(0.0, 1.38));
+    map.put(StandardIngredient.SALTINE_CRACKERS.getName(), new CalorieGram(4.21, 0.43));
+    map.put(StandardIngredient.SPAGHETTI.getName(), new CalorieGram(3.71, 1.31));
+    map.put(StandardIngredient.SPINACH.getName(), new CalorieGram(0.08, 0.08));
+    map.put(StandardIngredient.STRAWBERRIES.getName(), new CalorieGram(30.0, 0.58));
+    map.put(StandardIngredient.SUGAR.getName(), new CalorieGram(4.00, 0.95));
+    map.put(StandardIngredient.SWEET_POTATO.getName(), new CalorieGram(0.86, 0.65));
+    map.put(StandardIngredient.SYRUP.getName(), new CalorieGram(2.60, 1.38));
+    map.put(StandardIngredient.THYME.getName(), new CalorieGram(1.01, 0.46));
+    map.put(StandardIngredient.TOMATO.getName(), new CalorieGram(0.20, 0.67));
+    map.put(StandardIngredient.WINE.getName(), new CalorieGram(0.83, 0.99));
     return map;
   }
   /**
@@ -121,11 +121,15 @@ public class NutritionInfo
    *          the caloriesPerGram for the ingredient
    * @param density
    *          the gramPerML for the ingredient
+   * @param pricePerTablespoon
+   *          price per tablespoon, the standard unit of volume
    */
-  public static void addIngredient(final String name, final Double calories, final Double density)
+  public static void addIngredient(final String name, final Double calories, final Double density,
+      final double pricePerTablespoon)
   {
-    if (!NUTRITION_MAP.containsKey(name.toLowerCase())) {
-      NUTRITION_MAP.put(name.toLowerCase(), new CalorieGram(calories, density));
+    if (!NUTRITION_MAP.containsKey(name))
+    {
+      NUTRITION_MAP.put(name, new CalorieGram(calories, density));
     }
   }
 

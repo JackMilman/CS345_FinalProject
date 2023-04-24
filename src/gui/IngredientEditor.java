@@ -16,11 +16,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import branding.KitchIntelBorder;
 import config.Translator;
 import recipes.Ingredient;
+import recipes.NutritionInfo;
 import recipes.Unit;
 import recipes.Utensil;
 import utilities.SortLists;
@@ -31,10 +33,10 @@ import utilities.SortLists;
  * @author Josiah Leach, Meara Patterson, KitchIntel
  * @version 03.29.2023
  */
-public class IngredientEditor extends JComponent
+public class IngredientEditor extends JPanel
 {
 
-  public static final Double NO_INPUT = null; // Changed 4/13: Updated to Double and value to null.
+  public static final Double NO_INPUT = -1.0; // Changed 4/13: Updated to Double and value to null.
                                               // -Jack
   private static final String[] UNITS = new String[] {"", "Dram", "Ounce", "Gram", "Pound", "Pinch",
       "Teaspoon", "Tablespoon", "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon", "Individual"};
@@ -52,6 +54,7 @@ public class IngredientEditor extends JComponent
   private JTextField amountField;
   private JTextField calorieField;
   private JTextField densityField;
+  private JTextField priceField;
   private TextArea ingredientDisplay;
   private TextArea substituteDisplay;
   private JButton addButton, deleteButton;
@@ -71,9 +74,10 @@ public class IngredientEditor extends JComponent
     setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Ingredients")));
 
     IngredientEditorListener listener = new IngredientEditorListener(this);
+    EnableUpdater addListener = new EnableUpdater();
 
     addButton = new JButton(Translator.translate(ADD));
-    deleteButton = new JButton(Translator.translate(DELETE));
+    deleteButton = new JButton(Translator.translate(DELETE));    
 
     addButton.setActionCommand(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND);
     deleteButton.setActionCommand(RecipeEditor.INGREDIENT_DELETE_ACTION_COMMAND);
@@ -83,7 +87,20 @@ public class IngredientEditor extends JComponent
     amountField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     calorieField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     densityField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
+    priceField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
 
+<<<<<<< HEAD
+=======
+    unitSelect = new JComboBox<String>(UNITS);
+    
+    nameField.addActionListener(addListener);
+    detailField.addActionListener(addListener);
+    amountField.addActionListener(addListener);
+    calorieField.addActionListener(addListener);
+    densityField.addActionListener(addListener);
+    unitSelect.addActionListener(addListener);
+
+>>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A.git
     ingredients = new ArrayList<Ingredient>();
     substitutes = new HashMap<Ingredient, List<Ingredient>>();
 
@@ -95,6 +112,29 @@ public class IngredientEditor extends JComponent
 
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);
+    
+    calorieField.setEnabled(false);
+    densityField.setEnabled(false);
+    addButton.setEnabled(false);
+    
+    addButton.addActionListener(new ActionListener()
+    {
+      @Override
+      public void actionPerformed(final ActionEvent evt)
+      {
+        try
+        {
+          NutritionInfo.addIngredient(nameField.getText(), 
+              Double.parseDouble(calorieField.getText()), 
+              Double.parseDouble(densityField.getText()));
+        }
+        catch (NumberFormatException nfe)
+        {
+          NutritionInfo.addIngredient(nameField.getText(), 
+              NO_INPUT, NO_INPUT);
+        }
+      }
+    });
 
     Container inputFields = new Container();
     inputFields.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -106,11 +146,16 @@ public class IngredientEditor extends JComponent
     inputFields.add(amountField);
     inputFields.add(new JLabel(Translator.translate("Units") + ":"));
     inputFields.add(unitSelect);
+<<<<<<< HEAD
     inputFields.add(new JLabel(Translator.translate("Substitute") + ":"));
     inputFields.add(substituteSelect);
+=======
+    inputFields.add(new JLabel(Translator.translate("Price") + ": $"));
+    inputFields.add(priceField);
+>>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A.git
     inputFields.add(new JLabel(Translator.translate("Calories") + ":"));
     inputFields.add(calorieField);
-    inputFields.add(new JLabel(Translator.translate("Density") + ":"));
+    inputFields.add(new JLabel(Translator.translate("g/mL") + ":"));
     inputFields.add(densityField);
     inputFields.add(addButton);
 
@@ -124,6 +169,7 @@ public class IngredientEditor extends JComponent
     add(substituteDisplay, BorderLayout.SOUTH);
 
     setVisible(true);
+    setOpaque(false);
   }
 
   private void add()
@@ -136,6 +182,7 @@ public class IngredientEditor extends JComponent
     double amount;
     double calories;
     double density;
+    double price;
 
     try
     {
@@ -144,6 +191,15 @@ public class IngredientEditor extends JComponent
     catch (NumberFormatException nfe)
     {
       return;
+    }
+    
+    try
+    {
+      price = Double.valueOf(priceField.getText());
+    }
+    catch (NumberFormatException nfe)
+    {
+      price = 0;
     }
 
     // User is allowed to not input calories or density.
@@ -156,6 +212,10 @@ public class IngredientEditor extends JComponent
     {
       calories = NO_INPUT;
     }
+    catch (NullPointerException npe)
+    {
+      calories = NO_INPUT;
+    }
 
     try
     {
@@ -163,13 +223,23 @@ public class IngredientEditor extends JComponent
     }
     catch (NumberFormatException nfe)
     {
+<<<<<<< HEAD
       // density = NO_INPUT;
       density = 1;
+=======
+      density = NO_INPUT;
+>>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A.git
     }
+    catch (NullPointerException npe)
+    {
+      density = NO_INPUT;
+    }
+    
 
     if (name.equals("") || unit.equals(""))
       return;
 
+<<<<<<< HEAD
     Ingredient ingredient = new Ingredient(name, details, amount, Unit.parseUnit(unit), calories,
         density);
     if (substitute.equals(""))
@@ -187,6 +257,11 @@ public class IngredientEditor extends JComponent
           original = item;
         }
       }
+=======
+    Ingredient ingredient = new Ingredient(name, details, amount, Unit.parseUnit(unit), 
+        calories, density, price);
+    ingredients.add(ingredient);
+>>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A.git
 
       if (substitutes.containsKey(original))
       {
@@ -207,6 +282,7 @@ public class IngredientEditor extends JComponent
     substituteSelect.setSelectedIndex(0);
     updateSubstituteSelect();
     amountField.setText("");
+    priceField.setText("");
     calorieField.setText("");
     densityField.setText("");
 
@@ -358,6 +434,48 @@ public class IngredientEditor extends JComponent
     }
 
   }
+  
+  private class EnableUpdater implements ActionListener
+  {
+    @Override
+    public void actionPerformed(final ActionEvent e)
+    {
+      if(NutritionInfo.contains(nameField.getText()) || nameField.getText().equals(""))
+      {
+        calorieField.setEnabled(false);
+        densityField.setEnabled(false);
+        calorieField.setText("");
+        densityField.setText("");
+      }
+      else
+      {
+        calorieField.setEnabled(true);
+        densityField.setEnabled(true);
+      }
+      
+      if(nameField.getText().length() == 0 || amountField.getText().length() == 0 
+          || unitSelect.getSelectedIndex() == 0)
+      {
+        addButton.setEnabled(false);
+        return;
+      }
+      else
+      {
+        addButton.setEnabled(true);
+      }
+      
+      if(NutritionInfo.contains(nameField.getText()))
+      {
+        addButton.setEnabled(true);
+      }
+      // You can input an ingredient without giving the calorie and density
+//      else
+//      {
+//        boolean filled = calorieField.getText().length() > 0 && densityField.getText().length() > 0;
+//        addButton.setEnabled(filled);
+//      }
+    }
+  }
 
   /**
    * Adds an action listener to the buttons in this IngredientEditor which can cause the document to
@@ -396,4 +514,5 @@ public class IngredientEditor extends JComponent
 
     updateSubstituteArea();
   }
+  
 }

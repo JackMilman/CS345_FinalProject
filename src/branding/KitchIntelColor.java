@@ -2,6 +2,7 @@ package branding;
 
 import java.awt.Color;
 import java.io.IOException;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 /**
@@ -50,6 +51,9 @@ public enum KitchIntelColor
       }
     }
     catch (IOException ioe)
+    {
+    }
+    catch (NoSuchElementException nsse)
     {
     }
     finally
