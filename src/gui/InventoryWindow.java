@@ -40,7 +40,7 @@ public class InventoryWindow extends KitchIntelJFrame
   String name;
   String details;
   double amount;
-  String unit;
+  Unit unit;
   Ingredient inventoryItem;
 
   public InventoryWindow(final Window main)
@@ -130,7 +130,7 @@ public class InventoryWindow extends KitchIntelJFrame
     {
       addButton.setEnabled(true);
       subButton.setEnabled(true);
-      unit = (String) e.getItem();
+      unit = Unit.parseUnit((String) e.getItem());
     }
 
   }
@@ -147,7 +147,7 @@ public class InventoryWindow extends KitchIntelJFrame
       amount = Double.parseDouble(ingredientAmount.getText());
       if (amount < 0)
         amount = 0;
-      inventoryItem = new Ingredient(name, details, amount, Unit.parseUnit(unit), 0.0, 0.0);
+      inventoryItem = new Ingredient(name, details, amount, unit);
       inventory.addIngredient(inventoryItem);
       ingredientName.setText("");
       ingredientDetails.setText("");
@@ -174,7 +174,7 @@ public class InventoryWindow extends KitchIntelJFrame
       name = ingredientName.getText();
       details = ingredientDetails.getText();
       amount = Double.parseDouble(ingredientAmount.getText());
-      inventoryItem = new Ingredient(name, details, amount, Unit.parseUnit(unit), 0.0, 0.0);
+      inventoryItem = new Ingredient(name, details, amount, unit);
       inventory.reduceIngredient(inventoryItem);
       ingredientName.setText("");
       ingredientDetails.setText("");

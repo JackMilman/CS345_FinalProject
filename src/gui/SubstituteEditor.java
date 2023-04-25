@@ -198,8 +198,7 @@ public class SubstituteEditor extends JPanel
     if (name.equals("") || unit.equals(""))
       return;
 
-    Ingredient ingredient = new Ingredient(name, details, amount, Unit.parseUnit(unit), calories,
-        density);
+    Ingredient ingredient = new Ingredient(name, details, amount, Unit.parseUnit(unit));
     
     if (substitutes.containsKey(substitute)) {
       substitutes.get(substitute).add(ingredient);

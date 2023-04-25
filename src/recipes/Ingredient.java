@@ -24,12 +24,6 @@ public class Ingredient implements Serializable, Comparable<Ingredient>
 
   private final Unit unit;
 
-  private final Double calories;
-
-  private final Double density;
-  
-  private final double price;
-
   /**
    * Constructs a new Ingredient.
    * 
@@ -41,17 +35,19 @@ public class Ingredient implements Serializable, Comparable<Ingredient>
    * @param density
    * @param price
    */
-  public Ingredient(final String name, final String details, final double amount, final Unit unit,
-      final Double calories, final Double density, final double price)
+  public Ingredient(final String name, final String details, final double amount, final Unit unit)
   {
     this.name = name;
     this.details = details;
     this.amount = amount;
     this.unit = unit;
+<<<<<<< HEAD
     this.calories = calories;
     this.density = density;
     this.price = price;
     NutritionInfo.addIngredient(name, calories, density, price);
+=======
+>>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A
   }
 
   /**
@@ -92,36 +88,6 @@ public class Ingredient implements Serializable, Comparable<Ingredient>
   public Unit getUnit()
   {
     return unit;
-  }
-
-  /**
-   * Get the calories of the Ingredient.
-   * 
-   * @return the calories
-   */
-  public Double getCalories()
-  {
-    return calories;
-  }
-
-  /**
-   * Get the density of the Ingredient.
-   * 
-   * @return the density
-   */
-  public Double getDensity()
-  {
-    return density;
-  }
-  
-  /**
-   * Get the price of the Ingredient.
-   * 
-   * @return price
-   */
-  public double getPrice()
-  {
-    return price;
   }
 
   /**

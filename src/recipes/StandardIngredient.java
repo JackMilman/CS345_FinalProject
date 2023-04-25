@@ -9,7 +9,7 @@ package recipes;
  * (unless Target doesn't have them, in which case the prices are from the Walmart website),
  * converted to the price for one tablespoon and rounded to the nearest hundredth.
  * 
- * @author Meara Patterson, KitchIntel
+ * @author Meara Patterson
  * @version 4/24/2023
  */
 public enum StandardIngredient

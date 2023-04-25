@@ -8,7 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.TextListener;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,6 +24,7 @@ import config.Translator;
 import recipes.Ingredient;
 import recipes.NutritionInfo;
 import recipes.Unit;
+import recipes.Utensil;
 import utilities.SortLists;
 
 /**
@@ -38,6 +41,7 @@ public class IngredientEditor extends JPanel
       "Teaspoon", "Tablespoon", "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon", "Individual"};
   private static final String ADD = "Add";
   private static final String DELETE = "Delete";
+  private static final String BLANK = "            ";
 
   /**
    * 
@@ -51,10 +55,13 @@ public class IngredientEditor extends JPanel
   private JTextField densityField;
   private JTextField priceField;
   private TextArea ingredientDisplay;
+  private TextArea substituteDisplay;
   private JButton addButton, deleteButton;
   private final JComboBox<String> unitSelect;
+  private final JComboBox<String> substituteSelect;
 
   private List<Ingredient> ingredients;
+  private HashMap<Ingredient, List<Ingredient>> substitutes;
 
   /**
    * 
@@ -80,7 +87,7 @@ public class IngredientEditor extends JPanel
     calorieField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     densityField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     priceField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
-
+    
     unitSelect = new JComboBox<String>(UNITS);
     
     nameField.addActionListener(addListener);
@@ -91,8 +98,13 @@ public class IngredientEditor extends JPanel
     unitSelect.addActionListener(addListener);
 
     ingredients = new ArrayList<Ingredient>();
+    substitutes = new HashMap<Ingredient, List<Ingredient>>();
+
+
+    substituteSelect = new JComboBox<String>();
 
     ingredientDisplay = new TextArea(0, 0);
+    substituteDisplay = new TextArea(0, 0);
 
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);
@@ -130,8 +142,10 @@ public class IngredientEditor extends JPanel
     inputFields.add(amountField);
     inputFields.add(new JLabel(Translator.translate("Units") + ":"));
     inputFields.add(unitSelect);
+
     inputFields.add(new JLabel(Translator.translate("Price") + ": $"));
     inputFields.add(priceField);
+
     inputFields.add(new JLabel(Translator.translate("Calories") + ":"));
     inputFields.add(calorieField);
     inputFields.add(new JLabel(Translator.translate("g/mL") + ":"));
@@ -143,7 +157,9 @@ public class IngredientEditor extends JPanel
     add(deleteButton, BorderLayout.EAST);
 
     ingredientDisplay.setEditable(false);
+    substituteDisplay.setEditable(false);
     add(ingredientDisplay, BorderLayout.CENTER);
+    add(substituteDisplay, BorderLayout.SOUTH);
 
     setVisible(true);
     setOpaque(false);
@@ -154,6 +170,8 @@ public class IngredientEditor extends JPanel
     String name = nameField.getText();
     String details = detailField.getText();
     String unit = unitSelect.getSelectedItem().toString();
+    String substitute = substituteSelect.getSelectedItem().toString();
+
     double amount;
     double calories;
     double density;
@@ -198,7 +216,9 @@ public class IngredientEditor extends JPanel
     }
     catch (NumberFormatException nfe)
     {
+
       density = NO_INPUT;
+
     }
     catch (NullPointerException npe)
     {
@@ -209,21 +229,37 @@ public class IngredientEditor extends JPanel
     if (name.equals("") || unit.equals(""))
       return;
 
+
     Ingredient ingredient = new Ingredient(name, details, amount, Unit.parseUnit(unit), 
         calories, density, price);
     ingredients.add(ingredient);
+
+
+      if (substitutes.containsKey(original))
+      {
+        substitutes.get(original).add(ingredient);
+      }
+      else
+      {
+        List<Ingredient> newSubstitutes = new ArrayList<Ingredient>();
+        newSubstitutes.add(ingredient);
+        substitutes.put(original, newSubstitutes);
+      }
 
     SortLists.sortIngredients(ingredients);
 
     nameField.setText("");
     detailField.setText("");
     unitSelect.setSelectedIndex(0);
+    substituteSelect.setSelectedIndex(0);
+    updateSubstituteSelect();
     amountField.setText("");
     priceField.setText("");
     calorieField.setText("");
     densityField.setText("");
 
     updateTextArea();
+    updateSubstituteArea();
   }
 
   private void delete()
@@ -284,9 +320,55 @@ public class IngredientEditor extends JPanel
     ingredientDisplay.setText(text);
   }
 
+  private void updateSubstituteArea()
+  {
+    String text = "";
+
+    Set<Ingredient> substitutableIngredients = substitutes.keySet();
+    for (Ingredient ingredient : substitutableIngredients)
+    {
+      List<Ingredient> substitutesForIngredient = substitutes.get(ingredient);
+      if (substitutesForIngredient != null)
+      {
+        for (Ingredient substitute : substitutesForIngredient)
+        {
+          text += String.format("Substitute %s for %s\n", substitute.toString(),
+              ingredient.toString());
+        }
+      }
+    }
+    substituteDisplay.setText(text);
+  }
+
+  /**
+   * updates the selectable "substitute" options. Should be called after loadIngredient is called.
+   */
+  private void updateSubstituteSelect()
+  {
+    substituteSelect.removeAllItems();
+
+    substituteSelect.addItem(BLANK);
+
+    for (Ingredient ingredient : ingredients)
+    {
+      substituteSelect.addItem(ingredient.getName());
+    }
+
+  }
+
   List<Ingredient> getIngredients()
   {
     return ingredients;
+  }
+
+  /**
+   * Gets the substitute Ingredients in the Recipe.
+   * 
+   * @return the substitute ingredients in the recipe.
+   */
+  HashMap<Ingredient, List<Ingredient>> getSubstitutes()
+  {
+    return substitutes;
   }
 
   /**
@@ -390,6 +472,19 @@ public class IngredientEditor extends JPanel
     }
 
     updateTextArea();
+    updateSubstituteSelect();
+  }
+
+  void loadSubstitutes(final HashMap<Ingredient, List<Ingredient>> newSubs)
+  {
+    this.substitutes.clear();
+
+    for (Ingredient key : newSubs.keySet())
+    {
+      substitutes.put(key, newSubs.get(key));
+    }
+
+    updateSubstituteArea();
   }
   
 }

@@ -185,7 +185,7 @@ public class NutritionInfo
    */
   public static boolean contains(final String ingredientName)
   {
-    return NUTRITION_MAP.containsKey(ingredientName);
+    return NUTRITION_MAP.containsKey(ingredientName.toLowerCase());
   }
 
   /**
@@ -201,10 +201,11 @@ public class NutritionInfo
    * @param pricePerTablespoon
    *          price per tablespoon, the standard unit of volume
    */
+
   public static void addIngredient(final String name, final double pricePerTablespoon,
       final Double calories, final Double density)
   {
-    if (!NUTRITION_MAP.containsKey(name))
+    if (!NUTRITION_MAP.containsKey(name.toLowerCase()))
     {
       NUTRITION_MAP.put(name, new CalorieGram(pricePerTablespoon, calories, density));
     }
@@ -268,7 +269,7 @@ public class NutritionInfo
    */
   public static Double getGramPerML(final String ingredientName)
   {
-    CalorieGram mapping = NUTRITION_MAP.get(ingredientName);
+    CalorieGram mapping = NUTRITION_MAP.get(ingredientName.toLowerCase());
     if (mapping != null && mapping.getDensity() != null)
     {
       return mapping.getDensity();
