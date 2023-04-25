@@ -345,7 +345,7 @@ public class Recipe implements Serializable
   }
 
   /**
-   * Gets a copy of the list of subRecipes.
+   * Gets a subRecipes of this Recipe. Returns a copy of the list.
    * 
    * @return
    */
@@ -355,7 +355,7 @@ public class Recipe implements Serializable
   }
 
   /**
-   * Gets the substitute Ingredients in the Recipe.
+   * Gets the substitute Ingredients in the Recipe. Returns a copy of the list.
    * 
    * @return the substitute ingredients in the recipe.
    */
@@ -365,7 +365,7 @@ public class Recipe implements Serializable
   }
 
   /**
-   * Gets the Ingredients used in the Recipe.
+   * Gets the Ingredients used in the Recipe. Returns a copy of the list.
    * 
    * @return the Ingredients used in the Recipe.
    */
@@ -381,7 +381,7 @@ public class Recipe implements Serializable
   }
 
   /**
-   * Gets the Utensils used in the Recipe.
+   * Gets the Utensils used in the Recipe. Returns a copy of the list.
    * 
    * @return the Utensils used in the Recipe.
    */
@@ -397,7 +397,7 @@ public class Recipe implements Serializable
   }
 
   /**
-   * Gets the Steps to follow in order to make the Recipe.
+   * Gets the Steps to follow in order to make the Recipe. Returns a copy of the list.
    * 
    * @return the Steps to follow in order to make the Recipe.
    */
