@@ -82,21 +82,21 @@ class LeafRecipeTest
   public void testGetIngredients()
   {
     Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50, ingredientUnit,
-        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+        null, null, 0.0);
     Ingredient ingredient2 = new Ingredient(ingredientName2, ingredientDetails, 50, ingredientUnit,
-        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+        null, null, 0.0);
     Ingredient ingredient3 = new Ingredient(ingredientName3, ingredientDetails, 50, ingredientUnit,
-        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+        null, null, 0.0);
     List<Ingredient> expected = new ArrayList<Ingredient>();
     expected.add(ingredient1);
     expected.add(ingredient2);
     expected.add(ingredient3);
-    
+
     Recipe recipe = new LeafRecipe(recipeNameValid, 500);
     recipe.addIngredient(ingredient1);
     recipe.addIngredient(ingredient2);
     recipe.addIngredient(ingredient3);
-    
+
     List<Ingredient> actual = recipe.getIngredients();
     assertEquals(expected, actual);
   }
@@ -122,8 +122,8 @@ class LeafRecipeTest
   public void testGetSteps()
   {
     List<Step> expected = new ArrayList<Step>();
-    Ingredient ingr = new Ingredient(ingredientName1, ingredientDetails, 5, ingredientUnit,
-        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+    Ingredient ingr = new Ingredient(ingredientName1, ingredientDetails, 5, ingredientUnit, null,
+        null, 0.0);
     Utensil utensilSource = new Utensil(utensilName1, utensilDetails);
     Utensil utensilDestination = new Utensil(utensilNameDest, utensilDetails);
     Step step = new Step(stepAction, ingr, utensilSource, utensilDestination, stepDetails, time);
@@ -134,7 +134,7 @@ class LeafRecipeTest
     recipe.addUtensil(utensilSource);
     recipe.addUtensil(utensilDestination);
     recipe.addStep(step);
-    
+
     List<Step> actual = recipe.getSteps();
     assertEquals(expected, actual);
   }
@@ -189,22 +189,22 @@ class LeafRecipeTest
   public void testAddIngredient()
   {
     Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50, ingredientUnit,
-        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+        null, null, 0.0);
     Ingredient ingredient2 = new Ingredient(ingredientName2, ingredientDetails, 50, ingredientUnit,
-        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+        null, null, 0.0);
     Ingredient ingredient3 = new Ingredient(ingredientName3, ingredientDetails, 50, ingredientUnit,
-        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
-    
+        null, null, 0.0);
+
     List<Ingredient> expected = new ArrayList<Ingredient>();
     expected.add(ingredient1);
     expected.add(ingredient2);
     expected.add(ingredient3);
-    
+
     Recipe recipe = new LeafRecipe(recipeNameValid, 500);
     recipe.addIngredient(ingredient1);
     recipe.addIngredient(ingredient2);
     recipe.addIngredient(ingredient3);
-    
+
     List<Ingredient> actual = recipe.getIngredients();
     assertEquals(expected, actual);
   }
@@ -213,22 +213,22 @@ class LeafRecipeTest
   public void testRemoveIngredient()
   {
     Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50, ingredientUnit,
-        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+        null, null, 0.0);
     Ingredient ingredient2 = new Ingredient(ingredientName2, ingredientDetails, 50, ingredientUnit,
-        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+        null, null, 0.0);
     Ingredient ingredient3 = new Ingredient(ingredientName3, ingredientDetails, 50, ingredientUnit,
-        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
-    
+        null, null, 0.0);
+
     List<Ingredient> expected = new ArrayList<Ingredient>();
     expected.add(ingredient1);
     expected.add(ingredient2);
-    
+
     Recipe recipe = new LeafRecipe(recipeNameValid, 500);
     recipe.addIngredient(ingredient1);
     recipe.addIngredient(ingredient2);
     recipe.addIngredient(ingredient3);
     recipe.removeIngredient(ingredient3);
-    
+
     List<Ingredient> actual = recipe.getIngredients();
     assertEquals(expected, actual);
   }
@@ -249,7 +249,7 @@ class LeafRecipeTest
     recipe.addUtensil(utensil1);
     recipe.addUtensil(utensil2);
     recipe.addUtensil(utensil3);
-    
+
     List<Utensil> actual = recipe.getUtensils();
     assertEquals(expected, actual);
   }
@@ -270,7 +270,7 @@ class LeafRecipeTest
     recipe.addUtensil(utensil2);
     recipe.addUtensil(utensil3);
     recipe.removeUtensil(utensil3);
-    
+
     List<Utensil> actual = recipe.getUtensils();
     assertEquals(expected, actual);
   }
@@ -278,8 +278,8 @@ class LeafRecipeTest
   @Test
   public void testAddStep()
   {
-    Ingredient ingr = new Ingredient(ingredientName1, ingredientDetails, 5, ingredientUnit,
-        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+    Ingredient ingr = new Ingredient(ingredientName1, ingredientDetails, 5, ingredientUnit, null,
+        null, 0.0);
     Utensil utensilSource = new Utensil(utensilName1, utensilDetails);
     Utensil utensilDestination = new Utensil(utensilNameDest, utensilDetails);
     Step step = new Step(stepAction, ingr, utensilSource, utensilDestination, stepDetails, time);
@@ -291,39 +291,36 @@ class LeafRecipeTest
     recipe.addUtensil(utensilSource);
     recipe.addUtensil(utensilDestination);
     recipe.addStep(step);
-    
+
     List<Step> actual = recipe.getSteps();
     assertEquals(expected, actual);
 
-    
     List<Step> expectedMissingIngr = new ArrayList<Step>();
     expectedMissingIngr.add(step);
     Recipe recipeMissingIngr = new LeafRecipe(recipeNameValid, 500);
     recipeMissingIngr.addUtensil(utensilSource);
     recipeMissingIngr.addUtensil(utensilDestination);
     recipeMissingIngr.addStep(step);
-    
+
     List<Step> actualMissingIngr = recipeMissingIngr.getSteps();
     assertEquals(expectedMissingIngr, actualMissingIngr);
 
-    
     List<Step> expectedMissingSource = new ArrayList<Step>();
     expectedMissingSource.add(step);
     Recipe recipeMissingSource = new LeafRecipe(recipeNameValid, 500);
     recipeMissingSource.addIngredient(ingr);
     recipeMissingSource.addUtensil(utensilDestination);
     recipeMissingSource.addStep(step);
-    
+
     List<Step> actualMissingSource = recipeMissingSource.getSteps();
     assertEquals(expectedMissingSource, actualMissingSource);
 
-    
     List<Step> expectedMissingDestination = new ArrayList<Step>();
     Recipe recipeMissingDestination = new LeafRecipe(recipeNameValid, 500);
     recipeMissingDestination.addIngredient(ingr);
     recipeMissingDestination.addUtensil(utensilSource);
     recipeMissingDestination.addStep(step);
-    
+
     List<Step> actualMissingDestination = recipeMissingDestination.getSteps();
     assertEquals(expectedMissingDestination, actualMissingDestination);
   }
@@ -333,12 +330,12 @@ class LeafRecipeTest
   {
     List<Step> expected = new ArrayList<Step>();
 
-    Ingredient ingr = new Ingredient(ingredientName1, ingredientDetails, 5, ingredientUnit,
-        IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+    Ingredient ingr = new Ingredient(ingredientName1, ingredientDetails, 5, ingredientUnit, null,
+        null, 0.0);
     Utensil utensilSource = new Utensil(utensilName1, utensilDetails);
     Utensil utensilDestination = new Utensil(utensilNameDest, utensilDetails);
     Step step = new Step(stepAction, ingr, utensilSource, utensilDestination, stepDetails, time);
-    
+
     Recipe recipe = new LeafRecipe(recipeNameValid, 500);
     recipe.addStep(step);
     recipe.removeStep(step);

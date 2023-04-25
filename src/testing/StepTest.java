@@ -22,9 +22,9 @@ class StepTest
   private final String quirkyDetails = "extraDetails";
   
   private final Ingredient basicIngredient = new Ingredient("ingredientName", "ingredientDetails", 1, Unit.POUND,
-      IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+      null, null, 0.0);
   private final Ingredient quirkyIngredient = new Ingredient("quirkyIngredientName", "quirkyIngredientDetails", 2, Unit.DRAM,
-      IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+      null, null, 0.0);
   
   private final Utensil basicSource = new Utensil("utensilName", "utensilDetails");
   private final Utensil quirkySource = new Utensil("quirkyUtensilName", "quirkyUtensilDetails");

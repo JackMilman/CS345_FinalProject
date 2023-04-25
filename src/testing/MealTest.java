@@ -19,11 +19,11 @@ import recipes.Utensil;
 class MealTest
 {
   private final Ingredient ingredient1 = new Ingredient("chicken", "chicken", 1, Unit.POUND,
-      IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+      null, null, 0.0);
   private final Ingredient ingredient2 = new Ingredient("cheddar cheese", "chicken", .25, Unit.POUND,
-      IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+      null, null, 0.0);
   private final Ingredient ingredient3 = new Ingredient("honey", "chicken", 1, Unit.TEASPOON,
-      IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+      null, null, 0.0);
 
   private final Utensil spoon = new Utensil("spoon", "its a spoon");
   private final Utensil fork = new Utensil("fork", "its got prongs");

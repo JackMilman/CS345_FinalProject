@@ -89,8 +89,6 @@ public class IngredientEditor extends JPanel
     densityField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     priceField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
 
-<<<<<<< HEAD
-=======
     unitSelect = new JComboBox<String>(UNITS);
     
     nameField.addActionListener(addListener);
@@ -100,7 +98,6 @@ public class IngredientEditor extends JPanel
     densityField.addActionListener(addListener);
     unitSelect.addActionListener(addListener);
 
->>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A.git
     ingredients = new ArrayList<Ingredient>();
     substitutes = new HashMap<Ingredient, List<Ingredient>>();
 
@@ -146,13 +143,10 @@ public class IngredientEditor extends JPanel
     inputFields.add(amountField);
     inputFields.add(new JLabel(Translator.translate("Units") + ":"));
     inputFields.add(unitSelect);
-<<<<<<< HEAD
-    inputFields.add(new JLabel(Translator.translate("Substitute") + ":"));
-    inputFields.add(substituteSelect);
-=======
+
     inputFields.add(new JLabel(Translator.translate("Price") + ": $"));
     inputFields.add(priceField);
->>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A.git
+
     inputFields.add(new JLabel(Translator.translate("Calories") + ":"));
     inputFields.add(calorieField);
     inputFields.add(new JLabel(Translator.translate("g/mL") + ":"));
@@ -223,12 +217,9 @@ public class IngredientEditor extends JPanel
     }
     catch (NumberFormatException nfe)
     {
-<<<<<<< HEAD
-      // density = NO_INPUT;
-      density = 1;
-=======
+
       density = NO_INPUT;
->>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A.git
+
     }
     catch (NullPointerException npe)
     {
@@ -239,29 +230,11 @@ public class IngredientEditor extends JPanel
     if (name.equals("") || unit.equals(""))
       return;
 
-<<<<<<< HEAD
-    Ingredient ingredient = new Ingredient(name, details, amount, Unit.parseUnit(unit), calories,
-        density);
-    if (substitute.equals(""))
-    {
-      ingredients.add(ingredient);
-    }
-    else
-    {
-      // Very hacky but I am not sure how to find the ingredient in the list otherwise
-      Ingredient original = null;
-      for (Ingredient item : ingredients)
-      {
-        if (item.getName().equals(substitute))
-        {
-          original = item;
-        }
-      }
-=======
+
     Ingredient ingredient = new Ingredient(name, details, amount, Unit.parseUnit(unit), 
         calories, density, price);
     ingredients.add(ingredient);
->>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A.git
+
 
       if (substitutes.containsKey(original))
       {
@@ -273,7 +246,7 @@ public class IngredientEditor extends JPanel
         newSubstitutes.add(ingredient);
         substitutes.put(original, newSubstitutes);
       }
-    }
+
     SortLists.sortIngredients(ingredients);
 
     nameField.setText("");

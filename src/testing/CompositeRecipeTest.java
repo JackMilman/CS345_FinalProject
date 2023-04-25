@@ -33,14 +33,14 @@ class CompositeRecipeTest
   private final String utensilName3 = "Knife";
 
   private final Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50,
-      ingredientUnit, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+      ingredientUnit, null, null, 0.0);
   private final Ingredient ingredient2 = new Ingredient(ingredientName2, ingredientDetails, 50,
-      ingredientUnit, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+      ingredientUnit, null, null, 0.0);
   private final Ingredient ingredient3 = new Ingredient(ingredientName3, ingredientDetails, 50,
-      ingredientUnit, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+      ingredientUnit, null, null, 0.0);
   // Total calories: 50 * 10.0 = 500
   private final Ingredient ingredient4 = new Ingredient(ingredientName4, ingredientDetails, 50,
-      ingredientUnit2, 10.0, 1.0);
+      ingredientUnit2, 10.0, 1.0, 0.0);
 
   @Test
   public void testCalculateCalories()

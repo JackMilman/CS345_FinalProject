@@ -16,116 +16,112 @@ import recipes.Step;
 import recipes.Unit;
 import recipes.Utensil;
 
-class ProcessViewerTest {
+class ProcessViewerTest
+{
 
-	public static void testProcessViewerRecipes() {
-	  
-	  Inventory inventory = Inventory.createInstance();
-	  inventory.addIngredient(new Ingredient("chicken", " ", 5, Unit.POUND, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-	  inventory.addIngredient(new Ingredient("lettuce", " ", 5, Unit.POUND, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-	  inventory.addIngredient(new Ingredient("broccoli", " ", 1, Unit.POUND, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-	  
-		ArrayList<Ingredient> ingredients = new ArrayList<>();
-		ingredients
-				.add(new Ingredient("chicken", " ", 1, Unit.POUND, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-		ingredients.add(
-				new Ingredient("lettuce", " ", 0.5, Unit.POUND, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-		ingredients
-				.add(new Ingredient("broccoli", " ", 6, Unit.OUNCE, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-//		ingredients
-//		.add(new Ingredient("invalid", " ", 6, Unit.OUNCE, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+  public static void testProcessViewerRecipes()
+  {
 
-		ArrayList<Utensil> utensils = new ArrayList<>();
-		utensils.add(new Utensil("fork", " "));
-		utensils.add(new Utensil("knife", " "));
-		utensils.add(new Utensil("sink", ""));
-		utensils.add(new Utensil("cutting board", ""));
+    Inventory inventory = Inventory.createInstance();
+    inventory.addIngredient(new Ingredient("chicken", " ", 5, Unit.POUND, null, null, 0.0));
+    inventory.addIngredient(new Ingredient("lettuce", " ", 5, Unit.POUND, null, null, 0.0));
+    inventory.addIngredient(new Ingredient("broccoli", " ", 1, Unit.POUND, null, null, 0.0));
 
-		ArrayList<Step> steps = new ArrayList<>();
-		steps.add(new Step("wash", ingredients.get(0), utensils.get(1), utensils.get(2), " ", 15));
-		steps.add(new Step("wash", ingredients.get(1), utensils.get(1), utensils.get(2), " ", 15));
-		steps.add(new Step("wash", ingredients.get(2), utensils.get(1), utensils.get(2), " ", 15));
-		steps.add(new Step("cut", ingredients.get(0), utensils.get(0), utensils.get(1), " ", 20));
-		steps.add(new Step("cut", ingredients.get(1), utensils.get(0), utensils.get(3), " ", 5));
-		steps.add(new Step("cut", ingredients.get(2), utensils.get(0), utensils.get(3), " ", 10));
+    ArrayList<Ingredient> ingredients = new ArrayList<>();
+    ingredients.add(new Ingredient("chicken", " ", 1, Unit.POUND, null, null, 0.0));
+    ingredients.add(new Ingredient("lettuce", " ", 0.5, Unit.POUND, null, null, 0.0));
+    ingredients.add(new Ingredient("broccoli", " ", 6, Unit.OUNCE, null, null, 0.0));
+    // ingredients
+    // .add(new Ingredient("invalid", " ", 6, Unit.OUNCE, IngredientEditor.NO_INPUT,
+    // IngredientEditor.NO_INPUT));
 
-		Recipe recipe = new LeafRecipe("Garlic Butter Salmon", 2);
-		recipe.addAllIngredients(ingredients);
-		recipe.addAllUtensils(utensils);
-		recipe.addAllSteps(steps);
-		ProcessViewer pv = new ProcessViewer(recipe, inventory);
-	}
+    ArrayList<Utensil> utensils = new ArrayList<>();
+    utensils.add(new Utensil("fork", " "));
+    utensils.add(new Utensil("knife", " "));
+    utensils.add(new Utensil("sink", ""));
+    utensils.add(new Utensil("cutting board", ""));
 
-	public static void testProcessViewerMeals() {
-		ArrayList<Ingredient> ingredients = new ArrayList<>();
-		ingredients
-				.add(new Ingredient("chicken", " ", 1, Unit.POUND, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-		ingredients.add(
-				new Ingredient("lettuce", " ", 0.5, Unit.POUND, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-		ingredients
-				.add(new Ingredient("broccoli", " ", 6, Unit.OUNCE, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+    ArrayList<Step> steps = new ArrayList<>();
+    steps.add(new Step("wash", ingredients.get(0), utensils.get(1), utensils.get(2), " ", 15));
+    steps.add(new Step("wash", ingredients.get(1), utensils.get(1), utensils.get(2), " ", 15));
+    steps.add(new Step("wash", ingredients.get(2), utensils.get(1), utensils.get(2), " ", 15));
+    steps.add(new Step("cut", ingredients.get(0), utensils.get(0), utensils.get(1), " ", 20));
+    steps.add(new Step("cut", ingredients.get(1), utensils.get(0), utensils.get(3), " ", 5));
+    steps.add(new Step("cut", ingredients.get(2), utensils.get(0), utensils.get(3), " ", 10));
 
-		ArrayList<Utensil> utensils = new ArrayList<>();
-		utensils.add(new Utensil("fork", " "));
-		utensils.add(new Utensil("knife", " "));
-		utensils.add(new Utensil("sink", ""));
-		utensils.add(new Utensil("cutting board", ""));
+    Recipe recipe = new LeafRecipe("Garlic Butter Salmon", 2);
+    recipe.addAllIngredients(ingredients);
+    recipe.addAllUtensils(utensils);
+    recipe.addAllSteps(steps);
+    ProcessViewer pv = new ProcessViewer(recipe, inventory);
+  }
 
-		ArrayList<Step> steps = new ArrayList<>();
-		steps.add(new Step("wash", ingredients.get(0), utensils.get(1), utensils.get(2), " ", 15));
-		steps.add(new Step("wash", ingredients.get(1), utensils.get(1), utensils.get(2), " ", 15));
-		steps.add(new Step("wash", ingredients.get(2), utensils.get(1), utensils.get(2), " ", 15));
-		steps.add(new Step("cut", ingredients.get(0), utensils.get(0), utensils.get(1), " ", 20));
-		steps.add(new Step("cut", ingredients.get(1), utensils.get(0), utensils.get(3), " ", 5));
-		steps.add(new Step("cut", ingredients.get(2), utensils.get(0), utensils.get(3), " ", 10));
+  public static void testProcessViewerMeals()
+  {
+    ArrayList<Ingredient> ingredients = new ArrayList<>();
+    ingredients.add(new Ingredient("chicken", " ", 1, Unit.POUND, null, null, 0.0));
+    ingredients.add(new Ingredient("lettuce", " ", 0.5, Unit.POUND, null, null, 0.0));
+    ingredients.add(new Ingredient("broccoli", " ", 6, Unit.OUNCE, null, null, 0.0));
 
-		Recipe recipe = new LeafRecipe("Garlic Butter Salmon", 2);
-		recipe.addAllIngredients(ingredients);
-		recipe.addAllUtensils(utensils);
-		recipe.addAllSteps(steps);
+    ArrayList<Utensil> utensils = new ArrayList<>();
+    utensils.add(new Utensil("fork", " "));
+    utensils.add(new Utensil("knife", " "));
+    utensils.add(new Utensil("sink", ""));
+    utensils.add(new Utensil("cutting board", ""));
 
-		ingredients = new ArrayList<>();
-		ingredients
-				.add(new Ingredient("tomatos", " ", 2, Unit.POUND, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-		ingredients.add(
-				new Ingredient("lettuce", " ", 0.5, Unit.POUND, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
-		ingredients
-				.add(new Ingredient("carrots", " ", 6, Unit.OUNCE, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT));
+    ArrayList<Step> steps = new ArrayList<>();
+    steps.add(new Step("wash", ingredients.get(0), utensils.get(1), utensils.get(2), " ", 15));
+    steps.add(new Step("wash", ingredients.get(1), utensils.get(1), utensils.get(2), " ", 15));
+    steps.add(new Step("wash", ingredients.get(2), utensils.get(1), utensils.get(2), " ", 15));
+    steps.add(new Step("cut", ingredients.get(0), utensils.get(0), utensils.get(1), " ", 20));
+    steps.add(new Step("cut", ingredients.get(1), utensils.get(0), utensils.get(3), " ", 5));
+    steps.add(new Step("cut", ingredients.get(2), utensils.get(0), utensils.get(3), " ", 10));
 
-		utensils = new ArrayList<>();
-		utensils.add(new Utensil("knife", " "));
-		utensils.add(new Utensil("sink", ""));
-		utensils.add(new Utensil("cutting board", ""));
+    Recipe recipe = new LeafRecipe("Garlic Butter Salmon", 2);
+    recipe.addAllIngredients(ingredients);
+    recipe.addAllUtensils(utensils);
+    recipe.addAllSteps(steps);
 
-		steps = new ArrayList<>();
-		steps.add(new Step("wash", ingredients.get(0), utensils.get(1), utensils.get(2), " ", 15));
-		steps.add(new Step("wash", ingredients.get(1), utensils.get(1), utensils.get(2), " ", 15));
-		steps.add(new Step("wash", ingredients.get(2), utensils.get(1), utensils.get(2), " ", 15));
-		steps.add(new Step("cut", ingredients.get(0), utensils.get(0), utensils.get(1), " ", 20));
-		steps.add(new Step("cut", ingredients.get(1), utensils.get(0), utensils.get(2), " ", 5));
-		steps.add(new Step("cut", ingredients.get(2), utensils.get(0), utensils.get(2), " ", 10));
+    ingredients = new ArrayList<>();
+    ingredients.add(new Ingredient("tomatos", " ", 2, Unit.POUND, null, null, 0.0));
+    ingredients.add(new Ingredient("lettuce", " ", 0.5, Unit.POUND, null, null, 0.0));
+    ingredients.add(new Ingredient("carrots", " ", 6, Unit.OUNCE, null, null, 0.0));
 
-		Recipe salad = new LeafRecipe("Ceaser Salad", 2);
-		salad.addAllIngredients(ingredients);
-		salad.addAllUtensils(utensils);
-		salad.addAllSteps(steps);
+    utensils = new ArrayList<>();
+    utensils.add(new Utensil("knife", " "));
+    utensils.add(new Utensil("sink", ""));
+    utensils.add(new Utensil("cutting board", ""));
 
-		List<Recipe> recipes = new ArrayList<>();
-		recipes.add(salad);
-		recipes.add(recipe);
-		Meal meal = new Meal("Dinner", recipes, 2);
-		
-		if(NutritionInfo.contains("chicken")) {
-		  System.out.print(true);
-		}
+    steps = new ArrayList<>();
+    steps.add(new Step("wash", ingredients.get(0), utensils.get(1), utensils.get(2), " ", 15));
+    steps.add(new Step("wash", ingredients.get(1), utensils.get(1), utensils.get(2), " ", 15));
+    steps.add(new Step("wash", ingredients.get(2), utensils.get(1), utensils.get(2), " ", 15));
+    steps.add(new Step("cut", ingredients.get(0), utensils.get(0), utensils.get(1), " ", 20));
+    steps.add(new Step("cut", ingredients.get(1), utensils.get(0), utensils.get(2), " ", 5));
+    steps.add(new Step("cut", ingredients.get(2), utensils.get(0), utensils.get(2), " ", 10));
 
-		ProcessViewer pv = new ProcessViewer(meal);
-	}
+    Recipe salad = new LeafRecipe("Ceaser Salad", 2);
+    salad.addAllIngredients(ingredients);
+    salad.addAllUtensils(utensils);
+    salad.addAllSteps(steps);
 
-	
-	public static void main(final String[] args) {
-		testProcessViewerRecipes();
-		testProcessViewerMeals();
-	}
+    List<Recipe> recipes = new ArrayList<>();
+    recipes.add(salad);
+    recipes.add(recipe);
+    Meal meal = new Meal("Dinner", recipes, 2);
+
+    if (NutritionInfo.contains("chicken"))
+    {
+      System.out.print(true);
+    }
+
+    ProcessViewer pv = new ProcessViewer(meal);
+  }
+
+  public static void main(final String[] args)
+  {
+    testProcessViewerRecipes();
+    testProcessViewerMeals();
+  }
 
 }

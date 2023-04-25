@@ -147,7 +147,7 @@ public class InventoryWindow extends KitchIntelJFrame
       amount = Double.parseDouble(ingredientAmount.getText());
       if (amount < 0)
         amount = 0;
-      inventoryItem = new Ingredient(name, details, amount, unit, 0.0, 0.0);
+      inventoryItem = new Ingredient(name, details, amount, unit, 0.0, 0.0, 0.0);
       inventory.addIngredient(inventoryItem);
       ingredientName.setText("");
       ingredientDetails.setText("");
@@ -155,16 +155,10 @@ public class InventoryWindow extends KitchIntelJFrame
       ingredientUnit.setSelectedItem("");
       addButton.setEnabled(false);
       subButton.setEnabled(false);
-<<<<<<< HEAD
-      for (Ingredient info : inventory.getInventory())
-        inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
-            + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
-=======
       for (Ingredient info : inventory.getIngredientList())
 //        inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
 //            + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
         inventoryPanel.append(info.toString() + "\n");
->>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A.git
       amountItems.setText(String.format("%d", inventory.size()));
       amountItems.setEnabled(true);
     }
@@ -180,7 +174,7 @@ public class InventoryWindow extends KitchIntelJFrame
       name = ingredientName.getText();
       details = ingredientDetails.getText();
       amount = Double.parseDouble(ingredientAmount.getText());
-      inventoryItem = new Ingredient(name, details, amount, unit, 0.0, 0.0);
+      inventoryItem = new Ingredient(name, details, amount, unit, 0.0, 0.0, 0.0);
       inventory.reduceIngredient(inventoryItem);
       ingredientName.setText("");
       ingredientDetails.setText("");
@@ -188,16 +182,10 @@ public class InventoryWindow extends KitchIntelJFrame
       ingredientUnit.setSelectedItem("");
       addButton.setEnabled(false);
       subButton.setEnabled(false);
-<<<<<<< HEAD
-      for (Ingredient info : inventory.getInventory())
-        inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
-            + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
-=======
       for (Ingredient info : inventory.getIngredientList())
 //        inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
 //            + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
         inventoryPanel.append(info.toString() + "\n");
->>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A.git
 
     }
   }

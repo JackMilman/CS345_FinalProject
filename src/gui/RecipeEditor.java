@@ -159,7 +159,6 @@ public class RecipeEditor extends Editor
     List<Ingredient> ingredients;
     HashMap<Ingredient, List<Ingredient>> substitutes;
     List<Utensil> utensils;
-    HashMap<Ingredient, List<Ingredient>> substitutes;
     List<Step> steps;
 
     name = nameField.getText();
@@ -174,11 +173,7 @@ public class RecipeEditor extends Editor
     }
 
     ingredients = ingredientEditor.getIngredients();
-<<<<<<< HEAD
-    substitutes = ingredientEditor.getSubstitutes();
-=======
     substitutes = substituteEditor.getSubstitutes();
->>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A.git
     utensils = utensilEditor.getUtensils();
     steps = stepEditor.getSteps();
 
@@ -196,12 +191,8 @@ public class RecipeEditor extends Editor
     servingsField.setText(recipe.getServings() + "");
     utensilEditor.loadUtensils(recipe.getUtensils());
     ingredientEditor.loadIngredients(recipe.getIngredients());
-<<<<<<< HEAD
-    ingredientEditor.loadSubstitutes(recipe.getSubstitutes());
-=======
     substituteEditor.loadIngredients(recipe.getIngredients());
     substituteEditor.loadSubstitutes(recipe.getSubstitutes());
->>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A.git
     stepEditor.loadSteps(recipe.getSteps());
 
     this.fileName = fileName;

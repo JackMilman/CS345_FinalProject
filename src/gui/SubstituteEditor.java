@@ -199,7 +199,7 @@ public class SubstituteEditor extends JPanel
       return;
 
     Ingredient ingredient = new Ingredient(name, details, amount, Unit.parseUnit(unit), calories,
-        density);
+        density, 0.0);
     
     if (substitutes.containsKey(substitute)) {
       substitutes.get(substitute).add(ingredient);
