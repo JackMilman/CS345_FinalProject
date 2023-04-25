@@ -107,7 +107,7 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame
   {
    String s = (String)ingredients.getSelectedItem();
    if (NutritionInfo.contains(s.toLowerCase())) {
-     if (NutritionInfo.getCalPerGram(s) == IngredientEditor.NO_INPUT)
+     if (NutritionInfo.getCalPerGram(s) == 0.0)
      {
        return null;
      }
