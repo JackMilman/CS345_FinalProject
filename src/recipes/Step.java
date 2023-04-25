@@ -48,7 +48,17 @@ public class Step implements Serializable
     this.details = details;
     this.time = time;
   }
-  
+
+  /**
+   * Step constructor with a Recipe as its ingredient, for use with Embedded Recipes.
+   * 
+   * @param action
+   * @param recipe
+   * @param source
+   * @param destination
+   * @param details
+   * @param time
+   */
   public Step(final String action, final Recipe recipe, final Utensil source,
       final Utensil destination, final String details, final int time)
   {
@@ -59,7 +69,6 @@ public class Step implements Serializable
     this.details = details;
     this.time = time;
   }
-
 
   /**
    * Sets the details of the Step.
@@ -130,14 +139,17 @@ public class Step implements Serializable
    * @param source
    *          the source Utensil to be set
    */
-  
-  public void setRecipe(final Recipe recipe) {
+
+  public void setRecipe(final Recipe recipe)
+  {
     this.recipe = recipe;
   }
-  
-  public Recipe getRecipe() {
-   return recipe;
+
+  public Recipe getRecipe()
+  {
+    return recipe;
   }
+
   public void setSource(final Utensil source)
   {
     this.source = source;
@@ -214,7 +226,8 @@ public class Step implements Serializable
             source.getName(), destination.getName(), details, time).strip();
       }
     }
-    if (recipe != null){
+    if (recipe != null)
+    {
       return String.format("%s the *%s on the %s %s\t\t%s minutes", action, recipe.getName(),
           destination.getName(), details, time).strip();
     }

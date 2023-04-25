@@ -185,7 +185,7 @@ public class NutritionInfo
    */
   public static boolean contains(final String ingredientName)
   {
-    return NUTRITION_MAP.containsKey(ingredientName);
+    return NUTRITION_MAP.containsKey(ingredientName.toLowerCase());
   }
 
   /**
