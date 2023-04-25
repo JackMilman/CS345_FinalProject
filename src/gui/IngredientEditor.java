@@ -19,13 +19,17 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 import branding.KitchIntelBorder;
 import branding.KitchIntelJDialog;
 import config.Translator;
 import recipes.Ingredient; 
 import recipes.NutritionInfo;
+import recipes.Recipe;
 import recipes.Unit;
 import utilities.SortLists;
 
@@ -48,23 +52,24 @@ public class IngredientEditor extends JPanel
   private static final String BLANK = "            ";
   
   private JComboBox<String> selectIngredient;
+  private JComboBox<String> unitSelect;
+  private JComboBox<String> substituteSelect;
   private JTextField detailField;
   private JTextField amountField;
-  private JComboBox<String> unitSelect;
   private JButton makeNewIngredient;
   private JButton addButton;
   private JButton deleteButton;
-  private JComboBox<String> substituteSelect;
   private TextArea ingredientDisplay;
   private TextArea substituteDisplay;
   
-  private List<Ingredient> ingredients;
-  private HashMap<Ingredient, List<Ingredient>> substitutes;
+  private final Recipe workingRecipe;
   
-  public IngredientEditor()
+  public IngredientEditor(Recipe workingRecipe)
   {
-    
     super();
+    
+    this.workingRecipe = workingRecipe;
+    
     setLayout(new BorderLayout());
     setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Ingredients")));
     
@@ -98,12 +103,12 @@ public class IngredientEditor extends JPanel
     amountField.addActionListener(addListener);
     unitSelect.addActionListener(addListener);
     
-    ingredients = new ArrayList<>();
-    substitutes = new HashMap<>();
-    
     substituteSelect = new JComboBox<>();
+    
     ingredientDisplay = new TextArea(0, 0);
     substituteDisplay = new TextArea(0, 0);
+    
+    substituteDisplay.setEditable(false);
     
     Container inputFields = new Container();
     inputFields.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -152,11 +157,9 @@ public class IngredientEditor extends JPanel
   
   private void add()
   {
-    
     String name = selectIngredient.getSelectedItem().toString();
     String details = detailField.getText();
     String unit = unitSelect.getSelectedItem().toString();
-//    String substitute = substituteSelect.getSelectedItem().toString();
     double amount;
     
     try
@@ -169,92 +172,48 @@ public class IngredientEditor extends JPanel
     }
     
     Ingredient ingredient = new Ingredient(name, details, amount, Unit.parseUnit(unit));
-    ingredients.add(ingredient);
-    
-    SortLists.sortIngredients(ingredients);
-    
+    workingRecipe.addIngredient(ingredient);
+        
     selectIngredient.setSelectedIndex(0); // will cause problems when selecting ""
     detailField.setText("");
     unitSelect.setSelectedIndex(0);
-//    substituteSelect.setSelectedInsdex(0);
-//    updateSubstituteSelect();
     amountField.setText("");
     
-    updateTextArea();
+    updateIngredientDisplay();
     updateSubstituteArea();
-    
   }
   
   private void delete()
   {
     
-    if (ingredients.size() == 0)
+    if (workingRecipe.getIngredients().size() == 0)
     {
       return;
     }
     
-    int selectionStart = ingredientDisplay.getSelectionStart();
-    int linesSelected = 0;
-    int linesSkipped = 0;
-    String selectedText=  ingredientDisplay.getSelectedText();
-    
-    if (selectedText == null || selectedText.length() < 0)
-      return;
-
-    char[] characters = selectedText.toCharArray();
-
-    // counts the number of newline characters to determine the number of lines selected
-    for (char character : characters)
-    {
-      if (character == '\n')
-      {
-        linesSelected++;
-      }
-    }
-
-    // if the last selected character isn't a newline character, then there is one uncounted line.
-    if (characters[characters.length - 1] != '\n')
-      linesSelected++;
-
-    String skipped = ingredientDisplay.getText().substring(0, selectionStart);
-
-    char[] skippedChars = skipped.toCharArray();
-
-    for (char skippedChar : skippedChars)
-    {
-      if (skippedChar == '\n')
-        linesSkipped++;
-    }
-
-    for (int i = 0; i < linesSelected; i++)
-    {
-      ingredients.remove(linesSkipped);
-    }
-
-    updateTextArea();
+    //TODO refactor so I can use a JTable
     
   }
   
-  private void updateTextArea()
+  private void updateIngredientDisplay()
   {
-    String text = "";
-
-    for (Ingredient ingredient : ingredients)
-    {
-      text += String.format("%s\n", ingredient.toString());
+    String displayText = "";
+    
+    for(Ingredient ingredient : workingRecipe.getIngredients()) {
+      displayText += String.format("%s\n",ingredient.toString());
     }
-
-    ingredientDisplay.setText(text);
+    
+    ingredientDisplay.setText(displayText);
   }
   
   private void updateSubstituteArea()
   {
     String text = "";
 
-    Set<Ingredient> substitutableIngredients = substitutes.keySet();
+    Set<Ingredient> substitutableIngredients = workingRecipe.getSubstitutes().keySet();
     for (Ingredient ingredient : substitutableIngredients)
     {
-      List<Ingredient> substitutesForIngredient = substitutes.get(ingredient);
+      List<Ingredient> substitutesForIngredient = workingRecipe.getSubstitutes().get(ingredient);
       if (substitutesForIngredient != null)
       {
         for (Ingredient substitute : substitutesForIngredient)
@@ -276,7 +235,7 @@ public class IngredientEditor extends JPanel
 
     substituteSelect.addItem(BLANK);
 
-    for (Ingredient ingredient : ingredients)
+    for (Ingredient ingredient : workingRecipe.getIngredients())
     {
       substituteSelect.addItem(ingredient.getName());
     }
@@ -285,7 +244,7 @@ public class IngredientEditor extends JPanel
   
   List<Ingredient> getIngredients()
   {
-    return ingredients;
+    return workingRecipe.getIngredients();
   }
 
   /**
@@ -295,7 +254,7 @@ public class IngredientEditor extends JPanel
    */
   HashMap<Ingredient, List<Ingredient>> getSubstitutes()
   {
-    return substitutes;
+    return workingRecipe.getSubstitutes();
   }
 
   /**
@@ -306,11 +265,9 @@ public class IngredientEditor extends JPanel
    */
   public void addTextListener(final TextListener listener)
   {
-    ingredientDisplay.addTextListener(listener);
+    //TODO refactor for JTable
   }
 
-  
-  
   private class IngredientEditorListener implements ActionListener
   {
     
@@ -382,25 +339,18 @@ public class IngredientEditor extends JPanel
     
   void loadIngredients(final List<Ingredient> newIngredients)
   {
-    this.ingredients.clear();
+    workingRecipe.getIngredients().clear();
+    workingRecipe.addAllIngredients(newIngredients);
     
-    for (Ingredient ingredient : newIngredients)
-    {
-      ingredients.add(ingredient);
-    }
-    
-    updateTextArea();
+    updateIngredientDisplay();
     updateSubstituteSelect();
   }
   
   void loadSubstitutes(final HashMap<Ingredient, List<Ingredient>> newSubs)
   {
-    this.substitutes.clear();
+    workingRecipe.getSubstitutes().clear();
+    workingRecipe.addAllSubstitutes(newSubs);
     
-    for (Ingredient key : newSubs.keySet())
-    {
-      substitutes.put(key, newSubs.get(key));
-    }
     
     updateSubstituteArea();
   }

@@ -81,7 +81,7 @@ public class RecipeEditor extends Editor
     servingsField = new JTextField();
 
     utensilEditor = new UtensilEditor();
-    ingredientEditor = new IngredientEditor();
+    ingredientEditor = new IngredientEditor(workingRecipe);
     substituteEditor = new SubstituteEditor();
     stepEditor = new StepEditor(utensilEditor.getUtensils(), ingredientEditor.getIngredients());
 
