@@ -132,7 +132,7 @@ public class PriceInfo
    * @param find the name of a built-in ingredient
    * @return the ingredient's price per tablespoon or 0.0
    */
-  public Double getPricePerTablespoon(final String ingredientName)
+  public static Double getPricePerTablespoon(final String ingredientName)
   {
     Double mapping = PRICE_MAP.get(ingredientName.toLowerCase());
     if (mapping != null)
