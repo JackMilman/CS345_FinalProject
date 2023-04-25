@@ -10,7 +10,7 @@ import recipes.Step;
 import recipes.Unit;
 import recipes.Utensil;
 
-public class EmbeddedRecipesTest
+public class EmbeddedRecipesViewerTest
 {
   private static Recipe bananasFoster()
   {
