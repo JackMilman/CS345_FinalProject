@@ -5,15 +5,20 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
 import gui.IngredientEditor;
 import recipes.CompositeRecipe;
 import recipes.Ingredient;
 import recipes.LeafRecipe;
+import recipes.NutritionInfo;
 import recipes.Recipe;
 import recipes.Unit;
 
+@TestInstance(Lifecycle.PER_CLASS)
 class CompositeRecipeTest
 {
   private final String recipeNameValid = "NamedRecipe";
@@ -33,14 +38,19 @@ class CompositeRecipeTest
   private final String utensilName3 = "Knife";
 
   private final Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50,
-      ingredientUnit, null, null, 0.0);
+      ingredientUnit);
   private final Ingredient ingredient2 = new Ingredient(ingredientName2, ingredientDetails, 50,
-      ingredientUnit, null, null, 0.0);
+      ingredientUnit);
   private final Ingredient ingredient3 = new Ingredient(ingredientName3, ingredientDetails, 50,
-      ingredientUnit, null, null, 0.0);
+      ingredientUnit);
   // Total calories: 50 * 10.0 = 500
   private final Ingredient ingredient4 = new Ingredient(ingredientName4, ingredientDetails, 50,
-      ingredientUnit2, 10.0, 1.0, 0.0);
+      ingredientUnit2);
+  
+  @BeforeAll
+  public void addIngredient4ToMap() {
+    NutritionInfo.addIngredient(ingredientName4, 10.0, 1.0);
+  }
 
   @Test
   public void testCalculateCalories()

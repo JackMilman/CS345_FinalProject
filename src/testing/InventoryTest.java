@@ -31,11 +31,11 @@ class InventoryTest
   {
     Inventory instance = Inventory.createInstance();
     Ingredient ingredientPound = new Ingredient(ingredientName, ingredientDetails, ingredientAmount,
-        ingredientUnit, null, null, 0.0);
+        ingredientUnit);
     Ingredient ingredientOunce = new Ingredient(ingredientName, ingredientDetails, ingredientAmount,
-        ingredientUnitOunce, null, null, 0.0);
+        ingredientUnitOunce);
     Ingredient newIngredient = new Ingredient(newName, ingredientDetails, ingredientAmount,
-        ingredientUnit, null, null, 0.0);
+        ingredientUnit);
 
     instance.addIngredient(ingredientPound);
     double addedAmount = instance.getIngredient(ingredientPound).getAmount();
@@ -60,11 +60,11 @@ class InventoryTest
   {
     Inventory instance = Inventory.createInstance();
     Ingredient ingredientPound = new Ingredient(ingredientName, ingredientDetails, ingredientAmount,
-        ingredientUnit, null, null, 0.0);
+        ingredientUnit);
     Ingredient newIngredient = new Ingredient(newName, ingredientDetails, ingredientAmount,
-        ingredientUnit, null, null, 0.0);
+        ingredientUnit);
     Ingredient notThere = new Ingredient("I am not here", "Not here either", ingredientAmount,
-        ingredientUnit, null, null, 0.0);
+        ingredientUnit);
     instance.addIngredient(ingredientPound);
     instance.addIngredient(newIngredient);
 
@@ -94,7 +94,7 @@ class InventoryTest
   {
     Inventory instance = Inventory.createInstance();
     Ingredient ingredientPound = new Ingredient(ingredientName, ingredientDetails, ingredientAmount,
-        ingredientUnit, null, null, 0.0);
+        ingredientUnit);
     instance.addIngredient(ingredientPound);
     instance.addIngredient(ingredientPound);
 
@@ -114,18 +114,18 @@ class InventoryTest
   {
     Inventory instance = Inventory.createInstance();
     Ingredient ingredient1 = new Ingredient(ingredientName + "1", ingredientDetails + "1",
-        ingredientAmount, ingredientUnit, null, null, 0.0);
+        ingredientAmount, ingredientUnit);
     Ingredient ingredient2 = new Ingredient(ingredientName + "2", ingredientDetails + "2",
-        ingredientAmount, ingredientUnit, null, null, 0.0);
+        ingredientAmount, ingredientUnit);
     Ingredient ingredient3 = new Ingredient(ingredientName + "3", ingredientDetails + "3",
-        ingredientAmount, ingredientUnit, null, null, 0.0);
+        ingredientAmount, ingredientUnit);
 
     instance.addIngredient(ingredient1);
     instance.addIngredient(ingredient2);
     instance.addIngredient(ingredient3);
 
     Ingredient remove1 = new Ingredient(ingredientName + "1", ingredientDetails + "1", 5,
-        ingredientUnit, null, null, 0.0);
+        ingredientUnit);
 
     instance.reduceIngredient(remove1);
     assertEquals(5, instance.getIngredient(ingredient1).getAmount());

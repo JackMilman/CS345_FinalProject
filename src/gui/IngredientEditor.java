@@ -88,7 +88,7 @@ public class IngredientEditor extends JPanel
     calorieField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     densityField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     priceField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
-
+    
     unitSelect = new JComboBox<String>(UNITS);
     
     nameField.addActionListener(addListener);
@@ -101,7 +101,7 @@ public class IngredientEditor extends JPanel
     ingredients = new ArrayList<Ingredient>();
     substitutes = new HashMap<Ingredient, List<Ingredient>>();
 
-    unitSelect = new JComboBox<String>(UNITS);
+
     substituteSelect = new JComboBox<String>();
 
     ingredientDisplay = new TextArea(0, 0);

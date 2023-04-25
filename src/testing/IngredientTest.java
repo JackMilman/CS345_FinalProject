@@ -26,8 +26,7 @@ class IngredientTest
   public void testGetName()
   {
     String expected = ingredientName;
-    Ingredient ingredient = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit,
-        null, null, 0.0);
+    Ingredient ingredient = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit);
     String actual = ingredient.getName();
     assertEquals(expected, actual);
   }
@@ -36,8 +35,7 @@ class IngredientTest
   public void testGetDetails()
   {
     String expected = ingredientDetails;
-    Ingredient ingredient = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit,
-        null, null, 0.0);
+    Ingredient ingredient = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit);
     String actual = ingredient.getDetails();
     assertEquals(expected, actual);
   }
@@ -46,8 +44,7 @@ class IngredientTest
   public void testGetAmount()
   {
     double expected = 10;
-    Ingredient ingredient = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit,
-        null, null, 0.0);
+    Ingredient ingredient = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit);
     double actual = ingredient.getAmount();
     assertEquals(expected, actual);
   }
@@ -56,8 +53,7 @@ class IngredientTest
   public void testGetUnit()
   {
     Unit expected = ingredientUnit;
-    Ingredient ingredient = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit,
-        null, null, 0.0);
+    Ingredient ingredient = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit);
     Unit actual = ingredient.getUnit();
     assertEquals(expected, actual);
   }
@@ -65,7 +61,7 @@ class IngredientTest
   @Test
   public void testGetCalories()
   {
-    Ingredient ingredient = new Ingredient("Alcohol", "Scotch", 5, Unit.GRAM, null, null, 0.0);
+    Ingredient ingredient = new Ingredient("Alcohol", "Scotch", 5, Unit.GRAM);
     // Alcohol cal/gram = 2.75. 2.75 * 5 = 13.75
     double expectedPerGram = 13.75;
     // Alcohol cal/gram = 2.75. 2.75 * 5 = 13.75
@@ -81,14 +77,13 @@ class IngredientTest
   @Test
   public void testEquals()
   {
-    Ingredient ingredient1 = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit,
-        null, null, 0.0);
+    Ingredient ingredient1 = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit);
     Ingredient ingredient2 = new Ingredient(ingredientName, ingredientDetails, 15,
-        ingredientUnitMetric, null, null, 0.0);
+        ingredientUnitMetric);
     Ingredient ingredient3 = new Ingredient("Not the same Ingredient", ingredientDetails, 10,
-        ingredientUnit, null, null, 0.0);
+        ingredientUnit);
     Ingredient ingredient4 = new Ingredient(ingredientName, "Not the same Details", 10,
-        ingredientUnit, null, null, 0.0);
+        ingredientUnit);
     assertEquals(ingredient1, ingredient1);
     assertFalse(ingredient1.equals(null));
     assertFalse(ingredient1.equals("I am not an Ingredient"));
@@ -100,14 +95,10 @@ class IngredientTest
   @Test
   public void testHashCode()
   {
-    Ingredient ingredient1 = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit,
-        null, null, 0.0);
-    Ingredient ingredient2 = new Ingredient(ingredientName, ingredientDetails, 1687, Unit.NONE,
-        null, null, 0.0);
-    Ingredient differentName = new Ingredient("NewName", ingredientDetails, 1687, Unit.NONE, null,
-        null, 0.0);
-    Ingredient differentDetails = new Ingredient(ingredientName, "NewDetails", 1687, Unit.NONE,
-        null, null, 0.0);
+    Ingredient ingredient1 = new Ingredient(ingredientName, ingredientDetails, 10, ingredientUnit);
+    Ingredient ingredient2 = new Ingredient(ingredientName, ingredientDetails, 1687, Unit.NONE);
+    Ingredient differentName = new Ingredient("NewName", ingredientDetails, 1687, Unit.NONE);
+    Ingredient differentDetails = new Ingredient(ingredientName, "NewDetails", 1687, Unit.NONE);
 
     int firstCode = ingredient1.hashCode();
     int secondCode = ingredient2.hashCode();

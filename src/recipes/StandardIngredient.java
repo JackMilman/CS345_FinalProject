@@ -1,5 +1,8 @@
 package recipes;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Represents the ingredients and their prices per tablespoon
  * that are built in to the software (not including ingredients added
@@ -12,83 +15,114 @@ package recipes;
  * @author Meara Patterson
  * @version 4/24/2023
  */
-public enum StandardIngredient
+public class StandardIngredient
 {
+  
+  private static final Map<String, Double> PRICE_MAP = intitializePrice();
 
-  ALCOHOL("alcohol", 0.05), ALMOND("almond", 0.30), AMERICAN_CHEESE("american cheese", 0.16),
-  APPLE("apple", 0.05), APPLE_JUICE("apple juice", 0.02), BANANA("banana", 0.03), 
-  BEAN("bean", 0.03), BEEF("beef", 0.2), BLACKBERRY("blackberry", 0.18), 
-  BLACK_PEPPER("black pepper", 0.60), BREAD("bread", 0.03), BROCCOLI("broccoli", 0.12), 
-  BROWN_SUGAR("brown sugar", 0.03), BUTTER("butter", 0.12),
-  CABBAGE("cabbage", 0.01), CARROT("carrot", 0.04), CASHEW("cashew", 0.28), 
-  CAULIFLOWER("cauliflower", 0.07), CELERY("celery", 0.07), CHEDDAR_CHEESE("cheddar cheese", 0.14), 
-  CHERRY("cherry", 0.12), CHICKEN("chicken", 0.17), CHOCOLATE("chocolate", 0.42), 
-  CINNAMON("cinnamon", 0.27), COD("cod", 0.42),
-  CORN("corn", 0.05), CORNFLAKE("cornflake", 0.15), COTTAGE_CHEESE("cottage cheese", 0.06),
-  CRAB("crab", 0.27), CREME_DE_CACAO("creme de cacao", 0.35), CUCUMBER("cucumber", 0.17), 
-  EGG("egg", 0.05), FLOUR("flour", 0.01), GARLIC("garlic", 0.20), GRAPEFRUIT("grapefruit", 0.08), 
-  GRAPE("grape", 0.08), GRAPE_JUICE("grape juice", 0.04), GREEN_BEAN("green bean", 0.12), 
-  HADDOCK("haddock", 0.42), HAM("ham", 0.22), HONEY("honey", 0.17), ICE_CREAM("ice cream", 0.06), 
-  KIDNEY_BEAN("kidney bean", 0.04), LAMB("lamb", 0.51), LEMON("lemon", 0.07), 
-  LENTIL("lentil", 0.05), LETTUCE("lettuce", 0.07),
-  MACARONI("macaroni", 0.06), MILK("milk", 0.01), MUSHROOM("mushroom", 0.14), OIL("oil", 0.04),
-  OLIVE("olive", 0.17), ONION("onion", 0.05), ORANGE("orange", 0.04), PAPRIKA("paprika", 0.28),
-  PASTA("pasta", 0.01), PEACH("peach", 0.08), PEANUT("peanut", 0.08), PEAR("pear", 0.09), 
-  PEAS("peas", 0.04), PEPPER("pepper", 0.10), PINEAPPLE("pineapple", 0.04), PLUM("plum", 0.09), 
-  PORK("pork", 0.16), RUM("rum", 0.24),
-  SALMON("salmon", 0.31), SALT("salt", 0.01), SALTINE_CRACKERS("saltine crackers", 0.12),
-  SPAGHETTI("spaghetti", 0.06), SPINACH("spinach", 0.12), STRAWBERRIES("strawberries", 0.12),
-  SUGAR("sugar", 0.02), SWEET_POTATO("sweet potato", 0.06), SYRUP("syrup", 0.05),
-  THYME("thyme", 0.79), TOMATO("tomato", 0.05), WINE("wine", 0.43);
-  
-  private final String name;
-  private final Double pricePerTablespoon;
-  
-  StandardIngredient(final String name, final Double pricePerTablespoon)
+  private static Map<String, Double> intitializePrice()
   {
-    this.name = name;
-    this.pricePerTablespoon = pricePerTablespoon;
-  }
-  
-  /**
-   * Return the name of a built-in ingredient.
-   * 
-   * @return name
-   */
-  public String getName()
-  {
-    return this.name;
-  }
-  
-  /**
-   * Return the price per tablespoon of a built-in ingredient.
-   * 
-   * @return price per tablespoon
-   */
-  public Double getPricePerTablespoon()
-  {
-    return this.pricePerTablespoon;
+    Map<String, Double> map = new HashMap<String, Double>();
+    map.put("alcohol", 0.05);
+    map.put("almond", 0.30);
+    map.put("american cheese", 0.16);
+    map.put("apple", 0.05);
+    map.put("apple juice", 0.2);
+    map.put("banana", 0.03);
+    map.put("bean", 0.03);
+    map.put("beef", 0.2);
+    map.put("blackberry", 0.18);
+    map.put("black pepper", 0.60);
+    map.put("bread", 0.03);
+    map.put("broccoli", 0.12);
+    map.put("brown sugar", 0.03);
+    map.put("butter", 0.12);
+    map.put("cabbage", 0.01);
+    map.put("carrot", .04);
+    map.put("cashew", 0.28);
+    map.put("cauliflower", 0.07);
+    map.put("celery", 0.07);
+    map.put("cheddar cheese", 0.14);
+    map.put("cherry", 0.12);
+    map.put("chicken", 0.17);
+    map.put("chocolate", 0.42);
+    map.put("cinnamon", 0.27);
+    map.put("cod", 0.42);
+    map.put("corn", 0.05);
+    map.put("cornflake", 0.15);
+    map.put("cottage cheese", 0.06);
+    map.put("crab", 0.27);
+    map.put("creme de cacao", 0.35);
+    map.put("cucumber", 0.17);
+    map.put("egg", 0.05);
+    map.put("flour", 0.01);
+    map.put("garlic", 0.20);
+    map.put("grapefruit", 0.08);
+    map.put("grape", 0.08);
+    map.put("grape juice", 0.04);
+    map.put("green bean", 0.12);
+    map.put("haddock", 0.42);
+    map.put("ham", 0.22);
+    map.put("honey", 0.17);
+    map.put("ice cream", 0.06);
+    map.put("kidney bean", 0.04);
+    map.put("lamb", 0.51);
+    map.put("lemon", 0.07);
+    map.put("lentil", 0.05);
+    map.put("lettuce", 0.07);
+    map.put("macaroni", 0.06);
+    map.put("milk", 0.01);
+    map.put("mushroom", 0.14);
+    map.put("oil", 0.04);
+    map.put("olive", 0.17);
+    map.put("onion", 0.05);
+    map.put("orange", 0.04);
+    map.put("paprika",0.28);
+    map.put("pasta", 0.01);
+    map.put("peach", 0.08);
+    map.put("peanut", 0.08);
+    map.put("pear",0.09);
+    map.put("peas", 0.04);
+    map.put("pepper", 0.10);
+    map.put("pineapple", 0.04);
+    map.put("plum",0.09);
+    map.put("pork", 0.15);
+    map.put("rum",0.24);
+    map.put("salmon", 0.31);
+    map.put("salt", 0.01);
+    map.put("saltine crackers", 0.12);
+    map.put("spaghetti", 0.06);
+    map.put("spinach", 0.12);
+    map.put("strawberries", 0.12);
+    map.put("sugar", 0.02);
+    map.put("sweet potato", 0.06); 
+    map.put("syrup", 0.05);
+    map.put("thyme", 0.79);
+    map.put("tomato", 0.05);
+    map.put("wine", 0.43);
+    return map;
   }
   
   /**
    * Return the price per tablespoon of the built-in ingredient with the
    * given name.
    * 
-   * If the given name does not match any built-in ingredients, return null.
+   * If the given name does not match any built-in ingredients, return 0.0.
    * 
    * @param find the name of a built-in ingredient
-   * @return the ingredient's price per tablespoon or null
+   * @return the ingredient's price per tablespoon or 0.0
    */
-  public Double getPricePerTablespoon(final String find)
+  public Double getPricePerTablespoon(final String ingredientName)
   {
-    for (StandardIngredient ing : values())
+    Double mapping = PRICE_MAP.get(ingredientName.toLowerCase());
+    if (mapping != null)
     {
-      if (ing.getName().equals(find))
-      {
-        return ing.getPricePerTablespoon();
-      }
+      return mapping;
     }
-    return null;
+    else
+    {
+      return 0.0;
+    }
   }
   
 }

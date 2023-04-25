@@ -81,12 +81,9 @@ class LeafRecipeTest
   @Test
   public void testGetIngredients()
   {
-    Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50, ingredientUnit,
-        null, null, 0.0);
-    Ingredient ingredient2 = new Ingredient(ingredientName2, ingredientDetails, 50, ingredientUnit,
-        null, null, 0.0);
-    Ingredient ingredient3 = new Ingredient(ingredientName3, ingredientDetails, 50, ingredientUnit,
-        null, null, 0.0);
+    Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50, ingredientUnit);
+    Ingredient ingredient2 = new Ingredient(ingredientName2, ingredientDetails, 50, ingredientUnit);
+    Ingredient ingredient3 = new Ingredient(ingredientName3, ingredientDetails, 50, ingredientUnit);
     List<Ingredient> expected = new ArrayList<Ingredient>();
     expected.add(ingredient1);
     expected.add(ingredient2);
@@ -122,8 +119,7 @@ class LeafRecipeTest
   public void testGetSteps()
   {
     List<Step> expected = new ArrayList<Step>();
-    Ingredient ingr = new Ingredient(ingredientName1, ingredientDetails, 5, ingredientUnit, null,
-        null, 0.0);
+    Ingredient ingr = new Ingredient(ingredientName1, ingredientDetails, 5, ingredientUnit);
     Utensil utensilSource = new Utensil(utensilName1, utensilDetails);
     Utensil utensilDestination = new Utensil(utensilNameDest, utensilDetails);
     Step step = new Step(stepAction, ingr, utensilSource, utensilDestination, stepDetails, time);
@@ -188,12 +184,9 @@ class LeafRecipeTest
   @Test
   public void testAddIngredient()
   {
-    Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50, ingredientUnit,
-        null, null, 0.0);
-    Ingredient ingredient2 = new Ingredient(ingredientName2, ingredientDetails, 50, ingredientUnit,
-        null, null, 0.0);
-    Ingredient ingredient3 = new Ingredient(ingredientName3, ingredientDetails, 50, ingredientUnit,
-        null, null, 0.0);
+    Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50, ingredientUnit);
+    Ingredient ingredient2 = new Ingredient(ingredientName2, ingredientDetails, 50, ingredientUnit);
+    Ingredient ingredient3 = new Ingredient(ingredientName3, ingredientDetails, 50, ingredientUnit);
 
     List<Ingredient> expected = new ArrayList<Ingredient>();
     expected.add(ingredient1);
@@ -212,12 +205,9 @@ class LeafRecipeTest
   @Test
   public void testRemoveIngredient()
   {
-    Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50, ingredientUnit,
-        null, null, 0.0);
-    Ingredient ingredient2 = new Ingredient(ingredientName2, ingredientDetails, 50, ingredientUnit,
-        null, null, 0.0);
-    Ingredient ingredient3 = new Ingredient(ingredientName3, ingredientDetails, 50, ingredientUnit,
-        null, null, 0.0);
+    Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50, ingredientUnit);
+    Ingredient ingredient2 = new Ingredient(ingredientName2, ingredientDetails, 50, ingredientUnit);
+    Ingredient ingredient3 = new Ingredient(ingredientName3, ingredientDetails, 50, ingredientUnit);
 
     List<Ingredient> expected = new ArrayList<Ingredient>();
     expected.add(ingredient1);
@@ -278,8 +268,7 @@ class LeafRecipeTest
   @Test
   public void testAddStep()
   {
-    Ingredient ingr = new Ingredient(ingredientName1, ingredientDetails, 5, ingredientUnit, null,
-        null, 0.0);
+    Ingredient ingr = new Ingredient(ingredientName1, ingredientDetails, 5, ingredientUnit);
     Utensil utensilSource = new Utensil(utensilName1, utensilDetails);
     Utensil utensilDestination = new Utensil(utensilNameDest, utensilDetails);
     Step step = new Step(stepAction, ingr, utensilSource, utensilDestination, stepDetails, time);
@@ -330,8 +319,7 @@ class LeafRecipeTest
   {
     List<Step> expected = new ArrayList<Step>();
 
-    Ingredient ingr = new Ingredient(ingredientName1, ingredientDetails, 5, ingredientUnit, null,
-        null, 0.0);
+    Ingredient ingr = new Ingredient(ingredientName1, ingredientDetails, 5, ingredientUnit);
     Utensil utensilSource = new Utensil(utensilName1, utensilDetails);
     Utensil utensilDestination = new Utensil(utensilNameDest, utensilDetails);
     Step step = new Step(stepAction, ingr, utensilSource, utensilDestination, stepDetails, time);

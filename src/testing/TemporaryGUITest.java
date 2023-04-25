@@ -58,13 +58,13 @@ public class TemporaryGUITest
   {
 
     ArrayList<Ingredient> ingredients = new ArrayList<>();
-    ingredients.add(new Ingredient("butter", "", 0.33, Unit.CUP, null, null, 0.0));
-    ingredients.add(new Ingredient("brown sugar", "", 0.33, Unit.CUP, null, null, 0.0));
-    ingredients.add(new Ingredient("bananas", "sliced ripe", 3, Unit.INDIVIDUAL, null, null, 0.0));
-    ingredients.add(new Ingredient("creme de cacao", "", 2, Unit.TABLESPOON, null, null, 0.0));
-    ingredients.add(new Ingredient("rum", "", 0.25, Unit.CUP, null, null, 0.0));
-    ingredients.add(new Ingredient("ice cream", "vanilla", 2, Unit.CUP, null, null, 0.0));
-    ingredients.add(new Ingredient("cinnamon", "ground", 0.25, Unit.TEASPOON, null, null, 0.0));
+    ingredients.add(new Ingredient("butter", "", 0.33, Unit.CUP));
+    ingredients.add(new Ingredient("brown sugar", "", 0.33, Unit.CUP));
+    ingredients.add(new Ingredient("bananas", "sliced ripe", 3, Unit.INDIVIDUAL));
+    ingredients.add(new Ingredient("creme de cacao", "", 2, Unit.TABLESPOON));
+    ingredients.add(new Ingredient("rum", "", 0.25, Unit.CUP));
+    ingredients.add(new Ingredient("ice cream", "vanilla", 2, Unit.CUP));
+    ingredients.add(new Ingredient("cinnamon", "ground", 0.25, Unit.TEASPOON));
 
     ArrayList<Utensil> utensils = new ArrayList<>();
     utensils.add(new Utensil("skillet", "large"));
@@ -86,14 +86,14 @@ public class TemporaryGUITest
   {
 
     ArrayList<Ingredient> ingredients = new ArrayList<>();
-    ingredients.add(new Ingredient("macaroni", "dried elbow", 1, Unit.CUP, null, null, 0.0));
-    ingredients.add(new Ingredient("butter", "", 1, Unit.TABLESPOON, null, null, 0.0));
-    ingredients.add(new Ingredient("onion", "chopped", 0.25, Unit.CUP, null, null, 0.0));
-    ingredients.add(new Ingredient("flour", "all-purpose", 1, Unit.TABLESPOON, null, null, 0.0));
-    ingredients.add(new Ingredient("pepper", "black", 1, Unit.PINCH, null, null, 0.0));
-    ingredients.add(new Ingredient("milk", "", 1.25, Unit.CUP, null, null, 0.0));
-    ingredients.add(new Ingredient("American cheese", "shredded", 1.5, Unit.CUP, null, null, 0.0));
-    ingredients.add(new Ingredient("tomato", "sliced medium", 1, Unit.NONE, null, null, 0.0));
+    ingredients.add(new Ingredient("macaroni", "dried elbow", 1, Unit.CUP));
+    ingredients.add(new Ingredient("butter", "", 1, Unit.TABLESPOON));
+    ingredients.add(new Ingredient("onion", "chopped", 0.25, Unit.CUP));
+    ingredients.add(new Ingredient("flour", "all-purpose", 1, Unit.TABLESPOON));
+    ingredients.add(new Ingredient("pepper", "black", 1, Unit.PINCH));
+    ingredients.add(new Ingredient("milk", "", 1.25, Unit.CUP));
+    ingredients.add(new Ingredient("American cheese", "shredded", 1.5, Unit.CUP));
+    ingredients.add(new Ingredient("tomato", "sliced medium", 1, Unit.NONE));
 
     ArrayList<Utensil> utensils = new ArrayList<>();
     utensils.add(new Utensil("pot", "large"));

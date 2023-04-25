@@ -23,14 +23,14 @@ class ProcessViewerTest
   {
 
     Inventory inventory = Inventory.createInstance();
-    inventory.addIngredient(new Ingredient("chicken", " ", 5, Unit.POUND, null, null, 0.0));
-    inventory.addIngredient(new Ingredient("lettuce", " ", 5, Unit.POUND, null, null, 0.0));
-    inventory.addIngredient(new Ingredient("broccoli", " ", 1, Unit.POUND, null, null, 0.0));
+    inventory.addIngredient(new Ingredient("chicken", " ", 5, Unit.POUND));
+    inventory.addIngredient(new Ingredient("lettuce", " ", 5, Unit.POUND));
+    inventory.addIngredient(new Ingredient("broccoli", " ", 1, Unit.POUND));
 
     ArrayList<Ingredient> ingredients = new ArrayList<>();
-    ingredients.add(new Ingredient("chicken", " ", 1, Unit.POUND, null, null, 0.0));
-    ingredients.add(new Ingredient("lettuce", " ", 0.5, Unit.POUND, null, null, 0.0));
-    ingredients.add(new Ingredient("broccoli", " ", 6, Unit.OUNCE, null, null, 0.0));
+    ingredients.add(new Ingredient("chicken", " ", 1, Unit.POUND));
+    ingredients.add(new Ingredient("lettuce", " ", 0.5, Unit.POUND));
+    ingredients.add(new Ingredient("broccoli", " ", 6, Unit.OUNCE));
     // ingredients
     // .add(new Ingredient("invalid", " ", 6, Unit.OUNCE, IngredientEditor.NO_INPUT,
     // IngredientEditor.NO_INPUT));
@@ -59,9 +59,9 @@ class ProcessViewerTest
   public static void testProcessViewerMeals()
   {
     ArrayList<Ingredient> ingredients = new ArrayList<>();
-    ingredients.add(new Ingredient("chicken", " ", 1, Unit.POUND, null, null, 0.0));
-    ingredients.add(new Ingredient("lettuce", " ", 0.5, Unit.POUND, null, null, 0.0));
-    ingredients.add(new Ingredient("broccoli", " ", 6, Unit.OUNCE, null, null, 0.0));
+    ingredients.add(new Ingredient("chicken", " ", 1, Unit.POUND));
+    ingredients.add(new Ingredient("lettuce", " ", 0.5, Unit.POUND));
+    ingredients.add(new Ingredient("broccoli", " ", 6, Unit.OUNCE));
 
     ArrayList<Utensil> utensils = new ArrayList<>();
     utensils.add(new Utensil("fork", " "));
@@ -83,9 +83,9 @@ class ProcessViewerTest
     recipe.addAllSteps(steps);
 
     ingredients = new ArrayList<>();
-    ingredients.add(new Ingredient("tomatos", " ", 2, Unit.POUND, null, null, 0.0));
-    ingredients.add(new Ingredient("lettuce", " ", 0.5, Unit.POUND, null, null, 0.0));
-    ingredients.add(new Ingredient("carrots", " ", 6, Unit.OUNCE, null, null, 0.0));
+    ingredients.add(new Ingredient("tomatos", " ", 2, Unit.POUND));
+    ingredients.add(new Ingredient("lettuce", " ", 0.5, Unit.POUND));
+    ingredients.add(new Ingredient("carrots", " ", 6, Unit.OUNCE));
 
     utensils = new ArrayList<>();
     utensils.add(new Utensil("knife", " "));
