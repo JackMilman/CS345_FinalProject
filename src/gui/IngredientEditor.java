@@ -46,8 +46,6 @@ public class IngredientEditor extends JPanel
   private static final String ADD = "Add";
   private static final String DELETE = "Delete";
   private static final String BLANK = "            ";
-//  private static final String[] UNITS = new String[] {"", "Dram", "Ounce", "Gram", "Pound", "Pinch",
-//      "Teaspoon", "Tablespoon", "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon", "Individual"};
   
   private JComboBox<String> selectIngredient;
   private JTextField detailField;
@@ -435,6 +433,7 @@ public class IngredientEditor extends JPanel
       setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
       setLayout(new FlowLayout(FlowLayout.LEFT));
       setSize(new Dimension(800, 200));
+      setOpaque(false);
       
       nameField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
       priceField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
