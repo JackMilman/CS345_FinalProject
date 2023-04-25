@@ -1,12 +1,13 @@
 package gui;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import branding.KitchIntelJDialog;
@@ -38,6 +39,7 @@ public class MakeNewIngredientEditor extends KitchIntelJDialog
     super(Translator.translate("Make New Ingredient"));
     setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     setLayout(new FlowLayout(FlowLayout.LEFT));
+    setSize(new Dimension(800, 200));
     
     nameField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     priceField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
@@ -63,6 +65,18 @@ public class MakeNewIngredientEditor extends KitchIntelJDialog
         }
       }
     });
+    
+    add(new JLabel("Name:"));
+    add(nameField);
+    add(new JLabel("Price per tablespoon:"));
+    add(priceField);
+    add(new JLabel("Calories:"));
+    add(calorieField);
+    add(new JLabel("Density:"));
+    add(densityField);
+    add(addButton);
+    
+    setVisible(true);
     
   }
   

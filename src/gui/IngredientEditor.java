@@ -82,7 +82,6 @@ public class IngredientEditor extends JPanel
     unitSelect = new JComboBox<>(UNITS); // should change
     
     addButton = new JButton(Translator.translate(ADD));
-    addButton.setEnabled(false);
     deleteButton = new JButton(Translator.translate(DELETE));
     
     addButton.setActionCommand(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND);
@@ -90,6 +89,7 @@ public class IngredientEditor extends JPanel
     deleteButton.setActionCommand(RecipeEditor.INGREDIENT_DELETE_ACTION_COMMAND);
     selectIngredient.setActionCommand(SELECT_INGREDIENT);
     makeNewIngredient.setActionCommand(MAKE_NEW_INGREDIENT);
+    makeNewIngredient.addActionListener(listener);
     
     selectIngredient.addActionListener(addListener);
     detailField.addActionListener(addListener);
@@ -111,8 +111,10 @@ public class IngredientEditor extends JPanel
     inputFields.add(detailField);
     inputFields.add(new JLabel(Translator.translate("Amount") + ":"));
     inputFields.add(amountField);
-    inputFields.add(makeNewIngredient);
+    inputFields.add(new JLabel(Translator.translate("Units") + ":"));
+    inputFields.add(unitSelect);
     inputFields.add(addButton);
+    inputFields.add(makeNewIngredient);
     
     add(inputFields, BorderLayout.NORTH);
     add(deleteButton, BorderLayout.EAST);
@@ -130,7 +132,7 @@ public class IngredientEditor extends JPanel
     String name = selectIngredient.getSelectedItem().toString();
     String details = detailField.getText();
     String unit = unitSelect.getSelectedItem().toString();
-    String substitute = substituteSelect.getSelectedItem().toString();
+//    String substitute = substituteSelect.getSelectedItem().toString();
     double amount;
     
     try
@@ -150,8 +152,8 @@ public class IngredientEditor extends JPanel
     selectIngredient.setSelectedIndex(0); // will cause problems when selecting ""
     detailField.setText("");
     unitSelect.setSelectedIndex(0);
-    substituteSelect.setSelectedIndex(0);
-    updateSubstituteSelect();
+//    substituteSelect.setSelectedInsdex(0);
+//    updateSubstituteSelect();
     amountField.setText("");
     
     updateTextArea();
@@ -299,11 +301,12 @@ public class IngredientEditor extends JPanel
     public void actionPerformed(final ActionEvent e)
     {
       
-      if (e.getActionCommand().equals(SELECT_INGREDIENT))
-      {
-        
-      }
-      else if (e.getActionCommand().equals(MAKE_NEW_INGREDIENT))
+//      if (e.getActionCommand().equals(SELECT_INGREDIENT))
+//      {
+//        
+//      }
+//      else 
+      if (e.getActionCommand().equals(MAKE_NEW_INGREDIENT))
       {
         MakeNewIngredientEditor makeNew = new MakeNewIngredientEditor();
       }
@@ -331,4 +334,44 @@ public class IngredientEditor extends JPanel
     
   }
   
-}
+
+  /**
+   * Adds an action listener to the buttons in this IngredientEditor which can cause the document to
+   * change.
+   *
+   * @param listener
+   *        The actionListener to listen to these changes.
+   */
+  public void addChangeListener(final ActionListener listener)
+  {
+    addButton.addActionListener(listener);
+    deleteButton.addActionListener(listener);
+  }
+    
+  void loadIngredients(final List<Ingredient> newIngredients)
+  {
+    this.ingredients.clear();
+    
+    for (Ingredient ingredient : newIngredients)
+    {
+      ingredients.add(ingredient);
+    }
+    
+    updateTextArea();
+    updateSubstituteSelect();
+  }
+  
+  void loadSubstitutes(final HashMap<Ingredient, List<Ingredient>> newSubs)
+  {
+    this.substitutes.clear();
+    
+    for (Ingredient key : newSubs.keySet())
+    {
+      substitutes.put(key, newSubs.get(key));
+    }
+    
+    updateSubstituteArea();
+  }
+  
+  }
+  

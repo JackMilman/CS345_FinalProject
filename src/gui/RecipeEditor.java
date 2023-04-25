@@ -259,6 +259,39 @@ public class RecipeEditor extends Editor
       JOptionPane.showMessageDialog(null, ERROR_MESSAGE);
     }
   }
+  
+  private Recipe createRecipe()
+  {
+    String name;
+    int servings;
+    List<Ingredient> ingredients;
+    HashMap<Ingredient, List<Ingredient>> substitutes;
+    List<Utensil> utensils;
+    List<Step> steps;
+
+    name = nameField.getText();
+
+    try
+    {
+      servings = Integer.valueOf(servingsField.getText());
+    }
+    catch (NumberFormatException e)
+    {
+      servings = 1;
+    }
+
+    ingredients = ingredientEditor.getIngredients();
+    substitutes = substituteEditor.getSubstitutes();
+    utensils = utensilEditor.getUtensils();
+    steps = stepEditor.getSteps();
+
+    Recipe result = new Recipe(name, servings);
+    result.addAllIngredients(ingredients);
+    result.addAllSubstitutes(substitutes);
+    result.addAllUtensils(utensils);
+    result.addAllSteps(steps);
+    return result;
+  }
 
   private class RecipeEditorListener implements ActionListener
   {
@@ -294,6 +327,7 @@ public class RecipeEditor extends Editor
         save();
       }
     }
+
 
   }
 
