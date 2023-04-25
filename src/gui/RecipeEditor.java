@@ -21,9 +21,7 @@ import javax.swing.JTextField;
 
 import branding.KitchIntelColor;
 import config.Translator;
-import recipes.CompositeRecipe;
 import recipes.Ingredient;
-import recipes.LeafRecipe;
 import recipes.Recipe;
 import recipes.Step;
 import recipes.Utensil;
@@ -60,6 +58,8 @@ public class RecipeEditor extends Editor
 
   private JTextField nameField;
   private JTextField servingsField;
+  
+  private final Recipe workingRecipe;
 
   /**
    * Creates a new RecipeEditor.
@@ -71,6 +71,8 @@ public class RecipeEditor extends Editor
   {
     super(owner, Translator.translate("KiLowBites Recipe Editor"));
     setLayout(new BorderLayout());
+    
+    workingRecipe = new Recipe(null, 0);
 
     ActionListener listener = new RecipeEditorListener();
     ActionListener cListener = new ChangeListener();
@@ -79,7 +81,7 @@ public class RecipeEditor extends Editor
     servingsField = new JTextField();
 
     utensilEditor = new UtensilEditor();
-    ingredientEditor = new IngredientEditor();
+    ingredientEditor = new IngredientEditor(workingRecipe);
     substituteEditor = new SubstituteEditor();
     stepEditor = new StepEditor(utensilEditor.getUtensils(), ingredientEditor.getIngredients());
 
@@ -150,39 +152,6 @@ public class RecipeEditor extends Editor
     setVisible(true);
     setResizable(true);
     pack();
-  }
-
-  private Recipe createRecipe()
-  {
-    String name;
-    int servings;
-    List<Ingredient> ingredients;
-    List<Utensil> utensils;
-    HashMap<Ingredient, List<Ingredient>> substitutes;
-    List<Step> steps;
-
-    name = nameField.getText();
-
-    try
-    {
-      servings = Integer.valueOf(servingsField.getText());
-    }
-    catch (NumberFormatException e)
-    {
-      servings = 1;
-    }
-
-    ingredients = ingredientEditor.getIngredients();
-    substitutes = substituteEditor.getSubstitutes();
-    utensils = utensilEditor.getUtensils();
-    steps = stepEditor.getSteps();
-
-    Recipe result = new CompositeRecipe(name, servings);
-    result.addAllIngredients(ingredients);
-    result.addAllSubstitutes(substitutes);
-    result.addAllUtensils(utensils);
-    result.addAllSteps(steps);
-    return result;
   }
 
   private void loadRecipe(final Recipe recipe, final String fileName)
@@ -290,6 +259,39 @@ public class RecipeEditor extends Editor
       JOptionPane.showMessageDialog(null, ERROR_MESSAGE);
     }
   }
+  
+  private Recipe createRecipe()
+  {
+    String name;
+    int servings;
+    List<Ingredient> ingredients;
+    HashMap<Ingredient, List<Ingredient>> substitutes;
+    List<Utensil> utensils;
+    List<Step> steps;
+
+    name = nameField.getText();
+
+    try
+    {
+      servings = Integer.valueOf(servingsField.getText());
+    }
+    catch (NumberFormatException e)
+    {
+      servings = 1;
+    }
+
+    ingredients = ingredientEditor.getIngredients();
+    substitutes = substituteEditor.getSubstitutes();
+    utensils = utensilEditor.getUtensils();
+    steps = stepEditor.getSteps();
+
+    Recipe result = new Recipe(name, servings);
+    result.addAllIngredients(ingredients);
+    result.addAllSubstitutes(substitutes);
+    result.addAllUtensils(utensils);
+    result.addAllSteps(steps);
+    return result;
+  }
 
   private class RecipeEditorListener implements ActionListener
   {
@@ -325,6 +327,7 @@ public class RecipeEditor extends Editor
         save();
       }
     }
+
 
   }
 
