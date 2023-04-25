@@ -95,7 +95,10 @@ public class IngredientEditor extends JPanel
     addButton.setActionCommand(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND);
     addButton.addActionListener(listener);
     addButton.setEnabled(false);
+    
     deleteButton.setActionCommand(RecipeEditor.INGREDIENT_DELETE_ACTION_COMMAND);
+    deleteButton.addActionListener(listener);
+    
     selectIngredient.setActionCommand(SELECT_INGREDIENT);
     makeNewIngredient.setActionCommand(MAKE_NEW_INGREDIENT);
     makeNewIngredient.addActionListener(listener);
@@ -190,13 +193,20 @@ public class IngredientEditor extends JPanel
 
   private void delete()
   {
-
     if (workingRecipe.getIngredients().size() == 0)
     {
       return;
     }
 
-    // TODO refactor so I can use a JTable
+    int index = ingredientDisplay.getSelectedRow();
+        
+    if (index < workingRecipe.getIngredients().size()) {
+      Ingredient ingredient = workingRecipe.getIngredients().get(index);
+      
+      workingRecipe.removeIngredient(ingredient);
+      
+      updateIngredientDisplay();
+    }
 
   }
 
@@ -209,7 +219,7 @@ public class IngredientEditor extends JPanel
       private static final long serialVersionUID = 1L;
 
       @Override
-      public boolean isCellEditable(int row, int col)
+      public boolean isCellEditable(final int row, final int col)
       {
         return false;
       }
