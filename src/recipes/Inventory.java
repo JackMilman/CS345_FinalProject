@@ -58,9 +58,9 @@ public class Inventory
    * returns null.
    * 
    * @param name
-   *                  the name of the ingredient
+   *          the name of the ingredient
    * @param details
-   *                  the details of the ingredient
+   *          the details of the ingredient
    * @return the ingredient (from the *inventory*) that is equivalent to the ingredient being passed
    *         or null if it is not present
    */
@@ -87,7 +87,7 @@ public class Inventory
    * equivalence.
    * 
    * @param ingredient
-   *                     the ingredient we are searching for
+   *          the ingredient we are searching for
    * @return the ingredient (from the *inventory*) that is equivalent to the ingredient being passed
    *         or null if it is not present
    */
@@ -110,7 +110,7 @@ public class Inventory
    * Ingredient already in the inventory.
    * 
    * @param addingIngredient
-   *                           the ingredient we are adding to the inventory
+   *          the ingredient we are adding to the inventory
    * @return true if the operation was a success, false otherwise
    */
   public boolean addIngredient(final Ingredient addingIngredient)
@@ -175,9 +175,21 @@ public class Inventory
     }
     return false;
   }
+
+  // This method should not return the actual list used in the Inventory. The entire point of the
+  // Singleton pattern and making the list private is so that modification of the Inventory can
+  // only happen inside of this class with its approved methods. - Jack, 4/24
   
-  public List<Ingredient> getIngredientList(){
-    return ingredients;
+  /**
+   * Returns a copy of the ingredientList at the moment of invocation. Does not allow for the actual
+   * contents of the inventory to be changed.
+   * 
+   * @return a copy of the ingredients list
+   */
+  public List<Ingredient> getIngredientList()
+  {  
+    // This method ABSOLUTELY MUST return a copy of the ingredients list, not the list itself
+    return new ArrayList<Ingredient>(ingredients);
   }
 
 }
