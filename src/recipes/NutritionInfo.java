@@ -8,7 +8,7 @@ import java.util.Set;
  * Utility Class for maintaining a map of ingredients and nutritional information for those
  * ingredients.
  * 
- * @author Jack Milman, KichIntel
+ * @author Jack Milman, KitchIntel
  * @version 4/14/2023 V2
  *
  */
@@ -98,6 +98,7 @@ public class NutritionInfo
     map.put("wine", new CalorieGram(0.83, 0.99));
     return map;
   }
+
   /**
    * Returns whether Nutrition info is stored for the named ingredient.
    * 
@@ -123,6 +124,7 @@ public class NutritionInfo
    * @param pricePerTablespoon
    *          price per tablespoon, the standard unit of volume
    */
+
   public static void addIngredient(final String name, final Double calories, final Double density)
   {
     if (!NUTRITION_MAP.containsKey(name.toLowerCase()))
@@ -140,7 +142,7 @@ public class NutritionInfo
   {
     return NUTRITION_MAP.keySet();
   }
- 
+
   /**
    * Returns the calorie information of the ingredient, if it exists in the map and has calorie
    * information. Else, returns 0.0.
