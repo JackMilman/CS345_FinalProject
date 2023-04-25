@@ -8,7 +8,6 @@ import gui.IngredientEditor;
 import gui.ProcessViewer;
 import recipes.Ingredient;
 import recipes.Inventory;
-import recipes.LeafRecipe;
 import recipes.Meal;
 import recipes.NutritionInfo;
 import recipes.Recipe;
@@ -49,7 +48,7 @@ class ProcessViewerTest
     steps.add(new Step("cut", ingredients.get(1), utensils.get(0), utensils.get(3), " ", 5));
     steps.add(new Step("cut", ingredients.get(2), utensils.get(0), utensils.get(3), " ", 10));
 
-    Recipe recipe = new LeafRecipe("Garlic Butter Salmon", 2);
+    Recipe recipe = new Recipe("Garlic Butter Salmon", 2);
     recipe.addAllIngredients(ingredients);
     recipe.addAllUtensils(utensils);
     recipe.addAllSteps(steps);
@@ -77,7 +76,7 @@ class ProcessViewerTest
     steps.add(new Step("cut", ingredients.get(1), utensils.get(0), utensils.get(3), " ", 5));
     steps.add(new Step("cut", ingredients.get(2), utensils.get(0), utensils.get(3), " ", 10));
 
-    Recipe recipe = new LeafRecipe("Garlic Butter Salmon", 2);
+    Recipe recipe = new Recipe("Garlic Butter Salmon", 2);
     recipe.addAllIngredients(ingredients);
     recipe.addAllUtensils(utensils);
     recipe.addAllSteps(steps);
@@ -100,7 +99,7 @@ class ProcessViewerTest
     steps.add(new Step("cut", ingredients.get(1), utensils.get(0), utensils.get(2), " ", 5));
     steps.add(new Step("cut", ingredients.get(2), utensils.get(0), utensils.get(2), " ", 10));
 
-    Recipe salad = new LeafRecipe("Ceaser Salad", 2);
+    Recipe salad = new Recipe("Ceaser Salad", 2);
     salad.addAllIngredients(ingredients);
     salad.addAllUtensils(utensils);
     salad.addAllSteps(steps);

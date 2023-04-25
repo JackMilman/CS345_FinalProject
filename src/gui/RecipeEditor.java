@@ -21,9 +21,7 @@ import javax.swing.JTextField;
 
 import branding.KitchIntelColor;
 import config.Translator;
-import recipes.CompositeRecipe;
 import recipes.Ingredient;
-import recipes.LeafRecipe;
 import recipes.Recipe;
 import recipes.Step;
 import recipes.Utensil;
@@ -177,7 +175,7 @@ public class RecipeEditor extends Editor
     utensils = utensilEditor.getUtensils();
     steps = stepEditor.getSteps();
 
-    Recipe result = new CompositeRecipe(name, servings);
+    Recipe result = new Recipe(name, servings);
     result.addAllIngredients(ingredients);
     result.addAllSubstitutes(substitutes);
     result.addAllUtensils(utensils);

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import gui.IngredientEditor;
 import gui.ProcessViewer;
 import recipes.Ingredient;
-import recipes.LeafRecipe;
 import recipes.Recipe;
 import recipes.Step;
 import recipes.Unit;
@@ -33,7 +32,7 @@ public class EmbeddedRecipesTest
     ArrayList<Step> steps = new ArrayList<>();
     steps.add(new Step("put", ingredients.get(0), utensils.get(0), utensils.get(0), "", 5));
 
-    Recipe recipe = new LeafRecipe("Bananas Foster Test", 3);
+    Recipe recipe = new Recipe("Bananas Foster Test", 3);
     recipe.addAllIngredients(ingredients);
     recipe.addAllUtensils(utensils);
     recipe.addAllSteps(steps);
@@ -67,7 +66,7 @@ public class EmbeddedRecipesTest
     steps.add(
         new Step("Embedded Recipe*", bananasFoster(), utensils.get(0), utensils.get(0), "", 10));
 
-    Recipe recipe = new LeafRecipe("Mac and Cheese Test", 2);
+    Recipe recipe = new Recipe("Mac and Cheese Test", 2);
     recipe.addAllIngredients(ingredients);
     recipe.addAllUtensils(utensils);
     recipe.addAllSteps(steps);

@@ -8,7 +8,6 @@ import javax.swing.JPanel;
 import gui.IngredientEditor;
 import gui.ShoppingListViewer;
 import recipes.Ingredient;
-import recipes.LeafRecipe;
 import recipes.Meal;
 import recipes.Recipe;
 import recipes.Step;
@@ -74,7 +73,7 @@ public class TemporaryGUITest
     ArrayList<Step> steps = new ArrayList<>();
     steps.add(new Step("put", ingredients.get(0), utensils.get(0), utensils.get(0), "", 5));
 
-    Recipe recipe = new LeafRecipe("Bananas Foster Test", 3);
+    Recipe recipe = new Recipe("Bananas Foster Test", 3);
     recipe.addAllIngredients(ingredients);
     recipe.addAllUtensils(utensils);
     recipe.addAllSteps(steps);
@@ -104,7 +103,7 @@ public class TemporaryGUITest
     ArrayList<Step> steps = new ArrayList<>();
     steps.add(new Step("boil", ingredients.get(0), utensils.get(0), utensils.get(0), "", 10));
 
-    Recipe recipe = new LeafRecipe("Mac and Cheese Test", 2);
+    Recipe recipe = new Recipe("Mac and Cheese Test", 2);
     recipe.addAllIngredients(ingredients);
     recipe.addAllUtensils(utensils);
     recipe.addAllSteps(steps);
