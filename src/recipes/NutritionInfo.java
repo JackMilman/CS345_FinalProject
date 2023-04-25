@@ -207,7 +207,7 @@ public class NutritionInfo
   {
     if (!NUTRITION_MAP.containsKey(name.toLowerCase()))
     {
-      NUTRITION_MAP.put(name, new CalorieGram(pricePerTablespoon, calories, density));
+      NUTRITION_MAP.put(name.toLowerCase(), new CalorieGram(pricePerTablespoon, calories, density));
     }
   }
 

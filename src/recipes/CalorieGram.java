@@ -8,7 +8,7 @@ package recipes;
  * @version 4/12/2023 V1
  *
  */
-class CalorieGram
+public class CalorieGram
 {
   private final Double price;
   private final Double calories;
