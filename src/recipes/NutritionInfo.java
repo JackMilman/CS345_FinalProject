@@ -3,7 +3,6 @@ package recipes;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 /**
  * Utility Class for maintaining a map of ingredients and nutritional information for those
@@ -176,6 +175,7 @@ public class NutritionInfo
         StandardIngredient.WINE.getPricePerTablespoon(), 0.83, 0.99));
     return map;
   }
+
   /**
    * Returns whether Nutrition info is stored for the named ingredient.
    * 
@@ -202,12 +202,12 @@ public class NutritionInfo
    *          price per tablespoon, the standard unit of volume
    */
 
-  public static void addIngredient(final String name, final double pricePerTablespoon,
-      final Double calories, final Double density)
+
+  public static void addIngredient(final String name, final Double calories, final Double density)
   {
     if (!NUTRITION_MAP.containsKey(name.toLowerCase()))
     {
-      NUTRITION_MAP.put(name.toLowerCase(), new CalorieGram(pricePerTablespoon, calories, density));
+      NUTRITION_MAP.put(name.toLowerCase(), new CalorieGram(calories, density));
     }
   }
 
@@ -220,24 +220,7 @@ public class NutritionInfo
   {
     return NUTRITION_MAP.keySet();
   }
-  
-  /**
-   * Returns the price per tablespoon of the ingredient, if it exists in the map and has calorie
-   * information. Else, returns 0.0.
-   * 
-   * @param ingredientName
-   * @return the price per tablespoon of the ingredientName, or 0.0 if it is not present
-   */
-  public static Double getPricePerTablespoon(final String ingredientName)
-  {
-    CalorieGram mapping = NUTRITION_MAP.get(ingredientName.toLowerCase());
-    if (mapping != null && mapping.getPrice() != null)
-    {
-      return mapping.getPrice();
-    }
-    return 0.0;
-  }
- 
+
   /**
    * Returns the calorie information of the ingredient, if it exists in the map and has calorie
    * information. Else, returns 0.0.
