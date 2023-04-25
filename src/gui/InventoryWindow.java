@@ -147,7 +147,7 @@ public class InventoryWindow extends KitchIntelJFrame
       amount = Double.parseDouble(ingredientAmount.getText());
       if (amount < 0)
         amount = 0;
-      inventoryItem = new Ingredient(name, details, amount, unit, 0.0, 0.0, 0.0);
+      inventoryItem = new Ingredient(name, details, amount, unit);
       inventory.addIngredient(inventoryItem);
       ingredientName.setText("");
       ingredientDetails.setText("");
@@ -174,7 +174,7 @@ public class InventoryWindow extends KitchIntelJFrame
       name = ingredientName.getText();
       details = ingredientDetails.getText();
       amount = Double.parseDouble(ingredientAmount.getText());
-      inventoryItem = new Ingredient(name, details, amount, unit, 0.0, 0.0, 0.0);
+      inventoryItem = new Ingredient(name, details, amount, unit);
       inventory.reduceIngredient(inventoryItem);
       ingredientName.setText("");
       ingredientDetails.setText("");

@@ -149,7 +149,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
       {
         int index = editedIngredients.indexOf(ing);
         Ingredient newIng = new Ingredient(ing.getName(), ing.getDetails(), ing.getAmount() / 2,
-            ing.getUnit(), ing.getCalories(), ing.getDensity(), ing.getPrice());
+            ing.getUnit());
         editedIngredients.set(index, newIng);
       }
     }
