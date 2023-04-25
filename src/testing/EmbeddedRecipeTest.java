@@ -10,14 +10,13 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 
-import gui.IngredientEditor;
 import recipes.Ingredient;
 import recipes.NutritionInfo;
 import recipes.Recipe;
 import recipes.Unit;
 
 @TestInstance(Lifecycle.PER_CLASS)
-class CompositeRecipeTest
+class EmbeddedRecipeTest
 {
   private final String recipeNameValid = "NamedRecipe";
 

@@ -200,7 +200,7 @@ public class Recipe implements Serializable
   }
 
   /**
-   * Adds an ingredient to the list of Ingredients.
+   * Adds an ingredient to the list of Ingredients. Cannot add a duplicate ingredient.
    * 
    * @param ingredient
    *          the ingredient to attempt to add
@@ -218,7 +218,7 @@ public class Recipe implements Serializable
 
   /**
    * Attempts to remove a ingredient from the list of ingredients. If the ingredient is not present,
-   * returns false.
+   * returns false. Also returns false if the ingredient is currently being used in a substitute.
    * 
    * @param ingredient
    *          the ingredient to attempt to remove
@@ -229,7 +229,7 @@ public class Recipe implements Serializable
   {
     if (substitutes.containsKey(ingredient))
     {
-      substitutes.remove(ingredient);
+      return false;
     }
     return ingredients.remove(ingredient);
   }

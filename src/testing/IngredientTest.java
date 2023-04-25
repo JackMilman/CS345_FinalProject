@@ -4,9 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
-import gui.IngredientEditor;
 import recipes.Ingredient;
-import recipes.NutritionInfo;
 import recipes.Unit;
 
 /**
@@ -74,6 +72,7 @@ class IngredientTest
     assertEquals(expectedPerMilliliter, actualPerMilliliter);
   }
 
+  @SuppressWarnings("unlikely-arg-type")
   @Test
   public void testEquals()
   {
