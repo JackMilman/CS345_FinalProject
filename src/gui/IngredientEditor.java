@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.TextListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,12 +71,8 @@ public class IngredientEditor extends JPanel
     IngredientEditorListener listener = new IngredientEditorListener(this);
     EnableUpdater addListener = new EnableUpdater();
     
-    selectIngredient = new JComboBox<>();
-    selectIngredient.addItem("");
-    for (String name : NutritionInfo.getIngredientsInMap())
-    {
-      selectIngredient.addItem(name);
-    }
+    updateIngredientSelect();
+    
     makeNewIngredient = new JButton(Translator.translate("Make New Ingredient"));
     detailField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     amountField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
@@ -86,6 +83,7 @@ public class IngredientEditor extends JPanel
     
     addButton.setActionCommand(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND);
     addButton.addActionListener(listener);
+    addButton.setEnabled(false);
     deleteButton.setActionCommand(RecipeEditor.INGREDIENT_DELETE_ACTION_COMMAND);
     selectIngredient.setActionCommand(SELECT_INGREDIENT);
     makeNewIngredient.setActionCommand(MAKE_NEW_INGREDIENT);
@@ -124,6 +122,22 @@ public class IngredientEditor extends JPanel
     setVisible(true);
     setOpaque(false);
     
+  }
+  
+  private void updateIngredientSelect()
+  {
+    selectIngredient = new JComboBox<>();
+    selectIngredient.addItem("");
+    ArrayList<String> names = new ArrayList<>();
+    names.addAll(NutritionInfo.getIngredientsInMap());
+    Collections.sort(names);
+    for (String name : names)
+    {
+      selectIngredient.addItem(name);
+    }
+    selectIngredient.revalidate();
+    selectIngredient.repaint();
+    System.out.println("updated");
   }
   
   private void add()
@@ -309,6 +323,7 @@ public class IngredientEditor extends JPanel
       if (e.getActionCommand().equals(MAKE_NEW_INGREDIENT))
       {
         MakeNewIngredientEditor makeNew = new MakeNewIngredientEditor();
+        updateIngredientSelect();
       }
       else if (e.getActionCommand().equals(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND))
       {
@@ -329,7 +344,14 @@ public class IngredientEditor extends JPanel
     @Override
     public void actionPerformed(final ActionEvent e)
     {
-      
+      if (selectIngredient.getSelectedIndex() != 0 && !amountField.getText().equals(""))
+      {
+        addButton.setEnabled(true);
+      }
+      else
+      {
+        addButton.setEnabled(false);
+      }
     }
     
   }
