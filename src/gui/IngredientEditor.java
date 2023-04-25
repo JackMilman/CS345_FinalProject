@@ -31,6 +31,7 @@ import recipes.Ingredient;
 import recipes.NutritionInfo;
 import recipes.Recipe;
 import recipes.Unit;
+import recipes.Utensil;
 import utilities.SortLists;
 
 /**
@@ -42,22 +43,26 @@ import utilities.SortLists;
  */
 public class IngredientEditor extends JPanel
 {
-  private static final long serialVersionUID = 1L;
+
   // probably move to RecipeEditor
   public static final String SELECT_INGREDIENT = "select_ingredient";
   public static final String MAKE_NEW_INGREDIENT = "make_new_ingredient";
 
   private static final String ADD = "Add";
   private static final String DELETE = "Delete";
+  private static final String BLANK = "            ";
 
   private JComboBox<String> selectIngredient;
   private JComboBox<String> unitSelect;
+  private JComboBox<String> substituteSelect;
   private JTextField detailField;
   private JTextField amountField;
   private JButton makeNewIngredient;
   private JButton addButton;
   private JButton deleteButton;
-  private TextArea ingredientDisplay;
+  // private TextArea ingredientDisplay;
+  private JTable ingredientDisplay;
+  private TextArea substituteDisplay;
 
   private final Recipe workingRecipe;
 
@@ -100,7 +105,15 @@ public class IngredientEditor extends JPanel
     amountField.addActionListener(addListener);
     unitSelect.addActionListener(addListener);
 
-    ingredientDisplay = new TextArea(0, 0);
+    substituteSelect = new JComboBox<>();
+
+    // ingredientDisplay = new TextArea(0, 0);
+    substituteDisplay = new TextArea(0, 0);
+
+    substituteDisplay.setEditable(false);
+
+    ingredientDisplay = new JTable(new DefaultTableModel(3, 1));
+    updateIngredientDisplay();
 
     Container inputFields = new Container();
     inputFields.setLayout(new FlowLayout(FlowLayout.LEFT));
@@ -118,6 +131,7 @@ public class IngredientEditor extends JPanel
     add(inputFields, BorderLayout.NORTH);
     add(deleteButton, BorderLayout.EAST);
     add(ingredientDisplay, BorderLayout.CENTER);
+    add(substituteDisplay, BorderLayout.SOUTH);
 
     setVisible(true);
     setOpaque(false);
@@ -171,6 +185,7 @@ public class IngredientEditor extends JPanel
     amountField.setText("");
 
     updateIngredientDisplay();
+    updateSubstituteArea();
   }
 
   private void delete()
@@ -187,19 +202,77 @@ public class IngredientEditor extends JPanel
 
   private void updateIngredientDisplay()
   {
-    String displayText = "";
+    DefaultTableModel tableModel = new DefaultTableModel(workingRecipe.getIngredients().size() + 1,
+        1)
+    {
+
+      private static final long serialVersionUID = 1L;
+
+      @Override
+      public boolean isCellEditable(int row, int col)
+      {
+        return false;
+      }
+    };
+
+    ingredientDisplay.setModel(tableModel);
+
+    for (int i = 0; i < workingRecipe.getIngredients().size(); i++)
+    {
+      ingredientDisplay.setValueAt(workingRecipe.getIngredients().get(i), i, 0);
+    }
+
+  }
+
+  private void updateSubstituteArea()
+  {
+    String text = "";
+
+    Set<Ingredient> substitutableIngredients = workingRecipe.getSubstitutes().keySet();
+    for (Ingredient ingredient : substitutableIngredients)
+    {
+      List<Ingredient> substitutesForIngredient = workingRecipe.getSubstitutes().get(ingredient);
+      if (substitutesForIngredient != null)
+      {
+        for (Ingredient substitute : substitutesForIngredient)
+        {
+          text += String.format("Substitute %s for %s\n", substitute.toString(),
+              ingredient.toString());
+        }
+      }
+    }
+    substituteDisplay.setText(text);
+  }
+
+  /**
+   * updates the selectable "substitute" options. Should be called after loadIngredient is called.
+   */
+  private void updateSubstituteSelect()
+  {
+    substituteSelect.removeAllItems();
+
+    substituteSelect.addItem(BLANK);
 
     for (Ingredient ingredient : workingRecipe.getIngredients())
     {
-      displayText += String.format("%s\n", ingredient.toString());
+      substituteSelect.addItem(ingredient.getName());
     }
 
-    ingredientDisplay.setText(displayText);
   }
 
   List<Ingredient> getIngredients()
   {
     return workingRecipe.getIngredients();
+  }
+
+  /**
+   * Gets the substitute Ingredients in the Recipe.
+   * 
+   * @return the substitute ingredients in the recipe.
+   */
+  HashMap<Ingredient, List<Ingredient>> getSubstitutes()
+  {
+    return workingRecipe.getSubstitutes();
   }
 
   /**
@@ -287,6 +360,15 @@ public class IngredientEditor extends JPanel
     workingRecipe.addAllIngredients(newIngredients);
 
     updateIngredientDisplay();
+    updateSubstituteSelect();
+  }
+
+  void loadSubstitutes(final HashMap<Ingredient, List<Ingredient>> newSubs)
+  {
+    workingRecipe.getSubstitutes().clear();
+    workingRecipe.addAllSubstitutes(newSubs);
+
+    updateSubstituteArea();
   }
 
   /**
@@ -344,7 +426,7 @@ public class IngredientEditor extends JPanel
         {
           try
           {
-            NutritionInfo.addIngredient(nameField.getText(),
+            NutritionInfo.addIngredient(nameField.getText().toLowerCase(),
                 Double.parseDouble(calorieField.getText()),
                 Double.parseDouble(densityField.getText()));
             nameField.setText("");
