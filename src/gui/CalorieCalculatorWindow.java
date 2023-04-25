@@ -106,9 +106,11 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame
   private String getSelectedIngredients()
   {
    String s = (String)ingredients.getSelectedItem();
-   if (NutritionInfo.contains(s.toLowerCase())) {
-     return (String) ingredients.getSelectedItem();
-   }
+     if (NutritionInfo.getCalPerGram(s) == -1)
+     {
+       return null;
+     }
+   
    return null;
   }
 
@@ -207,7 +209,7 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame
           } else {
             double amountOfIngredients = Double.parseDouble(enteredText);
             Ingredient temp = new Ingredient(selectedIngredient, "", amountOfIngredients,
-                selectedUnits, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+                selectedUnits);
             calorie.setText(Translator.translate("Calories") + ": "
                 + (Math.round(temp.getCaloriesPerGram() * 10) / 10.0));
           }

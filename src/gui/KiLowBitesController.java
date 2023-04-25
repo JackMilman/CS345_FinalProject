@@ -5,12 +5,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import config.Shortcut;
@@ -19,6 +25,7 @@ import recipes.Meal;
 import recipes.Recipe;
 import utilities.ShortcutsParser;
 
+import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 
 /**
@@ -151,12 +158,19 @@ public class KiLowBitesController implements ActionListener
       File htmlFile = new File("UserGuide.html");
       try
       {
-        Desktop.getDesktop().browse(htmlFile.toURI());
+        URL url = getClass().getClassLoader().getResource("UserGuide.html");
+        
+
+        
+        Desktop.getDesktop().browse(url.toURI());
       }
       catch (IOException e1)
       {
-        // TODO Auto-generated catch block
         e1.printStackTrace();
+      }
+      catch (URISyntaxException urise)
+      {
+        urise.printStackTrace();
       }
     }
     // open preferences
