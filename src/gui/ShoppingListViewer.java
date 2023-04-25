@@ -358,10 +358,18 @@ public class ShoppingListViewer extends KitchIntelJDialog
     {
       removeAll();
       add(label);
-      double price = UnitConversion.convert(ingredient.getName(), 
-          (Unit) units.getSelectedItem(), Unit.TABLESPOON, ingredient.getAmount())
-          * NutritionInfo.getPricePerTablespoon(ingredient.getName());
-      add(new JLabel("$" + price));
+      if (Unit.parseUnit((String) units.getSelectedItem()).equals(Unit.INDIVIDUAL) 
+          || Unit.parseUnit((String) units.getSelectedItem()).equals(Unit.NONE))
+      {
+        add(new JLabel("$(variable)"));
+      }
+      else
+      {
+        double price = UnitConversion.convert(ingredient.getName(), 
+            Unit.parseUnit((String) units.getSelectedItem()), Unit.TABLESPOON, 
+            ingredient.getAmount()) * NutritionInfo.getPricePerTablespoon(ingredient.getName());
+        add(new JLabel(String.format("$%.2f", price)));
+      }
       add(units);
       add(checkBox);
     }
