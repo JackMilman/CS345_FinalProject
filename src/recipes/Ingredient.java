@@ -51,7 +51,7 @@ public class Ingredient implements Serializable, Comparable<Ingredient>
     this.calories = calories;
     this.density = density;
     this.price = price;
-    NutritionInfo.addIngredient(name, calories, density);
+    NutritionInfo.addIngredient(name, calories, density, price);
   }
 
   /**
