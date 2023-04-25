@@ -23,15 +23,20 @@ import recipes.Ingredient;
 import recipes.Inventory;
 import recipes.Meal;
 import recipes.NutritionInfo;
+import recipes.PriceInfo;
 import recipes.Recipe;
 import recipes.Unit;
 import utilities.UnitConversion;
 
+/*
+ * TO DO:
+ * Allow conversions to all units? (except individual/none)
+ */
 
 /**
  * Creates the GUI to view a shopping list.
  * 
- * @author Meara Patterson
+ * @author Meara Patterson, KitchIntel
  * @version 3/29/2023
  */
 public class ShoppingListViewer extends KitchIntelJDialog
@@ -212,7 +217,6 @@ public class ShoppingListViewer extends KitchIntelJDialog
         return;
       }
 
-
       for (Ingredient ing : allIngredients)
       {
         if (!editedIngredients.contains(ing))
@@ -367,7 +371,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
       {
         double price = UnitConversion.convert(ingredient.getName(), 
             Unit.parseUnit((String) units.getSelectedItem()), Unit.TABLESPOON, 
-            ingredient.getAmount()) * NutritionInfo.getPricePerTablespoon(ingredient.getName());
+            ingredient.getAmount()) * PriceInfo.getPricePerTablespoon(ingredient.getName());
         add(new JLabel(String.format("$%.2f", price)));
       }
       add(units);
