@@ -14,7 +14,7 @@ import java.util.Map;
  * @author Meara Patterson, Jack Milman, KichIntel
  * @version 4/24/2023
  */
-public class StandardIngredient
+public class PriceInfo
 {
   
   private static final Map<String, Double> PRICE_MAP = intitializePrice();
