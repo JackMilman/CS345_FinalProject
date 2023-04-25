@@ -7,16 +7,11 @@ import java.awt.FlowLayout;
 import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentListener;
-import java.awt.event.ContainerListener;
 import java.awt.event.TextListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JButton;
@@ -51,8 +46,8 @@ public class IngredientEditor extends JPanel
   private static final String ADD = "Add";
   private static final String DELETE = "Delete";
   private static final String BLANK = "            ";
-  private static final String[] UNITS = new String[] {"", "Dram", "Ounce", "Gram", "Pound", "Pinch",
-      "Teaspoon", "Tablespoon", "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon", "Individual"};
+//  private static final String[] UNITS = new String[] {"", "Dram", "Ounce", "Gram", "Pound", "Pinch",
+//      "Teaspoon", "Tablespoon", "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon", "Individual"};
   
   private JComboBox<String> selectIngredient;
   private JTextField detailField;
@@ -83,7 +78,11 @@ public class IngredientEditor extends JPanel
     makeNewIngredient = new JButton(Translator.translate("Make New Ingredient"));
     detailField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     amountField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
-    unitSelect = new JComboBox<>(UNITS); // should change
+    unitSelect = new JComboBox<>();
+    for (Unit unit : Unit.values())
+    {
+      unitSelect.addItem(unit.getName());
+    }
     
     addButton = new JButton(Translator.translate(ADD));
     deleteButton = new JButton(Translator.translate(DELETE));
@@ -417,8 +416,6 @@ public class IngredientEditor extends JPanel
   private class MakeNewIngredientEditor extends KitchIntelJDialog
   {
 
-    private static final String[] UNITS = new String[] {"", "Dram", "Ounce", "Gram", "Pound", "Pinch",
-        "Teaspoon", "Tablespoon", "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon", "Individual"};
     private static final String DESC = "Make New Ingredient";
     
     private JTextField nameField;
