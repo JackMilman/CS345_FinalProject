@@ -34,9 +34,12 @@ public enum Unit
   /**
    * 
    */
-  public static Unit parseUnit(String unit) {
-    for (Unit item: Unit.values()) {
-      if (unit.equalsIgnoreCase(item.getName())) {
+  public static Unit parseUnit(String unit)
+  {
+    for (Unit item: Unit.values())
+    {
+      if (unit.equalsIgnoreCase(item.getName()))
+      {
         return item;
       }
     }

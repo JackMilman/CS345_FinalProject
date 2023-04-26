@@ -22,20 +22,21 @@ import config.Translator;
 import recipes.Ingredient;
 import recipes.Inventory;
 import recipes.Meal;
+import recipes.NutritionInfo;
+import recipes.PriceInfo;
 import recipes.Recipe;
 import recipes.Unit;
 import utilities.UnitConversion;
 
 /*
  * TO DO:
- * Display prices
- * Add up prices in meals
+ * Allow conversions to all units? (except individual/none)
  */
 
 /**
  * Creates the GUI to view a shopping list.
  * 
- * @author Meara Patterson
+ * @author Meara Patterson, KitchIntel
  * @version 3/29/2023
  */
 public class ShoppingListViewer extends KitchIntelJDialog
@@ -149,7 +150,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
       {
         int index = editedIngredients.indexOf(ing);
         Ingredient newIng = new Ingredient(ing.getName(), ing.getDetails(), ing.getAmount() / 2,
-            ing.getUnit(), ing.getCalories(), ing.getDensity(), ing.getPrice());
+            ing.getUnit());
         editedIngredients.set(index, newIng);
       }
     }
@@ -200,8 +201,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
     for (Ingredient ing : recipe.getIngredients())
     {
       allIngredients.add(new Ingredient(ing.getName(), ing.getDetails(), 
-          ing.getAmount() * numBatches, ing.getUnit(), ing.getCalories(), 
-          ing.getDensity(), ing.getPrice()));
+          ing.getAmount() * numBatches, ing.getUnit()));
     }
   }
 
@@ -217,14 +217,12 @@ public class ShoppingListViewer extends KitchIntelJDialog
         return;
       }
 
-
       for (Ingredient ing : allIngredients)
       {
         if (!editedIngredients.contains(ing))
         {
           Ingredient newIng = new Ingredient(ing.getName(), ing.getDetails(),
-              ing.getAmount(), ing.getUnit(), ing.getCalories(), 
-              ing.getDensity(), ing.getPrice());
+              ing.getAmount(), ing.getUnit());
           editedIngredients.add(newIng);
         }
         else
@@ -240,8 +238,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
               double newAmount = UnitConversion.convert(ing.getName(), ing.getUnit(),
                   duplicate.getUnit(), ing.getAmount()) + duplicate.getAmount();
               Ingredient addIng = new Ingredient(ing.getName(), ing.getDetails(),
-                  newAmount, duplicate.getUnit(), ing.getCalories(), 
-                  ing.getDensity(), ing.getPrice());
+                  newAmount, duplicate.getUnit());
               int index = editedIngredients.indexOf(duplicate);
               editedIngredients.set(index, addIng);
             }
@@ -288,6 +285,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
     JLabel label;
     JComboBox<String> units;
     JCheckBox checkBox;
+    Ingredient ingredient;
 
     ShoppingListIngredient(final Ingredient ingredient)
     {
@@ -297,6 +295,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
       label = new JLabel(ingredient.toString());
       setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
 
+      this.ingredient = ingredient;
       units = new JComboBox<>();
 //      for (Unit unit : Unit.values())
 //      {
@@ -329,8 +328,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
           Unit newUnit = Unit.parseUnit((String)units.getSelectedItem());
           Ingredient newIng = new Ingredient(ingredient.getName(), ingredient.getDetails(),
               UnitConversion.convert(ingredient.getName(), ingredient.getUnit(), 
-                  newUnit, ingredient.getAmount()), newUnit, ingredient.getCalories(), 
-              ingredient.getDensity(), ingredient.getPrice());
+                  newUnit, ingredient.getAmount()), newUnit);
           editedIngredients.set(index, newIng);
           updateScrollAreaHelper();
           label = new JLabel(newIng.toString());
@@ -364,6 +362,18 @@ public class ShoppingListViewer extends KitchIntelJDialog
     {
       removeAll();
       add(label);
+      if (Unit.parseUnit((String) units.getSelectedItem()).equals(Unit.INDIVIDUAL) 
+          || Unit.parseUnit((String) units.getSelectedItem()).equals(Unit.NONE))
+      {
+        add(new JLabel("$(variable)"));
+      }
+      else
+      {
+        double price = UnitConversion.convert(ingredient.getName(), 
+            Unit.parseUnit((String) units.getSelectedItem()), Unit.TABLESPOON, 
+            ingredient.getAmount()) * PriceInfo.getPricePerTablespoon(ingredient.getName());
+        add(new JLabel(String.format("$%.2f", price)));
+      }
       add(units);
       add(checkBox);
     }

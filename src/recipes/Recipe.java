@@ -25,13 +25,15 @@ import utilities.SortLists;
  * @author Jack Milman, KichIntel
  *
  */
-public abstract class Recipe implements Serializable
+public class Recipe implements Serializable
 {
   private static final long serialVersionUID = 1L;
 
   private String name;
 
   private int servings;
+
+  private List<Recipe> subRecipes = new ArrayList<Recipe>();
 
   protected List<Ingredient> ingredients = new ArrayList<Ingredient>();
 
@@ -73,10 +75,47 @@ public abstract class Recipe implements Serializable
     }
   }
 
-  public boolean addAllIngredients(final List<Ingredient> ingredients)
+  /**
+   * Adds all the substitutes in the passed map of substitutes to this recipe, if possible. Returns
+   * true if the size of substitutes changed as a result of this operation.
+   * 
+   * @param newSubs
+   * @return true if the size of substitutes changed as a result of this operation
+   */
+  public boolean addAllSubstitutes(final HashMap<Ingredient, List<Ingredient>> newSubs)
   {
-    int sizeBefore = this.ingredients.size();
-    for (Ingredient ingredient : ingredients)
+    int sizeBefore = 0;
+    for (Ingredient key : substitutes.keySet())
+    {
+      sizeBefore += substitutes.get(key).size();
+    }
+    for (Ingredient key : newSubs.keySet())
+    {
+      for (Ingredient substitute : newSubs.get(key))
+      {
+        addSubstitute(key, substitute);
+      }
+    }
+
+    int sizeAfter = 0;
+    for (Ingredient key : substitutes.keySet())
+    {
+      sizeAfter += substitutes.get(key).size();
+    }
+    return sizeBefore != sizeAfter;
+  }
+
+  /**
+   * Adds all the ingredients in the passed list to this recipe, if possible. Returns true if the
+   * size of ingredients changed as a result of this operation.
+   * 
+   * @param ingredients
+   * @return true if the size of ingredients changed as a result of this operation
+   */
+  public boolean addAllIngredients(final List<Ingredient> newIngredients)
+  {
+    int sizeBefore = ingredients.size();
+    for (Ingredient ingredient : newIngredients)
     {
       addIngredient(ingredient);
     }
@@ -84,10 +123,10 @@ public abstract class Recipe implements Serializable
     return sizeBefore != ingredients.size();
   }
 
-  public boolean addAllUtensils(final List<Utensil> utensils)
+  public boolean addAllUtensils(final List<Utensil> newUtensils)
   {
-    int sizeBefore = this.utensils.size();
-    for (Utensil utensil : utensils)
+    int sizeBefore = utensils.size();
+    for (Utensil utensil : newUtensils)
     {
       addUtensil(utensil);
     }
@@ -95,39 +134,20 @@ public abstract class Recipe implements Serializable
     return sizeBefore != utensils.size();
   }
 
-  public boolean addAllSteps(final List<Step> steps)
+  public boolean addAllSteps(final List<Step> newSteps)
   {
-    int sizeBefore = this.steps.size();
-    for (Step step : steps)
+    int sizeBefore = steps.size();
+    for (Step step : newSteps)
     {
       addStep(step);
     }
     // If the list changed as a result of this operation
     return sizeBefore != steps.size();
   }
-  
-  public boolean addAllSubstitutes(final HashMap<Ingredient, List<Ingredient>> newSubs) {
-    int sizeBefore = 0;
-    for (Ingredient key : substitutes.keySet()) {
-      sizeBefore += substitutes.get(key).size();
-    }
-    for (Ingredient key : newSubs.keySet()) {
-      for (Ingredient substitute: newSubs.get(key)) {
-        addSubstitute(key, substitute);
-      }
-    }
-    
-    int sizeAfter = 0;
-    for (Ingredient key : substitutes.keySet()) {
-      sizeAfter += substitutes.get(key).size();
-    }
-    return sizeBefore != sizeAfter;
-  }
 
   public boolean addSubstitute(final Ingredient ingredient, final Ingredient substitute)
   {
-    int index = ingredients.indexOf(ingredient);
-    if (index != -1)
+    if (ingredients.contains(ingredient))
     {
       if (substitutes.containsKey(ingredient))
       {
@@ -143,19 +163,44 @@ public abstract class Recipe implements Serializable
     }
     return false;
   }
-  
-  /**
-   * Gets the substitute Ingredients in the Recipe.
-   * 
-   * @return the substitute ingredients in the recipe.
-   */
-  public HashMap<Ingredient, List<Ingredient>> getSubstitutes()
+
+  public boolean removeSubstitute(final Ingredient ingredient, final Ingredient substitute)
   {
-    return new HashMap<Ingredient, List<Ingredient>>(substitutes);
+    if (ingredients.contains(ingredient))
+    {
+      if (substitutes.containsKey(ingredient))
+      {
+        substitutes.get(ingredient).remove(substitute);
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
-   * Adds an ingredient to the list of Ingredients.
+   * Adds a new recipe to the list of this recipe's sub recipes.
+   * 
+   * @param recipe
+   * @return true if the list was changed as a result of this operation
+   */
+  public boolean addRecipe(final Recipe recipe)
+  {
+    return subRecipes.add(recipe);
+  }
+
+  /**
+   * Removes recipe from the list of this recipe's sub recipes.
+   * 
+   * @param recipe
+   * @return true if the list was changed as a result of this operation
+   */
+  public boolean removeRecipe(final Recipe recipe)
+  {
+    return subRecipes.remove(recipe);
+  }
+
+  /**
+   * Adds an ingredient to the list of Ingredients. Cannot add a duplicate ingredient.
    * 
    * @param ingredient
    *          the ingredient to attempt to add
@@ -173,7 +218,7 @@ public abstract class Recipe implements Serializable
 
   /**
    * Attempts to remove a ingredient from the list of ingredients. If the ingredient is not present,
-   * returns false.
+   * returns false. Also returns false if the ingredient is currently being used in a substitute.
    * 
    * @param ingredient
    *          the ingredient to attempt to remove
@@ -182,6 +227,10 @@ public abstract class Recipe implements Serializable
    */
   public boolean removeIngredient(final Ingredient ingredient)
   {
+    if (substitutes.containsKey(ingredient))
+    {
+      return false;
+    }
     return ingredients.remove(ingredient);
   }
 
@@ -296,21 +345,59 @@ public abstract class Recipe implements Serializable
   }
 
   /**
-   * Gets the Ingredients used in the Recipe.
+   * Gets a subRecipes of this Recipe. Returns a copy of the list.
+   * 
+   * @return
+   */
+  public List<Recipe> getSubRecipes()
+  {
+    return new ArrayList<Recipe>(subRecipes);
+  }
+
+  /**
+   * Gets the substitute Ingredients in the Recipe. Returns a copy of the list.
+   * 
+   * @return the substitute ingredients in the recipe.
+   */
+  public HashMap<Ingredient, List<Ingredient>> getSubstitutes()
+  {
+    return new HashMap<Ingredient, List<Ingredient>>(substitutes);
+  }
+
+  /**
+   * Gets the Ingredients used in the Recipe. Returns a copy of the list.
    * 
    * @return the Ingredients used in the Recipe.
    */
-  abstract public List<Ingredient> getIngredients();
+  public List<Ingredient> getIngredients()
+  {
+    List<Ingredient> compositeList = new ArrayList<Ingredient>();
+    for (Recipe subRecipe : subRecipes)
+    {
+      compositeList.addAll(subRecipe.getIngredients());
+    }
+    compositeList.addAll(ingredients);
+    return compositeList;
+  }
 
   /**
-   * Gets the Utensils used in the Recipe.
+   * Gets the Utensils used in the Recipe. Returns a copy of the list.
    * 
    * @return the Utensils used in the Recipe.
    */
-  abstract public List<Utensil> getUtensils();
+  public List<Utensil> getUtensils()
+  {
+    List<Utensil> compositeList = new ArrayList<Utensil>();
+    for (Recipe subRecipe : subRecipes)
+    {
+      compositeList.addAll(subRecipe.getUtensils());
+    }
+    compositeList.addAll(utensils);
+    return compositeList;
+  }
 
   /**
-   * Gets the Steps to follow in order to make the Recipe.
+   * Gets the Steps to follow in order to make the Recipe. Returns a copy of the list.
    * 
    * @return the Steps to follow in order to make the Recipe.
    */
@@ -325,7 +412,23 @@ public abstract class Recipe implements Serializable
    * 
    * @return the total number of calories in the Recipe
    */
-  abstract public double calculateCalories();
+  public double calculateCalories()
+  {
+    {
+      double result = 0;
+      for (Ingredient ingredient : ingredients)
+      {
+        result += ingredient.getCaloriesPerGram();
+      }
+
+      for (Recipe recipe : subRecipes)
+      {
+        result += recipe.calculateCalories();
+      }
+
+      return result;
+    }
+  }
 
   /**
    * Serializes this recipe into a file name filename.rcp.

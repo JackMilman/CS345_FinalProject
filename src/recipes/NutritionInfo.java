@@ -3,13 +3,12 @@ package recipes;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-import java.util.TreeMap;
 
 /**
  * Utility Class for maintaining a map of ingredients and nutritional information for those
  * ingredients.
  * 
- * @author Jack Milman, KichIntel
+ * @author Jack Milman, KitchIntel
  * @version 4/14/2023 V2
  *
  */
@@ -99,6 +98,7 @@ public class NutritionInfo
     map.put("wine", new CalorieGram(0.83, 0.99));
     return map;
   }
+
   /**
    * Returns whether Nutrition info is stored for the named ingredient.
    * 
@@ -108,7 +108,7 @@ public class NutritionInfo
    */
   public static boolean contains(final String ingredientName)
   {
-    return NUTRITION_MAP.containsKey(ingredientName);
+    return NUTRITION_MAP.containsKey(ingredientName.toLowerCase());
   }
 
   /**
@@ -121,12 +121,15 @@ public class NutritionInfo
    *          the caloriesPerGram for the ingredient
    * @param density
    *          the gramPerML for the ingredient
+   * @param pricePerTablespoon
+   *          price per tablespoon, the standard unit of volume
    */
+
   public static void addIngredient(final String name, final Double calories, final Double density)
   {
-    if (!NUTRITION_MAP.containsKey(name))
+    if (!NUTRITION_MAP.containsKey(name.toLowerCase()))
     {
-      NUTRITION_MAP.put(name, new CalorieGram(calories, density));
+      NUTRITION_MAP.put(name.toLowerCase(), new CalorieGram(calories, density));
     }
   }
 
@@ -139,7 +142,7 @@ public class NutritionInfo
   {
     return NUTRITION_MAP.keySet();
   }
- 
+
   /**
    * Returns the calorie information of the ingredient, if it exists in the map and has calorie
    * information. Else, returns 0.0.
@@ -171,7 +174,7 @@ public class NutritionInfo
    */
   public static Double getGramPerML(final String ingredientName)
   {
-    CalorieGram mapping = NUTRITION_MAP.get(ingredientName);
+    CalorieGram mapping = NUTRITION_MAP.get(ingredientName.toLowerCase());
     if (mapping != null && mapping.getDensity() != null)
     {
       return mapping.getDensity();

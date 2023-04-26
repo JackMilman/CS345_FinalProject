@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.TextListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,231 +18,212 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
+import javax.swing.table.DefaultTableModel;
 
 import branding.KitchIntelBorder;
 import config.Translator;
 import recipes.Ingredient;
 import recipes.NutritionInfo;
+import recipes.Recipe;
 import recipes.Unit;
+import utilities.SortLists;
 
+/**
+ * A class for the ingredient editor component of the meal editor.
+ * 
+ * @author Josiah Leach, Meara Patterson, Jack Milman, KitchIntel
+ * @version 03.29.2023
+ */
 public class SubstituteEditor extends JPanel
 {
-  /**
-   * A class for the ingredient editor component of the meal editor.
-   * 
-   * @author Josiah Leach, Meara Patterson, KitchIntel
-   * @version 03.29.2023
-   */
+  private static final long serialVersionUID = 1L;
+  public static final String SELECT_SUBSTITUTE = "select_substitute";
+  public static final String SELECT_INGREDIENT = "select_ingredient";
+  public static final String MAKE_NEW_SUBSTITUTE = "make_new_substitute";
 
-  public static final Double NO_INPUT = null; // Changed 4/13: Updated to Double and value to null.
-                                              // -Jack
-  private static final String[] UNITS = new String[] {"", "Dram", "Ounce", "Gram", "Pound", "Pinch",
-      "Teaspoon", "Tablespoon", "Fluid Ounce", "Cup", "Pint", "Quart", "Gallon", "Individual"};
   private static final String ADD = "Add";
   private static final String DELETE = "Delete";
 
-  private static final long serialVersionUID = 1L;
-
-  private JTextField nameField;
+  private JComboBox<String> selectSubstitute;
+  private JComboBox<String> selectIngredient;
+  private JComboBox<String> unitSelect;
   private JTextField detailField;
   private JTextField amountField;
-  private JTextField calorieField;
-  private JTextField densityField;
-  private JList<Ingredient> substituteDisplay;
-  private DefaultListModel<Ingredient> listModel;
-  private JButton addButton, deleteButton;
-  private final JComboBox<String> unitSelect;
-  private final JComboBox<Ingredient> substituteSelect;
+  private JButton makeNewIngredient;
+  private JButton addButton;
+  private JButton deleteButton;
 
-  private HashMap<Ingredient, List<Ingredient>> substitutes;
+  private JTable substituteDisplay;
+
+  private final Recipe workingRecipe;
 
   /**
      * 
      */
-  public SubstituteEditor()
+  public SubstituteEditor(Recipe workingRecipe)
   {
     super();
+
+    this.workingRecipe = workingRecipe;
+
     setLayout(new BorderLayout());
     setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Substitutes")));
 
     SubstituteEditorListener listener = new SubstituteEditorListener(this);
     EnableUpdater addListener = new EnableUpdater();
 
+    updateSubstituteSelect();
+    updateIngredientSelect();
+
+    makeNewIngredient = new JButton(Translator.translate("Make New Ingredient"));
+    detailField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
+    amountField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
+    unitSelect = new JComboBox<>();
+    for (Unit unit : Unit.values())
+    {
+      unitSelect.addItem(unit.getName());
+    }
+
     addButton = new JButton(Translator.translate(ADD));
     deleteButton = new JButton(Translator.translate(DELETE));
 
-    addButton.setActionCommand(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND);
-    deleteButton.setActionCommand(RecipeEditor.INGREDIENT_DELETE_ACTION_COMMAND);
+    addButton.setActionCommand(RecipeEditor.SUBSTITUTE_ADD_ACTION_COMMAND);
+    addButton.addActionListener(listener);
+    addButton.setEnabled(false);
+    deleteButton.setActionCommand(RecipeEditor.SUBSTITUTE_DELETE_ACTION_COMMAND);
+    selectSubstitute.setActionCommand(SELECT_SUBSTITUTE);
+    selectIngredient.setActionCommand(SELECT_INGREDIENT);
+    makeNewIngredient.setActionCommand(MAKE_NEW_SUBSTITUTE);
+    makeNewIngredient.addActionListener(listener);
 
-    nameField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
-    detailField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
-    amountField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
-    calorieField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
-    densityField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
-
-    unitSelect = new JComboBox<String>(UNITS);
-    substituteSelect = new JComboBox<Ingredient>();
-
-    nameField.addActionListener(addListener);
+    selectSubstitute.addActionListener(addListener);
+    selectIngredient.addActionListener(addListener);
     detailField.addActionListener(addListener);
     amountField.addActionListener(addListener);
-    calorieField.addActionListener(addListener);
-    densityField.addActionListener(addListener);
     unitSelect.addActionListener(addListener);
 
-    substitutes = new HashMap<Ingredient, List<Ingredient>>();
-
-    listModel = new DefaultListModel<Ingredient>();
-    substituteDisplay = new JList<Ingredient>(listModel);
-    substituteDisplay.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-    substituteDisplay.setLayoutOrientation(JList.VERTICAL_WRAP);
-
-    addButton.addActionListener(listener);
-    deleteButton.addActionListener(listener);
-
-    calorieField.setEnabled(false);
-    densityField.setEnabled(false);
-    addButton.setEnabled(false);
-
-    addButton.addActionListener(new ActionListener()
-    {
-      @Override
-      public void actionPerformed(final ActionEvent evt)
-      {
-        try
-        {
-          NutritionInfo.addIngredient(nameField.getText(),
-              Double.parseDouble(calorieField.getText()),
-              Double.parseDouble(densityField.getText()));
-        }
-        catch (NumberFormatException nfe)
-        {
-          NutritionInfo.addIngredient(nameField.getText(), NO_INPUT, NO_INPUT);
-        }
-      }
-    });
+    substituteDisplay = new JTable(new DefaultTableModel(3, 1));
+    updateSubstituteDisplay();
 
     Container inputFields = new Container();
     inputFields.setLayout(new FlowLayout(FlowLayout.LEFT));
-    inputFields.add(new JLabel(Translator.translate("Name") + ":"));
-    inputFields.add(nameField);
+    inputFields.add(new JLabel(Translator.translate("Substitute") + ":"));
+    inputFields.add(selectSubstitute);
+    inputFields.add(new JLabel(Translator.translate("Ingredient") + ":"));
+    inputFields.add(selectIngredient);
     inputFields.add(new JLabel(Translator.translate("Details") + ":"));
     inputFields.add(detailField);
     inputFields.add(new JLabel(Translator.translate("Amount") + ":"));
     inputFields.add(amountField);
     inputFields.add(new JLabel(Translator.translate("Units") + ":"));
     inputFields.add(unitSelect);
-    inputFields.add(new JLabel(Translator.translate("Substitute") + ":"));
-    inputFields.add(substituteSelect);
-    inputFields.add(new JLabel(Translator.translate("Calories") + ":"));
-    inputFields.add(calorieField);
-    inputFields.add(new JLabel(Translator.translate("g/mL") + ":"));
-    inputFields.add(densityField);
     inputFields.add(addButton);
+    inputFields.add(makeNewIngredient);
 
     add(inputFields, BorderLayout.NORTH);
-
     add(deleteButton, BorderLayout.EAST);
-
     add(substituteDisplay, BorderLayout.CENTER);
 
     setVisible(true);
     setOpaque(false);
   }
 
+  private void updateSubstituteSelect()
+  {
+    if (selectSubstitute != null)
+    {
+      selectSubstitute.removeAllItems();
+    }
+    else
+    {
+      selectSubstitute = new JComboBox<>();
+    }
+
+    selectSubstitute.addItem("");
+    // Gets the list of ingredients presently in the recipe.
+    List<Ingredient> ingredients = workingRecipe.getIngredients();
+    SortLists.sortIngredients(ingredients);
+    for (Ingredient item : ingredients)
+    {
+      selectSubstitute.addItem(item.getName());
+    }
+    selectSubstitute.revalidate();
+    selectSubstitute.repaint();
+  }
+
   private void add()
   {
-    String name = nameField.getText();
-    String details = detailField.getText();
-    String unit = unitSelect.getSelectedItem().toString();
-    Ingredient substitute = (Ingredient) substituteSelect.getSelectedItem();
-    double amount;
-    double calories;
-    double density;
 
-    try
-    {
-      amount = Double.valueOf(amountField.getText());
-    }
-    catch (NumberFormatException nfe)
-    {
-      return;
-    }
-
-    // User is allowed to not input calories or density.
-    // If they don't, those values are set to NO_INPUT
-    try
-    {
-      calories = Double.valueOf(calorieField.getText());
-    }
-    catch (NumberFormatException nfe)
-    {
-      calories = NO_INPUT;
-    }
-
-    try
-    {
-      density = Double.valueOf(densityField.getText());
-    }
-    catch (NumberFormatException nfe)
-    {
-      density = NO_INPUT;
-    }
-    catch (NullPointerException npe)
-    {
-      density = NO_INPUT;
-    }
-
-    if (name.equals("") || unit.equals(""))
-      return;
-
-    Ingredient ingredient = new Ingredient(name, details, amount, Unit.parseUnit(unit), calories,
-        density);
-    
-    if (substitutes.containsKey(substitute)) {
-      substitutes.get(substitute).add(ingredient);
-    } else {
-      List<Ingredient> newList = new ArrayList<Ingredient>();
-      newList.add(ingredient);
-      substitutes.put(substitute, newList);
-    }
-
-    nameField.setText("");
-    detailField.setText("");
-    unitSelect.setSelectedIndex(0);
-    substituteSelect.setSelectedIndex(0);
-    amountField.setText("");
-    calorieField.setText("");
-    densityField.setText("");
-
-    updateSubstitutes();
   }
 
   private void delete()
   {
-    int index = listModel.indexOf(substituteDisplay.getSelectedValue());
-    Ingredient substitute = (Ingredient) substituteDisplay.getSelectedValue();
-    substitutes.remove(substitute);
-    
-    listModel.remove(index);
+
   }
 
-  HashMap<Ingredient, List<Ingredient>> getSubstitutes()
+  void updateSubstituteDisplay()
   {
-    return substitutes;
-  }
-  
-  private void updateSubstitutes() {
-    substituteDisplay.removeAll();
-    
-    for (Ingredient key : substitutes.keySet()) {
-      for (Ingredient substitute : substitutes.get(key)) {
-        listModel.addElement(substitute);
+    DefaultTableModel tableModel = new DefaultTableModel(1, 2)
+    {
+
+      private static final long serialVersionUID = 1L;
+
+      @Override
+      public boolean isCellEditable(final int row, final int col)
+      {
+        return false;
+      }
+    };
+
+    substituteDisplay.setModel(tableModel);
+
+    HashMap<Ingredient, List<Ingredient>> substitutes = workingRecipe.getSubstitutes();
+    List<Ingredient> ingredients = new ArrayList<Ingredient>(substitutes.keySet());
+    SortLists.sortIngredients(ingredients);
+    // Index used to keep track of where we are in the table
+    int index = 0;
+
+    for (int i = 0; i < ingredients.size(); i++)
+    {
+      Ingredient currentIngredient = ingredients.get(i);
+      List<Ingredient> ingredientSubstitutes = substitutes.get(currentIngredient);
+      for (int f = 0; f < ingredientSubstitutes.size(); f++)
+      {
+        // Sets the ingredient being substituted for
+        substituteDisplay.setValueAt(ingredients.get(i), index, 0);
+        // Sets what we are substituting
+        substituteDisplay.setValueAt(ingredientSubstitutes.get(f), index, 1);
+        // Increases the index so we can go to the next row
+        index++;
       }
     }
+
+  }
+
+  private void updateIngredientSelect()
+  {
+    if (selectIngredient != null)
+    {
+      selectIngredient.removeAllItems();
+    }
+    else
+    {
+      selectIngredient = new JComboBox<>();
+    }
+    selectIngredient.addItem("");
+    ArrayList<String> names = new ArrayList<>();
+    names.addAll(NutritionInfo.getIngredientsInMap());
+    Collections.sort(names);
+    for (String name : names)
+    {
+      selectIngredient.addItem(name);
+    }
+    selectIngredient.revalidate();
+    selectIngredient.repaint();
   }
 
   private class SubstituteEditorListener implements ActionListener
@@ -256,11 +238,11 @@ public class SubstituteEditor extends JPanel
     @Override
     public void actionPerformed(final ActionEvent e)
     {
-      if (e.getActionCommand().equals(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND))
+      if (e.getActionCommand().equals(RecipeEditor.SUBSTITUTE_ADD_ACTION_COMMAND))
       {
         subject.add();
       }
-      else if (e.getActionCommand().equals(RecipeEditor.INGREDIENT_DELETE_ACTION_COMMAND))
+      else if (e.getActionCommand().equals(RecipeEditor.SUBSTITUTE_DELETE_ACTION_COMMAND))
       {
         subject.delete();
       }
@@ -274,41 +256,14 @@ public class SubstituteEditor extends JPanel
     @Override
     public void actionPerformed(final ActionEvent e)
     {
-      if (NutritionInfo.contains(nameField.getText()) || nameField.getText().equals(""))
+      if (selectIngredient.getSelectedIndex() != 0 && !amountField.getText().equals(""))
       {
-        calorieField.setEnabled(false);
-        densityField.setEnabled(false);
-        calorieField.setText("");
-        densityField.setText("");
+        addButton.setEnabled(true);
       }
       else
-      {
-        calorieField.setEnabled(true);
-        densityField.setEnabled(true);
-      }
-
-      if (nameField.getText().length() == 0 || amountField.getText().length() == 0
-          || unitSelect.getSelectedIndex() == 0)
       {
         addButton.setEnabled(false);
-        return;
       }
-      else
-      {
-        addButton.setEnabled(true);
-      }
-
-      if (NutritionInfo.contains(nameField.getText()))
-      {
-        addButton.setEnabled(true);
-      }
-      // You can input an ingredient without giving the calorie and density
-      // else
-      // {
-      // boolean filled = calorieField.getText().length() > 0 && densityField.getText().length() >
-      // 0;
-      // addButton.setEnabled(filled);
-      // }
     }
   }
 
@@ -323,24 +278,6 @@ public class SubstituteEditor extends JPanel
   {
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);
-  }
-  
-  void loadIngredients(List<Ingredient> ingredients) {
-    for (Ingredient item : ingredients) {
-      substituteSelect.addItem(item);
-    }
-  }
-
-  void loadSubstitutes(final HashMap<Ingredient, List<Ingredient>> map)
-  {
-    this.substitutes.clear();
-
-    for (Ingredient key : map.keySet())
-    {
-      substitutes.put(key, map.get(key));
-    }
-
-    updateSubstitutes();
   }
 
 }
