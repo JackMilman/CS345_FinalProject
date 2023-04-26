@@ -19,7 +19,9 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import branding.KitchIntelBorder;
 import config.Translator;
@@ -50,7 +52,7 @@ public class StepEditor extends JComponent
 
   private JComboBox<String> actionSelect, onSelect, utensilSelect;
   private JTextField detailField, timeField;
-  private TextArea display;
+  private JTable display;
   private JButton addButton, deleteButton, embeddedRecipe;
   private Recipe workingRecipe;
   public String fileName;
@@ -111,8 +113,7 @@ public class StepEditor extends JComponent
 
     add(deleteButton, BorderLayout.EAST);
 
-    display = new TextArea();
-    display.setEditable(false);
+    display = new JTable(new DefaultTableModel(1,1));
     add(display, BorderLayout.CENTER);
 
     setVisible(true);
@@ -184,7 +185,7 @@ public class StepEditor extends JComponent
       workingRecipe.addStep(step);
     }
 
-    updateDisplay();
+    updateStepDisplay();
 
     actionSelect.setSelectedIndex(0);
     onSelect.setSelectedIndex(0);
@@ -195,62 +196,31 @@ public class StepEditor extends JComponent
 
   private void delete()
   {
-    if (workingRecipe.getSteps().size() == 0)
-      return;
-
-    int selectionStart = display.getSelectionStart();
-    int linesSelected = 0;
-    int linesSkipped = 0;
-    String selectedText = display.getSelectedText();
-
-    if (selectedText == null || selectedText.length() < 0)
-      return;
-
-    char[] characters = selectedText.toCharArray();
-
-    // counts the number of newline characters to determine the number of lines selected
-    for (char character : characters)
-    {
-      if (character == '\n')
-      {
-        linesSelected++;
-      }
-    }
-
-    // if the last selected character isn't a newline character, then there is one uncounted line.
-    if (characters[characters.length - 1] != '\n')
-      linesSelected++;
-
-    String skipped = display.getText().substring(0, selectionStart);
-
-    char[] skippedChars = skipped.toCharArray();
-
-    for (char skippedChar : skippedChars)
-    {
-      if (skippedChar == '\n')
-        linesSkipped++;
-    }
-
-    for (int i = 0; i < linesSelected; i++)
-    {
-      workingRecipe.getSteps().remove(linesSkipped);
-    }
-
-    updateDisplay();
+    //TODO
   }
 
-  private void updateDisplay()
+  private void updateStepDisplay()
   {
-    String displayText = "";
-
-    for (Step step : workingRecipe.getSteps())
-    {
-      displayText += String.format("%s\n", step.toString());
-    }
     
-    System.out.println(displayText);
+    DefaultTableModel tableModel = new DefaultTableModel(workingRecipe.getSteps().size(), 1)
+    {
 
-    display.setText(displayText);
+      private static final long serialVersionUID = 1L;
+
+      @Override
+      public boolean isCellEditable(final int row, final int col)
+      {
+        return false;
+      }
+    };
+    
+    display.setModel(tableModel);
+    List<Step> stepsList = workingRecipe.getSteps();
+
+    for (int i = 0; i < stepsList.size(); i++)
+    {
+      display.setValueAt(stepsList.get(i), i, 0);
+    }
   }
 
   /**
@@ -373,7 +343,7 @@ public class StepEditor extends JComponent
     workingRecipe.getSteps().clear();
     workingRecipe.addAllSteps(newSteps);
 
-    updateDisplay();
+    updateStepDisplay();
   }
 
   /**

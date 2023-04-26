@@ -112,7 +112,7 @@ public class IngredientEditor extends JPanel
     amountField.addActionListener(addListener);
     unitSelect.addActionListener(addListener);
 
-    ingredientDisplay = new JTable(new DefaultTableModel(3, 1));
+    ingredientDisplay = new JTable(new DefaultTableModel(1, 1));
     updateIngredientDisplay();
 
     Container inputFields = new Container();
@@ -202,7 +202,7 @@ public class IngredientEditor extends JPanel
       Ingredient ingredient = workingRecipe.getIngredients().get(index);
       
       workingRecipe.removeIngredient(ingredient);
-      
+
       updateIngredientDisplay();
     }
 
@@ -211,8 +211,8 @@ public class IngredientEditor extends JPanel
 
   void updateIngredientDisplay()
   {
-    DefaultTableModel tableModel = new DefaultTableModel(workingRecipe.getIngredients().size() + 1,
-        1)
+    
+    DefaultTableModel tableModel = new DefaultTableModel(workingRecipe.getIngredients().size(), 1)
     {
 
       private static final long serialVersionUID = 1L;
@@ -223,7 +223,7 @@ public class IngredientEditor extends JPanel
         return false;
       }
     };
-
+    
     ingredientDisplay.setModel(tableModel);
     List<Ingredient> ingredientsList = workingRecipe.getIngredients();
 

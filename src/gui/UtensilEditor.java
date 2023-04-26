@@ -14,10 +14,13 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import branding.KitchIntelBorder;
 import config.Translator;
+import recipes.Ingredient;
 import recipes.Recipe;
 import recipes.Utensil;
 import utilities.SortLists;
@@ -40,7 +43,7 @@ public class UtensilEditor extends JComponent
 
   private final JTextField nameField;
   private final JTextField detailField;
-  private final TextArea utensilDisplay;
+  private final JTable utensilDisplay;
   private final JButton addButton, deleteButton;
   private Recipe workingRecipe;
   private StepEditor stepEditor;
@@ -89,8 +92,7 @@ public class UtensilEditor extends JComponent
     deleteButton.setActionCommand(RecipeEditor.UTENSIL_DELETE_ACTION_COMMAND);
     add(deleteButton, BorderLayout.EAST);
 
-    utensilDisplay = new TextArea();
-    utensilDisplay.setEditable(false);
+    utensilDisplay = new JTable(new DefaultTableModel(1,1));
     add(utensilDisplay, BorderLayout.CENTER);
 
     setVisible(true);
@@ -106,82 +108,41 @@ public class UtensilEditor extends JComponent
     nameField.setText("");
     detailField.setText("");
 
-    updateText();
+    updateUtensilDisplay();
     
     addButton.setEnabled(false);
     
     stepEditor.update();
   }
 
-  private void updateText()
+  void updateUtensilDisplay()
   {
-    String displayText = "";
-
-    for (Utensil utensil : workingRecipe.getUtensils())
-    {
-      displayText += String.format("%s\n", utensil.toString());
-    }
-
-    utensilDisplay.setText(displayText);
-  }
-
-  private void delete()
-  {
-    if (workingRecipe.getUtensils().size() == 0)
-      return;
-
-    int selectionStart = utensilDisplay.getSelectionStart();
-    int linesSelected = 0;
-    int linesSkipped = 0;
-    String selectedText = utensilDisplay.getSelectedText();
-
-    if (selectedText == null || selectedText.length() < 0)
-      return;
-
-    char[] characters = selectedText.toCharArray();
-
-    // counts the number of newline characters to determine the number of lines selected
-    for (char character : characters)
-    {
-      if (character == '\n')
-      {
-        linesSelected++;
-      }
-    }
-
-    // if the last selected character isn't a newline character, then there is one uncounted line.
-    if (characters[characters.length - 1] != '\n')
-      linesSelected++;
-
-    String skipped = utensilDisplay.getText().substring(0, selectionStart);
-
-    char[] skippedChars = skipped.toCharArray();
-
-    for (char skippedChar : skippedChars)
-    {
-      if (skippedChar == '\n')
-        linesSkipped++;
-    }
-
-    for (int i = 0; i < linesSelected; i++)
-    {
-      workingRecipe.getUtensils().remove(linesSkipped);
-    }
-
-    updateText();
     
-    stepEditor.update();
-  }
+    DefaultTableModel tableModel = new DefaultTableModel(workingRecipe.getUtensils().size(), 1)
+    {
 
-  /**
-   * Adds a text listener to the text area of the utensil editor.
-   * 
-   * @param listener
-   *          the text listener to add to the display text area.
-   */
-  public void addTextListener(final TextListener listener)
+      private static final long serialVersionUID = 1L;
+
+      @Override
+      public boolean isCellEditable(final int row, final int col)
+      {
+        return false;
+      }
+    };
+    
+    utensilDisplay.setModel(tableModel);
+    List<Utensil> utensilsList = workingRecipe.getUtensils();
+
+    for (int i = 0; i < utensilsList.size(); i++)
+    {
+      utensilDisplay.setValueAt(utensilsList.get(i), i, 0);
+    }
+
+  }
+  
+  private void delete() 
   {
-    utensilDisplay.addTextListener(listener);
+    //TODO
   }
 
   List<Utensil> getUtensils()
@@ -194,7 +155,7 @@ public class UtensilEditor extends JComponent
     workingRecipe.getUtensils().clear();
     workingRecipe.addAllUtensils(newUtensils);    
 
-    updateText();
+    updateUtensilDisplay();
   }
 
   private class UtensilEditorListener implements ActionListener
