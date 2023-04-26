@@ -34,7 +34,7 @@ import recipes.Utensil;
  * @author Josiah Leach, KitchIntel
  * @version 03.29.2023
  */
-public class StepEditor extends JComponent implements TextListener
+public class StepEditor extends JComponent
 {
   private static final String[] ACTIONS = new String[] {"", "Put", "Melt", "Simmer", "Heat",
       "Ignite", "Boil", "Drain", "Saute", "Cook", "Bake", "Dip"};
@@ -50,32 +50,24 @@ public class StepEditor extends JComponent implements TextListener
 
   private JComboBox<String> actionSelect, onSelect, utensilSelect;
   private JTextField detailField, timeField;
-  private List<Step> steps;
   private TextArea display;
-  private List<Utensil> utensils;
-  private List<Ingredient> ingredients;
   private JButton addButton, deleteButton, embeddedRecipe;
+  private Recipe workingRecipe;
   public String fileName;
 
   /**
    * Creates a new StepEditor.
    * 
-   * @param utensils
-   *          The utensils which can be used in a step. Must be a reference to the list used by the
-   *          corresponding UtensilEditor.
-   * @param ingredients
-   *          The ingredients which can be used in a step. Must be a reference to the list used by
-   *          the corresponding IngredientEditor.
+   * @param workingRecipe
+   *          the recipe to edit the steps of.
    */
-  public StepEditor(final List<Utensil> utensils, final List<Ingredient> ingredients)
+  public StepEditor(final Recipe workingRecipe)
   {
     super();
     setLayout(new BorderLayout());
     setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Steps")));
 
-    this.utensils = utensils;
-    this.ingredients = ingredients;
-    this.steps = new ArrayList<Step>();
+    this.workingRecipe = workingRecipe;
 
     StepEditorListener listener = new StepEditorListener(this);
     EnableListener enabler = new EnableListener();
@@ -88,16 +80,16 @@ public class StepEditor extends JComponent implements TextListener
 
     addButton = new JButton(Translator.translate(ADD));
     deleteButton = new JButton(Translator.translate(DELETE));
-    //embeddedRecipe= new JButton("EmbeddedRecipe");
+    // embeddedRecipe= new JButton("EmbeddedRecipe");
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);
-    //embeddedRecipe.addActionListener(listener);
-    
+    // embeddedRecipe.addActionListener(listener);
+
     actionSelect.addActionListener(enabler);
     onSelect.addActionListener(enabler);
     utensilSelect.addActionListener(enabler);
     timeField.addActionListener(enabler);
-    
+
     addButton.setEnabled(false);
 
     Container inputFields = new Container();
@@ -112,7 +104,7 @@ public class StepEditor extends JComponent implements TextListener
     inputFields.add(detailField);
     inputFields.add(new JLabel(Translator.translate("Minutes") + ":"));
     inputFields.add(timeField);
-    //inputFields.add(embeddedRecipe);
+    // inputFields.add(embeddedRecipe);
     inputFields.add(addButton);
 
     add(inputFields, BorderLayout.NORTH);
@@ -151,46 +143,46 @@ public class StepEditor extends JComponent implements TextListener
     Utensil destinationUtensil = null;
     Utensil sourceUtensil = null;
 
-    for (int i = 0; i < utensils.size(); i++)
+    for (int i = 0; i < workingRecipe.getUtensils().size(); i++)
     {
-      if (on.equals(utensils.get(i).getName()))
+      if (on.equals(workingRecipe.getUtensils().get(i).getName()))
       {
-        sourceUtensil = utensils.get(i);
+        sourceUtensil = workingRecipe.getUtensils().get(i);
       }
-      if (utensil.equals(utensils.get(i).getName()))
+      if (utensil.equals(workingRecipe.getUtensils().get(i).getName()))
       {
-        destinationUtensil = utensils.get(i);
+        destinationUtensil = workingRecipe.getUtensils().get(i);
       }
     }
-    if (on.startsWith("*")) {
-      try {
-      Recipe objectIngredient =  Recipe.read(fileName);
-      Step step = new Step(action, objectIngredient, sourceUtensil, destinationUtensil, details,
-          time);
-      steps.add(step);
-      System.out.println(step);
+    if (on.startsWith("*"))
+    {
+      try
+      {
+        Recipe objectIngredient = Recipe.read(fileName);
+        Step step = new Step(action, objectIngredient, sourceUtensil, destinationUtensil, details,
+            time);
+        workingRecipe.getSteps().add(step);
       }
       catch (IOException e1)
       {
         e1.printStackTrace();
       }
     }
-    else {
-    Ingredient objectIngredient = null;
-    for (int i = 0; i < ingredients.size(); i++)
+    else
     {
-      if (on.equals(ingredients.get(i).getName()))
+      Ingredient objectIngredient = null;
+      for (int i = 0; i < workingRecipe.getIngredients().size(); i++)
       {
-        objectIngredient = ingredients.get(i);
+        if (on.equals(workingRecipe.getIngredients().get(i).getName()))
+        {
+          objectIngredient = workingRecipe.getIngredients().get(i);
+        }
+
       }
-      
+      Step step = new Step(action, objectIngredient, sourceUtensil, destinationUtensil, details,
+          time);
+      workingRecipe.addStep(step);
     }
-    Step step = new Step(action, objectIngredient, sourceUtensil, destinationUtensil, details,
-        time);
-    steps.add(step);
-    System.out.println(step);
-    }
-   
 
     updateDisplay();
 
@@ -203,7 +195,7 @@ public class StepEditor extends JComponent implements TextListener
 
   private void delete()
   {
-    if (steps.size() == 0)
+    if (workingRecipe.getSteps().size() == 0)
       return;
 
     int selectionStart = display.getSelectionStart();
@@ -241,7 +233,7 @@ public class StepEditor extends JComponent implements TextListener
 
     for (int i = 0; i < linesSelected; i++)
     {
-      steps.remove(linesSkipped);
+      workingRecipe.getSteps().remove(linesSkipped);
     }
 
     updateDisplay();
@@ -251,10 +243,12 @@ public class StepEditor extends JComponent implements TextListener
   {
     String displayText = "";
 
-    for (Step step : steps)
+    for (Step step : workingRecipe.getSteps())
     {
       displayText += String.format("%s\n", step.toString());
     }
+    
+    System.out.println(displayText);
 
     display.setText(displayText);
   }
@@ -264,17 +258,17 @@ public class StepEditor extends JComponent implements TextListener
    * called on the corresponding UtensilEditor or IngredientEditor.
    */
   public void updateOn()
-  {
+  {    
     onSelect.removeAllItems();
 
     onSelect.addItem(BLANK);
-
-    for (Utensil utensil : utensils)
+        
+    for (Utensil utensil : workingRecipe.getUtensils())
     {
       onSelect.addItem(utensil.getName());
     }
 
-    for (Ingredient ingredient : ingredients)
+    for (Ingredient ingredient : workingRecipe.getIngredients())
     {
       onSelect.addItem(ingredient.getName());
     }
@@ -291,7 +285,7 @@ public class StepEditor extends JComponent implements TextListener
 
     utensilSelect.addItem(BLANK);
 
-    for (Utensil utensil : utensils)
+    for (Utensil utensil : workingRecipe.getUtensils())
     {
       utensilSelect.addItem(utensil.getName());
     }
@@ -317,16 +311,18 @@ public class StepEditor extends JComponent implements TextListener
       {
         subject.delete();
       }
-      else if (e.getActionCommand().equals("EmbeddedRecipe")) {
+      else if (e.getActionCommand().equals("EmbeddedRecipe"))
+      {
         JFileChooser chooser = new JFileChooser(new File(CURRENT_DIRECTORY));
         chooser.showOpenDialog(null);
 
         fileName = chooser.getSelectedFile().getPath();
         fileName = fileName.substring(0, fileName.indexOf(CURRENT_DIRECTORY));
-        try {
-        
-        String eRecipe = "*" + Recipe.read(fileName).getName();
-        onSelect.addItem(eRecipe);
+        try
+        {
+
+          String eRecipe = "*" + Recipe.read(fileName).getName();
+          onSelect.addItem(eRecipe);
         }
         catch (IOException e1)
         {
@@ -336,28 +332,21 @@ public class StepEditor extends JComponent implements TextListener
     }
 
   }
-  
+
   private class EnableListener implements ActionListener
   {
     @Override
     public void actionPerformed(final ActionEvent e)
     {
-      boolean filled = onSelect.getSelectedIndex() != 0 && actionSelect.getSelectedIndex() != 0 
+      boolean filled = onSelect.getSelectedIndex() != 0 && actionSelect.getSelectedIndex() != 0
           && utensilSelect.getSelectedIndex() != 0 && timeField.getText().length() > 0;
       addButton.setEnabled(filled);
     }
   }
 
-  @Override
-  public void textValueChanged(final TextEvent e)
-  {
-    updateOn();
-    updateUtensil();
-  }
-
   List<Step> getSteps()
   {
-    return steps;
+    return workingRecipe.getSteps();
   }
 
   /**
@@ -381,9 +370,20 @@ public class StepEditor extends JComponent implements TextListener
    */
   public void loadSteps(final List<Step> newSteps)
   {
-    this.steps = newSteps;
+    workingRecipe.getSteps().clear();
+    workingRecipe.addAllSteps(newSteps);
 
     updateDisplay();
+  }
+
+  /**
+   * This StepEditor updates its dropdown boxes to reflect the change in list of ingredients or 
+   * utensils.
+   */
+  public void update()
+  {
+    updateOn();
+    updateUtensil();
   }
 
 }

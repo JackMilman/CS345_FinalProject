@@ -74,7 +74,7 @@ public class RecipeEditor extends Editor
     super(owner, Translator.translate("KiLowBites Recipe Editor"));
     setLayout(new BorderLayout());
 
-    workingRecipe = new Recipe(null, 0);
+    workingRecipe = new Recipe("New Recipe", 0);
 
     ActionListener listener = new RecipeEditorListener();
     ActionListener cListener = new ChangeListener();
@@ -84,11 +84,10 @@ public class RecipeEditor extends Editor
     nameField.setColumns(DEFAULT_TEXT_FIELD_WIDTH);
     servingsField.setColumns(DEFAULT_TEXT_FIELD_WIDTH);
 
-    utensilEditor = new UtensilEditor();
-    ingredientEditor = new IngredientEditor(workingRecipe);
+    stepEditor = new StepEditor(workingRecipe);
+    utensilEditor = new UtensilEditor(workingRecipe, stepEditor);
+    ingredientEditor = new IngredientEditor(workingRecipe, stepEditor);
     substituteEditor = new SubstituteEditor(workingRecipe);
-    // TODO: change stepEditor to use workingRecipe
-    stepEditor = new StepEditor(utensilEditor.getUtensils(), ingredientEditor.getIngredients());
 
     // Sets up action listener stuff for file manipulation
     newButton.setActionCommand(NEW_BUTTON_ACTION_COMMAND);
@@ -102,9 +101,6 @@ public class RecipeEditor extends Editor
     saveAsButton.addActionListener(listener);
     closeButton.addActionListener(listener);
 
-    utensilEditor.addTextListener(stepEditor);
-    ingredientEditor.addTextListener(stepEditor);
-
     // Change listeners for when the file is being changed, i.e. when we add a new ingredient or add
     // a new step or something. This will affect the ability to save or edit the document,
     // specifically the buttons at the top.
@@ -114,8 +110,8 @@ public class RecipeEditor extends Editor
     stepEditor.addChangeListener(cListener);
     nameField.addActionListener(cListener);
     servingsField.addActionListener(cListener);
-    nameField.addActionListener(listener);
-    servingsField.addActionListener(listener);
+    nameField.addActionListener(cListener);
+    servingsField.addActionListener(cListener);
 
     // Sets up all of the little editors in the layout of the window
     Container mainEditors = new Container();
@@ -158,6 +154,7 @@ public class RecipeEditor extends Editor
     setVisible(true);
     setResizable(true);
     pack();
+    
   }
   
   void updateEditors() {
@@ -276,6 +273,11 @@ public class RecipeEditor extends Editor
     }
   }
 
+  /**
+   * ActionListener for the top buttons.
+   * @author Josiah Leach
+   *
+   */
   private class RecipeEditorListener implements ActionListener
   {
 

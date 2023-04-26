@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 
 import branding.KitchIntelBorder;
 import config.Translator;
+import recipes.Recipe;
 import recipes.Utensil;
 import utilities.SortLists;
 
@@ -41,17 +42,22 @@ public class UtensilEditor extends JComponent
   private final JTextField detailField;
   private final TextArea utensilDisplay;
   private final JButton addButton, deleteButton;
-  private final List<Utensil> utensils;
+  private Recipe workingRecipe;
+  private StepEditor stepEditor;
 
   /**
-   * 
+   * Creates a new UtensilEditor.
+   * @param workingRecipe the recipe to edit the utensils of.
+   * @param the corresponding StepEditor
    */
-  public UtensilEditor()
+  public UtensilEditor(final Recipe workingRecipe, final StepEditor stepEditor)
   {
     super();
     setLayout(new BorderLayout());
     setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Utensils")));
-    utensils = new ArrayList<Utensil>();
+    
+    this.workingRecipe = workingRecipe;
+    this.stepEditor = stepEditor;
 
     UtensilEditorListener listener = new UtensilEditorListener();
 
@@ -96,22 +102,22 @@ public class UtensilEditor extends JComponent
       return;
 
     Utensil utensil = new Utensil(nameField.getText(), detailField.getText());
-    utensils.add(utensil);
+    workingRecipe.addUtensil(utensil);
     nameField.setText("");
     detailField.setText("");
-
-    SortLists.sortUtensils(utensils);
 
     updateText();
     
     addButton.setEnabled(false);
+    
+    stepEditor.update();
   }
 
   private void updateText()
   {
     String displayText = "";
 
-    for (Utensil utensil : utensils)
+    for (Utensil utensil : workingRecipe.getUtensils())
     {
       displayText += String.format("%s\n", utensil.toString());
     }
@@ -121,7 +127,7 @@ public class UtensilEditor extends JComponent
 
   private void delete()
   {
-    if (utensils.size() == 0)
+    if (workingRecipe.getUtensils().size() == 0)
       return;
 
     int selectionStart = utensilDisplay.getSelectionStart();
@@ -159,10 +165,12 @@ public class UtensilEditor extends JComponent
 
     for (int i = 0; i < linesSelected; i++)
     {
-      utensils.remove(linesSkipped);
+      workingRecipe.getUtensils().remove(linesSkipped);
     }
 
     updateText();
+    
+    stepEditor.update();
   }
 
   /**
@@ -178,17 +186,13 @@ public class UtensilEditor extends JComponent
 
   List<Utensil> getUtensils()
   {
-    return utensils;
+    return workingRecipe.getUtensils();
   }
 
   void loadUtensils(final List<Utensil> newUtensils)
   {
-    this.utensils.clear();
-
-    for (Utensil utensil : newUtensils)
-    {
-      utensils.add(utensil);
-    }
+    workingRecipe.getUtensils().clear();
+    workingRecipe.addAllUtensils(newUtensils);    
 
     updateText();
   }
@@ -215,7 +219,7 @@ public class UtensilEditor extends JComponent
   {
 
     @Override
-    public void actionPerformed(ActionEvent e)
+    public void actionPerformed(final ActionEvent e)
     {
       System.out.println("Action performed");
       addButton.setEnabled(false);
