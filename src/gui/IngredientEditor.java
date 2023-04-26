@@ -199,7 +199,7 @@ public class IngredientEditor extends JPanel
 
   }
 
-  private void updateIngredientDisplay()
+  void updateIngredientDisplay()
   {
     DefaultTableModel tableModel = new DefaultTableModel(workingRecipe.getIngredients().size() + 1,
         1)
@@ -215,10 +215,11 @@ public class IngredientEditor extends JPanel
     };
 
     ingredientDisplay.setModel(tableModel);
+    List<Ingredient> ingredientsList = workingRecipe.getIngredients();
 
-    for (int i = 0; i < workingRecipe.getIngredients().size(); i++)
+    for (int i = 0; i < ingredientsList.size(); i++)
     {
-      ingredientDisplay.setValueAt(workingRecipe.getIngredients().get(i), i, 0);
+      ingredientDisplay.setValueAt(ingredientsList.get(i), i, 0);
     }
 
   }
