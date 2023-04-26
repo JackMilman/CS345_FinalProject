@@ -32,6 +32,8 @@ public class Recipe implements Serializable
   private String name;
 
   private int servings;
+  
+  private int numSubstitutes = 0;
 
   private List<Recipe> subRecipes = new ArrayList<Recipe>();
 
@@ -84,11 +86,8 @@ public class Recipe implements Serializable
    */
   public boolean addAllSubstitutes(final HashMap<Ingredient, List<Ingredient>> newSubs)
   {
-    int sizeBefore = 0;
-    for (Ingredient key : substitutes.keySet())
-    {
-      sizeBefore += substitutes.get(key).size();
-    }
+    int sizeBefore = numSubstitutes;
+    
     for (Ingredient key : newSubs.keySet())
     {
       for (Ingredient substitute : newSubs.get(key))
@@ -97,11 +96,8 @@ public class Recipe implements Serializable
       }
     }
 
-    int sizeAfter = 0;
-    for (Ingredient key : substitutes.keySet())
-    {
-      sizeAfter += substitutes.get(key).size();
-    }
+    int sizeAfter = numSubstitutes;
+    
     return sizeBefore != sizeAfter;
   }
 
@@ -159,6 +155,7 @@ public class Recipe implements Serializable
         subs.add(substitute);
         substitutes.put(ingredient, subs);
       }
+      numSubstitutes++;
       return true;
     }
     return false;
@@ -171,6 +168,7 @@ public class Recipe implements Serializable
       if (substitutes.containsKey(ingredient))
       {
         substitutes.get(ingredient).remove(substitute);
+        numSubstitutes--;
         return true;
       }
     }
@@ -313,6 +311,7 @@ public class Recipe implements Serializable
     this.name = name;
   }
 
+  
   /**
    * Gets the name of the Recipe.
    * 
@@ -342,6 +341,10 @@ public class Recipe implements Serializable
   public int getServings()
   {
     return servings;
+  }
+  
+  public int getNumSubstitutes() {
+    return numSubstitutes;
   }
 
   /**
