@@ -5,29 +5,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import config.Shortcut;
 import config.Translator;
 import recipes.Meal;
 import recipes.Recipe;
+import utilities.ResourceCopier;
 import utilities.ShortcutsParser;
-
-import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
 
 /**
  * Class that makes each of the menu bar items do their intended jobs.
@@ -157,19 +153,28 @@ public class KiLowBitesController implements ActionListener
     if (e.getActionCommand().equals(USERGUIDE))
     {
       try
-      {
-        URI uri = getClass().getClassLoader().getResource("UserGuide.html").toURI();
+      {     
+        Path tempFolder = ResourceCopier.copyResourcesToTemp("temp", "guide");
+
+        Path fileLocation = Paths.get(tempFolder.toString(), "UserGuide.html");
         
+        System.out.println(fileLocation.toString());
+        
+        URI uri = fileLocation.toUri();
+          
         Desktop.getDesktop().browse(uri);
+        
+//        
+//        URI uri = getClass().getClassLoader().getResource("UserGuide.html").toURI();
+//        
+//        Desktop.getDesktop().browse(uri);
       }
       catch (IOException e1)
       {
-        System.out.println("IOException occured\n");
         e1.printStackTrace();
       }
       catch (URISyntaxException e2)
       {
-        System.out.println("URISyntaxException occurred\n");
         e2.printStackTrace();
       }
     }

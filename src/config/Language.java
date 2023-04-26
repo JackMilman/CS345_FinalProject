@@ -3,6 +3,7 @@ package config;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.Scanner;
 
 /**
@@ -20,6 +21,7 @@ public enum Language
   
   private Map<String, String> translations;
   
+  
   private Language(){}
   
   /**
@@ -36,6 +38,7 @@ public enum Language
    */
   public static void loadLanguages()
   {
+        
     for(Language language : values())
     {
       language.translations = new HashMap<String, String>();

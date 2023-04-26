@@ -1,5 +1,7 @@
 package config;
 
+import java.util.ResourceBundle;
+
 /**
  * A class which allows the text of the program to be configured to different languages.
  * @author Josiah Leach
@@ -7,7 +9,8 @@ package config;
  */
 public class Translator
 {
-  private static Language language = Language.English;
+  private static Language language = Language.English; 
+  
   /**
    * Translates the English text to the currently specified language.
    * @param englishText The word to get the translation of.
