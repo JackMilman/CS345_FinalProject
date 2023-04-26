@@ -86,8 +86,8 @@ public class RecipeEditor extends Editor
 
     stepEditor = new StepEditor(workingRecipe);
     utensilEditor = new UtensilEditor(workingRecipe, stepEditor);
-    ingredientEditor = new IngredientEditor(workingRecipe, stepEditor);
     substituteEditor = new SubstituteEditor(workingRecipe);
+    ingredientEditor = new IngredientEditor(workingRecipe, stepEditor, substituteEditor);
 
     // Sets up action listener stuff for file manipulation
     newButton.setActionCommand(NEW_BUTTON_ACTION_COMMAND);

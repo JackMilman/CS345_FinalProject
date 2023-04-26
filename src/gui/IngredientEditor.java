@@ -62,19 +62,21 @@ public class IngredientEditor extends JPanel
   private JTable ingredientDisplay;
 
   private final Recipe workingRecipe;
-  private StepEditor stepEditor;
+  private final StepEditor stepEditor;
+  private final SubstituteEditor substituteEditor;
 
   /**
    * Creates an IngredientEditor for the given Recipe.
    * @param workingRecipe A reference to the Recipe being used by other components of the 
    * RecipeEditor.
    */
-  public IngredientEditor(final Recipe workingRecipe, final StepEditor stepEditor)
+  public IngredientEditor(final Recipe workingRecipe, final StepEditor stepEditor, final SubstituteEditor substituteEditor)
   {
     super();
 
     this.workingRecipe = workingRecipe;
     this.stepEditor = stepEditor;
+    this.substituteEditor = substituteEditor;
 
     setLayout(new BorderLayout());
     setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Ingredients")));
@@ -184,8 +186,8 @@ public class IngredientEditor extends JPanel
     amountField.setText("");
 
     updateIngredientDisplay();
-    
-    stepEditor.update();
+    substituteEditor.updateSubstituteSelect();
+    stepEditor.updateSelects();
   }
 
   private void delete()
@@ -206,7 +208,7 @@ public class IngredientEditor extends JPanel
       updateIngredientDisplay();
     }
 
-    stepEditor.update();
+    stepEditor.updateSelects();
   }
 
   void updateIngredientDisplay()

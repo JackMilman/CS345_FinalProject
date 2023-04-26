@@ -350,7 +350,7 @@ public class StepEditor extends JComponent
    * This StepEditor updates its dropdown boxes to reflect the change in list of ingredients or 
    * utensils.
    */
-  public void update()
+  public void updateSelects()
   {
     updateOn();
     updateUtensil();
