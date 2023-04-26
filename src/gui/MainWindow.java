@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 
@@ -15,7 +16,9 @@ import javax.swing.SwingUtilities;
 import branding.KitchIntelJFrame;
 import branding.KitchIntelMenuBar;
 import branding.Logo;
+import config.Shortcut;
 import config.Translator;
+import utilities.ShortcutsParser;
 
 /**
  * Main Window of the GUI for the KiLowBites application.
@@ -26,6 +29,8 @@ import config.Translator;
  */
 public class MainWindow extends KitchIntelJFrame implements Runnable
 {
+  public MainWindow() {
+  }
   private static final long serialVersionUID = 1L;
   private static ArrayList<Component> allCreatedWindows = new ArrayList<>();
 
@@ -86,19 +91,6 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     meal.addActionListener(controller);
     meal.setActionCommand(KiLowBitesController.MEAL);
     edit.add(meal);
-    
-
-    // not using search in the 1st sprint.
-    // JMenu search = new JMenu(Translator.translate("Search"));
-    // menuBar.add(search);
-    // // Recipes: The user is prompted for the ingredients of interest
-    // JMenuItem recipes = new JMenuItem(Translator.translate("Recipes"));
-    // recipes.addActionCommand("Recipes");
-    // search.add(recipes);
-    // // Meals: The user is prompted for the ingredients of interest
-    // JMenuItem meals = new JMenuItem("Meals");
-    // meals.setActionCommand("Meals");
-    // search.add(meals);
 
     JMenu view = new JMenu(Translator.translate("View"));
     menuBar.add(view);
@@ -145,6 +137,10 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
 //    shortcuts.setActionCommand("Shortcuts");
 //    JMenuItem nutrition = new JMenuItem(Translator.translate("Nutrition"));
 //    configure.add(nutrition);
+    JMenuItem shortcuts = new JMenuItem(Translator.translate("Shortcuts"));
+    configure.add(shortcuts);
+    shortcuts.addActionListener(controller);
+    shortcuts.setActionCommand("Shortcuts");
 
     // Help items
     JMenu help = new JMenu(Translator.translate("Help"));
@@ -162,11 +158,10 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResource(Logo.path()));
     JLabel logoLabel = new JLabel(logo);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
-    // ImageIcon logo = new ImageIcon(PATH);
-    // JLabel logoLabel = new JLabel(logo);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
     
     setVisible(true);
+
   }
 
 }

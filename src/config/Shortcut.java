@@ -1,23 +1,25 @@
 package config;
 
+import javax.swing.KeyStroke;
+
 public class Shortcut
 {
-  private String keyCombination;
-  private String command;
+  private KeyStroke keyStroke;
+  private String actionCommand;
 
-  public Shortcut(String keyCombination, String command)
+  public Shortcut(String keyCombination, String actionCommand)
   {
-    this.keyCombination = keyCombination;
-    this.command = command;
+    this.keyStroke = KeyStroke.getKeyStroke(keyCombination);
+    this.actionCommand = actionCommand;
   }
 
-  public String getKeyCombination()
+  public KeyStroke getKeyStroke()
   {
-    return keyCombination;
+    return keyStroke;
   }
 
-  public String getCommand()
+  public String getActionCommand()
   {
-    return command;
+    return actionCommand;
   }
 }

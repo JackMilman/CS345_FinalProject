@@ -23,7 +23,7 @@ import branding.KitchIntelJFrame;
 
 /**
  * 
- * @author shelseyvega
+ * @author shelsey vega
  *
  */
 public class KeyShortcuts extends KitchIntelJFrame
@@ -53,11 +53,11 @@ public class KeyShortcuts extends KitchIntelJFrame
       {
         String keyText = KeyEvent.getKeyText(e.getKeyCode());
         String modifiersText = KeyEvent.getKeyModifiersText(e.getModifiers());
-        if (modifiersText.equals("Meta"))
-        {
-          modifiersText = "Ctrl";
-        }
-        shortcutTextField.setText(modifiersText + " + " + keyText);
+//        if (modifiersText.equals("Meta"))
+//        {
+//          modifiersText = "Ctrl";
+//        }
+        shortcutTextField.setText("Ctrl" + " + " + keyText);
       }
     });
     saveButton = new JButton("Save");
@@ -77,20 +77,12 @@ public class KeyShortcuts extends KitchIntelJFrame
       public void actionPerformed(ActionEvent e)
       {
         String shortcut = shortcutTextField.getText();
-        // if (isValidShortcut(shortcut))
-        // {
         shortcutKeys = shortcut;
         String action = (String) actionsComboBox.getSelectedItem();
         // save the shortcut for the corresponding action
         saveShortcut(action, shortcutKeys);
         JOptionPane.showMessageDialog(null,
             "Shortcut keys saved for " + action + ": " + shortcutKeys);
-        // }
-        // else
-        // {
-        // JOptionPane.showMessageDialog(null,
-        // "Invalid shortcut keys. Please enter a valid shortcut key (e.g. Ctrl + Q).");
-        // }
       }
     });
 
@@ -112,9 +104,12 @@ public class KeyShortcuts extends KitchIntelJFrame
       // if the configuration file does not exist, create a new one
       File shortcuts = new File("shortcuts.cfg");
     }
+    
+    // set the key-value pair
     prop.setProperty(action, shortcut);
     try
     {
+      // save the items in prop to the file.
       FileOutputStream out = new FileOutputStream("shortcuts.cfg");
       prop.store(out, "Shortcuts");
       out.close();
@@ -129,10 +124,4 @@ public class KeyShortcuts extends KitchIntelJFrame
   {
     return shortcutKeys;
   }
-
-  // private boolean isValidShortcut(String shortcut)
-  // {
-  // // check if the shortcut is valid (e.g. "Ctrl + Q")
-  // return shortcut.matches("^[a-zA-Z0-9]+( \\+ [a-zA-Z0-9]+)*$");
-  // }
 }

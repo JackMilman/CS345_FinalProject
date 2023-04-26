@@ -20,9 +20,10 @@ public class ShortcutsParser
       String[] parts = line.split("=");
       if (parts.length == 2)
       {
-        String keyCombination = parts[0];
-        String command = parts[1];
-        Shortcut shortcut = new Shortcut(keyCombination, command);
+        String actionCommand = parts[0].trim();
+        String keyCombination = parts[1].trim();
+
+        Shortcut shortcut = new Shortcut(keyCombination, actionCommand);
         shortcuts.add(shortcut);
       }
       line = reader.readLine();
@@ -30,4 +31,5 @@ public class ShortcutsParser
     reader.close();
     return shortcuts;
   }
+
 }

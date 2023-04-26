@@ -16,6 +16,7 @@ import java.util.Map;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import config.Shortcut;
@@ -58,7 +59,7 @@ public class KiLowBitesController implements ActionListener
   private Meal meal;
   private JFileChooser fileChooser;
   private FileNameExtensionFilter fileFilter;
-  private Map<String, String> shortcuts = new HashMap<>();
+  private Map<KeyStroke, String> shortcuts = new HashMap<>();
 
   /**
    * 
@@ -196,8 +197,8 @@ public class KiLowBitesController implements ActionListener
       List<Shortcut> shortcutList = parser.parse("shortcuts.cfg");
       for (Shortcut shortcut : shortcutList)
       {
-        String keyCombination = shortcut.getKeyCombination();
-        String command = shortcut.getCommand();
+        KeyStroke keyCombination = shortcut.getKeyStroke();
+        String command = shortcut.getActionCommand();
         shortcuts.put(keyCombination, command);
       }
     }
