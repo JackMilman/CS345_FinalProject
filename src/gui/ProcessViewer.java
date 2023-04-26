@@ -31,6 +31,7 @@ import config.Translator;
 import recipes.Ingredient;
 import recipes.Inventory;
 import recipes.Meal;
+import recipes.NutritionInfo;
 import recipes.Recipe;
 import recipes.Step;
 import recipes.Utensil;
@@ -353,13 +354,16 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
 
     JPanel temp = new JPanel();
     boolean missingCalVals = false;
-    for (Ingredient ing: ingredients) {
-      if (ing.getCalories() == null) {
+    for (Ingredient ing: ingredients)
+    {
+      if (NutritionInfo.getCalPerGram(ing.getName()) == null)
+      {
         missingCalVals = true;
       }
     }
     String caloriesName = Translator.translate("Calories: ") + (Math.round(calories * 10) / 10.0);
-    if (missingCalVals) {
+    if (missingCalVals) 
+    {
       caloriesName = caloriesName + "**";
     }
     temp.add(new JTextField(caloriesName));
@@ -376,7 +380,8 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
     return p;
   }
   
-  private JPanel setUpEmbeddedRecipesBox() {
+  private JPanel setUpEmbeddedRecipesBox() 
+  {
     JPanel p = new JPanel();
     embeddedRecipes.addItemListener(new eRecipeComboBoxHandler());
     p.add(embeddedRecipes); 

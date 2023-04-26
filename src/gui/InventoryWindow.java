@@ -5,37 +5,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.io.File;
-import java.io.IOException;
 
 import javax.swing.*;
 
-import branding.KitchIntelIconButton;
-import branding.KitchIntelJFrame;
 import config.Translator;
 import recipes.Ingredient;
 import recipes.Inventory;
-import recipes.Recipe;
 import recipes.Unit;
-
-import java.util.*;
-import java.util.List;
 
 public class InventoryWindow extends Editor
 {
   private static final long serialVersionUID = 1L;
   private static final int DEFAULT_TEXT_FIELD_WIDTH = 8;
-  public Inventory inventory; 
-
-  private JButton newButton;
-  private JButton loadButton;
-  private JButton saveButton;
-  private JButton saveAsButton;
-
-  private static final String NEW_BUTTON_ACTION_COMMAND = "ren";
-  private static final String OPEN_BUTTON_ACTION_COMMAND = "reo";
-  private static final String SAVE_BUTTON_ACTION_COMMAND = "res";
-  private static final String SAVE_AS_BUTTON_ACTION_COMMAND = "rea";
+  public Inventory inventory;
 
   private JTextField ingredientName = new JTextField(DEFAULT_TEXT_FIELD_WIDTH);
   private JTextField ingredientDetails = new JTextField(DEFAULT_TEXT_FIELD_WIDTH);
@@ -46,20 +28,20 @@ public class InventoryWindow extends Editor
       "FLUID OUNCE", "CUP", "PINT", "QUART", "GALLON", "MILLILITER"};
   private JComboBox<String> ingredientUnit = new JComboBox<String>();
 
-  JButton addButton = new JButton();
-  JButton subButton = new JButton();
-  JTextArea inventoryPanel = new JTextArea(25, 70);
-  JScrollPane scrollPane = new JScrollPane(inventoryPanel);
+  private JButton addButton = new JButton();
+  private JButton subButton = new JButton();
+  private JTextArea inventoryPanel = new JTextArea(25, 70);
+  private JScrollPane scrollPane = new JScrollPane(inventoryPanel);
 
-  String name;
-  String details;
-  double amount;
-  String unit;
-  Ingredient inventoryItem;
+  private String name;
+  private String details;
+  private double amount;
+  private Unit unit;
+  private Ingredient inventoryItem;
 
   public InventoryWindow(final Window main)
   {
-   
+
     super(main, Translator.translate("KiLowBites Inventory"));
     inventory = Inventory.createInstance();
     setUp();
@@ -131,8 +113,6 @@ public class InventoryWindow extends Editor
     infoContainer.setLayout(new BorderLayout());
     inventoryPanel.setText("");
     for (Ingredient info : inventory.getIngredientList())
-      // inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
-      // + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
       inventoryPanel.append(info.toString() + "\n");
     infoContainer.add(scrollPane, BorderLayout.WEST);
     return infoContainer;
@@ -146,7 +126,7 @@ public class InventoryWindow extends Editor
     {
       addButton.setEnabled(true);
       subButton.setEnabled(true);
-      unit = (String) e.getItem();
+      unit = Unit.parseUnit((String) e.getItem());
     }
 
   }
@@ -163,7 +143,7 @@ public class InventoryWindow extends Editor
       amount = Double.parseDouble(ingredientAmount.getText());
       if (amount < 0)
         amount = 0;
-      inventoryItem = new Ingredient(name, details, amount, Unit.parseUnit(unit), 0.0, 0.0);
+      inventoryItem = new Ingredient(name, details, amount, unit);
       inventory.addIngredient(inventoryItem);
       ingredientName.setText("");
       ingredientDetails.setText("");
@@ -172,8 +152,6 @@ public class InventoryWindow extends Editor
       addButton.setEnabled(false);
       subButton.setEnabled(false);
       for (Ingredient info : inventory.getIngredientList())
-        // inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
-        // + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
         inventoryPanel.append(info.toString() + "\n");
       amountItems.setText(String.format("%d", inventory.size()));
       amountItems.setEnabled(true);
@@ -190,7 +168,7 @@ public class InventoryWindow extends Editor
       name = ingredientName.getText();
       details = ingredientDetails.getText();
       amount = Double.parseDouble(ingredientAmount.getText());
-      inventoryItem = new Ingredient(name, details, amount, Unit.parseUnit(unit), 0.0, 0.0);
+      inventoryItem = new Ingredient(name, details, amount, unit);
       inventory.reduceIngredient(inventoryItem);
       ingredientName.setText("");
       ingredientDetails.setText("");
@@ -199,10 +177,8 @@ public class InventoryWindow extends Editor
       addButton.setEnabled(false);
       subButton.setEnabled(false);
       for (Ingredient info : inventory.getIngredientList())
-        // inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
-        // + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
         inventoryPanel.append(info.toString() + "\n");
-
+      amountItems.setText(String.format("%d", inventory.size()));
     }
   }
 

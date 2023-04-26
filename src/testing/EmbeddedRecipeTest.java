@@ -5,16 +5,18 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
 
-import gui.IngredientEditor;
-import recipes.CompositeRecipe;
 import recipes.Ingredient;
-import recipes.LeafRecipe;
+import recipes.NutritionInfo;
 import recipes.Recipe;
 import recipes.Unit;
 
-class CompositeRecipeTest
+@TestInstance(Lifecycle.PER_CLASS)
+class EmbeddedRecipeTest
 {
   private final String recipeNameValid = "NamedRecipe";
 
@@ -33,19 +35,25 @@ class CompositeRecipeTest
   private final String utensilName3 = "Knife";
 
   private final Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50,
-      ingredientUnit, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+      ingredientUnit);
   private final Ingredient ingredient2 = new Ingredient(ingredientName2, ingredientDetails, 50,
-      ingredientUnit, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+      ingredientUnit);
   private final Ingredient ingredient3 = new Ingredient(ingredientName3, ingredientDetails, 50,
-      ingredientUnit, IngredientEditor.NO_INPUT, IngredientEditor.NO_INPUT);
+      ingredientUnit);
   // Total calories: 50 * 10.0 = 500
   private final Ingredient ingredient4 = new Ingredient(ingredientName4, ingredientDetails, 50,
-      ingredientUnit2, 10.0, 1.0);
+      ingredientUnit2);
+
+  @BeforeAll
+  public void addIngredient4ToMap()
+  {
+    NutritionInfo.addIngredient(ingredientName4, 10.0, 1.0);
+  }
 
   @Test
   public void testCalculateCalories()
   {
-    CompositeRecipe composite = new CompositeRecipe(recipeNameValid, 1);
+    Recipe composite = new Recipe(recipeNameValid, 1);
     assertEquals(0, composite.calculateCalories());
 
     List<Ingredient> expected = new ArrayList<Ingredient>();
@@ -53,7 +61,7 @@ class CompositeRecipeTest
     expected.add(ingredient2);
     expected.add(ingredient3);
 
-    Recipe recipe = new LeafRecipe(recipeNameValid, 500);
+    Recipe recipe = new Recipe(recipeNameValid, 500);
     recipe.addIngredient(ingredient1);
     recipe.addIngredient(ingredient2);
     recipe.addIngredient(ingredient3);
@@ -68,7 +76,7 @@ class CompositeRecipeTest
   @Test
   public void testGetIngredients()
   {
-    CompositeRecipe composite = new CompositeRecipe(recipeNameValid, 1);
+    Recipe composite = new Recipe(recipeNameValid, 1);
 
     List<Ingredient> expected = new ArrayList<Ingredient>();
     expected.add(ingredient1);
@@ -76,7 +84,7 @@ class CompositeRecipeTest
     expected.add(ingredient3);
     expected.add(ingredient4);
 
-    Recipe recipe = new LeafRecipe(recipeNameValid, 500);
+    Recipe recipe = new Recipe(recipeNameValid, 500);
     recipe.addIngredient(ingredient1);
     recipe.addIngredient(ingredient2);
     recipe.addIngredient(ingredient3);
@@ -90,7 +98,7 @@ class CompositeRecipeTest
   @Test
   public void testAddRemove()
   {
-    CompositeRecipe composite = new CompositeRecipe(recipeNameValid, 1);
+    Recipe composite = new Recipe(recipeNameValid, 1);
 
     List<Ingredient> expected1 = new ArrayList<Ingredient>();
     expected1.add(ingredient1);
@@ -101,7 +109,7 @@ class CompositeRecipeTest
     List<Ingredient> expected2 = new ArrayList<Ingredient>();
     expected2.add(ingredient4);
 
-    Recipe recipe = new LeafRecipe(recipeNameValid, 500);
+    Recipe recipe = new Recipe(recipeNameValid, 500);
     recipe.addIngredient(ingredient1);
     recipe.addIngredient(ingredient2);
     recipe.addIngredient(ingredient3);
@@ -116,18 +124,18 @@ class CompositeRecipeTest
   @Test
   public void testGetSubRecipes()
   {
-    CompositeRecipe composite = new CompositeRecipe(recipeNameValid, 1);
+    Recipe composite = new Recipe(recipeNameValid, 1);
 
-    Recipe recipe = new LeafRecipe(recipeNameValid, 500);
+    Recipe recipe = new Recipe(recipeNameValid, 500);
     recipe.addIngredient(ingredient1);
     recipe.addIngredient(ingredient2);
     recipe.addIngredient(ingredient3);
 
-    Recipe recipe2 = new LeafRecipe(recipeNameValid, 2);
+    Recipe recipe2 = new Recipe(recipeNameValid, 2);
     recipe2.addIngredient(ingredient1);
     recipe2.addIngredient(ingredient3);
 
-    Recipe recipe3 = new LeafRecipe(recipeNameValid, 5);
+    Recipe recipe3 = new Recipe(recipeNameValid, 5);
     recipe.addIngredient(ingredient4);
     recipe.addIngredient(ingredient2);
     recipe.addIngredient(ingredient3);

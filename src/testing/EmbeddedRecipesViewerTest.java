@@ -2,57 +2,16 @@ package testing;
 
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import gui.IngredientEditor;
-import gui.ShoppingListViewer;
+import gui.ProcessViewer;
 import recipes.Ingredient;
-import recipes.Meal;
 import recipes.Recipe;
 import recipes.Step;
 import recipes.Unit;
 import recipes.Utensil;
-import utilities.UnitConversion;
 
-/**
- * Informal class to test if GUI works properly (not using JUnit). Can be deleted later.
- * 
- * @author Meara Patterson
- * @version 3/29/2023, Version 1
- */
-public class TemporaryGUITest
+public class EmbeddedRecipesViewerTest
 {
-
-  /**
-   * Creates an IngredientEditor.
-   */
-  public static void ingredientEditorTest()
-  {
-    JFrame frame = new JFrame();
-    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setSize(900, 400);
-    JPanel contentPane = (JPanel) frame.getContentPane();
-    IngredientEditor ingredientEditor = new IngredientEditor();
-    contentPane.add(ingredientEditor);
-    frame.setVisible(true);
-  }
-
-  /**
-   * Creates a ShoppingListViewer.
-   */
-  public static void shoppingListViewerTest()
-  {
-
-    ArrayList<Recipe> recipes = new ArrayList<>();
-    recipes.add(bananasFoster());
-    recipes.add(macNCheese());
-    Meal meal = new Meal("Test Meal", recipes, 2);
-    Recipe recipe = bananasFoster();
-    ShoppingListViewer shoppingList = new ShoppingListViewer(recipe);
-
-  }
-
   private static Recipe bananasFoster()
   {
 
@@ -93,6 +52,8 @@ public class TemporaryGUITest
     ingredients.add(new Ingredient("milk", "", 1.25, Unit.CUP));
     ingredients.add(new Ingredient("American cheese", "shredded", 1.5, Unit.CUP));
     ingredients.add(new Ingredient("tomato", "sliced medium", 1, Unit.NONE));
+    ingredients
+        .add(new Ingredient("new ingredient", "sliced medium", 1, Unit.NONE));
 
     ArrayList<Utensil> utensils = new ArrayList<>();
     utensils.add(new Utensil("pot", "large"));
@@ -102,6 +63,8 @@ public class TemporaryGUITest
 
     ArrayList<Step> steps = new ArrayList<>();
     steps.add(new Step("boil", ingredients.get(0), utensils.get(0), utensils.get(0), "", 10));
+    steps.add(
+        new Step("Embedded Recipe*", bananasFoster(), utensils.get(0), utensils.get(0), "", 10));
 
     Recipe recipe = new Recipe("Mac and Cheese Test", 2);
     recipe.addAllIngredients(ingredients);
@@ -120,7 +83,7 @@ public class TemporaryGUITest
    */
   public static void main(final String[] args)
   {
-    shoppingListViewerTest();
+    ProcessViewer pv = new ProcessViewer(macNCheese());
   }
 
 }

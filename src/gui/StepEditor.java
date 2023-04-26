@@ -57,6 +57,8 @@ public class StepEditor extends JComponent implements TextListener
   private List<Ingredient> ingredients;
   private JButton addButton, deleteButton, embeddedRecipe;
   public String fileName;
+  private CompositeRecipe embedded;
+  private List<CompositeRecipe> embeddedRecipes;
 
   /**
    * Creates a new StepEditor.
@@ -276,6 +278,9 @@ public class StepEditor extends JComponent implements TextListener
     {
       onSelect.addItem(ingredient.getName());
     }
+    for (CompositeRecipe recipes: embeddedRecipes) {
+      onSelect.addItem("*"+recipes.getName());
+    }
 
   }
 
@@ -322,14 +327,15 @@ public class StepEditor extends JComponent implements TextListener
         fileName = chooser.getSelectedFile().getPath();
         fileName = fileName.substring(0, fileName.indexOf(CURRENT_DIRECTORY));
         try {
-        
-        String eRecipe = "*" + Recipe.read(fileName).getName();
-        onSelect.addItem(eRecipe);
+        String eRecipe = Recipe.read(fileName).getName();
+        embedded = new CompositeRecipe(eRecipe, Recipe.read(fileName).getServings());
         }
         catch (IOException e1)
         {
           e1.printStackTrace();
         }
+        embeddedRecipes.add(embedded);
+        updateOn();
       }
     }
 

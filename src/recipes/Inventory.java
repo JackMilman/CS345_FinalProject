@@ -1,15 +1,8 @@
 package recipes;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+
 import java.util.ArrayList;
 import java.util.List;
-
 import utilities.UnitConversion;
 
 /**
@@ -64,9 +57,9 @@ public class Inventory
    * returns null.
    * 
    * @param name
-   *                  the name of the ingredient
+   *          the name of the ingredient
    * @param details
-   *                  the details of the ingredient
+   *          the details of the ingredient
    * @return the ingredient (from the *inventory*) that is equivalent to the ingredient being passed
    *         or null if it is not present
    */
@@ -93,7 +86,7 @@ public class Inventory
    * equivalence.
    * 
    * @param ingredient
-   *                     the ingredient we are searching for
+   *          the ingredient we are searching for
    * @return the ingredient (from the *inventory*) that is equivalent to the ingredient being passed
    *         or null if it is not present
    */
@@ -116,7 +109,7 @@ public class Inventory
    * Ingredient already in the inventory.
    * 
    * @param addingIngredient
-   *                           the ingredient we are adding to the inventory
+   *          the ingredient we are adding to the inventory
    * @return true if the operation was a success, false otherwise
    */
   public boolean addIngredient(final Ingredient addingIngredient)
@@ -140,8 +133,7 @@ public class Inventory
       addingAmount = UnitConversion.convert(name, addingUnit, presentUnit, addingAmount);
       double endAmount = presentAmount + addingAmount;
 
-      Ingredient convertedAndSummed = new Ingredient(name, details, endAmount, presentUnit, null,
-          null);
+      Ingredient convertedAndSummed = new Ingredient(name, details, endAmount, presentUnit);
       ingredients.set(index, convertedAndSummed);
       return true;
     }
@@ -172,7 +164,7 @@ public class Inventory
         if (amount > 0)
         {
           Ingredient newIngredient = new Ingredient(temp.getName(), temp.getDetails(), amount,
-              temp.getUnit(), temp.getCalories(), temp.getDensity());
+              temp.getUnit());
           ingredients.add(newIngredient);
         }
         ingredients.remove(temp);
@@ -183,8 +175,16 @@ public class Inventory
     return false;
   }
 
+  
+  /**
+   * Returns a copy of the ingredientList at the moment of invocation. Does not allow for the actual
+   * contents of the inventory to be changed.
+   * 
+   * @return a copy of the ingredients list
+   */
   public List<Ingredient> getIngredientList()
-  {
-    return ingredients;
+  {  
+    // This method ABSOLUTELY MUST return a copy of the ingredients list, not the list itself
+    return new ArrayList<Ingredient>(ingredients);
   }
 }

@@ -10,6 +10,7 @@ import java.util.*;
 
 public class Meal implements Serializable
 {
+  private static final long serialVersionUID = 1L;
   private String name;
   private List<Recipe> recipes = new ArrayList<Recipe>();
   private int serving;
