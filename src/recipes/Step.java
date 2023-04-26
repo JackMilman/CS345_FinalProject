@@ -48,18 +48,6 @@ public class Step implements Serializable
     this.details = details;
     this.time = time;
   }
-  
-  public Step(final String action, final Recipe recipe, final Utensil source,
-      final Utensil destination, final String details, final int time)
-  {
-    this.action = action;
-    this.recipe = recipe;
-    this.source = source;
-    this.destination = destination;
-    this.details = details;
-    this.time = time;
-  }
-
 
   /**
    * Sets the details of the Step.
@@ -214,11 +202,7 @@ public class Step implements Serializable
             source.getName(), destination.getName(), details, time).strip();
       }
     }
-    if (recipe != null){
-      return String.format("%s the *%s on the %s %s\t\t%s minutes", action, recipe.getName(),
-          destination.getName(), details, time).strip();
-    }
-    // if the source is an ingredient
+    // if the source is an ingredien
     return String.format("%s the %s on the %s %s\t\t%s minutes", action, ingredient.getName(),
         destination.getName(), details, time).strip();
 

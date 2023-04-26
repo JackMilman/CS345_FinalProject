@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 
 import branding.KitchIntelBorder;
 import config.Translator;
+import recipes.CompositeRecipe;
 import recipes.Ingredient;
 import recipes.Recipe;
 import recipes.Step;
@@ -88,10 +89,10 @@ public class StepEditor extends JComponent implements TextListener
 
     addButton = new JButton(Translator.translate(ADD));
     deleteButton = new JButton(Translator.translate(DELETE));
-    //embeddedRecipe= new JButton("EmbeddedRecipe");
+    embeddedRecipe= new JButton("EmbeddedRecipe");
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);
-    //embeddedRecipe.addActionListener(listener);
+    embeddedRecipe.addActionListener(listener);
     
     actionSelect.addActionListener(enabler);
     onSelect.addActionListener(enabler);
@@ -112,7 +113,7 @@ public class StepEditor extends JComponent implements TextListener
     inputFields.add(detailField);
     inputFields.add(new JLabel(Translator.translate("Minutes") + ":"));
     inputFields.add(timeField);
-    //inputFields.add(embeddedRecipe);
+    inputFields.add(embeddedRecipe);
     inputFields.add(addButton);
 
     add(inputFields, BorderLayout.NORTH);
@@ -165,10 +166,7 @@ public class StepEditor extends JComponent implements TextListener
     if (on.startsWith("*")) {
       try {
       Recipe objectIngredient =  Recipe.read(fileName);
-      Step step = new Step(action, objectIngredient, sourceUtensil, destinationUtensil, details,
-          time);
-      steps.add(step);
-      System.out.println(step);
+      
       }
       catch (IOException e1)
       {

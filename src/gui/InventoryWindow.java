@@ -5,23 +5,37 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
+import java.io.IOException;
 
 import javax.swing.*;
 
+import branding.KitchIntelIconButton;
 import branding.KitchIntelJFrame;
 import config.Translator;
 import recipes.Ingredient;
 import recipes.Inventory;
+import recipes.Recipe;
 import recipes.Unit;
 
 import java.util.*;
 import java.util.List;
 
-public class InventoryWindow extends KitchIntelJFrame
+public class InventoryWindow extends Editor
 {
   private static final long serialVersionUID = 1L;
   private static final int DEFAULT_TEXT_FIELD_WIDTH = 8;
-  public Inventory inventory = Inventory.createInstance();
+  public Inventory inventory; 
+
+  private JButton newButton;
+  private JButton loadButton;
+  private JButton saveButton;
+  private JButton saveAsButton;
+
+  private static final String NEW_BUTTON_ACTION_COMMAND = "ren";
+  private static final String OPEN_BUTTON_ACTION_COMMAND = "reo";
+  private static final String SAVE_BUTTON_ACTION_COMMAND = "res";
+  private static final String SAVE_AS_BUTTON_ACTION_COMMAND = "rea";
 
   private JTextField ingredientName = new JTextField(DEFAULT_TEXT_FIELD_WIDTH);
   private JTextField ingredientDetails = new JTextField(DEFAULT_TEXT_FIELD_WIDTH);
@@ -45,7 +59,9 @@ public class InventoryWindow extends KitchIntelJFrame
 
   public InventoryWindow(final Window main)
   {
-    super(Translator.translate("KiLowBites Inventory"));
+   
+    super(main, Translator.translate("KiLowBites Inventory"));
+    inventory = Inventory.createInstance();
     setUp();
     setDefaultCloseOperation(HIDE_ON_CLOSE);
   }
@@ -115,8 +131,8 @@ public class InventoryWindow extends KitchIntelJFrame
     infoContainer.setLayout(new BorderLayout());
     inventoryPanel.setText("");
     for (Ingredient info : inventory.getIngredientList())
-//      inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
-//          + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
+      // inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
+      // + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
       inventoryPanel.append(info.toString() + "\n");
     infoContainer.add(scrollPane, BorderLayout.WEST);
     return infoContainer;
@@ -156,8 +172,8 @@ public class InventoryWindow extends KitchIntelJFrame
       addButton.setEnabled(false);
       subButton.setEnabled(false);
       for (Ingredient info : inventory.getIngredientList())
-//        inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
-//            + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
+        // inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
+        // + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
         inventoryPanel.append(info.toString() + "\n");
       amountItems.setText(String.format("%d", inventory.size()));
       amountItems.setEnabled(true);
@@ -183,10 +199,11 @@ public class InventoryWindow extends KitchIntelJFrame
       addButton.setEnabled(false);
       subButton.setEnabled(false);
       for (Ingredient info : inventory.getIngredientList())
-//        inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
-//            + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
+        // inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
+        // + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
         inventoryPanel.append(info.toString() + "\n");
 
     }
   }
+
 }
