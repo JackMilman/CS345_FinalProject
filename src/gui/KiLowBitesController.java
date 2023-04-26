@@ -163,11 +163,6 @@ public class KiLowBitesController implements ActionListener
         URI uri = fileLocation.toUri();
           
         Desktop.getDesktop().browse(uri);
-        
-//        
-//        URI uri = getClass().getClassLoader().getResource("UserGuide.html").toURI();
-//        
-//        Desktop.getDesktop().browse(uri);
       }
       catch (IOException e1)
       {
