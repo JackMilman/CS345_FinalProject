@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -155,24 +156,24 @@ public class KiLowBitesController implements ActionListener
     // open the User Guide in a browser
     if (e.getActionCommand().equals(USERGUIDE))
     {
-      File htmlFile = new File("UserGuide.html");
       try
       {
-        URL url = getClass().getClassLoader().getResource("UserGuide.html");
+        URI uri = getClass().getClassLoader().getResource("UserGuide.html").toURI();
         
-
-        
-        Desktop.getDesktop().browse(url.toURI());
+        Desktop.getDesktop().browse(uri);
       }
       catch (IOException e1)
       {
+        System.out.println("IOException occured\n");
         e1.printStackTrace();
       }
-      catch (URISyntaxException urise)
+      catch (URISyntaxException e2)
       {
-        urise.printStackTrace();
+        System.out.println("URISyntaxException occurred\n");
+        e2.printStackTrace();
       }
     }
+    
     // open preferences
     if (e.getActionCommand().equals(PREFERENCES))
     {
@@ -180,10 +181,10 @@ public class KiLowBitesController implements ActionListener
     }
     // open shortcuts
     if (e.getActionCommand().equals("Shortcuts"))
-    {
+    {    
+      loadShortcuts();
       new KeyShortcuts();
     }
-    loadShortcuts();
 
   }
 
