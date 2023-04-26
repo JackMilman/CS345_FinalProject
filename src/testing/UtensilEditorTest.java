@@ -12,7 +12,6 @@ class UtensilEditorTest
   @Test
   void test()
   {
-    new UtensilEditor();
     fail("Not yet implemented");
   }
 
