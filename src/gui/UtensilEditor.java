@@ -3,12 +3,8 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
-import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.TextEvent;
-import java.awt.event.TextListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -20,10 +16,8 @@ import javax.swing.table.DefaultTableModel;
 
 import branding.KitchIntelBorder;
 import config.Translator;
-import recipes.Ingredient;
 import recipes.Recipe;
 import recipes.Utensil;
-import utilities.SortLists;
 
 /**
  * A class for the UtensilEditor component of the recipe editor.
@@ -51,7 +45,7 @@ public class UtensilEditor extends JComponent
   /**
    * Creates a new UtensilEditor.
    * @param workingRecipe the recipe to edit the utensils of.
-   * @param the corresponding StepEditor
+   * @param stepEditor the corresponding StepEditor
    */
   public UtensilEditor(final Recipe workingRecipe, final StepEditor stepEditor)
   {
@@ -93,6 +87,7 @@ public class UtensilEditor extends JComponent
     add(deleteButton, BorderLayout.EAST);
 
     utensilDisplay = new JTable(new DefaultTableModel(1,1));
+    updateUtensilDisplay();
     add(utensilDisplay, BorderLayout.CENTER);
 
     setVisible(true);
@@ -112,10 +107,14 @@ public class UtensilEditor extends JComponent
     
     addButton.setEnabled(false);
     
-    stepEditor.update();
+    stepEditor.updateSelects();
   }
 
-  void updateUtensilDisplay()
+  /**
+   * Updates the JTable which displays the Utensils in this recipe. This must be called whenever the
+   * Utensils of the recipe change.
+   */
+  public void updateUtensilDisplay()
   {
     
     DefaultTableModel tableModel = new DefaultTableModel(workingRecipe.getUtensils().size(), 1)
@@ -145,12 +144,20 @@ public class UtensilEditor extends JComponent
     //TODO
   }
 
-  List<Utensil> getUtensils()
+  /**
+   * Returns the utensils in the Recipe being edited by this UtensilEditor.
+   * @return The List of Utensils in the Recipe referenced by this editor.
+   */
+  public List<Utensil> getUtensils()
   {
     return workingRecipe.getUtensils();
   }
 
-  void loadUtensils(final List<Utensil> newUtensils)
+  /**
+   * Replaces the Utensils in the Recipe being edited by this UtensilEditor with the given Utensils.
+   * @param newUtensils The Utensils to put in the Recipe being edited by this UtensilEditor.
+   */
+  public void loadUtensils(final List<Utensil> newUtensils)
   {
     workingRecipe.getUtensils().clear();
     workingRecipe.addAllUtensils(newUtensils);    
@@ -203,5 +210,14 @@ public class UtensilEditor extends JComponent
   {
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);
+  }
+  
+  /**
+   * Changes the Recipe which this UtensilEditor edits.
+   * @param recipe The Recipe which this UtensilEditor will now edit.
+   */
+  public void setWorkingRecipe (Recipe recipe) 
+  {
+    this.workingRecipe = recipe;
   }
 }

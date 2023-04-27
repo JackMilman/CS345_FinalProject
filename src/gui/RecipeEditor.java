@@ -157,14 +157,24 @@ public class RecipeEditor extends Editor
     
   }
   
-  void updateEditors() {
+  private void updateEditors() 
+  {
     nameField.setText(workingRecipe.getName());
     servingsField.setText(workingRecipe.getServings() + "");
-    utensilEditor.loadUtensils(workingRecipe.getUtensils());
-    utensilEditor.loadUtensils(workingRecipe.getUtensils());
+    
+    utensilEditor.setWorkingRecipe(workingRecipe);
+    utensilEditor.updateUtensilDisplay();
+    
+    ingredientEditor.setWorkingRecip(workingRecipe);
     ingredientEditor.updateIngredientDisplay();
+    
+    substituteEditor.setWorkingRecipe(workingRecipe);
     substituteEditor.updateSubstituteDisplay();
-    stepEditor.loadSteps(workingRecipe.getSteps());
+    substituteEditor.updateSubstituteSelect();
+    
+    stepEditor.setWorkingRecipe(workingRecipe);
+    stepEditor.updateSelects();
+    stepEditor.updateStepDisplay();
   }
 
   private void loadRecipe(final Recipe recipe, final String fileName)
@@ -231,21 +241,7 @@ public class RecipeEditor extends Editor
     String newFileName;
     newFileName = JOptionPane.showInputDialog(Translator.translate("File name") + ":");
 
-    try
-    {
-      workingRecipe.write(newFileName);
-
-      fileName = newFileName;
-
-      state = DocumentState.UNCHANGED;
-
-      updateButtons();
-    }
-    catch (IOException ioe)
-    {
-      ioe.printStackTrace();
-      JOptionPane.showMessageDialog(null, ERROR_MESSAGE);
-    }
+    saveAs(newFileName);
   }
 
   /**
@@ -260,10 +256,24 @@ public class RecipeEditor extends Editor
     }
     if (fileName == null)
       saveAs();
+
+    saveAs(fileName);
+  }
+  
+  /**
+   * helper method for the two save methods.
+   * @param newFileName The name to save the file as.
+   */
+  private void saveAs(final String newFileName)
+  {
     try
     {
-      workingRecipe.write(fileName);
+      workingRecipe.write(newFileName);
+
+      fileName = newFileName;
+
       state = DocumentState.UNCHANGED;
+
       updateButtons();
     }
     catch (IOException ioe)

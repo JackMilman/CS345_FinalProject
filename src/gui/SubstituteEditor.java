@@ -59,7 +59,7 @@ public class SubstituteEditor extends JPanel
 
   private JTable substituteDisplay;
 
-  private final Recipe workingRecipe;
+  private Recipe workingRecipe;
   
   private final List<Ingredient> validIngredients = new ArrayList<Ingredient>();
 
@@ -305,4 +305,8 @@ public class SubstituteEditor extends JPanel
     deleteButton.addActionListener(listener);
   }
 
+  public void setWorkingRecipe(Recipe workingRecipe)
+  {
+    this.workingRecipe = workingRecipe;
+  }
 }

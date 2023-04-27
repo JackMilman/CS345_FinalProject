@@ -2,16 +2,11 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.TextEvent;
-import java.awt.event.TextListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -38,13 +33,14 @@ import recipes.Utensil;
  */
 public class StepEditor extends JComponent
 {
+  protected static final String CURRENT_DIRECTORY = ".";
+  
   private static final String[] ACTIONS = new String[] {"", "Put", "Melt", "Simmer", "Heat",
       "Ignite", "Boil", "Drain", "Saute", "Cook", "Bake", "Dip"};
 
   private static final String ADD = "Add";
   private static final String DELETE = "Delete";
   private static final String BLANK = "            ";
-  protected static final String CURRENT_DIRECTORY = ".";
   /**
    * 
    */
@@ -55,7 +51,7 @@ public class StepEditor extends JComponent
   private JTable display;
   private JButton addButton, deleteButton, embeddedRecipe;
   private Recipe workingRecipe;
-  public String fileName;
+  private String fileName;
 
   /**
    * Creates a new StepEditor.
@@ -114,6 +110,7 @@ public class StepEditor extends JComponent
     add(deleteButton, BorderLayout.EAST);
 
     display = new JTable(new DefaultTableModel(1,1));
+    updateStepDisplay();
     add(display, BorderLayout.CENTER);
 
     setVisible(true);
@@ -199,7 +196,11 @@ public class StepEditor extends JComponent
     //TODO
   }
 
-  private void updateStepDisplay()
+  /**
+   * Updates the JTable which displays the steps of this Recipe. Must be called every time the
+   * Steps of this recipe change.
+   */
+  public void updateStepDisplay()
   {
     
     DefaultTableModel tableModel = new DefaultTableModel(workingRecipe.getSteps().size(), 1)
@@ -314,7 +315,11 @@ public class StepEditor extends JComponent
     }
   }
 
-  List<Step> getSteps()
+  /**
+   * Gets the steps of the Recipe being edited by this StepEditor.
+   * @return The List of Steps from the REcipe being edited by this StepEditor.
+   */
+  public List<Step> getSteps()
   {
     return workingRecipe.getSteps();
   }
@@ -356,4 +361,12 @@ public class StepEditor extends JComponent
     updateUtensil();
   }
 
+  /**
+   * Sets the Recipe which this StepEditor is editing.
+   * @param workingRecipe The Recipe which this StepEditor will edit.
+   */
+  public void setWorkingRecipe(Recipe workingRecipe)
+  {
+    this.workingRecipe = workingRecipe;
+  }
 }

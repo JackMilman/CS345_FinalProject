@@ -60,8 +60,8 @@ public class IngredientEditor extends JPanel
   private JButton addButton;
   private JButton deleteButton;
   private JTable ingredientDisplay;
-
-  private final Recipe workingRecipe;
+  private Recipe workingRecipe;
+  
   private final StepEditor stepEditor;
   private final SubstituteEditor substituteEditor;
 
@@ -211,7 +211,12 @@ public class IngredientEditor extends JPanel
     stepEditor.updateSelects();
   }
 
-  void updateIngredientDisplay()
+  /**
+   * Updates the JTable which displays ingredients. If ingredients have been added since the last 
+   * call to this method, the size of the JTable will be increased. This method should be called 
+   * every time the Ingredients in the recipe changes.
+   */
+  public void updateIngredientDisplay()
   {
     
     DefaultTableModel tableModel = new DefaultTableModel(workingRecipe.getIngredients().size(), 1)
@@ -420,4 +425,14 @@ public class IngredientEditor extends JPanel
       }
     }
   }
+  
+  /**
+   * Sets the Recipe which this IngredientEditor is editing.
+   * @param workingRecipe The Recipe for this IngredientEditor to edit.
+   */
+  public void setWorkingRecip(Recipe workingRecipe)
+  {
+    this.workingRecipe = workingRecipe;
+  }
+  
 }
