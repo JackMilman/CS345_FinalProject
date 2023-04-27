@@ -16,6 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 import branding.KitchIntelBorder;
 import config.Translator;
+import recipes.Ingredient;
 import recipes.Recipe;
 import recipes.Utensil;
 
@@ -141,7 +142,23 @@ public class UtensilEditor extends JComponent
   
   private void delete() 
   {
-    //TODO
+    if (workingRecipe.getUtensils().size() == 0)
+    {
+      return;
+    }
+
+    int index = utensilDisplay.getSelectedRow();
+        
+    if (index < workingRecipe.getUtensils().size()) 
+    {
+      Utensil utensil = workingRecipe.getUtensils().get(index);
+      
+      workingRecipe.removeUtensil(utensil);
+
+      updateUtensilDisplay();
+    }
+
+    stepEditor.updateSelects();  
   }
 
   /**

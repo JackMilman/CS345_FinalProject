@@ -32,7 +32,7 @@ public class Recipe implements Serializable
   private String name;
 
   private int servings;
-  
+
   private int numSubstitutes = 0;
 
   private List<Recipe> subRecipes = new ArrayList<Recipe>();
@@ -87,7 +87,7 @@ public class Recipe implements Serializable
   public boolean addAllSubstitutes(final HashMap<Ingredient, List<Ingredient>> newSubs)
   {
     int sizeBefore = numSubstitutes;
-    
+
     for (Ingredient key : newSubs.keySet())
     {
       for (Ingredient substitute : newSubs.get(key))
@@ -97,7 +97,7 @@ public class Recipe implements Serializable
     }
 
     int sizeAfter = numSubstitutes;
-    
+
     return sizeBefore != sizeAfter;
   }
 
@@ -215,8 +215,9 @@ public class Recipe implements Serializable
   }
 
   /**
-   * Attempts to remove a ingredient from the list of ingredients. If the ingredient is not present,
-   * returns false. Also returns false if the ingredient is currently being used in a substitute.
+   * Attempts to remove a ingredient from the list of ingredients. If the ingredient is present and
+   * not used in a step or substitute it is removed and this method returns true. Else the
+   * ingredient is not removed and this method returns false.
    * 
    * @param ingredient
    *          the ingredient to attempt to remove
@@ -225,7 +226,7 @@ public class Recipe implements Serializable
    */
   public boolean removeIngredient(final Ingredient ingredient)
   {
-    if (substitutes.containsKey(ingredient))
+    if (substitutes.containsKey(ingredient) || stepUsesIngredient(ingredient))
     {
       return false;
     }
@@ -250,8 +251,8 @@ public class Recipe implements Serializable
   }
 
   /**
-   * Attempts to remove a utensil from the list of utensils. If the utensil is not present, returns
-   * false.
+   * Attempts to remove a utensil from the list of utensils. If the utensil is not present or if the
+   * utensil is being used in a step, returns false.
    * 
    * @param utensil
    *          the utensil to attempt to remove
@@ -260,7 +261,29 @@ public class Recipe implements Serializable
    */
   public boolean removeUtensil(final Utensil utensil)
   {
+    if (stepUsesUtensil(utensil))
+    {
+      return false;
+    }
+
     return utensils.remove(utensil);
+  }
+
+  private boolean stepUsesUtensil(final Utensil utensil)
+  {
+    for (Step step : steps)
+    {
+      Utensil source = step.getSource();
+      Utensil destination = step.getDestination();
+
+      if ((source != null && source.equals(utensil))
+          || (destination != null && destination.equals(utensil)))
+      {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   /**
@@ -311,7 +334,6 @@ public class Recipe implements Serializable
     this.name = name;
   }
 
-  
   /**
    * Gets the name of the Recipe.
    * 
@@ -342,8 +364,9 @@ public class Recipe implements Serializable
   {
     return servings;
   }
-  
-  public int getNumSubstitutes() {
+
+  public int getNumSubstitutes()
+  {
     return numSubstitutes;
   }
 
@@ -477,5 +500,26 @@ public class Recipe implements Serializable
     }
 
     return recipe;
+  }
+
+  /**
+   * A helper method to determine if the given Ingredient is included in any of the steps of the
+   * Recipe.
+   * 
+   * @param ingredient
+   *          the ingredient to check.
+   * @return true if the ingredient is used in any step, false otherwise.
+   */
+  private boolean stepUsesIngredient(final Ingredient ingredient)
+  {
+    for (Step step : steps)
+    {
+      if (step.getIngredient() != null && step.getIngredient().equals(ingredient))
+      {
+        return true;
+      }
+    }
+
+    return false;
   }
 }

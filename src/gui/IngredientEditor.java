@@ -209,6 +209,7 @@ public class IngredientEditor extends JPanel
     }
 
     stepEditor.updateSelects();
+    substituteEditor.updateSubstituteSelect();
   }
 
   /**
