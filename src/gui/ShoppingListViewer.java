@@ -44,7 +44,7 @@ public class ShoppingListViewer extends KitchIntelJDialog
 
   private static final int DO_NOT_DISPLAY = -1;
   private static final long serialVersionUID = 1L;
-  // Unit Conversions is currently broken so this is a workaround
+  // Unit Conversions is kind of broken so this is a workaround
   private static final Unit[] MASSES = {Unit.DRAM, Unit.OUNCE, Unit.GRAM, 
       Unit.POUND};
   private static final Unit[] VOLUMES = {Unit.PINCH, Unit.MILLILITER, 

@@ -42,7 +42,7 @@ import utilities.SortLists;
  * recipe.
  * 
  * @version 3/29/23
- * @author Allie O'Keeffe, KichIntel
+ * @author Allie O'Keeffe, KitchIntel
  *
  */
 public class ProcessViewer extends KitchIntelJFrame implements Serializable
