@@ -8,14 +8,28 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * A meal is made up of a collections of recipes.
+ * 
+ * @author KitchIntel
+ * @version 
+ */
 public class Meal implements Serializable
 {
   private static final long serialVersionUID = 1L;
+  private static final String FILEEXT = ".mel";
   private String name;
   private List<Recipe> recipes = new ArrayList<Recipe>();
   private int serving;
 
-  public Meal(String name, List<Recipe> recipes, int serving)
+  /**
+   * Create a meal.
+   * 
+   * @param name
+   * @param recipes
+   * @param serving
+   */
+  public Meal(final String name, final List<Recipe> recipes, final int serving)
   {
     if (recipes != null)
       this.recipes = recipes;
@@ -39,17 +53,29 @@ public class Meal implements Serializable
     }
   }
 
-  public boolean addRecipe(Recipe newRecipe)
+  /**
+   * Add a recipe to the meal.
+   * 
+   * @param newRecipe
+   * @return true if successfully added
+   */
+  public boolean addRecipe(final Recipe newRecipe)
   {
     return recipes.add(newRecipe);
   }
 
-  public boolean removeRecipe(Recipe newRecipe)
+  /**
+   * Remove a recipe from the meal.
+   * 
+   * @param newRecipe
+   * @return true if successfully removed
+   */
+  public boolean removeRecipe(final Recipe newRecipe)
   {
     return recipes.remove(newRecipe);
   }
 
-  /*
+  /**
    * Gets the list of recipes.
    * 
    * @return the list of recipes
@@ -59,31 +85,61 @@ public class Meal implements Serializable
     return recipes;
   }
 
+  /**
+   * Get the name of the meal.
+   * 
+   * @return name
+   */
   public String getName()
   {
     return name;
   }
 
+  /**
+   * Get the number of servings of the meal.
+   * 
+   * @return serving
+   */
   public int getServing()
   {
     return serving;
   }
 
-  public void setName(String name)
+  /**
+   * Change the name of the meal.
+   * 
+   * @param name
+   */
+  public void setName(final String name)
   {
     this.name = name;
   }
 
-  public void setServing(int serving)
+  /**
+   * Change the number of servings of the meal.
+   * 
+   * @param serving
+   */
+  public void setServing(final int serving)
   {
     this.serving = serving;
   }
 
+  /**
+   * Get the number of recipes in the meal.
+   * 
+   * @return number of recipes
+   */
   public int getSize()
   {
     return recipes.size();
   }
 
+  /**
+   * Get the total calories in the meal.
+   * 
+   * @return total calories
+   */
   public double getCaloriesPerGram()
   {
     double totalCalories = 0;
@@ -105,7 +161,7 @@ public class Meal implements Serializable
    */
   public void write(final String fileName) throws IOException
   {
-    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName + ".mel"));
+    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName + FILEEXT));
 
     out.writeObject(this);
     out.flush();
@@ -125,7 +181,7 @@ public class Meal implements Serializable
    */
   public static Meal read(final String fileName) throws IOException
   {
-    ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName + ".mel"));
+    ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName + FILEEXT));
 
     Meal meal;
 

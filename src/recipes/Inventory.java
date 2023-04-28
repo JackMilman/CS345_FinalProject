@@ -3,7 +3,6 @@ package recipes;
 import java.util.ArrayList;
 import java.util.List;
 
-import gui.IngredientEditor;
 import utilities.UnitConversion;
 
 /**
@@ -24,6 +23,11 @@ public class Inventory
     exists = true;
   }
 
+  /**
+   * Create an instance of the Inventory.
+   * 
+   * @return inventory
+   */
   public static Inventory createInstance()
   {
     if (!exists)

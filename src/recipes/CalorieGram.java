@@ -21,7 +21,6 @@ class CalorieGram
    * A CalorieGram is immutable, and can have null values for either (or both) its calories and its
    * density.
    * 
-   * @param price
    * @param calories
    * @param density
    */

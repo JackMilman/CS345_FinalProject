@@ -29,6 +29,7 @@ import config.Translator;
 import recipes.Ingredient;
 import recipes.NutritionInfo;
 import recipes.Recipe;
+import recipes.Step;
 import recipes.Unit;
 import recipes.Utensil;
 import utilities.SortLists;
@@ -219,6 +220,7 @@ public class SubstituteEditor extends JPanel
     workingRecipe.removeSubstitute(normalIngredient, substituteIngredient);
 
     updateSubstituteDisplay();
+
   }
 
   void updateSubstituteDisplay()
