@@ -4,7 +4,6 @@ package testing;
 import java.util.ArrayList;
 import java.util.List;
 
-import gui.IngredientEditor;
 import gui.ProcessViewer;
 import recipes.Ingredient;
 import recipes.Inventory;

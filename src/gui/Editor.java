@@ -2,8 +2,6 @@ package gui;
 
 import java.awt.Window;
 
-import javax.swing.JDialog;
-
 import branding.KitchIntelIconButton;
 import branding.KitchIntelJDialog;
 

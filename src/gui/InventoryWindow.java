@@ -1,12 +1,20 @@
 package gui;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.FlowLayout;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import branding.KitchIntelJFrame;
 import config.Translator;
@@ -14,9 +22,6 @@ import recipes.Ingredient;
 import recipes.Inventory;
 import recipes.NutritionInfo;
 import recipes.Unit;
-
-import java.util.*;
-import java.util.List;
 
 public class InventoryWindow extends KitchIntelJFrame
 {

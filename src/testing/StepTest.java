@@ -1,11 +1,13 @@
 package testing;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import gui.IngredientEditor;
-import recipes.*;
+import recipes.Ingredient;
+import recipes.Step;
+import recipes.Unit;
+import recipes.Utensil;
 
 /**
  * Test cases for the Step class.

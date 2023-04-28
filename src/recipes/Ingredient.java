@@ -1,7 +1,8 @@
 package recipes;
 
-import utilities.UnitConversion;
 import java.io.Serializable;
+
+import utilities.UnitConversion;
 
 /**
  * Object class describing an Ingredient in a Recipe. An Ingredient contains a name, details on

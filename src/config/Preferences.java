@@ -5,9 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import config.Language;
-import config.Translator;
-
 public class Preferences
 {
   private static final String CONFIG_FILE = "config.properties";

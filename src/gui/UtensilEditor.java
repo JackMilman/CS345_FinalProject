@@ -16,7 +16,6 @@ import javax.swing.table.DefaultTableModel;
 
 import branding.KitchIntelBorder;
 import config.Translator;
-import recipes.Ingredient;
 import recipes.Recipe;
 import recipes.Utensil;
 

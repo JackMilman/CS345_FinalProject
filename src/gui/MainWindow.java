@@ -1,16 +1,18 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.event.KeyAdapter;
 import java.lang.reflect.InvocationTargetException;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.SwingUtilities;
 
 import branding.KitchIntelJFrame;
 import branding.KitchIntelMenuBar;
 import branding.Logo;
-import config.Language;
 import config.Translator;
 
 /**
