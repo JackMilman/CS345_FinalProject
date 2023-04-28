@@ -29,6 +29,7 @@ import config.Translator;
 import recipes.Ingredient;
 import recipes.NutritionInfo;
 import recipes.Recipe;
+import recipes.Step;
 import recipes.Unit;
 import recipes.Utensil;
 import utilities.SortLists;
@@ -194,7 +195,13 @@ public class SubstituteEditor extends JPanel
 
   private void delete()
   {
-    //TODO
+    if (workingRecipe.getSubstitutes().size() == 0)
+    {
+      return;
+    }
+    
+    
+    
   }
 
   void updateSubstituteDisplay()
