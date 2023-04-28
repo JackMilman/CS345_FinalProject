@@ -226,7 +226,7 @@ public class Recipe implements Serializable
    */
   public boolean removeIngredient(final Ingredient ingredient)
   {
-    if (substitutes.containsKey(ingredient) || stepUsesIngredient(ingredient))
+    if (ingredientHasSubstitutes(ingredient) || stepUsesIngredient(ingredient))
     {
       return false;
     }
@@ -365,6 +365,12 @@ public class Recipe implements Serializable
     return servings;
   }
 
+  /**
+   * Gets the number of individual substitutions in the Recipe. This attribute is modified by the
+   * add and remove substitutes methods.
+   * 
+   * @return the number of substitutes in the recipe
+   */
   public int getNumSubstitutes()
   {
     return numSubstitutes;
@@ -500,6 +506,13 @@ public class Recipe implements Serializable
     }
 
     return recipe;
+  }
+  
+  private boolean ingredientHasSubstitutes(final Ingredient ingredient) {
+    if (substitutes.containsKey(ingredient)) {
+      return substitutes.get(ingredient).size() > 0;
+    }
+    return false;
   }
 
   /**
