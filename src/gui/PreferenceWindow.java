@@ -60,7 +60,7 @@ public class PreferenceWindow extends JFrame
     JPanel p = new JPanel();
     JTextField textSize = new JTextField();
     textSize.setEditable(false);
-    String size = (String)KitchIntelPreferenceReader.returnValue(KitchIntelPreferenceReader.FONT).trim();
+    String size = (String)KitchIntelPreferenceReader.returnValue(KitchIntelPreferenceReader.FONT);
     textSize.setText((String)size);
     JButton minus = new JButton("-");
     JButton plus = new JButton("+");
