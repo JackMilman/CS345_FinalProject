@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import config.CustomAction;
 import config.Shortcut;
 import config.Translator;
 import recipes.Meal;
@@ -60,6 +61,8 @@ public class KiLowBitesController implements ActionListener
   private JFileChooser fileChooser;
   private FileNameExtensionFilter fileFilter;
   private Map<KeyStroke, String> shortcuts = new HashMap<>();
+  private CustomAction customAction;
+ 
 
   /**
    * 
@@ -71,6 +74,8 @@ public class KiLowBitesController implements ActionListener
     this.fileChooser = new JFileChooser(new File("."));
     this.fileFilter = new FileNameExtensionFilter("Recipes and Meal",
         new String[] {RECIPEEXT, MEALEXT});
+    customAction = new CustomAction("My Custom Action", main);
+
   }
 
   @Override

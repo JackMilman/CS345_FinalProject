@@ -46,6 +46,8 @@ public class KeyShortcuts extends KitchIntelJFrame
     actionsComboBox = new JComboBox<String>(new String[] {"Exit Window", "Edit Recipe", "Edit Meal",
         "View Shopping List", "View Process"});
     shortcutTextField = new JTextField(20);
+    
+    // get the shortcut selected by the user
     shortcutTextField.addKeyListener(new KeyAdapter()
     {
       @Override
@@ -53,13 +55,11 @@ public class KeyShortcuts extends KitchIntelJFrame
       {
         String keyText = KeyEvent.getKeyText(e.getKeyCode());
         String modifiersText = KeyEvent.getKeyModifiersText(e.getModifiers());
-//        if (modifiersText.equals("Meta"))
-//        {
-//          modifiersText = "Ctrl";
-//        }
-        shortcutTextField.setText("Ctrl" + " + " + keyText);
+        shortcutTextField.setText(modifiersText + " + " + keyText);
       }
     });
+    
+    // make the save button
     saveButton = new JButton("Save");
 
     // add the components to the frame
