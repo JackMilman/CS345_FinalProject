@@ -52,20 +52,25 @@ public class StepEditor extends JComponent
   private JButton addButton, deleteButton, embeddedRecipe;
   private Recipe workingRecipe;
   private String fileName;
+  
+  private final RecipeEditor parent;
 
   /**
    * Creates a new StepEditor.
    * 
    * @param workingRecipe
    *          the recipe to edit the steps of.
+   * @param parent the RecipeEditor that this StepEditor is a part of. This is required for the 
+   * StepEditor to be able to resize the RecipeEditor
    */
-  public StepEditor(final Recipe workingRecipe)
+  public StepEditor(final Recipe workingRecipe, final RecipeEditor parent)
   {
     super();
     setLayout(new BorderLayout());
     setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Steps")));
 
     this.workingRecipe = workingRecipe;
+    this.parent = parent;
 
     StepEditorListener listener = new StepEditorListener(this);
     EnableListener enabler = new EnableListener();
@@ -193,7 +198,21 @@ public class StepEditor extends JComponent
 
   private void delete()
   {
-    //TODO
+    if (workingRecipe.getSteps().size() == 0)
+    {
+      return;
+    }
+
+    int index = display.getSelectedRow();
+        
+    if (index < workingRecipe.getSteps().size()) 
+    {
+      Step step = workingRecipe.getSteps().get(index);
+      
+      workingRecipe.removeStep(step);
+
+      updateStepDisplay();
+    }
   }
 
   /**
@@ -222,6 +241,8 @@ public class StepEditor extends JComponent
     {
       display.setValueAt(stepsList.get(i), i, 0);
     }
+    
+    parent.pack();
   }
 
   /**

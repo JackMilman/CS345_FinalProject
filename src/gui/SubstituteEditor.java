@@ -30,6 +30,7 @@ import recipes.Ingredient;
 import recipes.NutritionInfo;
 import recipes.Recipe;
 import recipes.Unit;
+import recipes.Utensil;
 import utilities.SortLists;
 
 /**
@@ -61,16 +62,22 @@ public class SubstituteEditor extends JPanel
 
   private Recipe workingRecipe;
   
+  private final RecipeEditor parent;
+  
   private final List<Ingredient> validIngredients = new ArrayList<Ingredient>();
 
   /**
-     * 
-     */
-  public SubstituteEditor(Recipe workingRecipe)
+   * Creates a new SubstituteEditor.
+   * @param workingRecipe the Recipe which saves the data of the Recipe being edited.
+   * @param parent The RecipeEditor which this SubstituteEditor is a part of, required for this to 
+   * resize the RecipeEditor.
+   */
+  public SubstituteEditor(final Recipe workingRecipe, final RecipeEditor parent)
   {
     super();
 
     this.workingRecipe = workingRecipe;
+    this.parent = parent;
 
     setLayout(new BorderLayout());
     setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Substitutes")));
@@ -187,7 +194,7 @@ public class SubstituteEditor extends JPanel
 
   private void delete()
   {
-
+    //TODO
   }
 
   void updateSubstituteDisplay()
@@ -226,6 +233,8 @@ public class SubstituteEditor extends JPanel
         index++;
       }
     }
+    
+    parent.pack();
 
   }
 

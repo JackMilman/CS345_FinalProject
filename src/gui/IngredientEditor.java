@@ -64,19 +64,28 @@ public class IngredientEditor extends JPanel
   
   private final StepEditor stepEditor;
   private final SubstituteEditor substituteEditor;
+  private final RecipeEditor parent;
 
   /**
    * Creates an IngredientEditor for the given Recipe.
    * @param workingRecipe A reference to the Recipe being used by other components of the 
    * RecipeEditor.
+   * @param stepEditor The corresponding StepEditor in the same RecipeEditor. This will notify the
+   * StepEditor when the list of Ingredients changes.
+   * @param substituteEditor The corresponding SubstitueEditor in the same RecipeEditor. This will
+   * notify the SubstitueEditor when the list of Ingredients changes.
+   * @param parent The RecipeEditor which this is a part of. This will resize the parent when its 
+   * size changes.
    */
-  public IngredientEditor(final Recipe workingRecipe, final StepEditor stepEditor, final SubstituteEditor substituteEditor)
+  public IngredientEditor(final Recipe workingRecipe, final StepEditor stepEditor, 
+      final SubstituteEditor substituteEditor, final RecipeEditor parent)
   {
     super();
 
     this.workingRecipe = workingRecipe;
     this.stepEditor = stepEditor;
     this.substituteEditor = substituteEditor;
+    this.parent = parent;
 
     setLayout(new BorderLayout());
     setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Ingredients")));
@@ -210,6 +219,7 @@ public class IngredientEditor extends JPanel
 
     stepEditor.updateSelects();
     substituteEditor.updateSubstituteSelect();
+    
   }
 
   /**
@@ -240,6 +250,7 @@ public class IngredientEditor extends JPanel
       ingredientDisplay.setValueAt(ingredientsList.get(i), i, 0);
     }
 
+    parent.pack();
   }
 
   List<Ingredient> getIngredients()

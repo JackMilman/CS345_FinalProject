@@ -42,13 +42,17 @@ public class UtensilEditor extends JComponent
   private final JButton addButton, deleteButton;
   private Recipe workingRecipe;
   private StepEditor stepEditor;
+  private final RecipeEditor parent;
 
   /**
    * Creates a new UtensilEditor.
    * @param workingRecipe the recipe to edit the utensils of.
    * @param stepEditor the corresponding StepEditor
+   * @param parent The RecipeEditor which this UtensilEditor belongs to. Required for this to resize
+   * its parent.
    */
-  public UtensilEditor(final Recipe workingRecipe, final StepEditor stepEditor)
+  public UtensilEditor(final Recipe workingRecipe, final StepEditor stepEditor, 
+      final RecipeEditor parent)
   {
     super();
     setLayout(new BorderLayout());
@@ -56,6 +60,7 @@ public class UtensilEditor extends JComponent
     
     this.workingRecipe = workingRecipe;
     this.stepEditor = stepEditor;
+    this.parent = parent;
 
     UtensilEditorListener listener = new UtensilEditorListener();
 
@@ -138,6 +143,8 @@ public class UtensilEditor extends JComponent
       utensilDisplay.setValueAt(utensilsList.get(i), i, 0);
     }
 
+    
+    parent.pack();
   }
   
   private void delete() 

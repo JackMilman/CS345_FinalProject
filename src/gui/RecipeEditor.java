@@ -84,10 +84,10 @@ public class RecipeEditor extends Editor
     nameField.setColumns(DEFAULT_TEXT_FIELD_WIDTH);
     servingsField.setColumns(DEFAULT_TEXT_FIELD_WIDTH);
 
-    stepEditor = new StepEditor(workingRecipe);
-    utensilEditor = new UtensilEditor(workingRecipe, stepEditor);
-    substituteEditor = new SubstituteEditor(workingRecipe);
-    ingredientEditor = new IngredientEditor(workingRecipe, stepEditor, substituteEditor);
+    stepEditor = new StepEditor(workingRecipe, this);
+    utensilEditor = new UtensilEditor(workingRecipe, stepEditor, this);
+    substituteEditor = new SubstituteEditor(workingRecipe, this);
+    ingredientEditor = new IngredientEditor(workingRecipe, stepEditor, substituteEditor, this);
 
     // Sets up action listener stuff for file manipulation
     newButton.setActionCommand(NEW_BUTTON_ACTION_COMMAND);
@@ -175,6 +175,8 @@ public class RecipeEditor extends Editor
     stepEditor.setWorkingRecipe(workingRecipe);
     stepEditor.updateSelects();
     stepEditor.updateStepDisplay();
+    
+    pack();
   }
 
   private void loadRecipe(final Recipe recipe, final String fileName)
@@ -266,11 +268,23 @@ public class RecipeEditor extends Editor
    */
   private void saveAs(final String newFileName)
   {
+    workingRecipe.setName(nameField.getText());
+    
     try
     {
-      workingRecipe.write(newFileName);
-
+      workingRecipe.setServings(Integer.valueOf(servingsField.getText()));
+    }
+    catch (NumberFormatException nfe)
+    {
+      JOptionPane.showMessageDialog(null,  Translator.translate("Servings must be a whole number"));
+    }
+    
+    try
+    {
+      
       fileName = newFileName;
+
+      workingRecipe.write(fileName);
 
       state = DocumentState.UNCHANGED;
 
