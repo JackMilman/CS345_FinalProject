@@ -111,10 +111,8 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame
      {
        return null;
      }
-     return (String) ingredients.getSelectedItem();
    }
-   
-   return null;
+   return s;
   }
 
   private String getSelectedUnits()

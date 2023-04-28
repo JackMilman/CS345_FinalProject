@@ -1,5 +1,10 @@
 package branding;
 
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Font;
+
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 /**
@@ -27,6 +32,7 @@ public class KitchIntelJFrame extends JFrame
     super(name);
 
     getContentPane().setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
+    
   }
 
   /**
@@ -38,5 +44,17 @@ public class KitchIntelJFrame extends JFrame
     super();
 
     getContentPane().setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
+  }
+  
+  public static void changeFont(Component component, int fontSize)
+  {
+      component.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
+      if ( component instanceof Container )
+      {
+          for (Component child : ((Container) component).getComponents ())
+          {
+              changeFont(child, fontSize);
+          }
+      }
   }
 }
