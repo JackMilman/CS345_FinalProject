@@ -44,7 +44,6 @@ public class KitchIntelJFrame extends JFrame
     super();
 
     getContentPane().setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
-    changeFont(this, );
   }
   
   public static void changeFont(Component component, int fontSize)
