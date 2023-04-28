@@ -44,12 +44,11 @@ public class ShoppingListViewer extends KitchIntelJDialog
 
   private static final int DO_NOT_DISPLAY = -1;
   private static final long serialVersionUID = 1L;
-  // Unit Conversions is kind of broken so this is a workaround
-  private static final Unit[] MASSES = {Unit.DRAM, Unit.OUNCE, Unit.GRAM, 
-      Unit.POUND};
-  private static final Unit[] VOLUMES = {Unit.PINCH, Unit.MILLILITER, 
-      Unit.TEASPOON, Unit.TABLESPOON, Unit.FLUID_OUNCE, Unit.CUP, Unit.PINT, 
-      Unit.QUART, Unit.GALLON};
+//  private static final Unit[] MASSES = {Unit.DRAM, Unit.OUNCE, Unit.GRAM, 
+//      Unit.POUND};
+//  private static final Unit[] VOLUMES = {Unit.PINCH, Unit.MILLILITER, 
+//      Unit.TEASPOON, Unit.TABLESPOON, Unit.FLUID_OUNCE, Unit.CUP, Unit.PINT, 
+//      Unit.QUART, Unit.GALLON};
 
   private Object obj;
   private JPanel contentPane;
@@ -297,27 +296,16 @@ public class ShoppingListViewer extends KitchIntelJDialog
 
       this.ingredient = ingredient;
       units = new JComboBox<>();
-//      for (Unit unit : Unit.values())
-//      {
-//        units.addItem(unit.getName());
-//      }
-      if (Arrays.asList(MASSES).contains(ingredient.getUnit()))
+      if (ingredient.getUnit().equals(Unit.INDIVIDUAL) || ingredient.getUnit().equals(Unit.NONE))
       {
-        for (Unit unit : MASSES)
-        {
-          units.addItem(unit.getName());
-        }
-      } 
-      else if (Arrays.asList(VOLUMES).contains(ingredient.getUnit()))
-      {
-        for (Unit unit : VOLUMES)
-        {
-          units.addItem(unit.getName());
-        }
+        units.addItem(ingredient.getUnit().getName());
       }
       else
       {
-        units.addItem(ingredient.getUnit().getName());
+        for (Unit unit : Unit.values())
+        {
+          units.addItem(unit.getName());
+        }
       }
       units.setSelectedItem(ingredient.getUnit().getName());
       units.addActionListener(new ActionListener()

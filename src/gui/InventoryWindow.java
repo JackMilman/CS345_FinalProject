@@ -29,8 +29,9 @@ public class InventoryWindow extends KitchIntelJFrame
   private JTextField ingredientAmount = new JTextField(DEFAULT_TEXT_FIELD_WIDTH);
   private JLabel amountItems = new JLabel();
 
-  private String[] units = {"", "DRAM", "OUNCE", "GRAM", "POUND", "PINCH", "TEASPOON", "TABLESPOON",
-      "FLUID OUNCE", "CUP", "PINT", "QUART", "GALLON", "MILLILITER"};
+  // should use units enum
+//  private String[] units = {"", "DRAM", "OUNCE", "GRAM", "POUND", "PINCH", "TEASPOON", "TABLESPOON",
+//      "FLUID OUNCE", "CUP", "PINT", "QUART", "GALLON", "MILLILITER"};
   private JComboBox<String> ingredientUnit = new JComboBox<String>();
 
   JButton addButton = new JButton();
@@ -66,7 +67,7 @@ public class InventoryWindow extends KitchIntelJFrame
     c.add(infoMenuBar(), BorderLayout.AFTER_LINE_ENDS);
     c.add(infoContainer(), BorderLayout.SOUTH);
     setVisible(true);
-    setSize(810, 500);
+    setSize(900, 500);
     setResizable(false);
 
   }
@@ -97,9 +98,9 @@ public class InventoryWindow extends KitchIntelJFrame
     JLabel amount = new JLabel("Amount:");
     unitMenu.add(amount);
     unitMenu.add(ingredientAmount);
-    for (String unit : units)
+    for (Unit unit : Unit.values())
     {
-      ingredientUnit.addItem(unit);
+      ingredientUnit.addItem(unit.getName());
     }
     JLabel unit = new JLabel("Unit:");
     unitMenu.add(unit);

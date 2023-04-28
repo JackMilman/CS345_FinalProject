@@ -122,7 +122,6 @@ public class UnitConversion
   {
     if (NutritionInfo.contains(name.toLowerCase()))
     {
-      // need to refactor to include no input for density
       double gramsPerMilliliter = NutritionInfo.getGramPerML(name.toLowerCase());
       double volumeInMilliliters = convert(name, from, Unit.MILLILITER, amount);
       double mass = (gramsPerMilliliter * volumeInMilliliters);
