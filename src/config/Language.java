@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-import java.util.ResourceBundle;
 import java.util.Scanner;
 
 /**
@@ -54,7 +53,7 @@ public enum Language
     catch(IOException ioe)
     {
       scanner = new Scanner("");
-      System.out.println("This line of code should not have been executed.");
+      ioe.printStackTrace();
     }
     
     while(scanner.hasNextLine())

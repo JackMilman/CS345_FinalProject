@@ -1,8 +1,5 @@
 package config;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-
 /**
  * A class which allows the text of the program to be configured to different languages.
  * @author Josiah Leach
