@@ -38,7 +38,7 @@ public class Preferences
       selectedLanguage = DEFAULT_LANGUAGE;
     }
 
-    Translator.setLanguage(selectedLanguage);
+    //Translator.setLanguage(selectedLanguage);
   }
 
   /**
@@ -59,12 +59,6 @@ public class Preferences
     }
   }
 
-  public void setSelectedLanguage(Language language)
-  {
-    selectedLanguage = language;
-    Translator.setLanguage(language);
-    savePreferences();
-  }
 
   public Language getSelectedLanguage()
   {

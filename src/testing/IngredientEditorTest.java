@@ -12,7 +12,6 @@ class IngredientEditorTest
   @Test
   void test()
   {
-    new IngredientEditor();
     fail("Not yet implemented");
   }
 

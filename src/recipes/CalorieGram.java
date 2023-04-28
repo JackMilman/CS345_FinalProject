@@ -8,9 +8,8 @@ package recipes;
  * @version 4/12/2023 V1
  *
  */
-public class CalorieGram
+class CalorieGram
 {
-  private final Double price;
   private final Double calories;
   private final Double density;
 
@@ -26,21 +25,10 @@ public class CalorieGram
    * @param calories
    * @param density
    */
-  public CalorieGram(final Double price, final Double calories, final Double density)
+  public CalorieGram(final Double calories, final Double density)
   {
-    this.price = price;
     this.calories = calories;
     this.density = density;
-  }
-  
-  /**
-   * Returns the calories of this CalorieGram.
-   * 
-   * @return price
-   */
-  public Double getPrice()
-  {
-    return price;
   }
 
   /**
