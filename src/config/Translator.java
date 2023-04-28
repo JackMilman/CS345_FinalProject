@@ -1,5 +1,6 @@
 package config;
 
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
@@ -31,11 +32,11 @@ public class Translator
   
   /**
    * Sets the current language of the program.
-   * @param language The language to set as the current language.
+   * 
    */
-  public static void setLanguage(final Language language)
+  public static void setLanguage()
   {
-    Translator.language = language;
+    Translator.language = Language.fromLocale();
   }
   
   /**

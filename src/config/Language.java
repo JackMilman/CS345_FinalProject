@@ -2,6 +2,7 @@ package config;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Scanner;
@@ -111,5 +112,17 @@ public enum Language
     }
     
     return English;
+  }
+  
+  /**
+   * Gets the language from the virtual machine's locale.
+   * @return Language.FRENCH, or Language.SPANISH, if that is the Locale's language, 
+   * Language.ENGLISH otherwise.
+   */
+  public static Language fromLocale()
+  {
+    Locale locale = Locale.getDefault();
+    
+    return fromString(locale.getDisplayLanguage(Locale.ENGLISH));
   }
 }

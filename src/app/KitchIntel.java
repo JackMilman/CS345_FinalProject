@@ -30,17 +30,8 @@ public class KitchIntel
   public static void main (final String[] args) 
       throws InvocationTargetException, InterruptedException
   {
-
-    try
-    {
-      String language = Files.readString(Path.of("language.cfg"));
-      Translator.setLanguage(Language.fromString(language));
-    }
-    catch(IOException ioe)
-    {
-      Translator.setLanguage(Language.English);
-    }
+    Translator.setLanguage();
+    
     SwingUtilities.invokeAndWait(new MainWindow());
-
   }
 }
