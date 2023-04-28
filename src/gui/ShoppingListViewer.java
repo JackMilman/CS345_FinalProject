@@ -304,7 +304,10 @@ public class ShoppingListViewer extends KitchIntelJDialog
       {
         for (Unit unit : Unit.values())
         {
-          units.addItem(unit.getName());
+          if (!unit.equals(Unit.INDIVIDUAL) || !unit.equals(Unit.NONE))
+          {
+            units.addItem(unit.getName());
+          }
         }
       }
       units.setSelectedItem(ingredient.getUnit().getName());
