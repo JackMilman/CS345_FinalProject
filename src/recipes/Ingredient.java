@@ -31,9 +31,6 @@ public class Ingredient implements Serializable, Comparable<Ingredient>
    * @param details
    * @param amount
    * @param unit
-   * @param calories
-   * @param density
-   * @param price
    */
   public Ingredient(final String name, final String details, final double amount, final Unit unit)
   {

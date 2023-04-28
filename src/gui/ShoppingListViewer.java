@@ -4,7 +4,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 import javax.swing.BoxLayout;
@@ -22,16 +21,10 @@ import config.Translator;
 import recipes.Ingredient;
 import recipes.Inventory;
 import recipes.Meal;
-import recipes.NutritionInfo;
 import recipes.PriceInfo;
 import recipes.Recipe;
 import recipes.Unit;
 import utilities.UnitConversion;
-
-/*
- * TO DO:
- * Allow conversions to all units? (except individual/none)
- */
 
 /**
  * Creates the GUI to view a shopping list.
@@ -61,7 +54,8 @@ public class ShoppingListViewer extends KitchIntelJDialog
   private ArrayList<Ingredient> editedIngredients;
 
   /**
-   * Creates a ShoppingListViewer panel that displays the ingredients of the given recipe.
+   * Creates a ShoppingListViewer that displays the ingredients of the given recipe, 
+   * the amounts, and their prices.
    * 
    * @param obj should be a Recipe or Meal
    */

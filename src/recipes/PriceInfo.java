@@ -1,4 +1,5 @@
 package recipes;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -108,11 +109,7 @@ public class PriceInfo
    * 
    * @param name
    *          the name of the ingredient
-   * @param calories
-   *          the caloriesPerGram for the ingredient
-   * @param density
-   *          the gramPerML for the ingredient
-   * @param pricePerTablespoon
+   * @param price
    *          price per tablespoon, the standard unit of volume
    */
   public static void addIngredient(final String name, final Double price)
