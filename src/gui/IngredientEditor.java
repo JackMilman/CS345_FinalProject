@@ -201,16 +201,18 @@ public class IngredientEditor extends JPanel
 
   private void delete()
   {
-    if (workingRecipe.getIngredients().size() == 0)
+    List<Ingredient> ingredients = workingRecipe.getIngredients();
+    int numIngredients = ingredients.size();
+    if (numIngredients == 0)
     {
       return;
     }
 
     int index = ingredientDisplay.getSelectedRow();
         
-    if (index < workingRecipe.getIngredients().size()) 
+    if (index < numIngredients) 
     {
-      Ingredient ingredient = workingRecipe.getIngredients().get(index);
+      Ingredient ingredient = ingredients.get(index);
       
       workingRecipe.removeIngredient(ingredient);
 
