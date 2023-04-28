@@ -199,7 +199,7 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame
         ingredients.setSelectedItem("");
         units.setSelectedItem("");
         amount.setText("");
-        calorie.setText(Translator.translate("Calories") + ": ");
+        calorie.setText(Translator.translate("Calories") + ":     ____________");
       }
 
       if (command.equals(CALCULATION_COMMAND))
