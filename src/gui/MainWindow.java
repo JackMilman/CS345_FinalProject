@@ -2,6 +2,10 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Color;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -11,6 +15,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import branding.KitchIntelJFrame;
