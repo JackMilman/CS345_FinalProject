@@ -152,6 +152,7 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     // ImageIcon logo = new ImageIcon(PATH);
     // JLabel logoLabel = new JLabel(logo);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
+    
     setVisible(true);
   }
 }
