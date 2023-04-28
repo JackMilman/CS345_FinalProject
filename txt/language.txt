@@ -1,0 +1,61 @@
+Add	Ajouter	Agregar
+Delete	Supprimer	Borrar
+File	Lime	Archivo
+Exit	Sortie	Salida
+Edit	Editer	Editar
+Recipe	Recette	Receta
+Meal	Repas	Comida
+View	Vue	Vista
+Shopping List	Liste de courses	Lista de la compra
+Process	Processus	Proceso
+Tools	Outils	Herramientas
+Calorie calculator	Calculateur de calories	Calculadora de calorías
+Units converter	Convertisseur d’unites	Convertidor de unidades
+Name	Nom	Nombre
+Serves	Sert	Sirve
+Utensils	Ustensiles	Utensilios
+Details	Details	Detalles
+Ingredients	Ingrédients	Ingredientes
+Amount	Quantite	Importe
+Units	Unites	Unidades
+Calories	Calories	Calorías
+Density	Densite	Densidad
+Steps	Escalier	Pasos
+Action	Action	Acción
+On	Sur	En
+Utensil	Ustensile	Utensilio
+Minutes	Compte-rendu	Acta
+Recipes	Recettes	Recetas
+Add recipe	Ajouter une recetter	Añadir receta
+KiLowBites Main Window	Fenetre principale de KiLowBites	Ventana principal de KiLowBites
+KiLowBites Recipe Editor	Editeur de recettes KiLowBites	Editora de recetas KiLowBites
+KiLowBites Meal Editor	Editeur de repas KiLowBites	Editora de comidas KiLowBites
+Ingredient	Ingredient	Ingrediente
+From units	A partir d’unites	Desde unidades
+To units	Vers les unités	A las unidades
+From amount	A partir du montant	Desde la cantidad
+Result	Resultat	Resultado
+Number of people	Nombre de personnes	Numero de personas
+Invalid amount	Montant non valide	Importe no válido
+File could not be saved	Le fichier n’a pas pu etre enregistre	No se pudo guardar el archivo
+Open recipe or meal	Recette ou repas ouvert	Abrir receta o comida
+Search	Rechercher	Buscar
+Configure	Configurer	Configurar
+Preferences	Preferences	Preferencias
+Shortcuts	Raccourcis	Metodos abreviados
+Nutrition	Nutrition	Nutrición
+Help	Aide	Ayuda
+About	Environ	Acerca de
+User guide	Guide de l’utilisateur	Guia del usuario
+You must input a name	Vous devez entrer un nom	Debe introducir un nombre
+File name	Nom du fichier	Nombre de archivo
+Invalid file	Fichier non valide	Archivo no valido
+Printer error	Erreur d’imprimante	Error de impresora
+KiLowBites Shopping List Viewer	Visionneuse de liste d’achats KiLowBites	Visor de listas de compras KiLowBites
+KiLowBites Process Viewer	Visionneuse de processus KiLowBites	Visor de procesos KiLowBites
+KiLowBites Unit Converter	Convertisseur d’unite KiLowBites	Convertidor de unidades KiLowBites
+KiLowBites Calorie Calculator	Calculatrice de calories KiLowBites	Calculadora de calorías KiLowBites
+Error Erreur Error
+Language	Langue	Idioma
+Save	sauvegarder	Salvar
+Restart the program for this change to take full effect.	Redémarrez le programme pour que cette modification prenne pleinement effet.	Reinicie el programa para que este cambio surta efecto.
