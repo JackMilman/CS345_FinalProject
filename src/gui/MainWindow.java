@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.BorderLayout;
+
 import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.ImageIcon;
@@ -157,4 +158,5 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     
     setVisible(true);
   }
+
 }

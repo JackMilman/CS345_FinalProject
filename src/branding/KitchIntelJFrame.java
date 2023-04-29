@@ -3,8 +3,11 @@ package branding;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Font;
+import java.io.IOException;
 
 import javax.swing.JFrame;
+
+import preferences.KitchIntelPreferenceReader;
 
 /**
  * The super class for all JFrames in KitchIntel. This will always have the correct background
@@ -19,6 +22,7 @@ public class KitchIntelJFrame extends JFrame
    * 
    */
   private static final long serialVersionUID = 1L;
+  private static int fontSize;
 
   /**
    * Creates a new KitchIntelJFrame with the correct background color.
@@ -31,7 +35,15 @@ public class KitchIntelJFrame extends JFrame
     super(name);
 
     getContentPane().setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
-
+    try
+    {
+      fontSize = Integer.parseInt(KitchIntelPreferenceReader.returnValue(KitchIntelPreferenceReader.FONT));
+      changeFont(this, fontSize);
+    }
+    catch (NumberFormatException | IOException e)
+    {
+      System.out.print("ERROR");
+    }
   }
 
   /**

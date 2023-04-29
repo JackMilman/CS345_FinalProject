@@ -1,7 +1,10 @@
 package gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -12,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -23,11 +27,13 @@ public class PreferenceWindow extends JFrame
   
   private static final long serialVersionUID = 1L;
   private static ArrayList<File>files;
+  private static JFrame mainWindow;
   //private static final File file = new File("preferences.txt");
 
-  public PreferenceWindow() throws IOException {
+  public PreferenceWindow(JFrame mainWindow) {
     super();
     files = new ArrayList<File>();
+    PreferenceWindow.mainWindow = mainWindow;
     setUp();
   }
   
@@ -56,11 +62,22 @@ public class PreferenceWindow extends JFrame
     return p;
   }
   
-  private JPanel changeFontSize() throws IOException {
+  private JPanel changeFontSize(){
     JPanel p = new JPanel();
+    
     JTextField textSize = new JTextField();
     textSize.setEditable(false);
-    String size = (String)KitchIntelPreferenceReader.returnValue(KitchIntelPreferenceReader.FONT);
+    JLabel changeFontSizeLabel = new JLabel("Change font size: ");
+    String size = null;
+    try
+    {
+      size = (String)KitchIntelPreferenceReader.returnValue(KitchIntelPreferenceReader.FONT);
+    }
+    catch (IOException e3)
+    {
+      // TODO Auto-generated catch block
+      e3.printStackTrace();
+    }
     textSize.setText((String)size);
     JButton minus = new JButton("-");
     JButton plus = new JButton("+");
@@ -71,38 +88,78 @@ public class PreferenceWindow extends JFrame
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        if (e.getActionCommand().equals("+")) {
-          try
-          {
-            KitchIntelPreferenceReader.saveItem(KitchIntelPreferenceReader.FONT, "" + (val + 2));
-            textSize.setText("" + (val + 2));
+        String size = "0";
+        try
+        {
+          size = (String)KitchIntelPreferenceReader.returnValue(KitchIntelPreferenceReader.FONT);
+        }
+        catch (IOException e2)
+        {
+          // TODO Auto-generated catch block
+          e2.printStackTrace();
+        }
+        textSize.setText((String)size);
+        JButton minus = new JButton("-");
+        JButton plus = new JButton("+");
+        String s = textSize.getText();
+        int val = Integer.parseInt(s);
+        JButton button = (JButton)e.getSource();
+        if (button.getText().equals("+")) {
+          if (val + 2 > 60) {
+            return;
           }
-          catch (IOException e1)
-          {
-            System.out.println("Invalid Font");
-          }
+          textSize.setText("" + (val + 2));
         } else {
-          try
-          {
-            KitchIntelPreferenceReader.saveItem(KitchIntelPreferenceReader.FONT, "" + (val - 2));
-          }
-          catch (IOException e1)
-          {
-            System.out.println("Invalid Font");
-          }
+          textSize.setText("" + (val - 2));
         }
       }
     };
-    textSize.addActionListener(changeFontSize);
     
+    JButton apply = new JButton("Apply");
+    ActionListener applyChanges = new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        try
+        {
+          KitchIntelPreferenceReader.saveItem(KitchIntelPreferenceReader.FONT, textSize.getText());
+          changeFont(mainWindow, Integer.parseInt(textSize.getText()));
+        }
+        catch (IOException e1)
+        {
+          System.out.print("ERROR");
+        }
+      }
+      
+    };
+    
+    plus.addActionListener(changeFontSize);
+    minus.addActionListener(changeFontSize);
+    apply.addActionListener(applyChanges);
+    
+    p.add(changeFontSizeLabel);
     p.add(minus);
     p.add(textSize);
     p.add(plus);
+    p.add(apply);
     
     return p;
   }
   
-  private void setUp() throws IOException {
+  public static void changeFont(Component component, int fontSize)
+  {
+      component.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
+      if ( component instanceof Container )
+      {
+          for (Component child : ((Container) component).getComponents ())
+          {
+              changeFont(child, fontSize);
+          }
+      }
+  }
+  
+  private void setUp(){
     JPanel p = (JPanel) getContentPane();
     
     p.setLayout(new BorderLayout());
