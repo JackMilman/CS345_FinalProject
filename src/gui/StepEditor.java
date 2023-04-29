@@ -54,6 +54,7 @@ public class StepEditor extends JComponent
   private String fileName;
   
   private final RecipeEditor parent;
+  private final EnableListener enableListener;
 
   /**
    * Creates a new StepEditor.
@@ -73,7 +74,7 @@ public class StepEditor extends JComponent
     this.parent = parent;
 
     StepEditorListener listener = new StepEditorListener(this);
-    EnableListener enabler = new EnableListener();
+    enableListener = new EnableListener();
 
     actionSelect = new JComboBox<String>(ACTIONS);
     onSelect = new JComboBox<String>(new String[] {BLANK});
@@ -88,10 +89,10 @@ public class StepEditor extends JComponent
     deleteButton.addActionListener(listener);
     // embeddedRecipe.addActionListener(listener);
 
-    actionSelect.addActionListener(enabler);
-    onSelect.addActionListener(enabler);
-    utensilSelect.addActionListener(enabler);
-    timeField.addActionListener(enabler);
+    actionSelect.addActionListener(enableListener);
+    onSelect.addActionListener(enableListener);
+    utensilSelect.addActionListener(enableListener);
+    timeField.addActionListener(enableListener);
 
     addButton.setEnabled(false);
 
@@ -390,4 +391,18 @@ public class StepEditor extends JComponent
   {
     this.workingRecipe = workingRecipe;
   }
+  
+  public void setEditable(final boolean editable)
+  {
+    actionSelect.setEnabled(editable);
+    addButton.setEnabled(editable);
+    deleteButton.setEnabled(editable);
+    detailField.setEnabled(editable);
+    onSelect.setEnabled(editable);
+    timeField.setEnabled(editable);
+    utensilSelect.setEnabled(editable);
+ 
+    enableListener.actionPerformed(null);
+  }
+  
 }

@@ -62,6 +62,12 @@ public abstract class Editor extends KitchIntelJDialog
     updateButtons();
 
   }
+  
+  /**
+   * Sets whether the editing features of this Editor are enabled or disabled.
+   * @param editable True if the components of this Editor should be enabled, false otherwise.
+   */
+  public abstract void enableEditing(boolean editable);
 
   protected void updateButtons()
   {
@@ -73,6 +79,7 @@ public abstract class Editor extends KitchIntelJDialog
         saveButton.setEnabled(false);
         saveAsButton.setEnabled(false);
         closeButton.setEnabled(false);
+        enableEditing(false);
         break;
       case UNCHANGED:
         newButton.setEnabled(true);
@@ -80,6 +87,7 @@ public abstract class Editor extends KitchIntelJDialog
         saveButton.setEnabled(false);
         saveAsButton.setEnabled(false);
         closeButton.setEnabled(true);
+        enableEditing(true);
         break;
       case CHANGED:
         newButton.setEnabled(false);
@@ -87,6 +95,7 @@ public abstract class Editor extends KitchIntelJDialog
         saveButton.setEnabled(true);
         saveAsButton.setEnabled(true);
         closeButton.setEnabled(false);
+        enableEditing(true);
         break;
       default:
         break;

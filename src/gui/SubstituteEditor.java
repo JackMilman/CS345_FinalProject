@@ -56,6 +56,8 @@ public class SubstituteEditor extends JPanel
   private Recipe workingRecipe;
 
   private final RecipeEditor parent;
+  
+  private final EnableUpdater enableUpdater;
 
   private final List<Ingredient> validIngredients = new ArrayList<Ingredient>();
 
@@ -79,7 +81,7 @@ public class SubstituteEditor extends JPanel
     setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Substitutes")));
 
     SubstituteEditorListener listener = new SubstituteEditorListener(this);
-    EnableUpdater addListener = new EnableUpdater();
+    enableUpdater = new EnableUpdater();
 
     updateSubstituteSelect();
     updateIngredientSelect();
@@ -106,11 +108,11 @@ public class SubstituteEditor extends JPanel
     makeNewIngredient.setActionCommand(MAKE_NEW_SUBSTITUTE);
     makeNewIngredient.addActionListener(listener);
 
-    selectSubstitute.addActionListener(addListener);
-    selectIngredient.addActionListener(addListener);
-    detailField.addActionListener(addListener);
-    amountField.addActionListener(addListener);
-    unitSelect.addActionListener(addListener);
+    selectSubstitute.addActionListener(enableUpdater);
+    selectIngredient.addActionListener(enableUpdater);
+    detailField.addActionListener(enableUpdater);
+    amountField.addActionListener(enableUpdater);
+    unitSelect.addActionListener(enableUpdater);
 
     substituteDisplay = new JTable(new DefaultTableModel(3, 1));
     updateSubstituteDisplay();
@@ -337,4 +339,19 @@ public class SubstituteEditor extends JPanel
   {
     this.workingRecipe = workingRecipe;
   }
+  
+  public void setEditable(final boolean editable)
+  {
+    addButton.setEnabled(editable);
+    deleteButton.setEnabled(editable);
+    amountField.setEnabled(editable);
+    detailField.setEnabled(editable);
+    makeNewIngredient.setEnabled(editable);
+    selectIngredient.setEnabled(editable);
+    selectSubstitute.setEnabled(editable);
+    unitSelect.setEnabled(editable);
+    
+    enableUpdater.actionPerformed(null);
+  }
+  
 }

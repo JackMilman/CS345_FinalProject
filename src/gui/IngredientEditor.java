@@ -64,6 +64,8 @@ public class IngredientEditor extends JPanel
   private final StepEditor stepEditor;
   private final SubstituteEditor substituteEditor;
   private final RecipeEditor parent;
+  
+  private final EnableUpdater enableUpdater;
 
   /**
    * Creates an IngredientEditor for the given Recipe.
@@ -90,7 +92,7 @@ public class IngredientEditor extends JPanel
     setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Ingredients")));
 
     IngredientEditorListener listener = new IngredientEditorListener();
-    EnableUpdater addListener = new EnableUpdater();
+    enableUpdater = new EnableUpdater();
 
     updateIngredientSelect();
 
@@ -117,10 +119,10 @@ public class IngredientEditor extends JPanel
     makeNewIngredient.setActionCommand(MAKE_NEW_INGREDIENT);
     makeNewIngredient.addActionListener(listener);
 
-    selectIngredient.addActionListener(addListener);
-    detailField.addActionListener(addListener);
-    amountField.addActionListener(addListener);
-    unitSelect.addActionListener(addListener);
+    selectIngredient.addActionListener(enableUpdater);
+    detailField.addActionListener(enableUpdater);
+    amountField.addActionListener(enableUpdater);
+    unitSelect.addActionListener(enableUpdater);
 
     ingredientDisplay = new JTable(new DefaultTableModel(1, 1));
     updateIngredientDisplay();
@@ -446,6 +448,23 @@ public class IngredientEditor extends JPanel
   public void setWorkingRecip(Recipe workingRecipe)
   {
     this.workingRecipe = workingRecipe;
+  }
+  
+  /**
+   * Sets whether the components of this IngredientEditor can be interacted with by the user.
+   * @param editable
+   */
+  public void setEditable(final boolean editable)
+  {
+    addButton.setEnabled(editable);
+    deleteButton.setEnabled(editable);
+    selectIngredient.setEnabled(editable);
+    detailField.setEnabled(editable);
+    amountField.setEnabled(editable);
+    unitSelect.setEnabled(editable);
+    makeNewIngredient.setEnabled(editable);
+    
+    enableUpdater.actionPerformed(null);
   }
   
 }

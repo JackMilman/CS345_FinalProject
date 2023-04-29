@@ -42,6 +42,7 @@ public class UtensilEditor extends JComponent
   private Recipe workingRecipe;
   private StepEditor stepEditor;
   private final RecipeEditor parent;
+  private final UpdateListener updateListener;
 
   /**
    * Creates a new UtensilEditor.
@@ -62,10 +63,11 @@ public class UtensilEditor extends JComponent
     this.parent = parent;
 
     UtensilEditorListener listener = new UtensilEditorListener();
+    updateListener = new UpdateListener();
 
     nameField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     detailField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
-    nameField.addActionListener(new UpdateListener());
+    nameField.addActionListener(updateListener);
 
     addButton = new JButton(Translator.translate(ADD));
     addButton.setActionCommand(RecipeEditor.UTENSIL_ADD_ACTION_COMMAND);
@@ -243,4 +245,15 @@ public class UtensilEditor extends JComponent
   {
     this.workingRecipe = recipe;
   }
+  
+  public void setEditable(final boolean editable)
+  {
+    addButton.setEnabled(editable);
+    deleteButton.setEnabled(editable);
+    detailField.setEditable(editable);
+    nameField.setEditable(editable);
+    
+    updateListener.actionPerformed(null);
+  }
+  
 }

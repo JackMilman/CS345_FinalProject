@@ -83,6 +83,8 @@ public class RecipeEditor extends Editor
     substituteEditor = new SubstituteEditor(workingRecipe, this);
     ingredientEditor = new IngredientEditor(workingRecipe, stepEditor, substituteEditor, this);
 
+    enableEditing(false);
+    
     // Sets up action listener stuff for file manipulation
     newButton.setActionCommand(NEW_BUTTON_ACTION_COMMAND);
     openButton.setActionCommand(OPEN_BUTTON_ACTION_COMMAND);
@@ -191,8 +193,8 @@ public class RecipeEditor extends Editor
 
   private void newButton()
   {
-    new RecipeEditor(owner);
-
+    state = DocumentState.UNCHANGED;
+    
     updateButtons();
   }
 
@@ -343,5 +345,22 @@ public class RecipeEditor extends Editor
       updateButtons();
     }
 
+  }
+  
+  @Override
+  public void enableEditing(final boolean editable)
+  {
+    if (utensilEditor == null || ingredientEditor == null || substituteEditor == null 
+        || stepEditor == null || nameField == null || servingsField == null) {
+      return;
+    }
+    
+    utensilEditor.setEditable(editable);
+    ingredientEditor.setEditable(editable);
+    substituteEditor.setEditable(editable);
+    stepEditor.setEditable(editable);
+    
+    nameField.setEditable(editable);
+    servingsField.setEditable(editable);
   }
 }
