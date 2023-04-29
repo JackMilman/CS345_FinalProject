@@ -2,6 +2,9 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Font;
 import java.awt.event.KeyAdapter;
 import java.lang.reflect.InvocationTargetException;
 
@@ -155,4 +158,5 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     
     setVisible(true);
   }
+
 }

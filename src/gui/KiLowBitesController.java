@@ -177,7 +177,7 @@ public class KiLowBitesController implements ActionListener
     // open preferences
     if (e.getActionCommand().equals(PREFERENCES))
     {
-      new PreferencesGUI();
+      new PreferenceWindow(main);
     }
     // open shortcuts
     if (e.getActionCommand().equals("Shortcuts"))
