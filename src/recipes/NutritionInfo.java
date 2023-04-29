@@ -121,8 +121,6 @@ public class NutritionInfo
    *          the caloriesPerGram for the ingredient
    * @param density
    *          the gramPerML for the ingredient
-   * @param pricePerTablespoon
-   *          price per tablespoon, the standard unit of volume
    */
 
   public static void addIngredient(final String name, final Double calories, final Double density)

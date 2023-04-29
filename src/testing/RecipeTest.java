@@ -1,14 +1,17 @@
 package testing;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import gui.IngredientEditor;
-import recipes.*;
+import recipes.Ingredient;
+import recipes.Recipe;
+import recipes.Step;
+import recipes.Unit;
+import recipes.Utensil;
 
 /**
  * Test cases for the Recipe class.

@@ -1,10 +1,10 @@
 package testing;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import org.junit.jupiter.api.Test;
 
-import gui.IngredientEditor;
 import recipes.Ingredient;
 import recipes.Inventory;
 import recipes.Unit;

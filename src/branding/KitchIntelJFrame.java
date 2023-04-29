@@ -5,7 +5,6 @@ import java.awt.Container;
 import java.awt.Font;
 import java.io.IOException;
 
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 import preferences.KitchIntelPreferenceReader;
@@ -45,7 +44,6 @@ public class KitchIntelJFrame extends JFrame
     {
       System.out.print("ERROR");
     }
-    
   }
 
   /**
@@ -58,16 +56,16 @@ public class KitchIntelJFrame extends JFrame
 
     getContentPane().setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
   }
-  
+
   public static void changeFont(Component component, int fontSize)
   {
-      component.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
-      if ( component instanceof Container )
+    component.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
+    if (component instanceof Container)
+    {
+      for (Component child : ((Container) component).getComponents())
       {
-          for (Component child : ((Container) component).getComponents ())
-          {
-              changeFont(child, fontSize);
-          }
+        changeFont(child, fontSize);
       }
+    }
   }
 }

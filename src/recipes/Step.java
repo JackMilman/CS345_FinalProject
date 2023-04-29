@@ -37,6 +37,7 @@ public class Step implements Serializable
    * @param source
    * @param destination
    * @param details
+   * @param time
    */
   public Step(final String action, final Ingredient ingredient, final Utensil source,
       final Utensil destination, final String details, final int time)
@@ -134,10 +135,10 @@ public class Step implements Serializable
   }
 
   /**
-   * Sets the source Utensil of the Step.
+   * Sets the source recipe of the Step.
    * 
-   * @param source
-   *          the source Utensil to be set
+   * @param recipe
+   *          the source recipe to be set
    */
 
   public void setRecipe(final Recipe recipe)
@@ -145,11 +146,21 @@ public class Step implements Serializable
     this.recipe = recipe;
   }
 
+  /**
+   * Get the recipe of this step.
+   * 
+   * @return recipe
+   */
   public Recipe getRecipe()
   {
     return recipe;
   }
 
+  /**
+   * Set the source utensil of this step.
+   * 
+   * @param source
+   */
   public void setSource(final Utensil source)
   {
     this.source = source;
@@ -237,7 +248,13 @@ public class Step implements Serializable
 
   }
 
-  public String toString(boolean verbose)
+  /**
+   * Return a representation of this step as a String.
+   * 
+   * @param verbose
+   * @return string
+   */
+  public String toString(final boolean verbose)
   {
     if (verbose)
     {

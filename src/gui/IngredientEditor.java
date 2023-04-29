@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.TextListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -201,16 +200,18 @@ public class IngredientEditor extends JPanel
 
   private void delete()
   {
-    if (workingRecipe.getIngredients().size() == 0)
+    List<Ingredient> ingredients = workingRecipe.getIngredients();
+    int numIngredients = ingredients.size();
+    if (numIngredients == 0)
     {
       return;
     }
 
     int index = ingredientDisplay.getSelectedRow();
         
-    if (index < workingRecipe.getIngredients().size()) 
+    if (index < numIngredients) 
     {
-      Ingredient ingredient = workingRecipe.getIngredients().get(index);
+      Ingredient ingredient = ingredients.get(index);
       
       workingRecipe.removeIngredient(ingredient);
 

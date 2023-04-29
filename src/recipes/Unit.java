@@ -3,7 +3,7 @@ package recipes;
 /**
  * Standardizes the representation of units.
  * 
- * @author Meara Patterson
+ * @author Meara Patterson, KitchIntel
  * @version 4/17/2023
  */
 public enum Unit
@@ -32,9 +32,12 @@ public enum Unit
   }
   
   /**
+   * Give the unit that matches the given name.
    * 
+   * @param unit
+   * @return unit
    */
-  public static Unit parseUnit(String unit)
+  public static Unit parseUnit(final String unit)
   {
     for (Unit item: Unit.values())
     {

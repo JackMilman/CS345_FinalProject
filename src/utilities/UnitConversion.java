@@ -1,6 +1,8 @@
 package utilities;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 import recipes.NutritionInfo;
 import recipes.Unit;
@@ -14,11 +16,11 @@ import recipes.Unit;
  */
 public class UnitConversion
 {
-  private final static Map<Unit, Double> massConversions = initializeMasses();
-  private final static Map<Unit, Double> volumeConversions = initializeVolumes();
+  private static final Map<Unit, Double> MASS_CONVERSIONS = initializeMasses();
+  private static final Map<Unit, Double> VOLUME_CONVERSIONS = initializeVolumes();
   // Special Cases
-  private final static double OUNCES_TO_GRAMS = 28.34952;
-  private final static double TABLESPOON_TO_MILLILITERS = 14.7867648;
+  private static final double OUNCES_TO_GRAMS = 28.34952;
+  private static final double TABLESPOON_TO_MILLILITERS = 14.7867648;
 
   /*
    * Initializes the map of masses.
@@ -75,37 +77,40 @@ public class UnitConversion
   public static double convert(final String name, final Unit from, final Unit to,
       final double amount)
   {
-    boolean massToMass = massConversions.containsKey(from) && massConversions.containsKey(to);
-    boolean volumeToVolume = volumeConversions.containsKey(from)
-        && volumeConversions.containsKey(to);
-    boolean massToVolume = massConversions.containsKey(from) && volumeConversions.containsKey(to);
-    boolean volumeToMass = volumeConversions.containsKey(from) && massConversions.containsKey(to);
-
+    boolean massToMass = MASS_CONVERSIONS.containsKey(from) && MASS_CONVERSIONS.containsKey(to);
+    boolean volumeToVolume = VOLUME_CONVERSIONS.containsKey(from)
+        && VOLUME_CONVERSIONS.containsKey(to);
+    boolean massToVolume = MASS_CONVERSIONS.containsKey(from) && VOLUME_CONVERSIONS.containsKey(to);
+    boolean volumeToMass = VOLUME_CONVERSIONS.containsKey(from) && MASS_CONVERSIONS.containsKey(to);
+    double result;
+    
     if (massToMass)
     {
-      return amount * (massConversions.get(from) / massConversions.get(to));
+      result = amount * (MASS_CONVERSIONS.get(from) / MASS_CONVERSIONS.get(to));
     }
     else if (volumeToVolume)
     {
-      return amount * (volumeConversions.get(from) / volumeConversions.get(to));
+      result = amount * (VOLUME_CONVERSIONS.get(from) / VOLUME_CONVERSIONS.get(to));
     }
 
     else if (massToVolume)
     {
-      return mass_to_volume(name, from, to, amount);
+      result = massToVolume(name, from, to, amount);
     }
     else if (volumeToMass)
     {
-      return volume_to_mass(name, from, to, amount);
+      result = volumeToMass(name, from, to, amount);
     }
     else
     {
-      return amount;
+      result = amount;
     }
+    return result;
 
   }
 
-  private static double mass_to_volume(String name, Unit from, Unit to, double amount)
+  private static double massToVolume(final String name, final Unit from, 
+      final Unit to, final double amount)
   {
     if (NutritionInfo.contains(name.toLowerCase()))
     {
@@ -118,7 +123,8 @@ public class UnitConversion
       return 0;
   }
 
-  private static double volume_to_mass(String name, Unit from, Unit to, double amount)
+  private static double volumeToMass(final String name, final Unit from, 
+      final Unit to, final double amount)
   {
     if (NutritionInfo.contains(name.toLowerCase()))
     {
@@ -132,10 +138,16 @@ public class UnitConversion
 
   }
 
+  /**
+   * Check if a unit is a mass.
+   * 
+   * @param unit to check
+   * @return true if mass, false otherwise
+   */
   public static boolean isMass(final String unit)
   {
     if(unit == null) return false;
-    Set<Unit> keyValues = massConversions.keySet();
+    Set<Unit> keyValues = MASS_CONVERSIONS.keySet();
     for (Unit key : keyValues)
     {
       if (unit.equalsIgnoreCase(key.getName()))
@@ -144,10 +156,16 @@ public class UnitConversion
     return false;
   }
 
+  /**
+   * Check if a unit is a volume.
+   * 
+   * @param unit to check
+   * @return true if volume, false otherwise
+   */
   public static boolean isVolume(final String unit)
   {
     if(unit == null) return false;
-    Set<Unit> keyValues = volumeConversions.keySet();
+    Set<Unit> keyValues = VOLUME_CONVERSIONS.keySet();
     for (Unit key : keyValues)
     {
       if (unit.equalsIgnoreCase(key.getName()))

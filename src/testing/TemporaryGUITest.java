@@ -13,7 +13,6 @@ import recipes.Recipe;
 import recipes.Step;
 import recipes.Unit;
 import recipes.Utensil;
-import utilities.UnitConversion;
 
 /**
  * Informal class to test if GUI works properly (not using JUnit). Can be deleted later.

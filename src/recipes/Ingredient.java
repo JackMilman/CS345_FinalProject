@@ -1,7 +1,8 @@
 package recipes;
 
-import utilities.UnitConversion;
 import java.io.Serializable;
+
+import utilities.UnitConversion;
 
 /**
  * Object class describing an Ingredient in a Recipe. An Ingredient contains a name, details on
@@ -31,9 +32,6 @@ public class Ingredient implements Serializable, Comparable<Ingredient>
    * @param details
    * @param amount
    * @param unit
-   * @param calories
-   * @param density
-   * @param price
    */
   public Ingredient(final String name, final String details, final double amount, final Unit unit)
   {
