@@ -33,7 +33,7 @@ public class TemporaryGUITest
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setSize(900, 400);
     JPanel contentPane = (JPanel) frame.getContentPane();
-    IngredientEditor ingredientEditor = new IngredientEditor();
+    IngredientEditor ingredientEditor = new IngredientEditor(new Recipe(null, 0), null);
     contentPane.add(ingredientEditor);
     frame.setVisible(true);
   }

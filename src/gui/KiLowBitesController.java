@@ -5,28 +5,25 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
+import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import config.Shortcut;
 import config.Translator;
 import recipes.Meal;
 import recipes.Recipe;
+import utilities.ResourceCopier;
 import utilities.ShortcutsParser;
-
-import javax.swing.JEditorPane;
-import javax.swing.JFileChooser;
 
 /**
  * Class that makes each of the menu bar items do their intended jobs.
@@ -155,24 +152,28 @@ public class KiLowBitesController implements ActionListener
     // open the User Guide in a browser
     if (e.getActionCommand().equals(USERGUIDE))
     {
-      File htmlFile = new File("UserGuide.html");
       try
-      {
-        URL url = getClass().getClassLoader().getResource("UserGuide.html");
-        
+      {     
+        Path tempFolder = ResourceCopier.copyResourcesToTemp("temp", "guide");
 
+        Path fileLocation = Paths.get(tempFolder.toString(), "UserGuide.html");
         
-        Desktop.getDesktop().browse(url.toURI());
+        System.out.println(fileLocation.toString());
+        
+        URI uri = fileLocation.toUri();
+          
+        Desktop.getDesktop().browse(uri);
       }
       catch (IOException e1)
       {
         e1.printStackTrace();
       }
-      catch (URISyntaxException urise)
+      catch (URISyntaxException e2)
       {
-        urise.printStackTrace();
+        e2.printStackTrace();
       }
     }
+    
     // open preferences
     if (e.getActionCommand().equals(PREFERENCES))
     {
@@ -180,10 +181,10 @@ public class KiLowBitesController implements ActionListener
     }
     // open shortcuts
     if (e.getActionCommand().equals("Shortcuts"))
-    {
+    {    
+      loadShortcuts();
       new KeyShortcuts();
     }
-    loadShortcuts();
 
   }
 

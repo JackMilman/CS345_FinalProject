@@ -29,7 +29,9 @@ import config.Translator;
 import recipes.Ingredient;
 import recipes.NutritionInfo;
 import recipes.Recipe;
+import recipes.Step;
 import recipes.Unit;
+import recipes.Utensil;
 import utilities.SortLists;
 
 /**
@@ -59,16 +61,24 @@ public class SubstituteEditor extends JPanel
 
   private JTable substituteDisplay;
 
-  private final Recipe workingRecipe;
+  private Recipe workingRecipe;
+  
+  private final RecipeEditor parent;
+  
+  private final List<Ingredient> validIngredients = new ArrayList<Ingredient>();
 
   /**
-     * 
-     */
-  public SubstituteEditor(Recipe workingRecipe)
+   * Creates a new SubstituteEditor.
+   * @param workingRecipe the Recipe which saves the data of the Recipe being edited.
+   * @param parent The RecipeEditor which this SubstituteEditor is a part of, required for this to 
+   * resize the RecipeEditor.
+   */
+  public SubstituteEditor(final Recipe workingRecipe, final RecipeEditor parent)
   {
     super();
 
     this.workingRecipe = workingRecipe;
+    this.parent = parent;
 
     setLayout(new BorderLayout());
     setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Substitutes")));
@@ -132,7 +142,7 @@ public class SubstituteEditor extends JPanel
     setOpaque(false);
   }
 
-  private void updateSubstituteSelect()
+  void updateSubstituteSelect()
   {
     if (selectSubstitute != null)
     {
@@ -141,13 +151,12 @@ public class SubstituteEditor extends JPanel
     else
     {
       selectSubstitute = new JComboBox<>();
-    }
-
-    selectSubstitute.addItem("");
+    } 
     // Gets the list of ingredients presently in the recipe.
-    List<Ingredient> ingredients = workingRecipe.getIngredients();
-    SortLists.sortIngredients(ingredients);
-    for (Ingredient item : ingredients)
+    validIngredients.clear();
+    validIngredients.addAll(workingRecipe.getIngredients());
+    SortLists.sortIngredients(validIngredients);
+    for (Ingredient item : validIngredients)
     {
       selectSubstitute.addItem(item.getName());
     }
@@ -157,17 +166,47 @@ public class SubstituteEditor extends JPanel
 
   private void add()
   {
+    int substituteIndex = selectSubstitute.getSelectedIndex();
+    Ingredient ingredientToSubstituteFor = validIngredients.get(substituteIndex);
+    String name = selectIngredient.getSelectedItem().toString();
+    String details = detailField.getText();
+    String unit = unitSelect.getSelectedItem().toString();
+    double amount;
 
+    try
+    {
+      amount = Double.valueOf(amountField.getText());
+    }
+    catch (NumberFormatException nfe)
+    {
+      return;
+    }
+
+    Ingredient substitute = new Ingredient(name, details, amount, Unit.parseUnit(unit));
+    workingRecipe.addSubstitute(ingredientToSubstituteFor, substitute);
+
+    selectIngredient.setSelectedIndex(0);
+    detailField.setText("");
+    unitSelect.setSelectedIndex(0);
+    amountField.setText("");
+    
+    updateSubstituteDisplay();
   }
 
   private void delete()
   {
-
+    if (workingRecipe.getSubstitutes().size() == 0)
+    {
+      return;
+    }
+    
+    
+    
   }
 
   void updateSubstituteDisplay()
   {
-    DefaultTableModel tableModel = new DefaultTableModel(1, 2)
+    DefaultTableModel tableModel = new DefaultTableModel(workingRecipe.getNumSubstitutes(), 2)
     {
 
       private static final long serialVersionUID = 1L;
@@ -201,6 +240,8 @@ public class SubstituteEditor extends JPanel
         index++;
       }
     }
+    
+    parent.pack();
 
   }
 
@@ -280,4 +321,8 @@ public class SubstituteEditor extends JPanel
     deleteButton.addActionListener(listener);
   }
 
+  public void setWorkingRecipe(Recipe workingRecipe)
+  {
+    this.workingRecipe = workingRecipe;
+  }
 }

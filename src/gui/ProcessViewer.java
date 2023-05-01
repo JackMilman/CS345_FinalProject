@@ -42,7 +42,7 @@ import utilities.SortLists;
  * recipe.
  * 
  * @version 3/29/23
- * @author Allie O'Keeffe, KichIntel
+ * @author Allie O'Keeffe, KitchIntel
  *
  */
 public class ProcessViewer extends KitchIntelJFrame implements Serializable
@@ -181,6 +181,7 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
     // Creates JTable with steps and their corresponding times
     String[] stepData = new String[steps.size()];
     String[] timeData = new String[steps.size()];
+    String[] platingData = new String[steps.size()];
     int r = 0;
     for (Step item : steps)
     {
@@ -189,10 +190,12 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
         embeddedRecipes.addItem(item.toString());
       }
       stepData[r] = item.toString(false) + "";
+      timeData[r] = item.getTime() + " mins";
       r++;
     }
     tableModel.addColumn(Translator.translate("Steps"), stepData);
     tableModel.addColumn(Translator.translate("Time"), timeData);
+    tableModel.addColumn(Translator.translate("Start time"), platingData);
     table = new JTable(tableModel);
     table.getColumnModel().getColumn(0).setPreferredWidth(300);
 
@@ -254,7 +257,7 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
     {
       int duration = steps.get(i).getTime();
       totalTimeInMins = totalTimeInMins - duration;
-      model.setValueAt(convertMinsToTime(totalTimeInMins), i, 1);
+      model.setValueAt(convertMinsToTime(totalTimeInMins), i, 2);
     }
   }
 

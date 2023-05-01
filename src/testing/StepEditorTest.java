@@ -12,7 +12,6 @@ class StepEditorTest
   @Test
   void test()
   {
-    new StepEditor(null, null);
     fail("Not yet implemented");
   }
 

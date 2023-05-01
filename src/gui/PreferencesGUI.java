@@ -74,7 +74,7 @@ public class PreferencesGUI extends KitchIntelJFrame implements ActionListener
     }
 
     // Set the current language
-    Translator.setLanguage(language);
+    //Translator.setLanguage(language);
     
     JOptionPane.showMessageDialog(null, 
         Translator.translate("Restart the program for this change to take full effect."), 

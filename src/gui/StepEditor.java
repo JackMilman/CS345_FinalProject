@@ -2,16 +2,11 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.TextEvent;
-import java.awt.event.TextListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -19,11 +14,12 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import branding.KitchIntelBorder;
 import config.Translator;
-import recipes.CompositeRecipe;
 import recipes.Ingredient;
 import recipes.Recipe;
 import recipes.Step;
@@ -35,50 +31,49 @@ import recipes.Utensil;
  * @author Josiah Leach, KitchIntel
  * @version 03.29.2023
  */
-public class StepEditor extends JComponent implements TextListener
+public class StepEditor extends JComponent
 {
+  protected static final String CURRENT_DIRECTORY = ".";
+
   private static final String[] ACTIONS = new String[] {"", "Put", "Melt", "Simmer", "Heat",
       "Ignite", "Boil", "Drain", "Saute", "Cook", "Bake", "Dip"};
 
   private static final String ADD = "Add";
   private static final String DELETE = "Delete";
   private static final String BLANK = "            ";
-  protected static final String CURRENT_DIRECTORY = ".";
   /**
    * 
    */
   private static final long serialVersionUID = 1L;
 
-  private JComboBox<String> actionSelect, onSelect, utensilSelect;
+  private JComboBox<String> actionSelect, onSelect, utensilSelect, eRecipeTitles;
   private JTextField detailField, timeField;
-  private List<Step> steps;
-  private TextArea display;
-  private List<Utensil> utensils;
-  private List<Ingredient> ingredients;
+  private JTable display;
   private JButton addButton, deleteButton, embeddedRecipe;
   public String fileName;
-  private CompositeRecipe embedded;
-  private List<CompositeRecipe> embeddedRecipes;
+  private Recipe embedded;
+  private List<Recipe> embeddedRecipes;
+  private Recipe workingRecipe;
+
+  private final RecipeEditor parent;
 
   /**
    * Creates a new StepEditor.
    * 
-   * @param utensils
-   *          The utensils which can be used in a step. Must be a reference to the list used by the
-   *          corresponding UtensilEditor.
-   * @param ingredients
-   *          The ingredients which can be used in a step. Must be a reference to the list used by
-   *          the corresponding IngredientEditor.
+   * @param workingRecipe
+   *                        the recipe to edit the steps of.
+   * @param parent
+   *                        the RecipeEditor that this StepEditor is a part of. This is required for
+   *                        the StepEditor to be able to resize the RecipeEditor
    */
-  public StepEditor(final List<Utensil> utensils, final List<Ingredient> ingredients)
+  public StepEditor(final Recipe workingRecipe, final RecipeEditor parent)
   {
     super();
     setLayout(new BorderLayout());
     setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Steps")));
 
-    this.utensils = utensils;
-    this.ingredients = ingredients;
-    this.steps = new ArrayList<Step>();
+    this.workingRecipe = workingRecipe;
+    this.parent = parent;
 
     StepEditorListener listener = new StepEditorListener(this);
     EnableListener enabler = new EnableListener();
@@ -91,16 +86,17 @@ public class StepEditor extends JComponent implements TextListener
 
     addButton = new JButton(Translator.translate(ADD));
     deleteButton = new JButton(Translator.translate(DELETE));
-    embeddedRecipe= new JButton("EmbeddedRecipe");
+    embeddedRecipe = new JButton("EmbeddedRecipe");
+
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);
     embeddedRecipe.addActionListener(listener);
-    
+
     actionSelect.addActionListener(enabler);
     onSelect.addActionListener(enabler);
     utensilSelect.addActionListener(enabler);
     timeField.addActionListener(enabler);
-    
+
     addButton.setEnabled(false);
 
     Container inputFields = new Container();
@@ -122,8 +118,8 @@ public class StepEditor extends JComponent implements TextListener
 
     add(deleteButton, BorderLayout.EAST);
 
-    display = new TextArea();
-    display.setEditable(false);
+    display = new JTable(new DefaultTableModel(1, 1));
+    updateStepDisplay();
     add(display, BorderLayout.CENTER);
 
     setVisible(true);
@@ -154,45 +150,49 @@ public class StepEditor extends JComponent implements TextListener
     Utensil destinationUtensil = null;
     Utensil sourceUtensil = null;
 
-    for (int i = 0; i < utensils.size(); i++)
+    for (int i = 0; i < workingRecipe.getUtensils().size(); i++)
     {
-      if (on.equals(utensils.get(i).getName()))
+      if (on.equals(workingRecipe.getUtensils().get(i).getName()))
       {
-        sourceUtensil = utensils.get(i);
+        sourceUtensil = workingRecipe.getUtensils().get(i);
       }
-      if (utensil.equals(utensils.get(i).getName()))
+      if (utensil.equals(workingRecipe.getUtensils().get(i).getName()))
       {
-        destinationUtensil = utensils.get(i);
+        destinationUtensil = workingRecipe.getUtensils().get(i);
       }
     }
-    if (on.startsWith("*")) {
-      try {
-      Recipe objectIngredient =  Recipe.read(fileName);
-      
+
+    if (on.startsWith("*"))
+    {
+      try
+      {
+        Recipe objectIngredient = Recipe.read(fileName);
+        Step step = new Step(action, objectIngredient, sourceUtensil, destinationUtensil, details,
+            time);
+        workingRecipe.getSteps().add(step);
       }
       catch (IOException e1)
       {
         e1.printStackTrace();
       }
     }
-    else {
-    Ingredient objectIngredient = null;
-    for (int i = 0; i < ingredients.size(); i++)
+    else
     {
-      if (on.equals(ingredients.get(i).getName()))
+      Ingredient objectIngredient = null;
+      for (int i = 0; i < workingRecipe.getIngredients().size(); i++)
       {
-        objectIngredient = ingredients.get(i);
-      }
-      
-    }
-    Step step = new Step(action, objectIngredient, sourceUtensil, destinationUtensil, details,
-        time);
-    steps.add(step);
-    System.out.println(step);
-    }
-   
+        if (on.equals(workingRecipe.getIngredients().get(i).getName()))
+        {
+          objectIngredient = workingRecipe.getIngredients().get(i);
+        }
 
-    updateDisplay();
+      }
+      Step step = new Step(action, objectIngredient, sourceUtensil, destinationUtensil, details,
+          time);
+      workingRecipe.addStep(step);
+    }
+
+    updateStepDisplay();
 
     actionSelect.setSelectedIndex(0);
     onSelect.setSelectedIndex(0);
@@ -203,60 +203,51 @@ public class StepEditor extends JComponent implements TextListener
 
   private void delete()
   {
-    if (steps.size() == 0)
+    if (workingRecipe.getSteps().size() == 0)
+    {
       return;
-
-    int selectionStart = display.getSelectionStart();
-    int linesSelected = 0;
-    int linesSkipped = 0;
-    String selectedText = display.getSelectedText();
-
-    if (selectedText == null || selectedText.length() < 0)
-      return;
-
-    char[] characters = selectedText.toCharArray();
-
-    // counts the number of newline characters to determine the number of lines selected
-    for (char character : characters)
-    {
-      if (character == '\n')
-      {
-        linesSelected++;
-      }
     }
 
-    // if the last selected character isn't a newline character, then there is one uncounted line.
-    if (characters[characters.length - 1] != '\n')
-      linesSelected++;
+    int index = display.getSelectedRow();
 
-    String skipped = display.getText().substring(0, selectionStart);
-
-    char[] skippedChars = skipped.toCharArray();
-
-    for (char skippedChar : skippedChars)
+    if (index < workingRecipe.getSteps().size())
     {
-      if (skippedChar == '\n')
-        linesSkipped++;
-    }
+      Step step = workingRecipe.getSteps().get(index);
 
-    for (int i = 0; i < linesSelected; i++)
-    {
-      steps.remove(linesSkipped);
-    }
+      workingRecipe.removeStep(step);
 
-    updateDisplay();
+      updateStepDisplay();
+    }
   }
 
-  private void updateDisplay()
+  /**
+   * Updates the JTable which displays the steps of this Recipe. Must be called every time the Steps
+   * of this recipe change.
+   */
+  public void updateStepDisplay()
   {
-    String displayText = "";
 
-    for (Step step : steps)
+    DefaultTableModel tableModel = new DefaultTableModel(workingRecipe.getSteps().size(), 1)
     {
-      displayText += String.format("%s\n", step.toString());
+
+      private static final long serialVersionUID = 1L;
+
+      @Override
+      public boolean isCellEditable(final int row, final int col)
+      {
+        return false;
+      }
+    };
+
+    display.setModel(tableModel);
+    List<Step> stepsList = workingRecipe.getSteps();
+
+    for (int i = 0; i < stepsList.size(); i++)
+    {
+      display.setValueAt(stepsList.get(i), i, 0);
     }
 
-    display.setText(displayText);
+    parent.pack();
   }
 
   /**
@@ -269,17 +260,18 @@ public class StepEditor extends JComponent implements TextListener
 
     onSelect.addItem(BLANK);
 
-    for (Utensil utensil : utensils)
+    for (Utensil utensil : workingRecipe.getUtensils())
     {
       onSelect.addItem(utensil.getName());
     }
 
-    for (Ingredient ingredient : ingredients)
+    for (Ingredient ingredient : workingRecipe.getIngredients())
     {
       onSelect.addItem(ingredient.getName());
     }
-    for (CompositeRecipe recipes: embeddedRecipes) {
-      onSelect.addItem("*"+recipes.getName());
+    for (Recipe recipes : embeddedRecipes)
+    {
+      onSelect.addItem("*" + recipes.getName());
     }
 
   }
@@ -294,7 +286,7 @@ public class StepEditor extends JComponent implements TextListener
 
     utensilSelect.addItem(BLANK);
 
-    for (Utensil utensil : utensils)
+    for (Utensil utensil : workingRecipe.getUtensils())
     {
       utensilSelect.addItem(utensil.getName());
     }
@@ -320,48 +312,41 @@ public class StepEditor extends JComponent implements TextListener
       {
         subject.delete();
       }
-      else if (e.getActionCommand().equals("EmbeddedRecipe")) {
+      else if (e.getActionCommand().equals("EmbeddedRecipe"))
+      {
         JFileChooser chooser = new JFileChooser(new File(CURRENT_DIRECTORY));
         chooser.showOpenDialog(null);
 
         fileName = chooser.getSelectedFile().getPath();
         fileName = fileName.substring(0, fileName.indexOf(CURRENT_DIRECTORY));
-        try {
-        String eRecipe = Recipe.read(fileName).getName();
-        embedded = new CompositeRecipe(eRecipe, Recipe.read(fileName).getServings());
-        }
-        catch (IOException e1)
-        {
-          e1.printStackTrace();
-        }
+
         embeddedRecipes.add(embedded);
         updateOn();
+
       }
     }
 
   }
-  
+
   private class EnableListener implements ActionListener
   {
     @Override
     public void actionPerformed(final ActionEvent e)
     {
-      boolean filled = onSelect.getSelectedIndex() != 0 && actionSelect.getSelectedIndex() != 0 
+      boolean filled = onSelect.getSelectedIndex() != 0 && actionSelect.getSelectedIndex() != 0
           && utensilSelect.getSelectedIndex() != 0 && timeField.getText().length() > 0;
       addButton.setEnabled(filled);
     }
   }
 
-  @Override
-  public void textValueChanged(final TextEvent e)
+  /**
+   * Gets the steps of the Recipe being edited by this StepEditor.
+   * 
+   * @return The List of Steps from the REcipe being edited by this StepEditor.
+   */
+  public List<Step> getSteps()
   {
-    updateOn();
-    updateUtensil();
-  }
-
-  List<Step> getSteps()
-  {
-    return steps;
+    return workingRecipe.getSteps();
   }
 
   /**
@@ -369,7 +354,7 @@ public class StepEditor extends JComponent implements TextListener
    * change.
    * 
    * @param listener
-   *          The actionListener to listen to these changes.
+   *                   The actionListener to listen to these changes.
    */
   public void addChangeListener(final ActionListener listener)
   {
@@ -381,13 +366,34 @@ public class StepEditor extends JComponent implements TextListener
    * Loads the given steps.
    * 
    * @param newSteps
-   *          The new steps for this StepEditor to display.
+   *                   The new steps for this StepEditor to display.
    */
   public void loadSteps(final List<Step> newSteps)
   {
-    this.steps = newSteps;
+    workingRecipe.getSteps().clear();
+    workingRecipe.addAllSteps(newSteps);
 
-    updateDisplay();
+    updateStepDisplay();
   }
 
+  /**
+   * This StepEditor updates its dropdown boxes to reflect the change in list of ingredients or
+   * utensils.
+   */
+  public void updateSelects()
+  {
+    updateOn();
+    updateUtensil();
+  }
+
+  /**
+   * Sets the Recipe which this StepEditor is editing.
+   * 
+   * @param workingRecipe
+   *                        The Recipe which this StepEditor will edit.
+   */
+  public void setWorkingRecipe(Recipe workingRecipe)
+  {
+    this.workingRecipe = workingRecipe;
+  }
 }

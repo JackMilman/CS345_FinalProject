@@ -7,7 +7,8 @@ package config;
  */
 public class Translator
 {
-  private static Language language = Language.English;
+  private static Language language = Language.English; 
+  
   /**
    * Translates the English text to the currently specified language.
    * @param englishText The word to get the translation of.
@@ -28,11 +29,11 @@ public class Translator
   
   /**
    * Sets the current language of the program.
-   * @param language The language to set as the current language.
+   * 
    */
-  public static void setLanguage(final Language language)
+  public static void setLanguage()
   {
-    Translator.language = language;
+    Translator.language = Language.fromLocale();
   }
   
   /**

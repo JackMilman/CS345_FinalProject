@@ -3,23 +3,22 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
-import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.TextEvent;
-import java.awt.event.TextListener;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import branding.KitchIntelBorder;
 import config.Translator;
+import recipes.Ingredient;
+import recipes.Recipe;
 import recipes.Utensil;
-import utilities.SortLists;
 
 /**
  * A class for the UtensilEditor component of the recipe editor.
@@ -39,19 +38,29 @@ public class UtensilEditor extends JComponent
 
   private final JTextField nameField;
   private final JTextField detailField;
-  private final TextArea utensilDisplay;
+  private final JTable utensilDisplay;
   private final JButton addButton, deleteButton;
-  private final List<Utensil> utensils;
+  private Recipe workingRecipe;
+  private StepEditor stepEditor;
+  private final RecipeEditor parent;
 
   /**
-   * 
+   * Creates a new UtensilEditor.
+   * @param workingRecipe the recipe to edit the utensils of.
+   * @param stepEditor the corresponding StepEditor
+   * @param parent The RecipeEditor which this UtensilEditor belongs to. Required for this to resize
+   * its parent.
    */
-  public UtensilEditor()
+  public UtensilEditor(final Recipe workingRecipe, final StepEditor stepEditor, 
+      final RecipeEditor parent)
   {
     super();
     setLayout(new BorderLayout());
     setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Utensils")));
-    utensils = new ArrayList<Utensil>();
+    
+    this.workingRecipe = workingRecipe;
+    this.stepEditor = stepEditor;
+    this.parent = parent;
 
     UtensilEditorListener listener = new UtensilEditorListener();
 
@@ -83,8 +92,8 @@ public class UtensilEditor extends JComponent
     deleteButton.setActionCommand(RecipeEditor.UTENSIL_DELETE_ACTION_COMMAND);
     add(deleteButton, BorderLayout.EAST);
 
-    utensilDisplay = new TextArea();
-    utensilDisplay.setEditable(false);
+    utensilDisplay = new JTable(new DefaultTableModel(1,1));
+    updateUtensilDisplay();
     add(utensilDisplay, BorderLayout.CENTER);
 
     setVisible(true);
@@ -96,101 +105,88 @@ public class UtensilEditor extends JComponent
       return;
 
     Utensil utensil = new Utensil(nameField.getText(), detailField.getText());
-    utensils.add(utensil);
+    workingRecipe.addUtensil(utensil);
     nameField.setText("");
     detailField.setText("");
 
-    SortLists.sortUtensils(utensils);
-
-    updateText();
+    updateUtensilDisplay();
     
     addButton.setEnabled(false);
-  }
-
-  private void updateText()
-  {
-    String displayText = "";
-
-    for (Utensil utensil : utensils)
-    {
-      displayText += String.format("%s\n", utensil.toString());
-    }
-
-    utensilDisplay.setText(displayText);
-  }
-
-  private void delete()
-  {
-    if (utensils.size() == 0)
-      return;
-
-    int selectionStart = utensilDisplay.getSelectionStart();
-    int linesSelected = 0;
-    int linesSkipped = 0;
-    String selectedText = utensilDisplay.getSelectedText();
-
-    if (selectedText == null || selectedText.length() < 0)
-      return;
-
-    char[] characters = selectedText.toCharArray();
-
-    // counts the number of newline characters to determine the number of lines selected
-    for (char character : characters)
-    {
-      if (character == '\n')
-      {
-        linesSelected++;
-      }
-    }
-
-    // if the last selected character isn't a newline character, then there is one uncounted line.
-    if (characters[characters.length - 1] != '\n')
-      linesSelected++;
-
-    String skipped = utensilDisplay.getText().substring(0, selectionStart);
-
-    char[] skippedChars = skipped.toCharArray();
-
-    for (char skippedChar : skippedChars)
-    {
-      if (skippedChar == '\n')
-        linesSkipped++;
-    }
-
-    for (int i = 0; i < linesSelected; i++)
-    {
-      utensils.remove(linesSkipped);
-    }
-
-    updateText();
+    
+    stepEditor.updateSelects();
   }
 
   /**
-   * Adds a text listener to the text area of the utensil editor.
-   * 
-   * @param listener
-   *          the text listener to add to the display text area.
+   * Updates the JTable which displays the Utensils in this recipe. This must be called whenever the
+   * Utensils of the recipe change.
    */
-  public void addTextListener(final TextListener listener)
+  public void updateUtensilDisplay()
   {
-    utensilDisplay.addTextListener(listener);
-  }
-
-  List<Utensil> getUtensils()
-  {
-    return utensils;
-  }
-
-  void loadUtensils(final List<Utensil> newUtensils)
-  {
-    this.utensils.clear();
-
-    for (Utensil utensil : newUtensils)
+    
+    DefaultTableModel tableModel = new DefaultTableModel(workingRecipe.getUtensils().size(), 1)
     {
-      utensils.add(utensil);
+
+      private static final long serialVersionUID = 1L;
+
+      @Override
+      public boolean isCellEditable(final int row, final int col)
+      {
+        return false;
+      }
+    };
+    
+    utensilDisplay.setModel(tableModel);
+    List<Utensil> utensilsList = workingRecipe.getUtensils();
+
+    for (int i = 0; i < utensilsList.size(); i++)
+    {
+      utensilDisplay.setValueAt(utensilsList.get(i), i, 0);
     }
 
-    updateText();
+    
+    parent.pack();
+  }
+  
+  private void delete() 
+  {
+    if (workingRecipe.getUtensils().size() == 0)
+    {
+      return;
+    }
+
+    int index = utensilDisplay.getSelectedRow();
+        
+    if (index < workingRecipe.getUtensils().size()) 
+    {
+      Utensil utensil = workingRecipe.getUtensils().get(index);
+      
+      workingRecipe.removeUtensil(utensil);
+
+      updateUtensilDisplay();
+    }
+
+    stepEditor.updateSelects();  
+  }
+
+  /**
+   * Returns the utensils in the Recipe being edited by this UtensilEditor.
+   * @return The List of Utensils in the Recipe referenced by this editor.
+   */
+  public List<Utensil> getUtensils()
+  {
+    return workingRecipe.getUtensils();
+  }
+
+  /**
+   * Replaces the Utensils in the Recipe being edited by this UtensilEditor with the given Utensils.
+   * @param newUtensils The Utensils to put in the Recipe being edited by this UtensilEditor.
+   */
+  public void loadUtensils(final List<Utensil> newUtensils)
+  {
+    workingRecipe.getUtensils().clear();
+    workingRecipe.addAllUtensils(newUtensils);    
+
+    updateUtensilDisplay();
   }
 
   private class UtensilEditorListener implements ActionListener
@@ -215,7 +211,7 @@ public class UtensilEditor extends JComponent
   {
 
     @Override
-    public void actionPerformed(ActionEvent e)
+    public void actionPerformed(final ActionEvent e)
     {
       System.out.println("Action performed");
       addButton.setEnabled(false);
@@ -238,5 +234,14 @@ public class UtensilEditor extends JComponent
   {
     addButton.addActionListener(listener);
     deleteButton.addActionListener(listener);
+  }
+  
+  /**
+   * Changes the Recipe which this UtensilEditor edits.
+   * @param recipe The Recipe which this UtensilEditor will now edit.
+   */
+  public void setWorkingRecipe (Recipe recipe) 
+  {
+    this.workingRecipe = recipe;
   }
 }

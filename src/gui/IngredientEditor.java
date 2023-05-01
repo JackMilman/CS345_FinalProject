@@ -4,15 +4,12 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.TextListener;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,7 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import branding.KitchIntelBorder;
 import branding.KitchIntelJDialog;
@@ -31,8 +27,7 @@ import recipes.Ingredient;
 import recipes.NutritionInfo;
 import recipes.Recipe;
 import recipes.Unit;
-import recipes.Utensil;
-import utilities.SortLists;
+
 
 /**
  * Temporary class to make refactoring IngredientEditor easier.
@@ -43,10 +38,15 @@ import utilities.SortLists;
  */
 public class IngredientEditor extends JPanel
 {
-
+  
   // probably move to RecipeEditor
   public static final String SELECT_INGREDIENT = "select_ingredient";
   public static final String MAKE_NEW_INGREDIENT = "make_new_ingredient";
+  
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 1L;
 
   private static final String ADD = "Add";
   private static final String DELETE = "Delete";
@@ -59,21 +59,38 @@ public class IngredientEditor extends JPanel
   private JButton makeNewIngredient;
   private JButton addButton;
   private JButton deleteButton;
-  // private TextArea ingredientDisplay;
   private JTable ingredientDisplay;
+  private Recipe workingRecipe;
+  
+  private final StepEditor stepEditor;
+  private final SubstituteEditor substituteEditor;
+  private final RecipeEditor parent;
 
-  private final Recipe workingRecipe;
-
-  public IngredientEditor(Recipe workingRecipe)
+  /**
+   * Creates an IngredientEditor for the given Recipe.
+   * @param workingRecipe A reference to the Recipe being used by other components of the 
+   * RecipeEditor.
+   * @param stepEditor The corresponding StepEditor in the same RecipeEditor. This will notify the
+   * StepEditor when the list of Ingredients changes.
+   * @param substituteEditor The corresponding SubstitueEditor in the same RecipeEditor. This will
+   * notify the SubstitueEditor when the list of Ingredients changes.
+   * @param parent The RecipeEditor which this is a part of. This will resize the parent when its 
+   * size changes.
+   */
+  public IngredientEditor(final Recipe workingRecipe, final StepEditor stepEditor, 
+      final SubstituteEditor substituteEditor, final RecipeEditor parent)
   {
     super();
 
     this.workingRecipe = workingRecipe;
+    this.stepEditor = stepEditor;
+    this.substituteEditor = substituteEditor;
+    this.parent = parent;
 
     setLayout(new BorderLayout());
     setBorder(KitchIntelBorder.labeledBorder(Translator.translate("Ingredients")));
 
-    IngredientEditorListener listener = new IngredientEditorListener(this);
+    IngredientEditorListener listener = new IngredientEditorListener();
     EnableUpdater addListener = new EnableUpdater();
 
     updateIngredientSelect();
@@ -106,7 +123,7 @@ public class IngredientEditor extends JPanel
     amountField.addActionListener(addListener);
     unitSelect.addActionListener(addListener);
 
-    ingredientDisplay = new JTable(new DefaultTableModel(3, 1));
+    ingredientDisplay = new JTable(new DefaultTableModel(1, 1));
     updateIngredientDisplay();
 
     Container inputFields = new Container();
@@ -178,6 +195,8 @@ public class IngredientEditor extends JPanel
     amountField.setText("");
 
     updateIngredientDisplay();
+    substituteEditor.updateSubstituteSelect();
+    stepEditor.updateSelects();
   }
 
   private void delete()
@@ -189,20 +208,29 @@ public class IngredientEditor extends JPanel
 
     int index = ingredientDisplay.getSelectedRow();
         
-    if (index < workingRecipe.getIngredients().size()) {
+    if (index < workingRecipe.getIngredients().size()) 
+    {
       Ingredient ingredient = workingRecipe.getIngredients().get(index);
       
       workingRecipe.removeIngredient(ingredient);
-      
+
       updateIngredientDisplay();
     }
 
+    stepEditor.updateSelects();
+    substituteEditor.updateSubstituteSelect();
+    
   }
 
-  void updateIngredientDisplay()
+  /**
+   * Updates the JTable which displays ingredients. If ingredients have been added since the last 
+   * call to this method, the size of the JTable will be increased. This method should be called 
+   * every time the Ingredients in the recipe changes.
+   */
+  public void updateIngredientDisplay()
   {
-    DefaultTableModel tableModel = new DefaultTableModel(workingRecipe.getIngredients().size() + 1,
-        1)
+    
+    DefaultTableModel tableModel = new DefaultTableModel(workingRecipe.getIngredients().size(), 1)
     {
 
       private static final long serialVersionUID = 1L;
@@ -213,7 +241,7 @@ public class IngredientEditor extends JPanel
         return false;
       }
     };
-
+    
     ingredientDisplay.setModel(tableModel);
     List<Ingredient> ingredientsList = workingRecipe.getIngredients();
 
@@ -222,6 +250,7 @@ public class IngredientEditor extends JPanel
       ingredientDisplay.setValueAt(ingredientsList.get(i), i, 0);
     }
 
+    parent.pack();
   }
 
   List<Ingredient> getIngredients()
@@ -230,53 +259,36 @@ public class IngredientEditor extends JPanel
   }
 
   /**
-   * Adds a text listener to the text area of the ingredient editor.
-   * 
-   * @param listener
-   *          the text listener to add to the display text area.
+   * ActionListener for the Add and Delete buttons.
+   * @author Josiah Leach
+   *
    */
-  public void addTextListener(final TextListener listener)
-  {
-    // TODO refactor for JTable
-  }
-
   private class IngredientEditorListener implements ActionListener
   {
-
-    private final IngredientEditor subject;
-
-    IngredientEditorListener(final IngredientEditor subject)
-    {
-      this.subject = subject;
-    }
-
     @Override
     public void actionPerformed(final ActionEvent e)
     {
-
-      // if (e.getActionCommand().equals(SELECT_INGREDIENT))
-      // {
-      //
-      // }
-      // else
       if (e.getActionCommand().equals(MAKE_NEW_INGREDIENT))
       {
-        MakeNewIngredientEditor makeNew = new MakeNewIngredientEditor();
+        new MakeNewIngredientEditor();
         updateIngredientSelect();
       }
       else if (e.getActionCommand().equals(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND))
       {
-        subject.add();
+        add();
       }
       else if (e.getActionCommand().equals(RecipeEditor.INGREDIENT_DELETE_ACTION_COMMAND))
       {
-        subject.delete();
+        delete();
       }
-
     }
-
   }
 
+  /**
+   * ActionListener which controls the enabling and disabling of the add button.
+   * @author Josiah Leach
+   *
+   */
   private class EnableUpdater implements ActionListener
   {
 
@@ -305,7 +317,7 @@ public class IngredientEditor extends JPanel
   public void addChangeListener(final ActionListener listener)
   {
     addButton.addActionListener(listener);
-    deleteButton.addActionListener(listener);
+    deleteButton.addActionListener(listener);    
   }
 
   void loadIngredients(final List<Ingredient> newIngredients)
@@ -324,6 +336,11 @@ public class IngredientEditor extends JPanel
    */
   private class MakeNewIngredientEditor extends KitchIntelJDialog
   {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
 
     private static final String DESC = "Make New Ingredient";
 
@@ -420,4 +437,14 @@ public class IngredientEditor extends JPanel
       }
     }
   }
+  
+  /**
+   * Sets the Recipe which this IngredientEditor is editing.
+   * @param workingRecipe The Recipe for this IngredientEditor to edit.
+   */
+  public void setWorkingRecip(Recipe workingRecipe)
+  {
+    this.workingRecipe = workingRecipe;
+  }
+  
 }
