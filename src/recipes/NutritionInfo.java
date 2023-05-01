@@ -121,14 +121,17 @@ public class NutritionInfo
    *          the caloriesPerGram for the ingredient
    * @param density
    *          the gramPerML for the ingredient
+   * @return returns whether the Map was changed as a result of this operation
    */
 
-  public static void addIngredient(final String name, final Double calories, final Double density)
+  public static boolean addIngredient(final String name, final Double calories,
+      final Double density)
   {
     if (!NUTRITION_MAP.containsKey(name.toLowerCase()))
     {
-      NUTRITION_MAP.put(name.toLowerCase(), new CalorieGram(calories, density));
+      return NUTRITION_MAP.put(name.toLowerCase(), new CalorieGram(calories, density)) == null;
     }
+    return false;
   }
 
   /**

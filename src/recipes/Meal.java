@@ -135,21 +135,20 @@ public class Meal implements Serializable
   {
     return recipes.size();
   }
-
+  
   /**
-   * Get the total calories in the meal.
+   * Calculates the total number of calories in the meal by totaling each recipe's calorie count.
    * 
-   * @return total calories
+   * @return the total number of calories in the meal
    */
-  public double getCaloriesPerGram()
+  public double calculateCalories()
   {
-    double totalCalories = 0;
-    for (Recipe individual : recipes)
+    double calories = 0;
+    for (Recipe recipe : recipes)
     {
-      totalCalories += individual.calculateCalories();
-
+      calories += recipe.calculateCalories();
     }
-    return totalCalories;
+    return calories;
   }
 
   /**
@@ -198,21 +197,6 @@ public class Meal implements Serializable
     in.close();
 
     return meal;
-  }
-
-  /**
-   * Calculates the total number of calories in the meal by totaling each recipe's calorie count.
-   * 
-   * @return the total number of calories in the meal
-   */
-  public double calculateCalories()
-  {
-    double calories = 0;
-    for (Recipe recipe : recipes)
-    {
-      calories += recipe.calculateCalories();
-    }
-    return calories;
   }
 
 }

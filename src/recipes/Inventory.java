@@ -1,8 +1,8 @@
 package recipes;
 
+
 import java.util.ArrayList;
 import java.util.List;
-
 import utilities.UnitConversion;
 
 /**
@@ -180,9 +180,6 @@ public class Inventory
     return false;
   }
 
-  // This method should not return the actual list used in the Inventory. The entire point of the
-  // Singleton pattern and making the list private is so that modification of the Inventory can
-  // only happen inside of this class with its approved methods. - Jack, 4/24
   
   /**
    * Returns a copy of the ingredientList at the moment of invocation. Does not allow for the actual
@@ -195,5 +192,4 @@ public class Inventory
     // This method ABSOLUTELY MUST return a copy of the ingredients list, not the list itself
     return new ArrayList<Ingredient>(ingredients);
   }
-
 }

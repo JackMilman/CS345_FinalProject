@@ -16,18 +16,17 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
-import branding.KitchIntelJFrame;
 import config.Translator;
 import recipes.Ingredient;
 import recipes.Inventory;
 import recipes.NutritionInfo;
 import recipes.Unit;
 
-public class InventoryWindow extends KitchIntelJFrame
+public class InventoryWindow extends Editor
 {
   private static final long serialVersionUID = 1L;
   private static final int DEFAULT_TEXT_FIELD_WIDTH = 8;
-  public Inventory inventory = Inventory.createInstance();
+  public Inventory inventory;
 
   private JComboBox<String> ingredientName;
   private JTextField ingredientDetails = new JTextField(DEFAULT_TEXT_FIELD_WIDTH);
@@ -39,20 +38,22 @@ public class InventoryWindow extends KitchIntelJFrame
 //      "FLUID OUNCE", "CUP", "PINT", "QUART", "GALLON", "MILLILITER"};
   private JComboBox<String> ingredientUnit = new JComboBox<String>();
 
-  JButton addButton = new JButton();
-  JButton subButton = new JButton();
-  JTextArea inventoryPanel = new JTextArea(25, 70);
-  JScrollPane scrollPane = new JScrollPane(inventoryPanel);
+  private JButton addButton = new JButton();
+  private JButton subButton = new JButton();
+  private JTextArea inventoryPanel = new JTextArea(25, 70);
+  private JScrollPane scrollPane = new JScrollPane(inventoryPanel);
 
-  String name;
-  String details;
-  double amount;
-  Unit unit;
-  Ingredient inventoryItem;
+  private String name;
+  private String details;
+  private double amount;
+  private Unit unit;
+  private Ingredient inventoryItem;
 
   public InventoryWindow(final Window main)
   {
-    super(Translator.translate("KiLowBites Inventory"));
+
+    super(main, Translator.translate("KiLowBites Inventory"));
+    inventory = Inventory.createInstance();
     setUp();
     setDefaultCloseOperation(HIDE_ON_CLOSE);
   }
@@ -128,8 +129,6 @@ public class InventoryWindow extends KitchIntelJFrame
     infoContainer.setLayout(new BorderLayout());
     inventoryPanel.setText("");
     for (Ingredient info : inventory.getIngredientList())
-//      inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
-//          + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
       inventoryPanel.append(info.toString() + "\n");
     infoContainer.add(scrollPane, BorderLayout.WEST);
     return infoContainer;
@@ -169,8 +168,6 @@ public class InventoryWindow extends KitchIntelJFrame
       addButton.setEnabled(false);
       subButton.setEnabled(false);
       for (Ingredient info : inventory.getIngredientList())
-//        inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
-//            + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
         inventoryPanel.append(info.toString() + "\n");
       amountItems.setText(String.format("%d", inventory.size()));
       amountItems.setEnabled(true);
@@ -196,10 +193,16 @@ public class InventoryWindow extends KitchIntelJFrame
       addButton.setEnabled(false);
       subButton.setEnabled(false);
       for (Ingredient info : inventory.getIngredientList())
-//        inventoryPanel.append(String.format(info.getName() + " " + info.getDetails() + " "
-//            + info.getAmount() + " " + info.getUnit().getName().toLowerCase() + "\n"));
         inventoryPanel.append(info.toString() + "\n");
-
+      amountItems.setText(String.format("%d", inventory.size()));
     }
   }
+
+  @Override
+  public void enableEditing(boolean editable)
+  {
+    // TODO Auto-generated method stub
+    
+  }
+
 }
