@@ -206,7 +206,10 @@ public class Recipe implements Serializable
    */
   public boolean addRecipe(final Recipe recipe)
   {
-    return subRecipes.add(recipe);
+    if (recipe != this) {
+      return subRecipes.add(recipe);
+    }
+    return false;
   }
 
   /**
@@ -411,15 +414,11 @@ public class Recipe implements Serializable
   public List<Ingredient> getIngredients()
   {
     List<Ingredient> compositeList = new ArrayList<Ingredient>();
-    compositeList.addAll(ingredients);
-    return compositeList;
-  }
-  public List<Ingredient> subRecipeGetIngredients(){
-    List<Ingredient> compositeList = new ArrayList<Ingredient>();
     for (Recipe subRecipe : subRecipes)
     {
       compositeList.addAll(subRecipe.getIngredients());
     }
+    compositeList.addAll(ingredients);
     return compositeList;
   }
 
@@ -431,16 +430,11 @@ public class Recipe implements Serializable
   public List<Utensil> getUtensils()
   {
     List<Utensil> compositeList = new ArrayList<Utensil>();
-    compositeList.addAll(utensils);
-    return compositeList;
-  }
-  
-  public List<Utensil> subRecipeGetUtensils(){
-    List<Utensil> compositeList = new ArrayList<Utensil>();
     for (Recipe subRecipe : subRecipes)
     {
       compositeList.addAll(subRecipe.getUtensils());
     }
+    compositeList.addAll(utensils);
     return compositeList;
   }
 
