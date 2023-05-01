@@ -390,16 +390,10 @@ public class Recipe implements Serializable
   }
 
   /**
-<<<<<<< HEAD
    * Gets the number of individual substitutions in the Recipe. This attribute is modified by the
    * add and remove substitutes methods.
    * 
    * @return the number of substitutes in the recipe
-=======
-   * Get the number of substitutes.
-   * 
-   * @return number of substitutes
->>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A
    */
   public int getNumSubstitutes()
   {
