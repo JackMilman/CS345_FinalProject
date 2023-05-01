@@ -7,7 +7,7 @@ import java.io.Serializable;
  * (i.e. how it is used and what it looks like).
  * 
  * @version 3/28/2023 Version 1
- * @author Jack Milman, KichIntel
+ * @author Jack Milman, KitchIntel
  *
  */
 public class Utensil implements Serializable
