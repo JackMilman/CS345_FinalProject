@@ -68,6 +68,7 @@ public class UtensilEditor extends JComponent
     nameField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     detailField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
     nameField.addActionListener(updateListener);
+    detailField.addActionListener(updateListener);
 
     addButton = new JButton(Translator.translate(ADD));
     addButton.setActionCommand(RecipeEditor.UTENSIL_ADD_ACTION_COMMAND);
