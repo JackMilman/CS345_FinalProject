@@ -1,8 +1,9 @@
 package gui;
 
 import java.awt.BorderLayout;
-
+import java.awt.Component;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -26,6 +27,7 @@ import config.Translator;
 public class MainWindow extends KitchIntelJFrame implements Runnable
 {
   private static final long serialVersionUID = 1L;
+  private static ArrayList<Component> allCreatedWindows = new ArrayList<>();
 
   /**
    * 
@@ -37,6 +39,14 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
       throws InvocationTargetException, InterruptedException
   {
     SwingUtilities.invokeAndWait(new MainWindow());
+  }
+  
+  public static void addNewWindow(Component window) {
+    allCreatedWindows.add(window);
+  }
+  
+  public static ArrayList<Component> getAllCreatedWindows(){
+    return allCreatedWindows;
   }
 
   @Override

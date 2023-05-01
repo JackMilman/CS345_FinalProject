@@ -85,25 +85,25 @@ public class KiLowBitesController implements ActionListener
     // Open RecipeEditor
     if (e.getActionCommand().equals(RECIPE))
     {
-      new RecipeEditor(main);
+      MainWindow.addNewWindow(new RecipeEditor(main));
     }
 
     // Open Meal Editor
     if (e.getActionCommand().equals(MEAL))
     {
-      new MealEditor(main);
+      MainWindow.addNewWindow(new MealEditor(main));
     }
 
     // Open Unit Converter Window
     if (e.getActionCommand().equals(UNITSCONVERTER))
     {
-      UnitConversionWindow.getUnitConversionWindow();
+      MainWindow.addNewWindow(UnitConversionWindow.getUnitConversionWindow());
     }
 
     // Open Calorie Calculator Window
     if (e.getActionCommand().equals(CALORIECALCULATOR))
     {
-      CalorieCalculatorWindow.getCalorieCalculatorWindow();
+      MainWindow.addNewWindow(CalorieCalculatorWindow.getCalorieCalculatorWindow());
     }
 
     // Open ShoppingListViewer
@@ -114,11 +114,11 @@ public class KiLowBitesController implements ActionListener
       // check the extension of the file, call the corresponding type: meal or recipe
       if (recipe != null)
       {
-        new ShoppingListViewer(recipe);
+        MainWindow.addNewWindow(new ShoppingListViewer(recipe));
       }
       else if (meal != null)
       {
-        new ShoppingListViewer(meal);
+        MainWindow.addNewWindow(new ShoppingListViewer(meal));
       }
     }
 
@@ -129,24 +129,24 @@ public class KiLowBitesController implements ActionListener
       // check the extension of the file, call the corresponding type: meal or recipe
       if (recipe != null)
       {
-        new ProcessViewer(recipe);
+        MainWindow.addNewWindow(new ProcessViewer(recipe));
       }
       else if (meal != null)
       {
-        new ProcessViewer(meal);
+        MainWindow.addNewWindow(new ProcessViewer(meal));
       }
     }
 
     // Open InventoryViewer
     if (e.getActionCommand().equals(INVENTORY))
     {
-      new InventoryWindow(main);
+      MainWindow.addNewWindow(new InventoryWindow(main));
     }
 
     // open calorie calculator
     if (e.getActionCommand().equals(CALORIECALCULATOR))
     {
-      CalorieCalculatorWindow.getCalorieCalculatorWindow();
+      MainWindow.addNewWindow(CalorieCalculatorWindow.getCalorieCalculatorWindow());
     }
 
     // open the User Guide in a browser
@@ -177,7 +177,7 @@ public class KiLowBitesController implements ActionListener
     // open preferences
     if (e.getActionCommand().equals(PREFERENCES))
     {
-      new PreferenceWindow(main);
+      MainWindow.addNewWindow(new PreferenceWindow());
     }
     // open shortcuts
     if (e.getActionCommand().equals("Shortcuts"))

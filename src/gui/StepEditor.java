@@ -166,17 +166,18 @@ public class StepEditor extends JComponent
     }
     if (on.startsWith("*"))
     {
-      try
-      {
-        Recipe objectIngredient = Recipe.read(fileName);
-        Step step = new Step(action, objectIngredient, sourceUtensil, destinationUtensil, details,
+        Recipe objectRecipe = null;
+        for (int i = 0; i < workingRecipe.getSubRecipes().size(); i++)
+        {
+          if (on.equals(workingRecipe.getSubRecipes().get(i).getName()))
+          {
+            objectRecipe = workingRecipe.getSubRecipes().get(i);
+          }
+
+        }
+        Step step = new Step(action, objectRecipe, sourceUtensil, destinationUtensil, details,
             time);
         workingRecipe.addStep(step);
-      }
-      catch (IOException e1)
-      {
-        e1.printStackTrace();
-      }
     }
     else
     {
@@ -273,7 +274,8 @@ public class StepEditor extends JComponent
 
     for (Recipe info : workingRecipe.getSubRecipes())
     {
-      onSelect.addItem("*" + info.getName());
+      info.setName("*" + info.getName());
+      onSelect.addItem(info.getName());
     }
 
   }
