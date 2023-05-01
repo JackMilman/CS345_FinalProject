@@ -292,23 +292,6 @@ public class Recipe implements Serializable
     return utensils.remove(utensil);
   }
 
-  private boolean stepUsesUtensil(final Utensil utensil)
-  {
-    for (Step step : steps)
-    {
-      Utensil source = step.getSource();
-      Utensil destination = step.getDestination();
-
-      if ((source != null && source.equals(utensil))
-          || (destination != null && destination.equals(utensil)))
-      {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
   /**
    * Attempts to add a step to the list of steps. A step cannot be added if it has an Ingredient or
    * Utensils that are not in the recipe already.
@@ -452,7 +435,7 @@ public class Recipe implements Serializable
     return compositeList;
   }
   
-  public List<Utensil> subRecipegetUtensils(){
+  public List<Utensil> subRecipeGetUtensils(){
     List<Utensil> compositeList = new ArrayList<Utensil>();
     for (Recipe subRecipe : subRecipes)
     {
@@ -561,6 +544,23 @@ public class Recipe implements Serializable
     for (Step step : steps)
     {
       if (step.getIngredient() != null && step.getIngredient().equals(ingredient))
+      {
+        return true;
+      }
+    }
+
+    return false;
+  }
+  
+  private boolean stepUsesUtensil(final Utensil utensil)
+  {
+    for (Step step : steps)
+    {
+      Utensil source = step.getSource();
+      Utensil destination = step.getDestination();
+
+      if ((source != null && source.equals(utensil))
+          || (destination != null && destination.equals(utensil)))
       {
         return true;
       }

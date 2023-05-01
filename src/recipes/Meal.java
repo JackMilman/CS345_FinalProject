@@ -18,7 +18,7 @@ import java.util.List;
 public class Meal implements Serializable
 {
   private static final long serialVersionUID = 1L;
-  private static final String FILEEXT = ".mel";
+  private static final String FILE_EXT = ".mel";
   private String name;
   private List<Recipe> recipes = new ArrayList<Recipe>();
   private int serving;
@@ -161,7 +161,7 @@ public class Meal implements Serializable
    */
   public void write(final String fileName) throws IOException
   {
-    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName + FILEEXT));
+    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName + FILE_EXT));
 
     out.writeObject(this);
     out.flush();
@@ -181,7 +181,7 @@ public class Meal implements Serializable
    */
   public static Meal read(final String fileName) throws IOException
   {
-    ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName + FILEEXT));
+    ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName + FILE_EXT));
 
     Meal meal;
 

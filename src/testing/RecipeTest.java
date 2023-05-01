@@ -1,8 +1,10 @@
 package testing;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -12,6 +14,7 @@ import recipes.Recipe;
 import recipes.Step;
 import recipes.Unit;
 import recipes.Utensil;
+import utilities.SortLists;
 
 /**
  * Test cases for the Recipe class.
@@ -333,5 +336,102 @@ class RecipeTest
 
     List<Step> actual = recipe.getSteps();
     assertEquals(expected, actual);
+  }
+  
+  @Test
+  public void testAddAndRemoveWithSubstitutes()
+  {
+    Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50, ingredientUnit);
+    Ingredient ingredient2 = new Ingredient(ingredientName2, ingredientDetails, 50, ingredientUnit);
+    Ingredient ingredient3 = new Ingredient(ingredientName3, ingredientDetails, 50, ingredientUnit);
+    Ingredient substitute = new Ingredient("substitute", ingredientDetails, 50, ingredientUnit);
+
+    List<Ingredient> expected = new ArrayList<Ingredient>();
+    expected.add(ingredient1);
+    expected.add(ingredient2);
+
+    Recipe recipe = new Recipe(recipeNameValid, 500);
+    recipe.addIngredient(ingredient1);
+    recipe.addIngredient(ingredient2);
+    recipe.addSubstitute(ingredient2, substitute);
+    assertFalse(recipe.removeIngredient(ingredient2));
+    recipe.addIngredient(ingredient3);
+    recipe.removeIngredient(ingredient3);
+
+    List<Ingredient> actual = recipe.getIngredients();
+    assertEquals(expected, actual);
+  }
+  
+  @Test
+  public void testAddAllMethods() {
+    Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50, ingredientUnit);
+    Ingredient ingredient2 = new Ingredient(ingredientName2, ingredientDetails, 50, ingredientUnit);
+    Ingredient ingredient3 = new Ingredient(ingredientName3, ingredientDetails, 50, ingredientUnit);
+    Ingredient substitute1 = new Ingredient("substitute1", ingredientDetails, 50, ingredientUnit);
+    Ingredient substitute2 = new Ingredient("substitute2", ingredientDetails, 50, ingredientUnit);
+    Ingredient substitute3 = new Ingredient("substitute3", ingredientDetails, 50, ingredientUnit);
+    Ingredient substitute4 = new Ingredient("substitute4", ingredientDetails, 50, ingredientUnit);
+    Ingredient substitute5 = new Ingredient("substitute5", ingredientDetails, 50, ingredientUnit);
+    Utensil utensil1 = new Utensil(utensilName1, utensilDetails);
+    Utensil utensil2 = new Utensil(utensilName2, utensilDetails);
+    Utensil utensil3 = new Utensil(utensilName3, utensilDetails);
+    
+    List<Ingredient> expectedIngr = new ArrayList<Ingredient>();
+    expectedIngr.add(ingredient1);
+    expectedIngr.add(ingredient2);
+    expectedIngr.add(ingredient3);
+    
+    List<Ingredient> ingredients = new ArrayList<Ingredient>();
+    ingredients.add(ingredient1);
+    ingredients.add(ingredient2);
+    ingredients.add(ingredient3);
+    
+    HashMap<Ingredient, List<Ingredient>> substitutes = new HashMap<Ingredient, List<Ingredient>>();
+    substitutes.put(ingredient1, new ArrayList<Ingredient>());
+    substitutes.put(ingredient2, new ArrayList<Ingredient>());
+    substitutes.put(ingredient3, new ArrayList<Ingredient>());
+    substitutes.get(ingredient1).add(substitute1);
+    substitutes.get(ingredient1).add(substitute2);
+    substitutes.get(ingredient2).add(substitute3);
+    substitutes.get(ingredient3).add(substitute4);
+    substitutes.get(ingredient3).add(substitute5);
+    
+    List<Ingredient> expectedSub = new ArrayList<Ingredient>();
+    expectedSub.add(substitute1);
+    expectedSub.add(substitute2);
+    expectedSub.add(substitute3);
+    expectedSub.add(substitute4);
+    expectedSub.add(substitute5);
+    
+    List<Utensil> utensils = new ArrayList<Utensil>();
+    utensils.add(utensil1);
+    utensils.add(utensil2);
+    utensils.add(utensil3);
+    
+    List<Utensil> expectedUtensil = new ArrayList<Utensil>();
+    expectedUtensil.add(utensil1);
+    expectedUtensil.add(utensil2);
+    expectedUtensil.add(utensil3);
+    
+    
+    Recipe recipe = new Recipe(recipeNameValid, 500);
+    recipe.addAllIngredients(ingredients);
+    assertEquals(expectedIngr, recipe.getIngredients());
+    recipe.addAllSubstitutes(substitutes);
+    HashMap<Ingredient, List<Ingredient>> actualSubMap = recipe.getSubstitutes();
+    List<Ingredient> actualSubs = new ArrayList<Ingredient>();
+    for (Ingredient key : actualSubMap.keySet()) {
+      actualSubs.addAll(actualSubMap.get(key));
+    }
+    SortLists.sortIngredients(actualSubs);
+    assertEquals(expectedSub, actualSubs);
+    recipe.addAllUtensils(utensils);
+    assertEquals(expectedUtensil, recipe.getUtensils());
+  }
+  
+  @Test
+  public void testToString() {
+    Recipe recipe = new Recipe(recipeNameValid, 500);
+    assertEquals(recipeNameValid, recipe.toString());
   }
 }
