@@ -23,6 +23,11 @@ public class Inventory
     exists = true;
   }
 
+  /**
+   * Create an instance of the Inventory.
+   * 
+   * @return inventory
+   */
   public static Inventory createInstance()
   {
     if (!exists)

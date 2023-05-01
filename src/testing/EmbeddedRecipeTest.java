@@ -1,6 +1,7 @@
 package testing;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import recipes.Ingredient;
 import recipes.NutritionInfo;
 import recipes.Recipe;
 import recipes.Unit;
+import recipes.Utensil;
 
 @TestInstance(Lifecycle.PER_CLASS)
 class EmbeddedRecipeTest
@@ -28,11 +30,11 @@ class EmbeddedRecipeTest
   private final String ingredientName3 = "RABDOM";
   private final String ingredientName4 = "Real Ingredient";
 
-  private final String utensilName1 = "Spoon";
-  private final String utensilNameDest = "NamedUtensilDestination";
+  private final String utensilName1 = "utensilName1";
+  private final String utensilName2 = "utensilName2";
+  private final String utensilName3 = "utensilName3";
+  private final String utensilName4 = "utensilName4";
   private final String utensilDetails = "Basic Details for a Utensil";
-  private final String utensilName2 = "Fork";
-  private final String utensilName3 = "Knife";
 
   private final Ingredient ingredient1 = new Ingredient(ingredientName1, ingredientDetails, 50,
       ingredientUnit);
@@ -43,6 +45,14 @@ class EmbeddedRecipeTest
   // Total calories: 50 * 10.0 = 500
   private final Ingredient ingredient4 = new Ingredient(ingredientName4, ingredientDetails, 50,
       ingredientUnit2);
+  
+  private final Utensil utensil1 = new Utensil(utensilName1, utensilDetails);
+  
+  private final Utensil utensil2 = new Utensil(utensilName2, utensilDetails);
+  
+  private final Utensil utensil3 = new Utensil(utensilName3, utensilDetails);
+  
+  private final Utensil utensil4 = new Utensil(utensilName4, utensilDetails);
 
   @BeforeAll
   public void addIngredient4ToMap()
@@ -93,6 +103,28 @@ class EmbeddedRecipeTest
     assertNotEquals(expected, composite.getIngredients());
     composite.addIngredient(ingredient4);
     assertEquals(expected, composite.getIngredients());
+  }
+  
+  @Test
+  public void testGetUtensils() {
+    Recipe composite = new Recipe(recipeNameValid, 1);
+
+    List<Utensil> expected = new ArrayList<Utensil>();
+    expected.add(utensil1);
+    expected.add(utensil2);
+    expected.add(utensil3);
+    expected.add(utensil4);
+
+    Recipe recipe = new Recipe(recipeNameValid, 500);
+    recipe.addUtensil(utensil1);
+    recipe.addUtensil(utensil2);
+    recipe.addUtensil(utensil3);
+
+
+    composite.addRecipe(recipe);
+    assertNotEquals(expected, composite.getUtensils());
+    composite.addUtensil(utensil4);
+    assertEquals(expected, composite.getUtensils());
   }
 
   @Test

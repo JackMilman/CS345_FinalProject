@@ -1,16 +1,19 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.event.KeyAdapter;
+
 import java.lang.reflect.InvocationTargetException;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.SwingUtilities;
 
 import branding.KitchIntelJFrame;
 import branding.KitchIntelMenuBar;
 import branding.Logo;
-import config.Language;
 import config.Translator;
 
 /**
@@ -133,16 +136,16 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
 //    JMenuItem nutrition = new JMenuItem(Translator.translate("Nutrition"));
 //    configure.add(nutrition);
 
-//    // Help items
-//    JMenu help = new JMenu(Translator.translate("Help"));
-//    menuBar.add(help);
+    // Help items
+    JMenu help = new JMenu(Translator.translate("Help"));
+    menuBar.add(help);
 //    // JMenuItem about = new JMenuItem(Translator.translate("About"));
 //    // help.add(about);
-//    // Open the user guide in the default browser
-//    JMenuItem userGuide = new JMenuItem(Translator.translate("User Guide"));
-//    help.add(userGuide);
-//    userGuide.addActionListener(controller);
-//    userGuide.setActionCommand("User Guide");
+    // Open the user guide in the default browser
+    JMenuItem userGuide = new JMenuItem(Translator.translate("User Guide"));
+    help.add(userGuide);
+    userGuide.addActionListener(controller);
+    userGuide.setActionCommand("User Guide");
 
     // add the company logo to the window
     // Josiah's changes:
@@ -152,6 +155,8 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     // ImageIcon logo = new ImageIcon(PATH);
     // JLabel logoLabel = new JLabel(logo);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
+    
     setVisible(true);
   }
+
 }

@@ -2,6 +2,7 @@ package config;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Scanner;
 
@@ -20,6 +21,7 @@ public enum Language
   
   private Map<String, String> translations;
   
+  
   private Language(){}
   
   /**
@@ -36,6 +38,7 @@ public enum Language
    */
   public static void loadLanguages()
   {
+        
     for(Language language : values())
     {
       language.translations = new HashMap<String, String>();
@@ -50,7 +53,7 @@ public enum Language
     catch(IOException ioe)
     {
       scanner = new Scanner("");
-      System.out.println("This line of code should not have been executed.");
+      ioe.printStackTrace();
     }
     
     while(scanner.hasNextLine())
@@ -108,5 +111,17 @@ public enum Language
     }
     
     return English;
+  }
+  
+  /**
+   * Gets the language from the virtual machine's locale.
+   * @return Language.FRENCH, or Language.SPANISH, if that is the Locale's language, 
+   * Language.ENGLISH otherwise.
+   */
+  public static Language fromLocale()
+  {
+    Locale locale = Locale.getDefault();
+    
+    return fromString(locale.getDisplayLanguage(Locale.ENGLISH));
   }
 }

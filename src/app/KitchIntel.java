@@ -1,16 +1,9 @@
 package app;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Properties;
 
 import javax.swing.SwingUtilities;
 
-import config.Language;
 import config.Translator;
 import gui.MainWindow;
 
@@ -30,17 +23,8 @@ public class KitchIntel
   public static void main (final String[] args) 
       throws InvocationTargetException, InterruptedException
   {
-
-    try
-    {
-      String language = Files.readString(Path.of("language.cfg"));
-      Translator.setLanguage(Language.fromString(language));
-    }
-    catch(IOException ioe)
-    {
-      Translator.setLanguage(Language.English);
-    }
+    Translator.setLanguage();
+    
     SwingUtilities.invokeAndWait(new MainWindow());
-
   }
 }

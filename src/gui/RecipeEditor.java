@@ -8,23 +8,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import branding.KitchIntelColor;
 import config.Translator;
-import recipes.Ingredient;
 import recipes.Recipe;
-import recipes.Step;
-import recipes.Utensil;
 
 /**
  * 
@@ -74,7 +68,7 @@ public class RecipeEditor extends Editor
     super(owner, Translator.translate("KiLowBites Recipe Editor"));
     setLayout(new BorderLayout());
 
-    workingRecipe = new Recipe(null, 0);
+    workingRecipe = new Recipe("New Recipe", 0);
 
     ActionListener listener = new RecipeEditorListener();
     ActionListener cListener = new ChangeListener();
@@ -84,12 +78,13 @@ public class RecipeEditor extends Editor
     nameField.setColumns(DEFAULT_TEXT_FIELD_WIDTH);
     servingsField.setColumns(DEFAULT_TEXT_FIELD_WIDTH);
 
-    utensilEditor = new UtensilEditor();
-    ingredientEditor = new IngredientEditor(workingRecipe);
-    substituteEditor = new SubstituteEditor(workingRecipe);
-    // TODO: change stepEditor to use workingRecipe
-    stepEditor = new StepEditor(utensilEditor.getUtensils(), ingredientEditor.getIngredients());
+    stepEditor = new StepEditor(workingRecipe, this);
+    utensilEditor = new UtensilEditor(workingRecipe, stepEditor, this);
+    substituteEditor = new SubstituteEditor(workingRecipe, this);
+    ingredientEditor = new IngredientEditor(workingRecipe, stepEditor, substituteEditor, this);
 
+    enableEditing(false);
+    
     // Sets up action listener stuff for file manipulation
     newButton.setActionCommand(NEW_BUTTON_ACTION_COMMAND);
     openButton.setActionCommand(OPEN_BUTTON_ACTION_COMMAND);
@@ -102,9 +97,6 @@ public class RecipeEditor extends Editor
     saveAsButton.addActionListener(listener);
     closeButton.addActionListener(listener);
 
-    utensilEditor.addTextListener(stepEditor);
-    ingredientEditor.addTextListener(stepEditor);
-
     // Change listeners for when the file is being changed, i.e. when we add a new ingredient or add
     // a new step or something. This will affect the ability to save or edit the document,
     // specifically the buttons at the top.
@@ -114,8 +106,8 @@ public class RecipeEditor extends Editor
     stepEditor.addChangeListener(cListener);
     nameField.addActionListener(cListener);
     servingsField.addActionListener(cListener);
-    nameField.addActionListener(listener);
-    servingsField.addActionListener(listener);
+    nameField.addActionListener(cListener);
+    servingsField.addActionListener(cListener);
 
     // Sets up all of the little editors in the layout of the window
     Container mainEditors = new Container();
@@ -158,16 +150,29 @@ public class RecipeEditor extends Editor
     setVisible(true);
     setResizable(true);
     pack();
+    
   }
   
-  void updateEditors() {
+  private void updateEditors() 
+  {
     nameField.setText(workingRecipe.getName());
     servingsField.setText(workingRecipe.getServings() + "");
-    utensilEditor.loadUtensils(workingRecipe.getUtensils());
-    utensilEditor.loadUtensils(workingRecipe.getUtensils());
+    
+    utensilEditor.setWorkingRecipe(workingRecipe);
+    utensilEditor.updateUtensilDisplay();
+    
+    ingredientEditor.setWorkingRecip(workingRecipe);
     ingredientEditor.updateIngredientDisplay();
+    
+    substituteEditor.setWorkingRecipe(workingRecipe);
     substituteEditor.updateSubstituteDisplay();
-    stepEditor.loadSteps(workingRecipe.getSteps());
+    substituteEditor.updateSubstituteSelect();
+    
+    stepEditor.setWorkingRecipe(workingRecipe);
+    stepEditor.updateSelects();
+    stepEditor.updateStepDisplay();
+    
+    pack();
   }
 
   private void loadRecipe(final Recipe recipe, final String fileName)
@@ -188,8 +193,8 @@ public class RecipeEditor extends Editor
 
   private void newButton()
   {
-    new RecipeEditor(owner);
-
+    state = DocumentState.UNCHANGED;
+    
     updateButtons();
   }
 
@@ -234,21 +239,7 @@ public class RecipeEditor extends Editor
     String newFileName;
     newFileName = JOptionPane.showInputDialog(Translator.translate("File name") + ":");
 
-    try
-    {
-      workingRecipe.write(newFileName);
-
-      fileName = newFileName;
-
-      state = DocumentState.UNCHANGED;
-
-      updateButtons();
-    }
-    catch (IOException ioe)
-    {
-      ioe.printStackTrace();
-      JOptionPane.showMessageDialog(null, ERROR_MESSAGE);
-    }
+    saveAs(newFileName);
   }
 
   /**
@@ -263,10 +254,36 @@ public class RecipeEditor extends Editor
     }
     if (fileName == null)
       saveAs();
+
+    saveAs(fileName);
+  }
+  
+  /**
+   * helper method for the two save methods.
+   * @param newFileName The name to save the file as.
+   */
+  private void saveAs(final String newFileName)
+  {
+    workingRecipe.setName(nameField.getText());
+    
     try
     {
+      workingRecipe.setServings(Integer.valueOf(servingsField.getText()));
+    }
+    catch (NumberFormatException nfe)
+    {
+      JOptionPane.showMessageDialog(null,  Translator.translate("Servings must be a whole number"));
+    }
+    
+    try
+    {
+      
+      fileName = newFileName;
+
       workingRecipe.write(fileName);
+
       state = DocumentState.UNCHANGED;
+
       updateButtons();
     }
     catch (IOException ioe)
@@ -276,6 +293,11 @@ public class RecipeEditor extends Editor
     }
   }
 
+  /**
+   * ActionListener for the top buttons.
+   * @author Josiah Leach
+   *
+   */
   private class RecipeEditorListener implements ActionListener
   {
 
@@ -323,5 +345,22 @@ public class RecipeEditor extends Editor
       updateButtons();
     }
 
+  }
+  
+  @Override
+  public void enableEditing(final boolean editable)
+  {
+    if (utensilEditor == null || ingredientEditor == null || substituteEditor == null 
+        || stepEditor == null || nameField == null || servingsField == null) {
+      return;
+    }
+    
+    utensilEditor.setEditable(editable);
+    ingredientEditor.setEditable(editable);
+    substituteEditor.setEditable(editable);
+    stepEditor.setEditable(editable);
+    
+    nameField.setEditable(editable);
+    servingsField.setEditable(editable);
   }
 }

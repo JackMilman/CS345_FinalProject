@@ -1,10 +1,11 @@
 package testing;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
-import recipes.Ingredient;
 import recipes.Utensil;
 
 /**
@@ -60,6 +61,7 @@ class UtensilTest
     assertEquals(expected, actual);
   }
 
+  @SuppressWarnings("unlikely-arg-type")
   @Test
   public void testEquals()
   {
@@ -71,6 +73,8 @@ class UtensilTest
 
     assertEquals(utensil, utensilTotallySame);
     assertFalse(utensil.equals(utensilTotallyDifferent));
+    assertFalse(utensil.equals(null));
+    assertFalse(utensil.equals("Not a Utensil"));
     assertFalse(utensil.equals(utensilSameNameDifferentDetails));
     assertFalse(utensil.equals(utensilSameDetailsDifferentName));
   }
@@ -89,6 +93,15 @@ class UtensilTest
     {
       // Want to get here!
     }
+  }
+  
+  @Test
+  public void testToString() {
+    Utensil utensilComplete = new Utensil(basicName, basicDetails);
+    Utensil utensilPartial = new Utensil(basicName, null);
+    
+    assertEquals(basicDetails + " " + basicName, utensilComplete.toString());
+    assertEquals(basicName, utensilPartial.toString());
   }
 
 }

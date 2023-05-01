@@ -1,20 +1,21 @@
 package gui;
 
-import config.Language;
-import config.Translator;
-
-import javax.swing.*;
-
-import branding.KitchIntelJFrame;
-
-import java.awt.*;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Properties;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
+import branding.KitchIntelJFrame;
+import config.Language;
+import config.Translator;
 
 public class PreferencesGUI extends KitchIntelJFrame implements ActionListener
 {
@@ -74,7 +75,7 @@ public class PreferencesGUI extends KitchIntelJFrame implements ActionListener
     }
 
     // Set the current language
-    Translator.setLanguage(language);
+    //Translator.setLanguage(language);
     
     JOptionPane.showMessageDialog(null, 
         Translator.translate("Restart the program for this change to take full effect."), 

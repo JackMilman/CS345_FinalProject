@@ -13,7 +13,6 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -111,10 +110,8 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame
      {
        return null;
      }
-     return (String) ingredients.getSelectedItem();
    }
-   
-   return null;
+   return s;
   }
 
   private String getSelectedUnits()
@@ -199,7 +196,7 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame
         ingredients.setSelectedItem("");
         units.setSelectedItem("");
         amount.setText("");
-        calorie.setText(Translator.translate("Calories") + ": ");
+        calorie.setText(Translator.translate("Calories") + ":     ____________");
       }
 
       if (command.equals(CALCULATION_COMMAND))

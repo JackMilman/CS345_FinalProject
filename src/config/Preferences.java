@@ -5,9 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
-import config.Language;
-import config.Translator;
-
 public class Preferences
 {
   private static final String CONFIG_FILE = "config.properties";
@@ -38,7 +35,7 @@ public class Preferences
       selectedLanguage = DEFAULT_LANGUAGE;
     }
 
-    Translator.setLanguage(selectedLanguage);
+    //Translator.setLanguage(selectedLanguage);
   }
 
   /**
@@ -59,12 +56,6 @@ public class Preferences
     }
   }
 
-  public void setSelectedLanguage(Language language)
-  {
-    selectedLanguage = language;
-    Translator.setLanguage(language);
-    savePreferences();
-  }
 
   public Language getSelectedLanguage()
   {

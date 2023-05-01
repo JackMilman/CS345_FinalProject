@@ -50,6 +50,9 @@ public class MealEditor extends Editor
   private final TextArea display;
 
   private final JTextField nameField;
+  
+  private final JButton addRecipeButton;
+  private final JButton deleteButton;
 
   private List<Recipe> recipes;
 
@@ -72,8 +75,10 @@ public class MealEditor extends Editor
 
     MealEditorListener listener = new MealEditorListener();
 
-    JButton addRecipeButton = new JButton(Translator.translate("Add Recipe"));
-    JButton deleteButton = new JButton(Translator.translate("Delete"));
+    addRecipeButton = new JButton(Translator.translate("Add Recipe"));
+    deleteButton = new JButton(Translator.translate("Delete"));
+    
+    enableEditing(false);
 
     newButton.setActionCommand(NEW_BUTTON_ACTION_COMMAND);
     openButton.setActionCommand(OPEN_BUTTON_ACTION_COMMAND);
@@ -176,8 +181,7 @@ public class MealEditor extends Editor
 
   private void newButton()
   {
-    new MealEditor(owner);
-
+    state = DocumentState.UNCHANGED;
     updateButtons();
   }
 
@@ -361,6 +365,15 @@ public class MealEditor extends Editor
       }
     }
 
+  }
+  
+  @Override
+  public void enableEditing(final boolean editable)
+  {
+    if (addRecipeButton == null || deleteButton == null || nameField == null) return;
+    addRecipeButton.setEnabled(editable);
+    deleteButton.setEnabled(editable);
+    nameField.setEnabled(editable);
   }
 
 }
