@@ -2,22 +2,22 @@ package recipes;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 /**
- * Represents the ingredients and their prices per tablespoon
- * that are built in to the software (not including ingredients added
- * by the user).
+ * Represents the ingredients and their prices per tablespoon that are built in to the software (not
+ * including ingredients added by the user).
  * 
- * Prices are in USD based on listings from arbitrary brands on the Target website
- * (unless Target doesn't have them, in which case the prices are from the Walmart website),
- * converted to the price for one tablespoon and rounded to the nearest hundredth.
+ * Prices are in USD based on listings from arbitrary brands on the Target website (unless Target
+ * doesn't have them, in which case the prices are from the Walmart website), converted to the price
+ * for one tablespoon and rounded to the nearest hundredth.
  * 
  * @author Meara Patterson, Jack Milman, KichIntel
  * @version 4/24/2023
  */
 public class PriceInfo
 {
-  
+
   private static final Map<String, Double> PRICE_MAP = intitializePrice();
 
   private static Map<String, Double> intitializePrice()
@@ -77,17 +77,17 @@ public class PriceInfo
     map.put("olive", 0.17);
     map.put("onion", 0.05);
     map.put("orange", 0.04);
-    map.put("paprika",0.28);
+    map.put("paprika", 0.28);
     map.put("pasta", 0.01);
     map.put("peach", 0.08);
     map.put("peanut", 0.08);
-    map.put("pear",0.09);
+    map.put("pear", 0.09);
     map.put("peas", 0.04);
     map.put("pepper", 0.10);
     map.put("pineapple", 0.04);
-    map.put("plum",0.09);
+    map.put("plum", 0.09);
     map.put("pork", 0.15);
-    map.put("rum",0.24);
+    map.put("rum", 0.24);
     map.put("salmon", 0.31);
     map.put("salt", 0.01);
     map.put("saltine crackers", 0.12);
@@ -95,38 +95,62 @@ public class PriceInfo
     map.put("spinach", 0.12);
     map.put("strawberries", 0.12);
     map.put("sugar", 0.02);
-    map.put("sweet potato", 0.06); 
+    map.put("sweet potato", 0.06);
     map.put("syrup", 0.05);
     map.put("thyme", 0.79);
     map.put("tomato", 0.05);
     map.put("wine", 0.43);
     return map;
   }
-  
+
   /**
-   * Adds a new ingredient's information to the priceMap, so long as it is not already present
-   * in the map.
+   * Returns whether Price info is stored for the named ingredient.
+   * 
+   * @param ingredientName
+   *          the name of an ingredient
+   * @return true if there is price information for the ingredient, false otherwise.
+   */
+  public static boolean contains(final String ingredientName)
+  {
+    return PRICE_MAP.containsKey(ingredientName.toLowerCase());
+  }
+
+  /**
+   * Adds a new ingredient's information to the priceMap, so long as it is not already present in
+   * the map.
    * 
    * @param name
    *          the name of the ingredient
    * @param price
    *          price per tablespoon, the standard unit of volume
+   * @return whether the map was changed as a result of this operation
    */
-  public static void addIngredient(final String name, final Double price)
+  public static boolean addIngredient(final String name, final Double price)
   {
     if (!PRICE_MAP.containsKey(name.toLowerCase()))
     {
-      PRICE_MAP.put(name.toLowerCase(), price);
+      return PRICE_MAP.put(name.toLowerCase(), price) == null;
     }
+    return false;
   }
   
   /**
-   * Return the price per tablespoon of the built-in ingredient with the
-   * given name.
+   * Returns the Set of keys (a.k.a. ingredient names) in the PriceInfo map.
+   * 
+   * @return A set of String keys
+   */
+  public static Set<String> getIngredientsInMap()
+  {
+    return PRICE_MAP.keySet();
+  }
+
+  /**
+   * Return the price per tablespoon of the built-in ingredient with the given name.
    * 
    * If the given name does not match any built-in ingredients, return 0.0.
    * 
-   * @param ingredientName find the name of a built-in ingredient
+   * @param ingredientName
+   *          find the name of a built-in ingredient
    * @return the ingredient's price per tablespoon or 0.0
    */
   public static Double getPricePerTablespoon(final String ingredientName)
@@ -141,5 +165,5 @@ public class PriceInfo
       return 0.0;
     }
   }
-  
+
 }
