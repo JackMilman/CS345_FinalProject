@@ -115,6 +115,7 @@ public class PreferenceWindow extends JFrame
       @Override
       public void actionPerformed(ActionEvent e)
       {
+
         String s = textSize.getText();
         int val = Integer.parseInt(s);
         JButton button = (JButton)e.getSource();
