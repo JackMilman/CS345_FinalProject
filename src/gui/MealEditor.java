@@ -16,12 +16,15 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import branding.KitchIntelBorder;
 import config.Translator;
 import recipes.Meal;
 import recipes.Recipe;
+import recipes.Utensil;
 
 /**
  * The class for the meal editor window. All that another class needs to do is call the constructor.
@@ -47,14 +50,14 @@ public class MealEditor extends Editor
   private static final String ADD_RECIPE_ACTION_COMMAND = "mar";
   private static final String DELETE_ACTION_COMMAND = "md";
 
-  private final TextArea display;
+  private final JTable display;
 
   private final JTextField nameField;
   
   private final JButton addRecipeButton;
   private final JButton deleteButton;
 
-  private List<Recipe> recipes;
+  private Meal workingMeal;
 
   /**
    * Creates a new MealEditor.
@@ -66,10 +69,9 @@ public class MealEditor extends Editor
   {
     super(owner, Translator.translate("KiLowBites Meal Editor"));
 
-    this.recipes = new ArrayList<Recipe>();
+    this.workingMeal = new Meal("", new ArrayList<Recipe>(), 1);
 
-    this.display = new TextArea();
-    this.display.setEditable(false);
+    this.display = new JTable(new DefaultTableModel(1,1));
 
     this.nameField = new JTextField(TEXT_WIDTH);
 
@@ -136,20 +138,34 @@ public class MealEditor extends Editor
 
   private void updateDisplay()
   {
-    String displayText = "";
-
-    for (Recipe recipe : recipes)
+    DefaultTableModel tableModel = new DefaultTableModel(workingMeal.getRecipes().size(), 1)
     {
-      displayText += recipe.getName() + "\n";
-    }
 
-    display.setText(displayText);
+      private static final long serialVersionUID = 1L;
+
+      @Override
+      public boolean isCellEditable(final int row, final int col)
+      {
+        return false;
+      }
+    };
+    
+    display.setModel(tableModel);
+    List<Recipe> recipes = workingMeal.getRecipes();
+
+    for (int i = 0; i < recipes.size(); i++)
+    {
+      display.setValueAt(recipes.get(i), i, 0);
+    }
   }
 
   private void loadMeal(final Meal meal, final String fileName)
   {
     nameField.setText(meal.getName());
-    recipes = meal.getRecipes();
+   
+    workingMeal = meal;
+    
+    updateDisplay();
 
     this.fileName = fileName;
 
@@ -158,16 +174,16 @@ public class MealEditor extends Editor
 
   private Meal createMeal()
   {
-    String name = nameField.getText();
+    workingMeal.setName(nameField.getText());
 
     int servings = Integer.MAX_VALUE;
 
-    for (Recipe recipe : recipes)
+    for (Recipe recipe : workingMeal.getRecipes())
     {
       servings = Math.min(servings, recipe.getServings());
     }
 
-    return new Meal(name, recipes, servings);
+    return workingMeal;
   }
 
   private void close()
@@ -181,6 +197,11 @@ public class MealEditor extends Editor
 
   private void newButton()
   {
+    this.nameField.setText("");
+    this.workingMeal.getRecipes().clear();
+    
+    this.updateDisplay();
+    
     state = DocumentState.UNCHANGED;
     updateButtons();
   }
@@ -263,45 +284,20 @@ public class MealEditor extends Editor
 
   private void delete()
   {
-    if (recipes.size() == 0)
-      return;
-
-    int selectionStart = display.getSelectionStart();
-    int linesSelected = 0;
-    int linesSkipped = 0;
-    String selectedText = display.getSelectedText();
-
-    if (selectedText == null || selectedText.length() < 0)
-      return;
-
-    char[] characters = selectedText.toCharArray();
-
-    // counts the number of newline characters to determine the number of lines selected
-    for (char character : characters)
+    if (workingMeal.getRecipes().size() == 0)
     {
-      if (character == '\n')
-      {
-        linesSelected++;
-      }
+      return;
     }
 
-    // if the last selected character isn't a newline character, then there is one uncounted line.
-    if (characters[characters.length - 1] != '\n')
-      linesSelected++;
-
-    String skipped = display.getText().substring(0, selectionStart);
-
-    char[] skippedChars = skipped.toCharArray();
-
-    for (char skippedChar : skippedChars)
+    int index = display.getSelectedRow();
+        
+    if (index < workingMeal.getRecipes().size()) 
     {
-      if (skippedChar == '\n')
-        linesSkipped++;
-    }
+      Recipe recipe = workingMeal.getRecipes().get(index);
+      
+      workingMeal.removeRecipe(recipe);
 
-    for (int i = 0; i < linesSelected; i++)
-    {
-      recipes.remove(linesSkipped);
+      updateDisplay();
     }
 
     state = DocumentState.CHANGED;
@@ -348,7 +344,7 @@ public class MealEditor extends Editor
 
         try
         {
-          recipes.add(Recipe.read(fileName));
+          workingMeal.addRecipe(Recipe.read(fileName));
           state = DocumentState.CHANGED;
           updateButtons();
         }

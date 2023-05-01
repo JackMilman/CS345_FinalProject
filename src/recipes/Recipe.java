@@ -564,4 +564,10 @@ public class Recipe implements Serializable
 
     return false;
   }
+  
+  @Override
+  public String toString()
+  {
+    return name;
+  }
 }
