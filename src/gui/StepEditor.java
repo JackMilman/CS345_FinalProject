@@ -55,6 +55,7 @@ public class StepEditor extends JComponent
 
   private final RecipeEditor parent;
   private final EnableListener enableListener;
+  private final DeleteEnabler delListener;
 
 
   /**
@@ -124,6 +125,11 @@ public class StepEditor extends JComponent
     display = new JTable(new DefaultTableModel(1, 1));
     updateStepDisplay();
     add(display, BorderLayout.CENTER);
+    
+    delListener = new DeleteEnabler(display, deleteButton);
+    delListener.valueChanged(null);
+    
+    display.getSelectionModel().addListSelectionListener(delListener);;
 
     setVisible(true);
   }
@@ -428,6 +434,7 @@ public class StepEditor extends JComponent
     utensilSelect.setEnabled(editable);
  
     enableListener.actionPerformed(null);
+    delListener.valueChanged(null);
   }
   
 }

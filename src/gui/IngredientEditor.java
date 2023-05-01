@@ -65,6 +65,7 @@ public class IngredientEditor extends JPanel
   private final RecipeEditor parent;
 
   private final EnableUpdater enableUpdater;
+  private final DeleteEnabler delListener;
 
   /**
    * Creates an IngredientEditor for the given Recipe.
@@ -146,6 +147,11 @@ public class IngredientEditor extends JPanel
     add(inputFields, BorderLayout.NORTH);
     add(deleteButton, BorderLayout.EAST);
     add(ingredientDisplay, BorderLayout.CENTER);
+    
+    delListener = new DeleteEnabler(ingredientDisplay, deleteButton);
+    delListener.valueChanged(null);
+    
+    ingredientDisplay.getSelectionModel().addListSelectionListener(delListener);;
 
     setVisible(true);
     setOpaque(false);
@@ -474,6 +480,7 @@ public class IngredientEditor extends JPanel
     makeNewIngredient.setEnabled(editable);
 
     enableUpdater.actionPerformed(null);
+    delListener.valueChanged(null);
   }
 
 }
