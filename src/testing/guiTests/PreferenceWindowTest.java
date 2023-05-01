@@ -2,6 +2,8 @@ package testing.guiTests;
 
 import java.io.IOException;
 
+import javax.swing.JFrame;
+
 import gui.PreferenceWindow;
 
 class PreferenceWindowTest

@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +13,7 @@ import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
@@ -19,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import branding.KitchIntelBorder;
+import branding.KitchIntelJDialog;
 import config.Translator;
 import recipes.Ingredient;
 import recipes.NutritionInfo;
@@ -56,7 +59,7 @@ public class SubstituteEditor extends JPanel
   private Recipe workingRecipe;
 
   private final RecipeEditor parent;
-  
+
   private final EnableUpdater enableUpdater;
 
   private final List<Ingredient> validIngredients = new ArrayList<Ingredient>();
@@ -194,7 +197,6 @@ public class SubstituteEditor extends JPanel
     updateSubstituteDisplay();
   }
 
-  // TODO: Currently not working for some reason
   private void delete()
   {
     int numSubstitutes = workingRecipe.getNumSubstitutes();
@@ -209,7 +211,6 @@ public class SubstituteEditor extends JPanel
     Ingredient normalIngredient = (Ingredient) substituteDisplay.getValueAt(row, 0);
     // The ingredient to substitute for normalIngredient
     Ingredient substituteIngredient = (Ingredient) substituteDisplay.getValueAt(row, 1);
-
 
     workingRecipe.removeSubstitute(normalIngredient, substituteIngredient);
 
@@ -300,9 +301,123 @@ public class SubstituteEditor extends JPanel
       {
         subject.delete();
       }
+      else if (e.getActionCommand().equals(MAKE_NEW_SUBSTITUTE))
+      {
+        new MakeNewIngredientEditor();
+        updateIngredientSelect();
+      }
 
     }
 
+  }
+
+  /**
+   * GUI for making a new ingredient and adding it to NutritionInfo.
+   * 
+   * @author Meara Patterson, KitchIntel
+   * @version 4/25/2023
+   */
+  private class MakeNewIngredientEditor extends KitchIntelJDialog
+  {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
+    private static final String DESC = "Make New Ingredient";
+
+    private JTextField nameField;
+    private JTextField priceField;
+    private JTextField calorieField;
+    private JTextField densityField;
+    private JButton makeButton;
+
+    /**
+     * Makes a dialog with fields to input an ingredient's name, price, calories, and density, and
+     * adds it to NutritionInfo's map.
+     */
+    public MakeNewIngredientEditor()
+    {
+
+      super(Translator.translate(DESC));
+      setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+      setLayout(new FlowLayout(FlowLayout.LEFT));
+      setSize(new Dimension(800, 200));
+      setOpaque(false);
+
+      nameField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
+      priceField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
+      calorieField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
+      densityField = new JTextField(RecipeEditor.DEFAULT_TEXT_FIELD_WIDTH);
+      makeButton = new JButton(DESC);
+
+      // nameField.setActionCommand(MAKE_NEW_INGREDIENT_COMMAND);
+      // priceField.setActionCommand(MAKE_NEW_INGREDIENT_COMMAND);
+      // calorieField.setActionCommand(MAKE_NEW_INGREDIENT_COMMAND);
+      // densityField.setActionCommand(MAKE_NEW_INGREDIENT_COMMAND);
+
+      Updater updater = new Updater();
+      nameField.addActionListener(updater);
+      priceField.addActionListener(updater);
+      calorieField.addActionListener(updater);
+      densityField.addActionListener(updater);
+      makeButton.setEnabled(false);
+
+      makeButton.addActionListener(new ActionListener()
+      {
+        @Override
+        public void actionPerformed(final ActionEvent e)
+        {
+          try
+          {
+            NutritionInfo.addIngredient(nameField.getText().toLowerCase(),
+                Double.parseDouble(calorieField.getText()),
+                Double.parseDouble(densityField.getText()));
+            nameField.setText("");
+            priceField.setText("");
+            calorieField.setText("");
+            densityField.setText("");
+            makeButton.setEnabled(false);
+            updateIngredientSelect();
+          }
+          catch (NumberFormatException nfe)
+          {
+            return;
+          }
+        }
+      });
+
+      add(new JLabel("Name:"));
+      add(nameField);
+      add(new JLabel("Price per tablespoon: $"));
+      add(priceField);
+      add(new JLabel("Calories:"));
+      add(calorieField);
+      add(new JLabel("Density:"));
+      add(densityField);
+      add(makeButton);
+
+      setVisible(true);
+
+    }
+
+    private class Updater implements ActionListener
+    {
+
+      @Override
+      public void actionPerformed(final ActionEvent e)
+      {
+        if (!nameField.getText().equals(""))
+        {
+          makeButton.setEnabled(true);
+        }
+        else
+        {
+          makeButton.setEnabled(false);
+        }
+      }
+    }
   }
 
   private class EnableUpdater implements ActionListener
@@ -339,7 +454,7 @@ public class SubstituteEditor extends JPanel
   {
     this.workingRecipe = workingRecipe;
   }
-  
+
   public void setEditable(final boolean editable)
   {
     addButton.setEnabled(editable);
@@ -350,8 +465,8 @@ public class SubstituteEditor extends JPanel
     selectIngredient.setEnabled(editable);
     selectSubstitute.setEnabled(editable);
     unitSelect.setEnabled(editable);
-    
+
     enableUpdater.actionPerformed(null);
   }
-  
+
 }

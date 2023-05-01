@@ -8,6 +8,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -16,6 +17,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -26,36 +28,62 @@ public class PreferenceWindow extends JFrame
 {
   
   private static final long serialVersionUID = 1L;
-  private static ArrayList<File>files;
+  //private static ArrayList<File>files;
   private static JFrame mainWindow;
   //private static final File file = new File("preferences.txt");
 
-  public PreferenceWindow(JFrame mainWindow) {
+  public PreferenceWindow() {
     super();
-    files = new ArrayList<File>();
-    PreferenceWindow.mainWindow = mainWindow;
+    //files = new ArrayList<File>();
+    //PreferenceWindow.mainWindow = mainWindow;
     setUp();
   }
   
-  private JPanel defaultDirectory() {
+  private ActionListener createActionListener(String saveItem, JComboBox<File> selectedFiles) {
+    ActionListener temp = new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+          JFileChooser fc = new JFileChooser();
+          fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+          int returnVal = fc.showOpenDialog(new JFrame());
+          if (returnVal == JFileChooser.APPROVE_OPTION) {
+            File selectedDirectory = fc.getSelectedFile();
+            String enterName = JOptionPane.showInputDialog("Enter directory name: ");
+            File newFolder = new File(selectedDirectory, enterName);
+            if (newFolder.mkdir()) {
+              try {
+                KitchIntelPreferenceReader.saveItem(saveItem, newFolder.getAbsolutePath());
+                selectedFiles.addItem(newFolder);
+              } catch (IOException ex) {
+                System.out.print("Error, try again.");
+              }
+              } else {
+              System.out.print("Error, try again.");
+            }
+          }
+      }
+  };
+  return temp;
+  }
+  
+  private JPanel createDirectory(String savedItem) {
     JPanel p = new JPanel();
+    JLabel label = new JLabel(Translator.translate(String.format("Select %s directory: ", savedItem.toLowerCase())));
     JComboBox<File> selectedFiles = new JComboBox<>();
-    for(File file : files) {
-      selectedFiles.addItem(file);
+    try {
+      File saved = new File(KitchIntelPreferenceReader.returnValue(savedItem));
+      selectedFiles.addItem(saved);
+    } catch (IOException e) {
+      //No default directory saved -- add nothing
     }
     selectedFiles.setPreferredSize(new Dimension(300,30));
     
     JButton newFile = new JButton(Translator.translate("New File"));
-    ActionListener temp = new ActionListener() {
-        @Override
-        public void actionPerformed(ActionEvent e)
-        {
-            JFileChooser fc = new JFileChooser();
-            int returnVal = fc.showOpenDialog(new JFrame());
-        }
-    };
+    ActionListener temp = createActionListener(savedItem, selectedFiles);
     newFile.addActionListener(temp); 
     
+    p.add(label);
     p.add(selectedFiles);
     p.add(newFile);
     
@@ -67,7 +95,7 @@ public class PreferenceWindow extends JFrame
     
     JTextField textSize = new JTextField();
     textSize.setEditable(false);
-    JLabel changeFontSizeLabel = new JLabel("Change font size: ");
+    JLabel changeFontSizeLabel = new JLabel(Translator.translate("Change font size: "));
     String size = null;
     try
     {
@@ -75,7 +103,6 @@ public class PreferenceWindow extends JFrame
     }
     catch (IOException e3)
     {
-      // TODO Auto-generated catch block
       e3.printStackTrace();
     }
     textSize.setText((String)size);
@@ -88,28 +115,18 @@ public class PreferenceWindow extends JFrame
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        String size = "0";
-        try
-        {
-          size = (String)KitchIntelPreferenceReader.returnValue(KitchIntelPreferenceReader.FONT);
-        }
-        catch (IOException e2)
-        {
-          // TODO Auto-generated catch block
-          e2.printStackTrace();
-        }
-        textSize.setText((String)size);
-        JButton minus = new JButton("-");
-        JButton plus = new JButton("+");
         String s = textSize.getText();
         int val = Integer.parseInt(s);
         JButton button = (JButton)e.getSource();
         if (button.getText().equals("+")) {
-          if (val + 2 > 60) {
+          if (val + 2 > 30) {
             return;
           }
           textSize.setText("" + (val + 2));
         } else {
+          if (val - 2 < 10) {
+            return;
+          }
           textSize.setText("" + (val - 2));
         }
       }
@@ -124,7 +141,9 @@ public class PreferenceWindow extends JFrame
         try
         {
           KitchIntelPreferenceReader.saveItem(KitchIntelPreferenceReader.FONT, textSize.getText());
-          changeFont(mainWindow, Integer.parseInt(textSize.getText()));
+          for (Component c: MainWindow.getAllCreatedWindows()) {
+            changeFont(c, Integer.parseInt(textSize.getText()));
+          }
         }
         catch (IOException e1)
         {
@@ -157,15 +176,24 @@ public class PreferenceWindow extends JFrame
               changeFont(child, fontSize);
           }
       }
+      if (component instanceof JFrame) {
+        JFrame frame = (JFrame)component;
+        frame.pack();
+      }
   }
   
   private void setUp(){
     JPanel p = (JPanel) getContentPane();
     
     p.setLayout(new BorderLayout());
-    p.add(defaultDirectory(), BorderLayout.NORTH);
+    p.add(createDirectory(KitchIntelPreferenceReader.DEFAULT), BorderLayout.NORTH);
     p.add(changeFontSize(), BorderLayout.CENTER);
     
+    JPanel temp = new JPanel();
+    temp.setLayout(new BorderLayout());
+    temp.add(createDirectory(KitchIntelPreferenceReader.RECIPE), BorderLayout.NORTH);
+    temp.add(createDirectory(KitchIntelPreferenceReader.MEAL), BorderLayout.SOUTH);
+    p.add(temp, BorderLayout.SOUTH);
     
     setSize(400,200);
     pack();

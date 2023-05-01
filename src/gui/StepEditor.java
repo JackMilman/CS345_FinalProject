@@ -152,40 +152,45 @@ public class StepEditor extends JComponent
 
     Utensil destinationUtensil = null;
     Utensil sourceUtensil = null;
+    List<Utensil> utensils = workingRecipe.getUtensils();
 
-    for (int i = 0; i < workingRecipe.getUtensils().size(); i++)
+    for (int i = 0; i < utensils.size(); i++)
     {
-      if (on.equals(workingRecipe.getUtensils().get(i).getName()))
+      if (on.equals(utensils.get(i).getName()))
       {
-        sourceUtensil = workingRecipe.getUtensils().get(i);
+        sourceUtensil = utensils.get(i);
       }
-      if (utensil.equals(workingRecipe.getUtensils().get(i).getName()))
+      if (utensil.equals(utensils.get(i).getName()))
       {
-        destinationUtensil = workingRecipe.getUtensils().get(i);
+        destinationUtensil = utensils.get(i);
       }
     }
     if (on.startsWith("*"))
     {
-      try
-      {
-        Recipe objectIngredient = Recipe.read(fileName);
-        Step step = new Step(action, objectIngredient, sourceUtensil, destinationUtensil, details,
+        Recipe objectRecipe = null;
+        String searchString = on.substring(1);
+        List<Recipe> subRecipes = workingRecipe.getSubRecipes();
+        for (Recipe recipe : subRecipes)
+        {
+          if (searchString.equals(recipe.getName()))
+          {
+            objectRecipe = recipe;
+          }
+
+        }
+        Step step = new Step(action, objectRecipe, sourceUtensil, destinationUtensil, details,
             time);
         workingRecipe.addStep(step);
-      }
-      catch (IOException e1)
-      {
-        e1.printStackTrace();
-      }
     }
     else
     {
       Ingredient objectIngredient = null;
-      for (int i = 0; i < workingRecipe.getIngredients().size(); i++)
+      List<Ingredient> ingredients = workingRecipe.getIngredients();
+      for (Ingredient ingr : ingredients)
       {
-        if (on.equals(workingRecipe.getIngredients().get(i).getName()))
+        if (on.equals(ingr.getName()))
         {
-          objectIngredient = workingRecipe.getIngredients().get(i);
+          objectIngredient = ingr;
         }
 
       }
@@ -325,7 +330,9 @@ public class StepEditor extends JComponent
         try
         {
           recipe = Recipe.read(fileName);
-          workingRecipe.addRecipe(recipe);
+          if (workingRecipe.getName() != recipe.getName()) {
+            workingRecipe.addRecipe(recipe);
+          }
         }
         catch (IOException ioe)
         {
