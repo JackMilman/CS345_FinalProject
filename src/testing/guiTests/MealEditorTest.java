@@ -1,18 +1,18 @@
-package testing;
+package testing.guiTests;
 
 import static org.junit.jupiter.api.Assertions.fail;
 
 import org.junit.jupiter.api.Test;
 
-import gui.RecipeEditor;
+import gui.MealEditor;
 
-class RecipeEditorTest
+class MealEditorTest
 {
 
   @Test
   void test()
   {
-    new RecipeEditor(null);
+    new MealEditor(null);
     fail("Not yet implemented");
   }
 
