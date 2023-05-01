@@ -24,7 +24,7 @@ public class Recipe implements Serializable
   
   private static final long serialVersionUID = 1L;
   
-  private static final String FILEEXT = ".rcp";
+  private static final String FILE_EXT = ".rcp";
   
   protected List<Ingredient> ingredients = new ArrayList<Ingredient>();
 
@@ -292,23 +292,6 @@ public class Recipe implements Serializable
     return utensils.remove(utensil);
   }
 
-  private boolean stepUsesUtensil(final Utensil utensil)
-  {
-    for (Step step : steps)
-    {
-      Utensil source = step.getSource();
-      Utensil destination = step.getDestination();
-
-      if ((source != null && source.equals(utensil))
-          || (destination != null && destination.equals(utensil)))
-      {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
   /**
    * Attempts to add a step to the list of steps. A step cannot be added if it has an Ingredient or
    * Utensils that are not in the recipe already.
@@ -390,16 +373,10 @@ public class Recipe implements Serializable
   }
 
   /**
-<<<<<<< HEAD
    * Gets the number of individual substitutions in the Recipe. This attribute is modified by the
    * add and remove substitutes methods.
    * 
    * @return the number of substitutes in the recipe
-=======
-   * Get the number of substitutes.
-   * 
-   * @return number of substitutes
->>>>>>> branch 'main' of https://github.com/bernstdh/S23Team2A
    */
   public int getNumSubstitutes()
   {
@@ -458,7 +435,7 @@ public class Recipe implements Serializable
     return compositeList;
   }
   
-  public List<Utensil> subRecipegetUtensils(){
+  public List<Utensil> subRecipeGetUtensils(){
     List<Utensil> compositeList = new ArrayList<Utensil>();
     for (Recipe subRecipe : subRecipes)
     {
@@ -509,7 +486,7 @@ public class Recipe implements Serializable
    */
   public void write(final String fileName) throws IOException
   {
-    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName + FILEEXT));
+    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName + FILE_EXT));
 
     out.writeObject(this);
     out.flush();
@@ -529,7 +506,7 @@ public class Recipe implements Serializable
    */
   public static Recipe read(final String fileName) throws IOException
   {
-    ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName + FILEEXT));
+    ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName + FILE_EXT));
 
     Recipe recipe;
 
@@ -567,6 +544,23 @@ public class Recipe implements Serializable
     for (Step step : steps)
     {
       if (step.getIngredient() != null && step.getIngredient().equals(ingredient))
+      {
+        return true;
+      }
+    }
+
+    return false;
+  }
+  
+  private boolean stepUsesUtensil(final Utensil utensil)
+  {
+    for (Step step : steps)
+    {
+      Utensil source = step.getSource();
+      Utensil destination = step.getDestination();
+
+      if ((source != null && source.equals(utensil))
+          || (destination != null && destination.equals(utensil)))
       {
         return true;
       }

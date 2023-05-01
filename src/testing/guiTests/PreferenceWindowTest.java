@@ -12,7 +12,7 @@ class PreferenceWindowTest
 
   public static void testPreferenceWindow() throws IOException
   {
-    PreferenceWindow preference = new PreferenceWindow(new JFrame());
+    PreferenceWindow preference = new PreferenceWindow();
   }
   
   public static void main(String[] args) throws IOException{

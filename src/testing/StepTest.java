@@ -218,7 +218,7 @@ class StepTest
         basicAction, basicUtenName, basicDetails, basicTime).strip();
     String differentUtensils = String.format("%s the contents of the %s in the %s %s\t\t%s minutes",
         basicAction, basicUtenName, basicDestName, basicDetails, basicTime).strip();
-    String recipeString = String.format("%s the %s on the %s %s\t\t%s minutes",
+    String recipeString = String.format("%s the *%s on the %s %s\t\t%s minutes",
         basicAction, recipeName, basicDestName, basicDetails, basicTime).strip();
     
     assertEquals(ingredient, ingredientStep.toString());
@@ -235,7 +235,7 @@ class StepTest
         basicAction, basicUtenName, basicDetails).strip();
     String differentUtensilsTerse = String.format("%s the contents of the %s in the %s %s",
         basicAction, basicUtenName, basicDestName, basicDetails, basicTime).strip();
-    String recipeStringTerse = String.format("%s the %s on the %s %s",
+    String recipeStringTerse = String.format("%s the *%s on the %s %s",
         basicAction, recipeName, basicDestName, basicDetails).strip();
     assertEquals(ingredient, ingredientStep.toString(verbose));
     assertNotEquals(ingredient, ingredientStep.toString(terse));
