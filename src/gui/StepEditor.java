@@ -46,13 +46,11 @@ public class StepEditor extends JComponent
    */
   private static final long serialVersionUID = 1L;
 
-  private JComboBox<String> actionSelect, onSelect, utensilSelect, eRecipeTitles;
+  private JComboBox<String> actionSelect, onSelect, utensilSelect;
   private JTextField detailField, timeField;
   private JTable display;
   private JButton addButton, deleteButton, embeddedRecipe;
   public String fileName;
-  private Recipe embedded;
-  private List<Recipe> embeddedRecipes;
   private Recipe workingRecipe;
 
   private final RecipeEditor parent;
@@ -169,7 +167,7 @@ public class StepEditor extends JComponent
         Recipe objectIngredient = Recipe.read(fileName);
         Step step = new Step(action, objectIngredient, sourceUtensil, destinationUtensil, details,
             time);
-        workingRecipe.getSteps().add(step);
+        workingRecipe.addStep(step);
       }
       catch (IOException e1)
       {
@@ -193,7 +191,6 @@ public class StepEditor extends JComponent
     }
 
     updateStepDisplay();
-
     actionSelect.setSelectedIndex(0);
     onSelect.setSelectedIndex(0);
     utensilSelect.setSelectedIndex(0);
@@ -269,9 +266,9 @@ public class StepEditor extends JComponent
     {
       onSelect.addItem(ingredient.getName());
     }
-    for (Recipe recipes : embeddedRecipes)
+    for (Recipe info : workingRecipe.getSubRecipes())
     {
-      onSelect.addItem("*" + recipes.getName());
+      onSelect.addItem("*" + info.getName());
     }
 
   }
@@ -319,9 +316,20 @@ public class StepEditor extends JComponent
 
         fileName = chooser.getSelectedFile().getPath();
         fileName = fileName.substring(0, fileName.indexOf(CURRENT_DIRECTORY));
-
-        embeddedRecipes.add(embedded);
-        updateOn();
+        Recipe recipe;
+        try
+        {
+          recipe = Recipe.read(fileName);
+          workingRecipe.addRecipe(recipe);
+        }
+        catch (IOException ioe)
+        {
+          ioe.printStackTrace();
+        }
+        finally
+        {
+          updateOn();
+        }
 
       }
     }

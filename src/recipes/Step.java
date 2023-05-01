@@ -226,7 +226,7 @@ public class Step implements Serializable
             source.getName(), destination.getName(), details, time).strip();
       }
     }
-    // if the source is an ingredien
+    // if the source is an ingredient
     if (recipe != null)
     {
       return String.format("%s the *%s on the %s %s\t\t%s minutes", action, recipe.getName(),

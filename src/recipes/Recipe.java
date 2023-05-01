@@ -298,10 +298,11 @@ public class Recipe implements Serializable
   public boolean addStep(final Step step)
   {
     boolean hasIngredient = ingredients.contains(step.getIngredient());
+    boolean hasRecipe = subRecipes.contains(step.getRecipe());
     boolean hasSource = utensils.contains(step.getSource());
     boolean hasDestination = utensils.contains(step.getDestination());
 
-    boolean isValid = (hasIngredient || hasSource) && hasDestination;
+    boolean isValid = (hasIngredient|| hasRecipe || hasSource) && hasDestination;
     if (isValid)
     {
       return steps.add(step);
@@ -398,11 +399,15 @@ public class Recipe implements Serializable
   public List<Ingredient> getIngredients()
   {
     List<Ingredient> compositeList = new ArrayList<Ingredient>();
+    compositeList.addAll(ingredients);
+    return compositeList;
+  }
+  public List<Ingredient> subRecipeGetIngredients(){
+    List<Ingredient> compositeList = new ArrayList<Ingredient>();
     for (Recipe subRecipe : subRecipes)
     {
       compositeList.addAll(subRecipe.getIngredients());
     }
-    compositeList.addAll(ingredients);
     return compositeList;
   }
 
@@ -414,11 +419,16 @@ public class Recipe implements Serializable
   public List<Utensil> getUtensils()
   {
     List<Utensil> compositeList = new ArrayList<Utensil>();
+    compositeList.addAll(utensils);
+    return compositeList;
+  }
+  
+  public List<Utensil> subRecipegetUtensils(){
+    List<Utensil> compositeList = new ArrayList<Utensil>();
     for (Recipe subRecipe : subRecipes)
     {
       compositeList.addAll(subRecipe.getUtensils());
     }
-    compositeList.addAll(utensils);
     return compositeList;
   }
 
