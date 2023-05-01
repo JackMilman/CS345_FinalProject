@@ -115,27 +115,18 @@ public class PreferenceWindow extends JFrame
       @Override
       public void actionPerformed(ActionEvent e)
       {
-        String size = "0";
-        try
-        {
-          size = (String)KitchIntelPreferenceReader.returnValue(KitchIntelPreferenceReader.FONT);
-        }
-        catch (IOException e2)
-        {
-          e2.printStackTrace();
-        }
-        textSize.setText((String)size);
-        JButton minus = new JButton("-");
-        JButton plus = new JButton("+");
         String s = textSize.getText();
         int val = Integer.parseInt(s);
         JButton button = (JButton)e.getSource();
         if (button.getText().equals("+")) {
-          if (val + 2 > 60) {
+          if (val + 2 > 30) {
             return;
           }
           textSize.setText("" + (val + 2));
         } else {
+          if (val - 2 < 10) {
+            return;
+          }
           textSize.setText("" + (val - 2));
         }
       }
@@ -184,6 +175,10 @@ public class PreferenceWindow extends JFrame
           {
               changeFont(child, fontSize);
           }
+      }
+      if (component instanceof JFrame) {
+        JFrame frame = (JFrame)component;
+        frame.pack();
       }
   }
   

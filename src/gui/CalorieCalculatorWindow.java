@@ -166,8 +166,7 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame
     c.add(inputs, BorderLayout.AFTER_LINE_ENDS);
     calorie = new JLabel(Translator.translate("Calories") + ":     ____________");
     c.add(calorie, BorderLayout.SOUTH);
-
-    setResizable(false);
+    
     setVisible(true);
     pack();
   }
