@@ -32,10 +32,10 @@ public class PreferenceWindow extends JFrame
   private static JFrame mainWindow;
   //private static final File file = new File("preferences.txt");
 
-  public PreferenceWindow(JFrame mainWindow) {
+  public PreferenceWindow() {
     super();
     //files = new ArrayList<File>();
-    PreferenceWindow.mainWindow = mainWindow;
+    //PreferenceWindow.mainWindow = mainWindow;
     setUp();
   }
   
@@ -150,7 +150,9 @@ public class PreferenceWindow extends JFrame
         try
         {
           KitchIntelPreferenceReader.saveItem(KitchIntelPreferenceReader.FONT, textSize.getText());
-          changeFont(mainWindow, Integer.parseInt(textSize.getText()));
+          for (Component c: MainWindow.getAllCreatedWindows()) {
+            changeFont(c, Integer.parseInt(textSize.getText()));
+          }
         }
         catch (IOException e1)
         {
