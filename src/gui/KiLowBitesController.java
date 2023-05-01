@@ -60,7 +60,7 @@ public class KiLowBitesController implements ActionListener
   private Meal meal;
   private JFileChooser fileChooser;
   private FileNameExtensionFilter fileFilter;
-  private Map<KeyStroke, String> shortcuts = new HashMap<>();
+  private Map<String, KeyStroke> shortcuts = new HashMap<>();
   private CustomAction customAction;
  
 
@@ -188,7 +188,7 @@ public class KiLowBitesController implements ActionListener
     // open shortcuts
     if (e.getActionCommand().equals("Shortcuts"))
     {    
-      //loadShortcuts();
+      MainWindow.addNewWindow(new ShortcutsDialog(main, shortcuts));
     }
 
   }

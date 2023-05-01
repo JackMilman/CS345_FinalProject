@@ -26,7 +26,7 @@ public class CustomAction extends AbstractAction
   }
 
   /**
-   * 
+   * Set the KeyStroke of the shortcut
    * @param keyStroke
    */
   public void setAcceleratorKey(KeyStroke keyStroke)
@@ -35,7 +35,7 @@ public class CustomAction extends AbstractAction
   }
 
   /**
-   * 
+   * get the KeyStroke of the shortcut
    * @return keyStroke
    */
   public KeyStroke getAcceleratorKey()
