@@ -27,7 +27,6 @@ import recipes.NutritionInfo;
 import recipes.Recipe;
 import recipes.Unit;
 
-
 /**
  * Temporary class to make refactoring IngredientEditor easier.
  * 
@@ -37,11 +36,11 @@ import recipes.Unit;
  */
 public class IngredientEditor extends JPanel
 {
-  
+
   // probably move to RecipeEditor
   public static final String SELECT_INGREDIENT = "select_ingredient";
   public static final String MAKE_NEW_INGREDIENT = "make_new_ingredient";
-  
+
   /**
    * 
    */
@@ -60,25 +59,29 @@ public class IngredientEditor extends JPanel
   private JButton deleteButton;
   private JTable ingredientDisplay;
   private Recipe workingRecipe;
-  
+
   private final StepEditor stepEditor;
   private final SubstituteEditor substituteEditor;
   private final RecipeEditor parent;
-  
+
   private final EnableUpdater enableUpdater;
 
   /**
    * Creates an IngredientEditor for the given Recipe.
-   * @param workingRecipe A reference to the Recipe being used by other components of the 
-   * RecipeEditor.
-   * @param stepEditor The corresponding StepEditor in the same RecipeEditor. This will notify the
-   * StepEditor when the list of Ingredients changes.
-   * @param substituteEditor The corresponding SubstitueEditor in the same RecipeEditor. This will
-   * notify the SubstitueEditor when the list of Ingredients changes.
-   * @param parent The RecipeEditor which this is a part of. This will resize the parent when its 
-   * size changes.
+   * 
+   * @param workingRecipe
+   *          A reference to the Recipe being used by other components of the RecipeEditor.
+   * @param stepEditor
+   *          The corresponding StepEditor in the same RecipeEditor. This will notify the StepEditor
+   *          when the list of Ingredients changes.
+   * @param substituteEditor
+   *          The corresponding SubstitueEditor in the same RecipeEditor. This will notify the
+   *          SubstitueEditor when the list of Ingredients changes.
+   * @param parent
+   *          The RecipeEditor which this is a part of. This will resize the parent when its size
+   *          changes.
    */
-  public IngredientEditor(final Recipe workingRecipe, final StepEditor stepEditor, 
+  public IngredientEditor(final Recipe workingRecipe, final StepEditor stepEditor,
       final SubstituteEditor substituteEditor, final RecipeEditor parent)
   {
     super();
@@ -111,10 +114,10 @@ public class IngredientEditor extends JPanel
     addButton.setActionCommand(RecipeEditor.INGREDIENT_ADD_ACTION_COMMAND);
     addButton.addActionListener(listener);
     addButton.setEnabled(false);
-    
+
     deleteButton.setActionCommand(RecipeEditor.INGREDIENT_DELETE_ACTION_COMMAND);
     deleteButton.addActionListener(listener);
-    
+
     selectIngredient.setActionCommand(SELECT_INGREDIENT);
     makeNewIngredient.setActionCommand(MAKE_NEW_INGREDIENT);
     makeNewIngredient.addActionListener(listener);
@@ -210,11 +213,11 @@ public class IngredientEditor extends JPanel
     }
 
     int index = ingredientDisplay.getSelectedRow();
-        
-    if (index < numIngredients) 
+
+    if (index < numIngredients)
     {
       Ingredient ingredient = ingredients.get(index);
-      
+
       workingRecipe.removeIngredient(ingredient);
 
       updateIngredientDisplay();
@@ -222,17 +225,17 @@ public class IngredientEditor extends JPanel
 
     stepEditor.updateSelects();
     substituteEditor.updateSubstituteSelect();
-    
+
   }
 
   /**
-   * Updates the JTable which displays ingredients. If ingredients have been added since the last 
-   * call to this method, the size of the JTable will be increased. This method should be called 
+   * Updates the JTable which displays ingredients. If ingredients have been added since the last
+   * call to this method, the size of the JTable will be increased. This method should be called
    * every time the Ingredients in the recipe changes.
    */
   public void updateIngredientDisplay()
   {
-    
+
     DefaultTableModel tableModel = new DefaultTableModel(workingRecipe.getIngredients().size(), 1)
     {
 
@@ -244,7 +247,7 @@ public class IngredientEditor extends JPanel
         return false;
       }
     };
-    
+
     ingredientDisplay.setModel(tableModel);
     List<Ingredient> ingredientsList = workingRecipe.getIngredients();
 
@@ -263,6 +266,7 @@ public class IngredientEditor extends JPanel
 
   /**
    * ActionListener for the Add and Delete buttons.
+   * 
    * @author Josiah Leach
    *
    */
@@ -289,6 +293,7 @@ public class IngredientEditor extends JPanel
 
   /**
    * ActionListener which controls the enabling and disabling of the add button.
+   * 
    * @author Josiah Leach
    *
    */
@@ -298,7 +303,8 @@ public class IngredientEditor extends JPanel
     @Override
     public void actionPerformed(final ActionEvent e)
     {
-      if (selectIngredient.getSelectedIndex() != 0 && !amountField.getText().equals(""))
+      if (selectIngredient.getSelectedIndex() != 0 && !amountField.getText().equals("")
+          && unitSelect.getSelectedIndex() != 0)
       {
         addButton.setEnabled(true);
       }
@@ -320,7 +326,7 @@ public class IngredientEditor extends JPanel
   public void addChangeListener(final ActionListener listener)
   {
     addButton.addActionListener(listener);
-    deleteButton.addActionListener(listener);    
+    deleteButton.addActionListener(listener);
   }
 
   void loadIngredients(final List<Ingredient> newIngredients)
@@ -440,18 +446,21 @@ public class IngredientEditor extends JPanel
       }
     }
   }
-  
+
   /**
    * Sets the Recipe which this IngredientEditor is editing.
-   * @param workingRecipe The Recipe for this IngredientEditor to edit.
+   * 
+   * @param workingRecipe
+   *          The Recipe for this IngredientEditor to edit.
    */
   public void setWorkingRecip(Recipe workingRecipe)
   {
     this.workingRecipe = workingRecipe;
   }
-  
+
   /**
    * Sets whether the components of this IngredientEditor can be interacted with by the user.
+   * 
    * @param editable
    */
   public void setEditable(final boolean editable)
@@ -463,8 +472,8 @@ public class IngredientEditor extends JPanel
     amountField.setEnabled(editable);
     unitSelect.setEnabled(editable);
     makeNewIngredient.setEnabled(editable);
-    
+
     enableUpdater.actionPerformed(null);
   }
-  
+
 }
