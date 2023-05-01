@@ -164,7 +164,6 @@ public class UnitConversionWindow extends KitchIntelJFrame
     // Result
     setVisible(true);
     pack();
-    setResizable(false);
   }
 
   private void updateIngredientAvailability()
