@@ -414,7 +414,14 @@ public class Recipe implements Serializable
     compositeList.addAll(ingredients);
     return compositeList;
   }
-  public List<Ingredient> subRecipeGetIngredients(){
+  
+  /**
+   * Gets the ingredients of the the subrecipes.
+   * 
+   * @return ingredients
+   */
+  public List<Ingredient> subRecipeGetIngredients()
+  {
     List<Ingredient> compositeList = new ArrayList<Ingredient>();
     for (Recipe subRecipe : subRecipes)
     {
@@ -435,6 +442,11 @@ public class Recipe implements Serializable
     return compositeList;
   }
   
+  /**
+   * Gets the utensils used in the subrecipes.
+   * 
+   * @return utensils.
+   */
   public List<Utensil> subRecipeGetUtensils(){
     List<Utensil> compositeList = new ArrayList<Utensil>();
     for (Recipe subRecipe : subRecipes)
