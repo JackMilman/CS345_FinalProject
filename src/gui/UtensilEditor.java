@@ -96,6 +96,9 @@ public class UtensilEditor extends JComponent
     utensilDisplay = new JTable(new DefaultTableModel(1,1));
     updateUtensilDisplay();
     add(utensilDisplay, BorderLayout.CENTER);
+    
+    DeleteEnabler delListener = new DeleteEnabler(utensilDisplay, deleteButton);
+    utensilDisplay.getSelectionModel().addListSelectionListener(delListener);
 
     setVisible(true);
   }
@@ -143,7 +146,7 @@ public class UtensilEditor extends JComponent
     {
       utensilDisplay.setValueAt(utensilsList.get(i), i, 0);
     }
-
+    
     
     parent.pack();
   }
@@ -186,7 +189,7 @@ public class UtensilEditor extends JComponent
   {
     workingRecipe.getUtensils().clear();
     workingRecipe.addAllUtensils(newUtensils);    
-
+    
     updateUtensilDisplay();
   }
 
@@ -210,18 +213,11 @@ public class UtensilEditor extends JComponent
   
   private class UpdateListener implements ActionListener
   {
-
     @Override
     public void actionPerformed(final ActionEvent e)
     {
-      System.out.println("Action performed");
-      addButton.setEnabled(false);
-      if(nameField.getText().length() > 0)
-      {
-        addButton.setEnabled(true);
-      }    
+      addButton.setEnabled(nameField.getText().length() > 0);  
     }
-    
   }
 
   /**
