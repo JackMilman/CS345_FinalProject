@@ -16,6 +16,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -37,6 +38,56 @@ public class PreferenceWindow extends JFrame
     setUp();
   }
   
+//  private JPanel defaultDirectory() {
+//    JPanel p = new JPanel();
+//    JComboBox<File> selectedFiles = new JComboBox<>();
+//    for(File file : files) {
+//      selectedFiles.addItem(file);
+//    }
+//    selectedFiles.setPreferredSize(new Dimension(300,30));
+//    
+//    JButton newFile = new JButton(Translator.translate("New File"));
+//    ActionListener temp = new ActionListener() {
+//        @Override
+//        public void actionPerformed(ActionEvent e)
+//        {
+//            JFileChooser fc = new JFileChooser();
+//            int returnVal = fc.showOpenDialog(new JFrame());
+//        }
+//    };
+//    newFile.addActionListener(temp); 
+//    
+//    p.add(selectedFiles);
+//    p.add(newFile);
+//    
+//    return p;
+//  }
+  
+//  private JPanel defaultDirectory() {
+//    JPanel p = new JPanel();
+//    JComboBox<File> selectedFiles = new JComboBox<>();
+//    for(File file : files) {
+//      selectedFiles.addItem(file);
+//    }
+//    selectedFiles.setPreferredSize(new Dimension(300,30));
+//    
+//    JButton newFile = new JButton(Translator.translate("New File"));
+//    ActionListener temp = new ActionListener() {
+//        @Override
+//        public void actionPerformed(ActionEvent e)
+//        {
+//            JFileChooser fc = new JFileChooser();
+//            int returnVal = fc.showOpenDialog(new JFrame());
+//        }
+//    };
+//    newFile.addActionListener(temp); 
+//    
+//    p.add(selectedFiles);
+//    p.add(newFile);
+//    
+//    return p;
+//  }
+  
   private JPanel defaultDirectory() {
     JPanel p = new JPanel();
     JComboBox<File> selectedFiles = new JComboBox<>();
@@ -51,7 +102,23 @@ public class PreferenceWindow extends JFrame
         public void actionPerformed(ActionEvent e)
         {
             JFileChooser fc = new JFileChooser();
+            fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             int returnVal = fc.showOpenDialog(new JFrame());
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+              File selectedDirectory = fc.getSelectedFile();
+              String enterName = JOptionPane.showInputDialog("Enter directory name: ");
+              File newFolder = new File(selectedDirectory, enterName);
+              if (newFolder.mkdir()) {
+                try {
+                  KitchIntelPreferenceReader.saveItem(KitchIntelPreferenceReader.DEFAULT, newFolder.getAbsolutePath());
+                  selectedFiles.addItem(newFolder);
+                } catch (IOException ex) {
+                  System.out.print("Error, try again.");
+                }
+                } else {
+                System.out.print("Error, try again.");
+              }
+            }
         }
     };
     newFile.addActionListener(temp); 
