@@ -101,6 +101,8 @@ public class UtensilEditor extends JComponent
     utensilDisplay.getSelectionModel().addListSelectionListener(delListener);
 
     setVisible(true);
+    
+    delListener.valueChanged(null);
   }
 
   private void add()
@@ -199,6 +201,7 @@ public class UtensilEditor extends JComponent
     @Override
     public void actionPerformed(final ActionEvent e)
     {
+      System.out.println("");
       if (e.getActionCommand().equals(RecipeEditor.UTENSIL_ADD_ACTION_COMMAND))
       {
         add();

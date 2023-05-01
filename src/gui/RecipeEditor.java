@@ -195,6 +195,12 @@ public class RecipeEditor extends Editor
   {
     state = DocumentState.UNCHANGED;
     
+    workingRecipe = new Recipe("", 0);
+    
+    nameField.setText("");
+    servingsField.setText("1");
+    
+    updateEditors();
     updateButtons();
   }
 
