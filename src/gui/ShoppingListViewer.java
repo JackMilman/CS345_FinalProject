@@ -196,11 +196,6 @@ public class ShoppingListViewer extends KitchIntelJDialog
       allIngredients.add(new Ingredient(ing.getName(), ing.getDetails(), 
           ing.getAmount() * numBatches, ing.getUnit()));
     }
-    for (Ingredient ing : recipe.subRecipeGetIngredients())
-    {
-      allIngredients.add(new Ingredient(ing.getName(), ing.getDetails(),
-          ing.getAmount() * numBatches, ing.getUnit()));
-    }
   }
 
   private void editIngredientList(final Recipe recipe)
