@@ -43,6 +43,7 @@ public class UtensilEditor extends JComponent
   private StepEditor stepEditor;
   private final RecipeEditor parent;
   private final UpdateListener updateListener;
+  private final DeleteEnabler delListener;
 
   /**
    * Creates a new UtensilEditor.
@@ -98,11 +99,13 @@ public class UtensilEditor extends JComponent
     updateUtensilDisplay();
     add(utensilDisplay, BorderLayout.CENTER);
     
-    DeleteEnabler delListener = new DeleteEnabler(utensilDisplay, deleteButton);
+    delListener = new DeleteEnabler(utensilDisplay, deleteButton);
     utensilDisplay.getSelectionModel().addListSelectionListener(delListener);
     PreferenceWindow.changeFont(this);
 
     setVisible(true);
+    
+    delListener.valueChanged(null);
   }
 
   private void add()
@@ -252,6 +255,7 @@ public class UtensilEditor extends JComponent
     nameField.setEditable(editable);
     
     updateListener.actionPerformed(null);
+    delListener.valueChanged(null);
   }
   
 }

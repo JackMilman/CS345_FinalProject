@@ -16,8 +16,10 @@ import java.util.Map;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import config.CustomAction;
 import config.Shortcut;
 import config.Translator;
 import preferences.KitchIntelPreferenceReader;
@@ -59,7 +61,9 @@ public class KiLowBitesController implements ActionListener
   private Meal meal;
   private JFileChooser fileChooser;
   private FileNameExtensionFilter fileFilter;
-  private Map<String, String> shortcuts = new HashMap<>();
+  private Map<String, KeyStroke> shortcuts = new HashMap<>();
+  private CustomAction customAction;
+ 
 
   /**
    * 
@@ -71,6 +75,8 @@ public class KiLowBitesController implements ActionListener
     this.fileChooser = createFileChooser();
     this.fileFilter = new FileNameExtensionFilter("Recipes and Meal",
         new String[] {RECIPEEXT, MEALEXT});
+    customAction = new CustomAction("My Custom Action", main);
+
   }
   
   private JFileChooser createFileChooser() {
@@ -195,29 +201,9 @@ public class KiLowBitesController implements ActionListener
     // open shortcuts
     if (e.getActionCommand().equals("Shortcuts"))
     {    
-      loadShortcuts();
-      new KeyShortcuts();
+      MainWindow.addNewWindow(new ShortcutsDialog(main, shortcuts));
     }
 
-  }
-
-  private void loadShortcuts()
-  {
-    ShortcutsParser parser = new ShortcutsParser();
-    try
-    {
-      List<Shortcut> shortcutList = parser.parse("shortcuts.cfg");
-      for (Shortcut shortcut : shortcutList)
-      {
-        String keyCombination = shortcut.getKeyCombination();
-        String command = shortcut.getCommand();
-        shortcuts.put(keyCombination, command);
-      }
-    }
-    catch (IOException e)
-    {
-      System.err.println("Failed to load shortcuts: " + e.getMessage());
-    }
   }
 
   /**

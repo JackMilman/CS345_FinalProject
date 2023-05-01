@@ -56,7 +56,7 @@ public class RecipeEditor extends Editor
   private JTextField servingsField;
 
   private Recipe workingRecipe;
-
+  
   /**
    * Creates a new RecipeEditor.
    * 
@@ -146,6 +146,7 @@ public class RecipeEditor extends Editor
     // Makes the entire window scrollable
     JScrollPane scrollPane = new JScrollPane(p);
     add(scrollPane);
+
     PreferenceWindow.changeFont(this);
 
     setVisible(true);
@@ -196,6 +197,12 @@ public class RecipeEditor extends Editor
   {
     state = DocumentState.UNCHANGED;
     
+    workingRecipe = new Recipe("", 0);
+    
+    nameField.setText("");
+    servingsField.setText("1");
+    
+    updateEditors();
     updateButtons();
   }
 
