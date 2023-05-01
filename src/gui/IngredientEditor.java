@@ -146,7 +146,8 @@ public class IngredientEditor extends JPanel
     add(inputFields, BorderLayout.NORTH);
     add(deleteButton, BorderLayout.EAST);
     add(ingredientDisplay, BorderLayout.CENTER);
-
+    PreferenceWindow.changeFont(this);
+    
     setVisible(true);
     setOpaque(false);
 

@@ -130,7 +130,8 @@ public class MealEditor extends Editor
     edit.add(deleteButton, BorderLayout.EAST);
 
     add(edit, BorderLayout.SOUTH);
-
+    PreferenceWindow.changeFont(this);
+    
     setVisible(true);
     setResizable(true);
     pack();

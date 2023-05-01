@@ -93,6 +93,8 @@ public class KeyShortcuts extends KitchIntelJFrame
         // }
       }
     });
+    
+    PreferenceWindow.changeFont(this);
 
     setVisible(true);
   }

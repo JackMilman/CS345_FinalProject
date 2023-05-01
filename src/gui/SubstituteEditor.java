@@ -138,6 +138,7 @@ public class SubstituteEditor extends JPanel
     add(inputFields, BorderLayout.NORTH);
     add(deleteButton, BorderLayout.EAST);
     add(substituteDisplay, BorderLayout.CENTER);
+    PreferenceWindow.changeFont(this);
 
     setVisible(true);
     setOpaque(false);

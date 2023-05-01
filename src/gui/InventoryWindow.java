@@ -72,6 +72,7 @@ public class InventoryWindow extends Editor
     c.add(topMenuBar(), BorderLayout.NORTH);
     c.add(infoMenuBar(), BorderLayout.AFTER_LINE_ENDS);
     c.add(infoContainer(), BorderLayout.SOUTH);
+    PreferenceWindow.changeFont(this);
     setVisible(true);
     setSize(900, 500);
     setResizable(false);

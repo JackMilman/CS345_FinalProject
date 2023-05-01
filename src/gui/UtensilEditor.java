@@ -100,6 +100,7 @@ public class UtensilEditor extends JComponent
     
     DeleteEnabler delListener = new DeleteEnabler(utensilDisplay, deleteButton);
     utensilDisplay.getSelectionModel().addListSelectionListener(delListener);
+    PreferenceWindow.changeFont(this);
 
     setVisible(true);
   }

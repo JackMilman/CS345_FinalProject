@@ -124,6 +124,7 @@ public class StepEditor extends JComponent
     display = new JTable(new DefaultTableModel(1, 1));
     updateStepDisplay();
     add(display, BorderLayout.CENTER);
+    PreferenceWindow.changeFont(this);
 
     setVisible(true);
   }

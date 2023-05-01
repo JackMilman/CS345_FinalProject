@@ -20,6 +20,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import config.Shortcut;
 import config.Translator;
+import preferences.KitchIntelPreferenceReader;
 import recipes.Meal;
 import recipes.Recipe;
 import utilities.ResourceCopier;
@@ -67,9 +68,21 @@ public class KiLowBitesController implements ActionListener
   public KiLowBitesController(final JFrame main)
   {
     this.main = main;
-    this.fileChooser = new JFileChooser(new File("."));
+    this.fileChooser = createFileChooser();
     this.fileFilter = new FileNameExtensionFilter("Recipes and Meal",
         new String[] {RECIPEEXT, MEALEXT});
+  }
+  
+  private JFileChooser createFileChooser() {
+    try {
+      File location = new File(KitchIntelPreferenceReader.returnValue(KitchIntelPreferenceReader.DEFAULT));
+      if (location.exists() && location.isDirectory()) {
+        return new JFileChooser(location);
+      }
+    } catch (IOException e ){
+      System.out.print("Error");
+    }
+    return new JFileChooser(new File("."));
   }
 
   @Override

@@ -49,6 +49,7 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame
     super(Translator.translate("KiLowBites Calorie Calculator"));
     setUp();
     setDefaultCloseOperation(HIDE_ON_CLOSE);
+    PreferenceWindow.changeFont(this);
   }
 
   public static CalorieCalculatorWindow getCalorieCalculatorWindow()
