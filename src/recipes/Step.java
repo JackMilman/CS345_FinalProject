@@ -20,8 +20,9 @@ public class Step implements Serializable
 
   private String details;
 
-  private Ingredient ingredient;
-  private Recipe recipe;
+  private Ingredient ingredient = null;
+  
+  private Recipe recipe = null;
 
   private Utensil source;
 
@@ -239,7 +240,7 @@ public class Step implements Serializable
     }
     if (recipe != null)
     {
-      return String.format("%s the *%s on the %s %s\t\t%s minutes", action, recipe.getName(),
+      return String.format("%s the %s on the %s %s\t\t%s minutes", action, recipe.getName(),
           destination.getName(), details, time).strip();
     }
     // if the source is an ingredient
@@ -268,19 +269,23 @@ public class Step implements Serializable
         // if the source and destination utensil are the same
         if (source.equals(destination))
         {
-          return String.format("%s the contents of the %s", action, source.getName(), details)
+          return String.format("%s the contents of the %s %s", action, source.getName(), details)
               .strip();
         }
         // if the source and destination utensil are different
         else
         {
-          return String.format("%s the contents of the %s in the %s", action, source.getName(),
+          return String.format("%s the contents of the %s in the %s %s", action, source.getName(),
               destination.getName(), details).strip();
         }
       }
 
+      if (recipe != null) {
+        return String.format("%s the %s on the %s %s", action, recipe.getName(),
+            destination.getName(), details).strip();
+      }
       // if the source is an ingredient
-      return String.format("%s the %s on the %s", action, ingredient.getName(),
+      return String.format("%s the %s on the %s %s", action, ingredient.getName(),
           destination.getName(), details).strip();
     }
   }

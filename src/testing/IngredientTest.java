@@ -111,4 +111,41 @@ class IngredientTest
     assertNotEquals(differentNameCode, differentDetailsCode);
   }
 
+  @Test
+  public void testToString()
+  {
+    Double amount = 10.0;
+    Ingredient individual = new Ingredient(ingredientName, ingredientDetails, amount,
+        Unit.INDIVIDUAL);
+    Ingredient pinch = new Ingredient(ingredientName, ingredientDetails, amount, Unit.PINCH);
+    Ingredient noUnit = new Ingredient(ingredientName, ingredientDetails, amount, Unit.NONE);
+    Ingredient anyOtherUnit = new Ingredient(ingredientName, ingredientDetails, amount, Unit.CUP);
+    Ingredient nullDetails = new Ingredient(ingredientName, null, amount, Unit.CUP);
+
+    String individualString = String.format("%.2f %s %s %s", amount,
+        Unit.INDIVIDUAL.getName().toLowerCase(), ingredientDetails, ingredientName);
+    String pinchString = String.format("%.2f %ses of %s %s", amount,
+        Unit.PINCH.getName().toLowerCase(), ingredientDetails, ingredientName);
+    String noUnitString = String.format("%.2f %s%s %s", amount, Unit.NONE.getName().toLowerCase(),
+        ingredientDetails, ingredientName);
+    String cupString = String.format("%.2f %ss of %s %s", amount, Unit.CUP.getName().toLowerCase(),
+        ingredientDetails, ingredientName);
+    String nullDetailsString = String.format("%.2f %ss of %s%s", amount,
+        Unit.CUP.getName().toLowerCase(), "", ingredientName);
+
+    assertEquals(individualString, individual.toString());
+    assertEquals(pinchString, pinch.toString());
+    assertEquals(noUnitString, noUnit.toString());
+    assertEquals(cupString, anyOtherUnit.toString());
+    assertEquals(nullDetailsString, nullDetails.toString());
+  }
+
+  @Test
+  public void testCompareTo()
+  {
+    Ingredient ingredient1 = new Ingredient("ABCD", ingredientDetails, 10, Unit.DRAM);
+    Ingredient ingredient2 = new Ingredient("EFGH", ingredientDetails, 1687, Unit.CUP);
+    assertFalse(ingredient1.compareTo(ingredient2) > 0);
+  }
+
 }

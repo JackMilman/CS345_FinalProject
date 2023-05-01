@@ -39,11 +39,13 @@ public enum Unit
    */
   public static Unit parseUnit(final String unit)
   {
-    for (Unit item: Unit.values())
-    {
-      if (unit.equalsIgnoreCase(item.getName()))
+    if (unit != null) {
+      for (Unit item: Unit.values())
       {
-        return item;
+        if (unit.equalsIgnoreCase(item.getName()))
+        {
+          return item;
+        }
       }
     }
     return null;
