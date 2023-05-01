@@ -23,8 +23,8 @@ public class ShortcutsParser
         String actionCommand = parts[0].trim();
         String keyCombination = parts[1].trim();
 
-        Shortcut shortcut = new Shortcut(keyCombination, actionCommand);
-        shortcuts.add(shortcut);
+        //Shortcut shortcut = new Shortcut(keyCombination, actionCommand);
+       // shortcuts.add(shortcut);
       }
       line = reader.readLine();
     }

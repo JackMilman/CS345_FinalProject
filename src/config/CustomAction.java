@@ -20,16 +20,24 @@ public class CustomAction extends AbstractAction
   }
 
   @Override
-  public void actionPerformed(ActionEvent e)
+  public void actionPerformed(final ActionEvent e)
   {
     // Add the code that you want to execute when the button is clicked
   }
 
-  public void setKeyStroke(KeyStroke keyStroke)
+  /**
+   * 
+   * @param keyStroke
+   */
+  public void setAcceleratorKey(KeyStroke keyStroke)
   {
     this.keyStroke = keyStroke;
   }
 
+  /**
+   * 
+   * @return keyStroke
+   */
   public KeyStroke getAcceleratorKey()
   {
     return keyStroke;
@@ -39,5 +47,14 @@ public class CustomAction extends AbstractAction
   public String toString()
   {
     return name;
+  }
+
+  /**
+   * 
+   */
+  public void addToMenu()
+  {
+    frame.getRootPane().getActionMap().put(name, this);
+    frame.getRootPane().getInputMap().put(keyStroke, name);
   }
 }

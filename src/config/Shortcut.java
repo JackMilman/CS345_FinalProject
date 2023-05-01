@@ -1,31 +1,88 @@
 package config;
 
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.KeyStroke;
-
-public class Shortcut
+/**
+ * 
+ * @author shelseyvega
+ *
+ */
+public class Shortcut extends JDialog implements ActionListener
 {
-  private KeyStroke keyStroke;
-  private String actionCommand;
-  private Map<String, KeyStroke> shortcutMap;
 
+  private static final long serialVersionUID = 1L;
+  private JPanel panel;
+  private JButton saveButton;
+  private JButton cancelButton;
+  private Map<String, CustomAction> actions;
+  private Map<String, JTextField> textFields;
 
-  public Shortcut(String keyCombination, String actionCommand)
+  /**
+   * 
+   * @param parent
+   * @param actions
+   */
+  public Shortcut(final JFrame parent, final Map<String, CustomAction> actions)
   {
-    this.shortcutMap = new HashMap<>();
-    this.keyStroke = KeyStroke.getKeyStroke(keyCombination);
-    this.actionCommand = actionCommand;
+    super(parent, "Set Custom Shortcuts", true);
+    this.actions = actions;
+    this.textFields = new HashMap<>();
+    initializeUI();
   }
 
-  public KeyStroke getKeyStroke()
+  private void initializeUI()
   {
-    return keyStroke;
+    panel = new JPanel(new GridLayout(actions.size(), 2, 10, 10));
+    for (CustomAction action : actions.values())
+    {
+      panel.add(new JLabel(action.toString() + ": "));
+      JTextField textField = new JTextField();
+      textField.setText(action.getAcceleratorKey().toString());
+      panel.add(textField);
+      textFields.put(action.toString(), textField);
+    }
+
+    saveButton = new JButton("Save");
+    saveButton.addActionListener(this);
+    cancelButton = new JButton("Cancel");
+    cancelButton.addActionListener(this);
+
+    JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+    buttonPanel.add(saveButton);
+    buttonPanel.add(cancelButton);
+
+    getContentPane().add(panel, BorderLayout.CENTER);
+    getContentPane().add(buttonPanel, BorderLayout.SOUTH);
+    setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+    pack();
+    setLocationRelativeTo(getParent());
+    setVisible(true);
   }
 
-  public String getActionCommand()
+  @Override
+  public void actionPerformed(final ActionEvent e)
   {
-    return actionCommand;
+    if (e.getSource() == saveButton)
+    {
+      for (String actionName : actions.keySet())
+      {
+        JTextField textField = textFields.get(actionName);
+        KeyStroke keyStroke = KeyStroke.getKeyStroke(textField.getText());
+        actions.get(actionName).setAcceleratorKey(keyStroke);
+      }
+      dispose();
+    }
+    else if (e.getSource() == cancelButton)
+    {
+      dispose();
+    }
   }
+  
+  
 }

@@ -9,6 +9,8 @@ import java.awt.event.KeyEvent;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -21,6 +23,7 @@ import javax.swing.SwingUtilities;
 import branding.KitchIntelJFrame;
 import branding.KitchIntelMenuBar;
 import branding.Logo;
+import config.CustomAction;
 import config.Shortcut;
 import config.Translator;
 import utilities.ShortcutsParser;
@@ -34,10 +37,14 @@ import utilities.ShortcutsParser;
  */
 public class MainWindow extends KitchIntelJFrame implements Runnable
 {
-  public MainWindow() {
-  }
+
   private static final long serialVersionUID = 1L;
   private static ArrayList<Component> allCreatedWindows = new ArrayList<>();
+  private Map<String, CustomAction> actions = new HashMap<>();
+  private Map<String, KeyStroke> shortcuts = new HashMap<>();
+  // public MainWindow()
+  // {
+  // }
 
   /**
    * 
@@ -72,8 +79,15 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     KiLowBitesController controller = new KiLowBitesController(this);
 
 
-    //
-    // CustomAction myAction = new CustomAction("My Action");
+    // Create a new instance of CustomAction and set its name and frame
+    CustomAction myAction = new CustomAction("Custom Action", this);
+
+    // Create a new instance of ShortcutsDialog with a reference to this MainWindow
+
+    // Show the ShortcutsDialog when the "Shortcuts" menu item is clicked
+    // JMenuItem shortcutsMenuItem = new JMenuItem("Shortcuts");
+    // shortcutsMenuItem.addActionListener(e -> shortcutsDialog.setVisible(true));
+    // view.add(shortcutsMenuItem);
 
     // create a menu bar and add the items
     JMenuBar menuBar = new KitchIntelMenuBar();
@@ -90,7 +104,6 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     JMenu edit = new JMenu(Translator.translate("Edit"));
     menuBar.add(edit);
     edit.setMnemonic(KeyEvent.VK_R);
-
 
     // Recipe: A RecipeEditor is opened
     JMenuItem recipe = new JMenuItem(Translator.translate(KiLowBitesController.RECIPE));
@@ -112,7 +125,7 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
 
     JMenu view = new JMenu(Translator.translate("View"));
     menuBar.add(view);
-    
+
     // Shopping List: A ShoppingListViewer is opened
     JMenuItem shoppingList = new JMenuItem(Translator.translate(KiLowBitesController.SHOPPING));
     shoppingList.addActionListener(controller);
@@ -139,7 +152,7 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
 
     JMenu tools = new JMenu(Translator.translate("Tools"));
     menuBar.add(tools);
-    
+
     // Calorie Calculator: Calorie Calculator is opened
     JMenuItem calorieCalculator = new JMenuItem(
         Translator.translate(KiLowBitesController.CALORIECALCULATOR));
@@ -148,7 +161,7 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     tools.add(calorieCalculator);
     KeyStroke calCalc = KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK);
     calorieCalculator.setAccelerator(calCalc);
-    
+
     // Units Converter: UnitConversionWindow is opened
     JMenuItem unitsConverter = new JMenuItem(
         Translator.translate(KiLowBitesController.UNITSCONVERTER));
@@ -193,7 +206,7 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     JLabel logoLabel = new JLabel(logo);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
-    
+
     setVisible(true);
 
   }

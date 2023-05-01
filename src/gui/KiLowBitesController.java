@@ -188,29 +188,9 @@ public class KiLowBitesController implements ActionListener
     // open shortcuts
     if (e.getActionCommand().equals("Shortcuts"))
     {    
-      loadShortcuts();
-      new KeyShortcuts();
+      //loadShortcuts();
     }
 
-  }
-
-  private void loadShortcuts()
-  {
-    ShortcutsParser parser = new ShortcutsParser();
-    try
-    {
-      List<Shortcut> shortcutList = parser.parse("shortcuts.cfg");
-      for (Shortcut shortcut : shortcutList)
-      {
-        KeyStroke keyCombination = shortcut.getKeyStroke();
-        String command = shortcut.getActionCommand();
-        shortcuts.put(keyCombination, command);
-      }
-    }
-    catch (IOException e)
-    {
-      System.err.println("Failed to load shortcuts: " + e.getMessage());
-    }
   }
 
   /**
