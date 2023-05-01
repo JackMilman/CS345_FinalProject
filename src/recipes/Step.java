@@ -50,6 +50,7 @@ public class Step implements Serializable
     this.details = details;
     this.time = time;
   }
+
   /**
    * Step constructor with a Recipe as its ingredient, for use with Embedded Recipes.
    * 
@@ -237,7 +238,7 @@ public class Step implements Serializable
             source.getName(), destination.getName(), details, time).strip();
       }
     }
-    // if the source is an ingredien
+    // if the source is an ingredient
     if (recipe != null)
     {
       return String.format("%s the %s on the %s %s\t\t%s minutes", action, recipe.getName(),
