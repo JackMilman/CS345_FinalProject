@@ -24,7 +24,7 @@ public class Recipe implements Serializable
   
   private static final long serialVersionUID = 1L;
   
-  private static final String FILEEXT = ".rcp";
+  private static final String FILE_EXT = ".rcp";
   
   protected List<Ingredient> ingredients = new ArrayList<Ingredient>();
 
@@ -486,7 +486,7 @@ public class Recipe implements Serializable
    */
   public void write(final String fileName) throws IOException
   {
-    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName + FILEEXT));
+    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(fileName + FILE_EXT));
 
     out.writeObject(this);
     out.flush();
@@ -506,7 +506,7 @@ public class Recipe implements Serializable
    */
   public static Recipe read(final String fileName) throws IOException
   {
-    ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName + FILEEXT));
+    ObjectInputStream in = new ObjectInputStream(new FileInputStream(fileName + FILE_EXT));
 
     Recipe recipe;
 

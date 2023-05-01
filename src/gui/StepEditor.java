@@ -168,10 +168,11 @@ public class StepEditor extends JComponent
     if (on.startsWith("*"))
     {
         Recipe objectRecipe = null;
+        String searchString = on.substring(1);
         List<Recipe> subRecipes = workingRecipe.getSubRecipes();
         for (Recipe recipe : subRecipes)
         {
-          if (on.equals(recipe.getName()))
+          if (searchString.equals(recipe.getName()))
           {
             objectRecipe = recipe;
           }
@@ -277,8 +278,7 @@ public class StepEditor extends JComponent
 
     for (Recipe info : workingRecipe.getSubRecipes())
     {
-      info.setName("*" + info.getName());
-      onSelect.addItem(info.getName());
+      onSelect.addItem("*" + info.getName());
     }
 
   }
@@ -330,7 +330,9 @@ public class StepEditor extends JComponent
         try
         {
           recipe = Recipe.read(fileName);
-          workingRecipe.addRecipe(recipe);
+          if (workingRecipe.getName() != recipe.getName()) {
+            workingRecipe.addRecipe(recipe);
+          }
         }
         catch (IOException ioe)
         {

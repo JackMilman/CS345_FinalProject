@@ -111,7 +111,6 @@ class RecipeTest
     expected.add(new Utensil(utensilName1, utensilDetails));
     expected.add(new Utensil(utensilName2, utensilDetails));
     expected.add(new Utensil(utensilName3, utensilDetails));
-    List<Utensil> temp = new ArrayList<Utensil>();
 
     Recipe recipe = new Recipe(recipeNameValid, 500);
     recipe.addUtensil(new Utensil(utensilName1, utensilDetails));
