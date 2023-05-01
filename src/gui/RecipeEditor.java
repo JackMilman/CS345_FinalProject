@@ -56,7 +56,7 @@ public class RecipeEditor extends Editor
   private JTextField servingsField;
 
   private Recipe workingRecipe;
-
+  
   /**
    * Creates a new RecipeEditor.
    * 
@@ -146,7 +146,7 @@ public class RecipeEditor extends Editor
     // Makes the entire window scrollable
     JScrollPane scrollPane = new JScrollPane(p);
     add(scrollPane);
-
+    
     setVisible(true);
     setResizable(true);
     pack();

@@ -61,6 +61,7 @@ public class SubstituteEditor extends JPanel
   private final RecipeEditor parent;
 
   private final EnableUpdater enableUpdater;
+  private final DeleteEnabler delListener;
 
   private final List<Ingredient> validIngredients = new ArrayList<Ingredient>();
 
@@ -138,6 +139,11 @@ public class SubstituteEditor extends JPanel
     add(inputFields, BorderLayout.NORTH);
     add(deleteButton, BorderLayout.EAST);
     add(substituteDisplay, BorderLayout.CENTER);
+    
+    delListener = new DeleteEnabler(substituteDisplay, deleteButton);
+    delListener.valueChanged(null);
+    
+    substituteDisplay.getSelectionModel().addListSelectionListener(delListener);;
 
     setVisible(true);
     setOpaque(false);
@@ -467,6 +473,7 @@ public class SubstituteEditor extends JPanel
     unitSelect.setEnabled(editable);
 
     enableUpdater.actionPerformed(null);
+    delListener.valueChanged(null);
   }
 
 }

@@ -34,9 +34,7 @@ public class DeleteEnabler implements ListSelectionListener
   @Override
   public void valueChanged(final ListSelectionEvent e)
   {
-    System.out.println("Set to: " + (subject.getSelectedRow() != -1));
     deleteButton.setEnabled(subject.getSelectedRow() != -1);
-
   }
 
 }
