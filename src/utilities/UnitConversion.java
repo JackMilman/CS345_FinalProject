@@ -144,16 +144,9 @@ public class UnitConversion
    * @param unit to check
    * @return true if mass, false otherwise
    */
-  public static boolean isMass(final String unit)
+  public static boolean isMass(final Unit unit)
   {
-    if(unit == null) return false;
-    Set<Unit> keyValues = MASS_CONVERSIONS.keySet();
-    for (Unit key : keyValues)
-    {
-      if (unit.equalsIgnoreCase(key.getName()))
-        return true;
-    }
-    return false;
+    return MASS_CONVERSIONS.containsKey(unit);
   }
 
   /**
@@ -162,15 +155,8 @@ public class UnitConversion
    * @param unit to check
    * @return true if volume, false otherwise
    */
-  public static boolean isVolume(final String unit)
+  public static boolean isVolume(final Unit unit)
   {
-    if(unit == null) return false;
-    Set<Unit> keyValues = VOLUME_CONVERSIONS.keySet();
-    for (Unit key : keyValues)
-    {
-      if (unit.equalsIgnoreCase(key.getName()))
-        return true;
-    }
-    return false;
+    return VOLUME_CONVERSIONS.containsKey(unit);
   }
 }

@@ -38,17 +38,14 @@ public class UnitConversionWindow extends KitchIntelJFrame
 
   private static UnitConversionWindow unitWindow = null;
 
-  private String[] units = {"", "DRAM", "OUNCE", "GRAM", "POUND", "PINCH", "TEASPOON", "TABLESPOON",
-      "FLUID OUNCE", "CUP", "PINT", "QUART", "GALLON", "MILLILITER"};
-
-  private JComboBox<String> fromunitBox = new JComboBox<String>();
-  private JComboBox<String> tounitBox = new JComboBox<String>();
+  private JComboBox<String> fromUnitBox = new JComboBox<String>();
+  private JComboBox<String> toUnitBox = new JComboBox<String>();
   private JComboBox<String> ingredientBox = new JComboBox<String>();
   private JTextField amount;
   private JLabel resultLabel;
 
-  private String fromUnit;
-  private String toUnit;
+  private Unit fromUnit;
+  private Unit toUnit;
   private String ingredient;
   private int amountvalue;
   private boolean open = false;
@@ -62,8 +59,7 @@ public class UnitConversionWindow extends KitchIntelJFrame
     super(Translator.translate("KiLowBites Unit Converter"));
     setUp();
     ingredientBox.setEnabled(false);
-    
- 
+
     setDefaultCloseOperation(HIDE_ON_CLOSE);
   }
 
@@ -103,18 +99,18 @@ public class UnitConversionWindow extends KitchIntelJFrame
     Container unitMenu = new Container();
     unitMenu.setLayout(new FlowLayout(FlowLayout.LEFT));
 
-    JLabel fromunitLabel = new JLabel(Translator.translate("From units") + ":");
-    fromunitBox = new JComboBox<String>();
-    JLabel tounitLabel = new JLabel(Translator.translate("To units") + ":");
-    tounitBox = new JComboBox<String>();
-    for (int i = 0; i < units.length; i++)
+    JLabel fromUnitLabel = new JLabel(Translator.translate("From units") + ":");
+    fromUnitBox = new JComboBox<String>();
+    JLabel toUnitLabel = new JLabel(Translator.translate("To units") + ":");
+    toUnitBox = new JComboBox<String>();
+    for (Unit unit : Unit.values())
     {
-      fromunitBox.addItem(units[i]);
-      tounitBox.addItem(units[i]);
+      fromUnitBox.addItem(unit.getName());
+      toUnitBox.addItem(unit.getName());
     }
 
-    fromunitBox.addItemListener(new FromComboBoxHandler());
-    tounitBox.addItemListener(new ToComboBoxHandler());
+    fromUnitBox.addItemListener(new FromComboBoxHandler());
+    toUnitBox.addItemListener(new ToComboBoxHandler());
     Set<String> ingredients = NutritionInfo.getIngredientsInMap();
     JLabel ingredientLabel = new JLabel(Translator.translate("Ingredient") + ":");
     ingredientBox = new JComboBox<String>();
@@ -123,13 +119,13 @@ public class UnitConversionWindow extends KitchIntelJFrame
     {
       ingredientBox.addItem(info);
     }
-    unitMenu.add(fromunitLabel);
-    unitMenu.add(fromunitBox);
-    unitMenu.add(tounitLabel);
-    unitMenu.add(tounitBox);
+    unitMenu.add(fromUnitLabel);
+    unitMenu.add(fromUnitBox);
+    unitMenu.add(toUnitLabel);
+    unitMenu.add(toUnitBox);
     unitMenu.add(ingredientLabel);
     unitMenu.add(ingredientBox);
-       
+
     ingredientBox.addItemListener(new IngredientComboBoxHandler());
 
     return unitMenu;
@@ -142,9 +138,9 @@ public class UnitConversionWindow extends KitchIntelJFrame
     amount = new JTextField(DEFAULT_TEXT_FIELD_WIDTH);
     resultLabel = new JLabel(Translator.translate("Result") + ":  ___________");
 
-    //inputPanel.setOpaque(false);
+    // inputPanel.setOpaque(false);
     inputPanel.setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
-    
+
     inputPanel.add(fromAmount);
     inputPanel.add(amount);
     inputPanel.add(resultLabel);
@@ -154,7 +150,7 @@ public class UnitConversionWindow extends KitchIntelJFrame
   private void setUp()
   {
     Container c = getContentPane();
-    
+
     Container icons = createIcons();
     c.add(icons, BorderLayout.NORTH);
     Container unitMenu = createUnitMenu();
@@ -162,27 +158,26 @@ public class UnitConversionWindow extends KitchIntelJFrame
     JPanel inputPanel = createInputPanel();
     c.add(inputPanel, BorderLayout.AFTER_LAST_LINE);
     inputPanel.setOpaque(false);
-    
+
     unitMenu.setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
-    
+
     // Result
     setVisible(true);
     pack();
     setResizable(false);
   }
-  
+
   private void updateIngredientAvailability()
   {
-    ingredientBox.setEnabled((UnitConversion.isMass(fromUnit) && UnitConversion.isVolume(toUnit))
-          || (UnitConversion.isVolume(fromUnit) && UnitConversion.isMass(toUnit)));
-    
+    ingredientBox.setEnabled(fromUnit != null && toUnit != null);
+
   }
 
   private class FromComboBoxHandler implements ItemListener
   {
     public void itemStateChanged(ItemEvent e)
     {
-      fromUnit = (String) e.getItem();
+      fromUnit = Unit.parseUnit((String) e.getItem());
       updateIngredientAvailability();
     }
   }
@@ -192,7 +187,7 @@ public class UnitConversionWindow extends KitchIntelJFrame
 
     public void itemStateChanged(ItemEvent e)
     {
-      toUnit = (String) e.getItem();
+      toUnit = Unit.parseUnit((String) e.getItem());
       updateIngredientAvailability();
     }
   }
@@ -222,8 +217,8 @@ public class UnitConversionWindow extends KitchIntelJFrame
 
       if (command.equals(RESET))
       {
-        fromunitBox.setSelectedItem("");
-        tounitBox.setSelectedItem("");
+        fromUnitBox.setSelectedItem("");
+        toUnitBox.setSelectedItem("");
         ingredientBox.setSelectedItem("");
         amount.setText("");
         resultLabel.setText(Translator.translate("Result") + ":  ___________ ");
@@ -234,10 +229,10 @@ public class UnitConversionWindow extends KitchIntelJFrame
         amountvalue = Integer.parseInt(amount.getText());
         if (amountvalue < 0)
           amountvalue = 0;
-        double value = UnitConversion.convert(ingredient, Unit.parseUnit(fromUnit), Unit.parseUnit(toUnit), amountvalue);
+        double value = UnitConversion.convert(ingredient, fromUnit, toUnit, amountvalue);
         double truncate = Math.floor(value * 100) / 100;
-        resultLabel
-            .setText(Translator.translate("Result") + ":   " + String.format("%.2f", truncate));
+        resultLabel.setText(Translator.translate("Result") + ":   "
+            + String.format("%.2f", truncate) + " " + toUnit.getName());
       }
 
     }
