@@ -152,26 +152,28 @@ public class StepEditor extends JComponent
 
     Utensil destinationUtensil = null;
     Utensil sourceUtensil = null;
+    List<Utensil> utensils = workingRecipe.getUtensils();
 
-    for (int i = 0; i < workingRecipe.getUtensils().size(); i++)
+    for (int i = 0; i < utensils.size(); i++)
     {
-      if (on.equals(workingRecipe.getUtensils().get(i).getName()))
+      if (on.equals(utensils.get(i).getName()))
       {
-        sourceUtensil = workingRecipe.getUtensils().get(i);
+        sourceUtensil = utensils.get(i);
       }
-      if (utensil.equals(workingRecipe.getUtensils().get(i).getName()))
+      if (utensil.equals(utensils.get(i).getName()))
       {
-        destinationUtensil = workingRecipe.getUtensils().get(i);
+        destinationUtensil = utensils.get(i);
       }
     }
     if (on.startsWith("*"))
     {
         Recipe objectRecipe = null;
-        for (int i = 0; i < workingRecipe.getSubRecipes().size(); i++)
+        List<Recipe> subRecipes = workingRecipe.getSubRecipes();
+        for (Recipe recipe : subRecipes)
         {
-          if (on.equals(workingRecipe.getSubRecipes().get(i).getName()))
+          if (on.equals(recipe.getName()))
           {
-            objectRecipe = workingRecipe.getSubRecipes().get(i);
+            objectRecipe = recipe;
           }
 
         }
@@ -182,11 +184,12 @@ public class StepEditor extends JComponent
     else
     {
       Ingredient objectIngredient = null;
-      for (int i = 0; i < workingRecipe.getIngredients().size(); i++)
+      List<Ingredient> ingredients = workingRecipe.getIngredients();
+      for (Ingredient ingr : ingredients)
       {
-        if (on.equals(workingRecipe.getIngredients().get(i).getName()))
+        if (on.equals(ingr.getName()))
         {
-          objectIngredient = workingRecipe.getIngredients().get(i);
+          objectIngredient = ingr;
         }
 
       }

@@ -241,7 +241,7 @@ public class Step implements Serializable
     // if the source is an ingredient
     if (recipe != null)
     {
-      return String.format("%s the %s on the %s %s\t\t%s minutes", action, recipe.getName(),
+      return String.format("%s the *%s on the %s %s\t\t%s minutes", action, recipe.getName(),
           destination.getName(), details, time).strip();
     }
     // if the source is an ingredient
@@ -282,7 +282,7 @@ public class Step implements Serializable
       }
 
       if (recipe != null) {
-        return String.format("%s the %s on the %s %s", action, recipe.getName(),
+        return String.format("%s the *%s on the %s %s", action, recipe.getName(),
             destination.getName(), details).strip();
       }
       // if the source is an ingredient
