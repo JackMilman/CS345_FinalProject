@@ -1,4 +1,4 @@
-RECIPE:N/A
-MEAL:N/A
+RECIPE:C:\Users\josia\cs345\Recipes\recipes
+MEAL:C:\Users\josia\cs345\meals\meals
 DEFAULT:/Users/allieokeeffe/Desktop/Test2
-FONT:20
+FONT:16
