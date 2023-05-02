@@ -155,9 +155,11 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame
 
     amount = new JTextField();
 
-    String[] unitNames = {"", "DRAM", "OUNCE", "GRAM", "POUND", "PINCH", "TEASPOON", "TABLESPOON",
-        "FLUID OUNCE", "CUP", "PINT", "QUART", "GALLON"};
-    units = new JComboBox<>(unitNames);
+    units = new JComboBox<>();
+    for (Unit unit : Unit.values())
+    {
+      units.addItem(unit.getName());
+    }
     units.addActionListener(calories);
     ingredients = setUpIngredients();
     ingredients.addActionListener(calories);
