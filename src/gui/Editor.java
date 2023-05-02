@@ -9,7 +9,7 @@ import branding.KitchIntelJDialog;
  * Abstract parent class of all editors. Encapsulates functionality like the buttons that all
  * editors have in common.
  * 
- * @author Josiah Leach
+ * @author Josiah Leach, KitchIntel
  * @version 04.04.2023
  */
 public abstract class Editor extends KitchIntelJDialog
@@ -19,9 +19,6 @@ public abstract class Editor extends KitchIntelJDialog
 
   protected static final String CURRENT_DIRECTORY = ".";
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = 1L;
 
   protected KitchIntelIconButton newButton;

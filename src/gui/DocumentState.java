@@ -1,9 +1,9 @@
 package gui;
 
 /**
- * The states that a document can be in per Interaction Design Document point 4.
+ * The states that a document can be in.
  * 
- * @author Josiah Leach
+ * @author Josiah Leach, KitchIntel
  * @version 04.04.2023
  */
 public enum DocumentState

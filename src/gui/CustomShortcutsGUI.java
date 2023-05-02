@@ -7,12 +7,23 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * GUI for creating custom shortcuts.
+ * 
+ * @author KitchIntel
+ * @version
+ */
 public class CustomShortcutsGUI extends JFrame
 {
   public static Map<String, String> shortcutsMap;
   private JTable shortcutsTable;
 
-  public CustomShortcutsGUI(Map<String, String> shortcutsMap)
+  /**
+   * Create a GUI for custom shortcuts.
+   * 
+   * @param shortcutsMap
+   */
+  public CustomShortcutsGUI(final Map<String, String> shortcutsMap)
   {
     super("Customize Shortcuts");
     this.shortcutsMap = shortcutsMap;
@@ -39,7 +50,7 @@ public class CustomShortcutsGUI extends JFrame
     JButton resetButton = new JButton("Reset to Defaults");
     resetButton.addActionListener(new ActionListener()
     {
-      public void actionPerformed(ActionEvent e)
+      public void actionPerformed(final ActionEvent e)
       {
         shortcutsMap.clear();
         shortcutsMap.put(KiLowBitesController.RECIPE, "ctrl R");
@@ -60,7 +71,7 @@ public class CustomShortcutsGUI extends JFrame
     JButton saveButton = new JButton("Save");
     saveButton.addActionListener(new ActionListener()
     {
-      public void actionPerformed(ActionEvent e)
+      public void actionPerformed(final ActionEvent e)
       {
         try
         {
@@ -84,7 +95,7 @@ public class CustomShortcutsGUI extends JFrame
     JButton closeButton = new JButton("Close");
     closeButton.addActionListener(new ActionListener()
     {
-      public void actionPerformed(ActionEvent e)
+      public void actionPerformed(final ActionEvent e)
       {
         dispose();
       }

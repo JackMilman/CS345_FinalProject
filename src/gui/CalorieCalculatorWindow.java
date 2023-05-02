@@ -29,20 +29,20 @@ import recipes.Unit;
  * and enter the amount. This will then be used to calculate the number of calories. It uses the
  * singleton design pattern so only one window can be opened at a time.
  * 
- * @author Allie O'Keeffe
- *
+ * @author Allie O'Keeffe, KitchIntel
+ * @version
  */
 public class CalorieCalculatorWindow extends KitchIntelJFrame
 {
 
   private static final long serialVersionUID = 1L;
+  private static final String CALCULATION_COMMAND = "calc";
+  private static final String RESET = "reset";
+  private static CalorieCalculatorWindow calorieWindow;
   // private String selectedIngredient, selectedUnits, enteredAmount;
   private JLabel calorie;
   private JComboBox<String> ingredients, units;
   private JTextField amount;
-  private static final String CALCULATION_COMMAND = "calc";
-  private static final String RESET = "reset";
-  private static CalorieCalculatorWindow calorieWindow;
 
   private CalorieCalculatorWindow(final Window main)
   {
@@ -52,6 +52,11 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame
     PreferenceWindow.changeFont(this);
   }
 
+  /**
+   * Get the calorie calculator window if it exists, or make a new one if otherwise.
+   * 
+   * @return calorie calculator
+   */
   public static CalorieCalculatorWindow getCalorieCalculatorWindow()
   {
     if (calorieWindow == null)
@@ -98,21 +103,22 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame
     return inputs;
   }
 
-  private JLabel createLabels(String name)
+  private JLabel createLabels(final String name)
   {
     return new JLabel(String.format("%s:", name));
   }
 
   private String getSelectedIngredients()
   {
-   String s = (String)ingredients.getSelectedItem();
-   if (NutritionInfo.contains(s.toLowerCase())) {
-     if (NutritionInfo.getCalPerGram(s) == 0.0)
-     {
-       return null;
-     }
-   }
-   return s;
+    String s = (String)ingredients.getSelectedItem();
+    if (NutritionInfo.contains(s.toLowerCase()))
+    {
+      if (NutritionInfo.getCalPerGram(s) == 0.0)
+      {
+        return null;
+      }
+    }
+    return s;
   }
 
   private String getSelectedUnits()
@@ -183,7 +189,7 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame
     }
 
     @Override
-    public void actionPerformed(ActionEvent e)
+    public void actionPerformed(final ActionEvent e)
     {
       String selectedIngredient = getSelectedIngredients();
       Unit selectedUnits = Unit.parseUnit(getSelectedUnits());
@@ -203,10 +209,12 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame
       {
         try
         {
-          if (selectedIngredient == null) {
+          if (selectedIngredient == null)
+          {
             calorie.setText(Translator.translate("Calories") + ": "
                 + "Unsupported Ingredient");
-          } else {
+          } else
+          {
             double amountOfIngredients = Double.parseDouble(enteredText);
             Ingredient temp = new Ingredient(selectedIngredient, "", amountOfIngredients,
                 selectedUnits);

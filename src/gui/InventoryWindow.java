@@ -22,6 +22,12 @@ import recipes.Inventory;
 import recipes.NutritionInfo;
 import recipes.Unit;
 
+/**
+ * The window to view the inventory.
+ * 
+ * @author KitchIntel
+ * @version
+ */
 public class InventoryWindow extends Editor
 {
   private static final long serialVersionUID = 1L;
@@ -33,9 +39,6 @@ public class InventoryWindow extends Editor
   private JTextField ingredientAmount = new JTextField(DEFAULT_TEXT_FIELD_WIDTH);
   private JLabel amountItems = new JLabel();
 
-  // should use units enum
-//  private String[] units = {"", "DRAM", "OUNCE", "GRAM", "POUND", "PINCH", "TEASPOON", "TABLESPOON",
-//      "FLUID OUNCE", "CUP", "PINT", "QUART", "GALLON", "MILLILITER"};
   private JComboBox<String> ingredientUnit = new JComboBox<String>();
 
   private JButton addButton = new JButton();
@@ -49,6 +52,11 @@ public class InventoryWindow extends Editor
   private Unit unit;
   private Ingredient inventoryItem;
 
+  /**
+   * Create a new inventory or return an existing inventory.
+   * 
+   * @param main
+   */
   public InventoryWindow(final Window main)
   {
 
@@ -112,12 +120,12 @@ public class InventoryWindow extends Editor
     JLabel unit = new JLabel("Unit:");
     unitMenu.add(unit);
     unitMenu.add(ingredientUnit);
-    ingredientUnit.addItemListener(new unitBoxHandler());
+    ingredientUnit.addItemListener(new UnitBoxHandler());
     addButton.setText("+");
     addButton.setEnabled(false);
-    addButton.addActionListener(new addOperationHandler());
+    addButton.addActionListener(new AddOperationHandler());
     subButton.setText("-");
-    subButton.addActionListener(new subOperationHandler());
+    subButton.addActionListener(new SubOperationHandler());
     subButton.setEnabled(false);
     unitMenu.add(addButton);
     unitMenu.add(subButton);
@@ -135,11 +143,11 @@ public class InventoryWindow extends Editor
     return infoContainer;
   }
 
-  private class unitBoxHandler implements ItemListener
+  private class UnitBoxHandler implements ItemListener
   {
 
     @Override
-    public void itemStateChanged(ItemEvent e)
+    public void itemStateChanged(final ItemEvent e)
     {
       addButton.setEnabled(true);
       subButton.setEnabled(true);
@@ -148,11 +156,11 @@ public class InventoryWindow extends Editor
 
   }
 
-  private class addOperationHandler implements ActionListener
+  private class AddOperationHandler implements ActionListener
   {
 
     @Override
-    public void actionPerformed(ActionEvent e)
+    public void actionPerformed(final ActionEvent e)
     {
       inventoryPanel.setText("");
       name = (String) ingredientName.getSelectedItem();
@@ -175,11 +183,11 @@ public class InventoryWindow extends Editor
     }
   }
 
-  private class subOperationHandler implements ActionListener
+  private class SubOperationHandler implements ActionListener
   {
 
     @Override
-    public void actionPerformed(ActionEvent e)
+    public void actionPerformed(final ActionEvent e)
     {
       inventoryPanel.setText("");
       name = (String) ingredientName.getSelectedItem();
@@ -200,10 +208,8 @@ public class InventoryWindow extends Editor
   }
 
   @Override
-  public void enableEditing(boolean editable)
+  public void enableEditing(final boolean editable)
   {
-    // TODO Auto-generated method stub
-    
   }
 
 }

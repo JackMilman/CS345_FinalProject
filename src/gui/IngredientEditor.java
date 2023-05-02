@@ -42,9 +42,6 @@ public class IngredientEditor extends JPanel
   public static final String SELECT_INGREDIENT = "select_ingredient";
   public static final String MAKE_NEW_INGREDIENT = "make_new_ingredient";
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = 1L;
 
   private static final String ADD = "Add";
@@ -276,7 +273,7 @@ public class IngredientEditor extends JPanel
   /**
    * ActionListener for the Add and Delete buttons.
    * 
-   * @author Josiah Leach
+   * @author Josiah Leach, KitchIntel
    *
    */
   private class IngredientEditorListener implements ActionListener
@@ -303,7 +300,7 @@ public class IngredientEditor extends JPanel
   /**
    * ActionListener which controls the enabling and disabling of the add button.
    * 
-   * @author Josiah Leach
+   * @author Josiah Leach, KitchIntel
    *
    */
   private class EnableUpdater implements ActionListener
@@ -355,9 +352,6 @@ public class IngredientEditor extends JPanel
   private class MakeNewIngredientEditor extends KitchIntelJDialog
   {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1L;
 
     private static final String DESC = "Make New Ingredient";
@@ -460,12 +454,12 @@ public class IngredientEditor extends JPanel
   /**
    * Sets the Recipe which this IngredientEditor is editing.
    * 
-   * @param workingRecipe
+   * @param newWorkingRecipe
    *          The Recipe for this IngredientEditor to edit.
    */
-  public void setWorkingRecip(Recipe workingRecipe)
+  public void setWorkingRecip(final Recipe newWorkingRecipe)
   {
-    this.workingRecipe = workingRecipe;
+    this.workingRecipe = newWorkingRecipe;
   }
 
   /**

@@ -8,7 +8,8 @@ import javax.swing.event.ListSelectionListener;
 /**
  * An ActionListener for updating the enabled state of the delete button in an editor.
  * 
- * @author Josiah Leach
+ * @author Josiah Leach, KitchIntel
+ * @version
  *
  */
 public class DeleteEnabler implements ListSelectionListener
