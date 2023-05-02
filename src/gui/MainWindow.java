@@ -24,8 +24,6 @@ import javax.swing.SwingUtilities;
 import branding.KitchIntelJFrame;
 import branding.KitchIntelMenuBar;
 import branding.Logo;
-import config.CustomAction;
-import config.Shortcut;
 import config.Translator;
 
 /**

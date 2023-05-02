@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class CustomShortcutsGUI extends JFrame
 {
-  private Map<String, String> shortcutsMap;
+  public static Map<String, String> shortcutsMap;
   private JTable shortcutsTable;
 
   public CustomShortcutsGUI(Map<String, String> shortcutsMap)

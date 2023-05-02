@@ -20,8 +20,6 @@ import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import config.CustomAction;
-import config.Shortcut;
 import config.Translator;
 import preferences.KitchIntelPreferenceReader;
 import recipes.Meal;
@@ -62,7 +60,6 @@ public class KiLowBitesController implements ActionListener
   private JFileChooser fileChooser;
   private FileNameExtensionFilter fileFilter;
   private Map<String, String> shortcuts = new HashMap<>();
-  private CustomAction customAction;
 
   /**
    * 
@@ -200,7 +197,7 @@ public class KiLowBitesController implements ActionListener
     // open shortcuts
     if (e.getActionCommand().equals("Shortcuts"))
     {
-      MainWindow.addNewWindow(new CustomShortcutsGUI(shortcuts));
+      MainWindow.addNewWindow(new CustomShortcutsGUI(CustomShortcutsGUI.shortcutsMap));
     }
 
   }
