@@ -2,6 +2,7 @@ package utilities;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import recipes.NutritionInfo;
 import recipes.Unit;
@@ -21,10 +22,8 @@ public class UnitConversion
   private static final double OUNCES_TO_GRAMS = 28.34952;
   private static final double TABLESPOON_TO_MILLILITERS = 14.7867648;
 
-  /**
+  /*
    * Initializes the map of masses.
-   * 
-   * @return map of masses
    */
   private static Map<Unit, Double> initializeMasses()
   {
@@ -38,10 +37,8 @@ public class UnitConversion
     return map;
   }
 
-  /**
+  /*
    * Initializes the map of volumes.
-   * 
-   * @return map of volumes
    */
   private static Map<Unit, Double> initializeVolumes()
   {

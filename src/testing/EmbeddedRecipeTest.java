@@ -106,8 +106,7 @@ class EmbeddedRecipeTest
   }
   
   @Test
-  public void testGetUtensils() 
-  {
+  public void testGetUtensils() {
     Recipe composite = new Recipe(recipeNameValid, 1);
 
     List<Utensil> expected = new ArrayList<Utensil>();
