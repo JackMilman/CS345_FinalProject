@@ -206,7 +206,8 @@ public class Recipe implements Serializable
    */
   public boolean addRecipe(final Recipe recipe)
   {
-    if (recipe != this) {
+    if (recipe != this) 
+    {
       return subRecipes.add(recipe);
     }
     return false;
@@ -518,8 +519,10 @@ public class Recipe implements Serializable
     return recipe;
   }
   
-  private boolean ingredientHasSubstitutes(final Ingredient ingredient) {
-    if (substitutes.containsKey(ingredient)) {
+  private boolean ingredientHasSubstitutes(final Ingredient ingredient)
+  {
+    if (substitutes.containsKey(ingredient))
+    {
       return substitutes.get(ingredient).size() > 0;
     }
     return false;

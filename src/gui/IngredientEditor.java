@@ -29,7 +29,7 @@ import recipes.Recipe;
 import recipes.Unit;
 
 /**
- * Temporary class to make refactoring IngredientEditor easier.
+ * The Ingredient component of the Recipe editor.
  * 
  * @author Josiah Leach, Meara Patterson, KitchIntel
  * @version 4/25/2023

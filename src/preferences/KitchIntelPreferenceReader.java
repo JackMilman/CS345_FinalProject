@@ -10,16 +10,28 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Reads the saved preferences.
+ * 
+ * @author KitchIntel
+ * @version
+ */
 public class KitchIntelPreferenceReader
 {
   public static final String FONT = "FONT";
   public static final String DEFAULT = "DEFAULT";
   public static final String RECIPE = "RECIPE";
   public static final String MEAL = "MEAL";
-  private static final File file = new File("preferences.txt");
+  private static final File FILE = new File("preferences.txt");
   private static HashMap<String, String> preferences = loadPreferences();
   
-  public static HashMap<String, String> loadPreferences() {
+  /**
+   * Load preferences and save in a HashMap.
+   * 
+   * @return HashMap
+   */
+  public static HashMap<String, String> loadPreferences() 
+  {
     try
     {
       HashMap<String, String> load = new HashMap<>();
@@ -36,27 +48,49 @@ public class KitchIntelPreferenceReader
     }
     return null;
   }
-  public static String returnValue(String item) throws IOException {
-    FileReader fr = (new FileReader(file));
-    BufferedReader io = new BufferedReader(new FileReader(file));
-    while(io.ready()) {
+  
+  /**
+   * Return value from preferences file.
+   * 
+   * @param item 
+   * @return value
+   * @throws IOException
+   */
+  public static String returnValue(final String item) throws IOException
+  {
+//    FileReader fr = (new FileReader(FILE));
+    BufferedReader io = new BufferedReader(new FileReader(FILE));
+    while(io.ready()) 
+    {
       String s = io.readLine();
-      if (s.contains(item)) {
+      if (s.contains(item)) 
+      {
         String[] val = s.split(":");
+        io.close();
         return val[1];
       }
     }
+    io.close();
     return null;
   }
   
-  public static void saveItem(String item, String amount) throws IOException {
+  /**
+   * Save an item in the preferences file.
+   * 
+   * @param item
+   * @param amount
+   * @throws IOException
+   */
+  public static void saveItem(final String item, final String amount) throws IOException
+  {
     preferences.put(item, amount);
 
     PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("preferences.txt")));
     out.flush();
     @SuppressWarnings("unchecked")
     ArrayList<String> keys = new ArrayList<>(preferences.keySet());
-    for(int i = 0; i < keys.size(); i++) {
+    for(int i = 0; i < keys.size(); i++)
+    {
       String key = keys.get(i);
       String line = String.format("%s:%s\n", key, preferences.get(key));
       out.append(line);
@@ -65,7 +99,8 @@ public class KitchIntelPreferenceReader
     out.close();
   }
   
-  public static void main(String[] args) {
+  public static void main(String[] args)
+  {
     try
     {
       System.out.println(KitchIntelPreferenceReader.returnValue(KitchIntelPreferenceReader.FONT));
@@ -74,7 +109,6 @@ public class KitchIntelPreferenceReader
     }
     catch (IOException e)
     {
-      // TODO Auto-generated catch block
       e.printStackTrace();
     }
   }
