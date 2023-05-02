@@ -69,7 +69,16 @@ public class KiLowBitesController implements ActionListener
     this.fileChooser = createFileChooser();
     this.fileFilter = new FileNameExtensionFilter("Recipes and Meal",
         new String[] {RECIPEEXT, MEALEXT});
-    // customAction = new CustomAction("My Custom Action", main);
+    shortcuts.put(KiLowBitesController.RECIPE, "ctrl R");
+    shortcuts.put(KiLowBitesController.MEAL, "ctrl M");
+    shortcuts.put(KiLowBitesController.SHOPPING, "ctrl L");
+    shortcuts.put(KiLowBitesController.PROCESS, "ctrl P");
+    shortcuts.put(KiLowBitesController.INVENTORY, "ctrl I");
+    shortcuts.put(KiLowBitesController.CALORIECALCULATOR, "ctrl O");
+    shortcuts.put(KiLowBitesController.UNITSCONVERTER, "ctrl U");
+    shortcuts.put(KiLowBitesController.PREFERENCES, "ctrl F");
+    shortcuts.put("Shortcuts", "ctrl K");
+    shortcuts.put(KiLowBitesController.USERGUIDE, "ctrl G");
 
   }
   
@@ -89,7 +98,7 @@ public class KiLowBitesController implements ActionListener
     }
     return new JFileChooser(new File("."));
   }
-  
+
   @Override
   public void actionPerformed(final ActionEvent e)
   {
@@ -200,7 +209,7 @@ public class KiLowBitesController implements ActionListener
     // open shortcuts
     if (e.getActionCommand().equals("Shortcuts"))
     {
-      MainWindow.addNewWindow(new CustomShortcutsGUI(CustomShortcutsGUI.shortcutsMap));
+      MainWindow.addNewWindow(new CustomShortcutsGUI(shortcuts));
     }
 
   }
@@ -212,7 +221,7 @@ public class KiLowBitesController implements ActionListener
   {
     recipe = null;
     meal = null;
-    
+
     fileChooser = createFileChooser();
 
     fileChooser.setFileFilter(fileFilter);
