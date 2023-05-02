@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class CustomShortcutsGUI extends JFrame
 {
-  public static Map<String, String> shortcutsMap;
+  private Map<String, String> shortcutsMap;
   private JTable shortcutsTable;
 
   /**
