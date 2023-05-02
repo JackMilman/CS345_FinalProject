@@ -17,6 +17,12 @@ import branding.KitchIntelJFrame;
 import config.Language;
 import config.Translator;
 
+/**
+ * GUI for inputting preferences.
+ * 
+ * @author KitchIntel
+ * @version
+ */
 public class PreferencesGUI extends KitchIntelJFrame implements ActionListener
 {
   private static final long serialVersionUID = 1L;
@@ -55,7 +61,7 @@ public class PreferencesGUI extends KitchIntelJFrame implements ActionListener
   }
 
   @Override
-  public void actionPerformed(ActionEvent e)
+  public void actionPerformed(final ActionEvent e)
   {
     // Get the selected language from the dropdown
     String selectedLanguage = (String) languageComboBox.getSelectedItem();

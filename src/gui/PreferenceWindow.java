@@ -25,9 +25,11 @@ import config.Translator;
 import preferences.KitchIntelPreferenceReader;
 
 /**
- * GUI in which the user can enter their preferences. This included font size, default save location, default save location for recipes, and default save location for meals. 
+ * GUI in which the user can enter their preferences. 
+ * This includes font size, default save location, default save location for recipes, 
+ * and default save location for meals. 
  * 
- * @author allieokeeffe
+ * @author Allie O'Keeffe, KitchIntel
  *
  */
 public class PreferenceWindow extends JFrame
@@ -38,57 +40,73 @@ public class PreferenceWindow extends JFrame
   private static JFrame mainWindow;
   //private static final File file = new File("preferences.txt");
 
-  public PreferenceWindow() {
+  /**
+   * Create a preference window.
+   */
+  public PreferenceWindow()
+  {
     super();
     setUp();
   }
   
-  private ActionListener createActionListener(String saveItem, JComboBox<File> selectedFiles) {
-    ActionListener temp = new ActionListener() {
+  private ActionListener createActionListener(final String saveItem, 
+      final JComboBox<File> selectedFiles) 
+  {
+    ActionListener temp = new ActionListener() 
+    {
       @Override
-      public void actionPerformed(ActionEvent e)
+      public void actionPerformed(final ActionEvent e)
       {
-          JFileChooser fc = new JFileChooser();
-          fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-          int returnVal = fc.showOpenDialog(new JFrame());
-          if (returnVal == JFileChooser.APPROVE_OPTION) {
-            File selectedDirectory = fc.getSelectedFile();
-            String enterName = JOptionPane.showInputDialog("Enter directory name: ");
-            File newFolder = new File(selectedDirectory, enterName);
-            if (newFolder.mkdir()) {
+        JFileChooser fc = new JFileChooser();
+        fc.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        int returnVal = fc.showOpenDialog(new JFrame());
+        if (returnVal == JFileChooser.APPROVE_OPTION) 
+        {
+          File selectedDirectory = fc.getSelectedFile();
+          String enterName = JOptionPane.showInputDialog("Enter directory name: ");
+          File newFolder = new File(selectedDirectory, enterName);
+          if (newFolder.mkdir()) 
+          {
 //              try {
-                //KitchIntelPreferenceReader.saveItem(saveItem, newFolder.getAbsolutePath());
-                selectedFiles.addItem(newFolder);
+              //KitchIntelPreferenceReader.saveItem(saveItem, newFolder.getAbsolutePath());
+            selectedFiles.addItem(newFolder);
 //              } catch (IOException ex) {
 //                System.out.print("Error, try again.");
 //              }
-              } else {
-              System.out.print("Error, try again.");
-            }
+          } 
+          else 
+          {
+            System.out.print("Error, try again.");
           }
+        }
       }
-  };
-  return temp;
+    };
+    return temp;
   }
   
-  private JPanel createDirectory(String savedItem) {
+  private JPanel createDirectory(final String savedItem) 
+  {
     JPanel p = new JPanel();
-    JLabel label = new JLabel(Translator.translate(String.format("Select %s directory: ", savedItem.toLowerCase())));
+    JLabel label = new JLabel(Translator.translate(String.format(
+        "Select %s directory: ", savedItem.toLowerCase())));
     JComboBox<File> selectedFiles = new JComboBox<>();
-    try {
+    try 
+    {
       File saved = new File(KitchIntelPreferenceReader.returnValue(savedItem));
       selectedFiles.addItem(saved);
-    } catch (IOException e) {
+    } catch (IOException e) 
+    {
       //No default directory saved -- add nothing
     }
-    ActionListener selected = new ActionListener() {
-
+    ActionListener selected = new ActionListener() 
+    {
       @Override
-      public void actionPerformed(ActionEvent e)
+      public void actionPerformed(final ActionEvent e)
       {
         try
         {
-          KitchIntelPreferenceReader.saveItem(savedItem, selectedFiles.getSelectedItem().toString());
+          KitchIntelPreferenceReader.saveItem(
+              savedItem, selectedFiles.getSelectedItem().toString());
         }
         catch (IOException e1)
         {
@@ -111,7 +129,8 @@ public class PreferenceWindow extends JFrame
     return p;
   }
   
-  private JPanel changeFontSize(){
+  private JPanel changeFontSize()
+  {
     JPanel p = new JPanel();
     
     JTextField textSize = new JTextField();
@@ -132,21 +151,26 @@ public class PreferenceWindow extends JFrame
     String s = textSize.getText();
     int val = Integer.parseInt(s);
     
-    ActionListener changeFontSize = new ActionListener() {
+    ActionListener changeFontSize = new ActionListener() 
+    {
       @Override
-      public void actionPerformed(ActionEvent e)
+      public void actionPerformed(final ActionEvent e)
       {
 
         String s = textSize.getText();
         int val = Integer.parseInt(s);
         JButton button = (JButton)e.getSource();
-        if (button.getText().equals("+")) {
-          if (val + 2 > 30) {
+        if (button.getText().equals("+")) 
+        {
+          if (val + 2 > 30) 
+          {
             return;
           }
           textSize.setText("" + (val + 2));
-        } else {
-          if (val - 2 < 8) {
+        } else 
+        {
+          if (val - 2 < 8) 
+          {
             return;
           }
           textSize.setText("" + (val - 2));
@@ -155,15 +179,16 @@ public class PreferenceWindow extends JFrame
     };
     
     JButton apply = new JButton("Apply");
-    ActionListener applyChanges = new ActionListener() {
-
+    ActionListener applyChanges = new ActionListener() 
+    {
       @Override
-      public void actionPerformed(ActionEvent e)
+      public void actionPerformed(final ActionEvent e)
       {
         try
         {
           KitchIntelPreferenceReader.saveItem(KitchIntelPreferenceReader.FONT, textSize.getText());
-          for (Component c: MainWindow.getAllCreatedWindows()) {
+          for (Component c: MainWindow.getAllCreatedWindows()) 
+          {
             changeFont(c, Integer.parseInt(textSize.getText()));
           }
         }
@@ -188,7 +213,13 @@ public class PreferenceWindow extends JFrame
     return p;
   }
   
-  public static void changeFont(Component component) {
+  /**
+   * Change the font of a component.
+   * 
+   * @param component
+   */
+  public static void changeFont(final Component component)
+  {
     try
     {
       String fontSize = KitchIntelPreferenceReader.returnValue(KitchIntelPreferenceReader.FONT);
@@ -200,23 +231,24 @@ public class PreferenceWindow extends JFrame
     }
   }
   
-  private static void changeFont(Component component, int fontSize)
+  private static void changeFont(final Component component, final int fontSize)
   {
-      component.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
-      if ( component instanceof Container )
+    component.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
+    if ( component instanceof Container )
+    {
+      for (Component child : ((Container) component).getComponents ())
       {
-          for (Component child : ((Container) component).getComponents ())
-          {
-              changeFont(child, fontSize);
-          }
+        changeFont(child, fontSize);
       }
-      if (component instanceof JFrame && !(component instanceof MainWindow)) {
-        JFrame frame = (JFrame)component;
-        frame.pack();
-      }
+    }
+    if (component instanceof JFrame && !(component instanceof MainWindow)) {
+      JFrame frame = (JFrame)component;
+      frame.pack();
+    }
   }
   
-  private void setUp(){
+  private void setUp()
+  {
     JPanel p = (JPanel) getContentPane();
     
     p.setLayout(new BorderLayout());

@@ -29,8 +29,8 @@ import config.Translator;
 /**
  * Main Window of the GUI for the KiLowBites application.
  * 
+ * @author Shelsey Vega, KitchIntel
  * @version 3/29/2023 Version 1
- * @author Shelsey Vega
  *
  */
 public class MainWindow extends KitchIntelJFrame implements Runnable
@@ -40,9 +40,9 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
   private static ArrayList<Component> allCreatedWindows = new ArrayList<>();
   private HashMap<String, String> shortcutsMap;
 
-  public MainWindow()
-  {
-  }
+//  public MainWindow()
+//  {
+//  }
 
   /**
    * 
@@ -56,11 +56,21 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     SwingUtilities.invokeAndWait(new MainWindow());
   }
 
-  public static void addNewWindow(Component window)
+  /**
+   * Add a new window.
+   * 
+   * @param window
+   */
+  public static void addNewWindow(final Component window)
   {
     allCreatedWindows.add(window);
   }
 
+  /**
+   * Get all created windows.
+   * 
+   * @return all created windows
+   */
   public static ArrayList<Component> getAllCreatedWindows()
   {
     return allCreatedWindows;

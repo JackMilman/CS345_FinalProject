@@ -21,9 +21,10 @@ import config.Translator;
 import recipes.Recipe;
 
 /**
+ * GUI for editing a recipe.
  * 
- * @author shelseyvega, Josiah Leach, KitchIntel
- *
+ * @author Shelsey Vega, Josiah Leach, KitchIntel
+ * @version
  */
 public class RecipeEditor extends Editor
 {
@@ -42,9 +43,6 @@ public class RecipeEditor extends Editor
   private static final String SAVE_AS_BUTTON_ACTION_COMMAND = "rea";
   private static final String CLOSE_BUTTON_ACTION_COMMAND = "rec";
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = 1L;
 
   private UtensilEditor utensilEditor;
@@ -61,7 +59,7 @@ public class RecipeEditor extends Editor
    * Creates a new RecipeEditor.
    * 
    * @param owner
-   *          The JFrame which created this RecipeEditor. This should probably be the Main Window.
+   *          The JFrame which created this RecipeEditor. This should be the Main Window.
    */
   public RecipeEditor(final Window owner)
   {

@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.Desktop;
-import java.awt.RenderingHints.Key;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -11,13 +10,11 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import config.Translator;
@@ -29,8 +26,8 @@ import utilities.ResourceCopier;
 /**
  * Class that makes each of the menu bar items do their intended jobs.
  * 
+ * @author Shelsey Vega, KitchIntel
  * @version 3/29/2023 Version 1
- * @author Shelsey Vega
  *
  */
 public class KiLowBitesController implements ActionListener
@@ -62,6 +59,7 @@ public class KiLowBitesController implements ActionListener
   private Map<String, String> shortcuts = new HashMap<>();
 
   /**
+   * Create a KiLowBitesController.
    * 
    * @param main
    */
@@ -75,14 +73,19 @@ public class KiLowBitesController implements ActionListener
 
   }
   
-  private JFileChooser createFileChooser() {
-    try {
-      File location = new File(KitchIntelPreferenceReader.returnValue(KitchIntelPreferenceReader.DEFAULT));
-      if (location.exists() && location.isDirectory()) {
+  private JFileChooser createFileChooser()
+  {
+    try 
+    {
+      File location = new File(KitchIntelPreferenceReader.returnValue(
+          KitchIntelPreferenceReader.DEFAULT));
+      if (location.exists() && location.isDirectory())
+      {
         return new JFileChooser(location);
       }
-    } catch (IOException e ){
-      System.out.print("Error");
+    } catch (IOException e )
+    {
+      System.out.print(ERROR);
     }
     return new JFileChooser(new File("."));
   }
@@ -204,7 +207,6 @@ public class KiLowBitesController implements ActionListener
 
   /**
    * Read a file and determine whether it is a recipe or a meal, update the recipe or meal.
-   *
    */
   private void read()
   {

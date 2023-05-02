@@ -39,8 +39,8 @@ import utilities.SortLists;
  * GUI for the process viewer. This allows the user to view the list of utensils and steps in a
  * recipe.
  * 
- * @version 3/29/23
  * @author Allie O'Keeffe, KitchIntel
+ * @version 3/29/23
  *
  */
 public class ProcessViewer extends KitchIntelJFrame implements Serializable
@@ -77,6 +77,7 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
    * Recipe constructor.
    * 
    * @param recipe
+   * @param inventory
    */
   public ProcessViewer(final Recipe recipe, final Inventory inventory)
   {
@@ -104,6 +105,7 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
    * Meal constructor.
    * 
    * @param meal
+   * @param inventory
    */
   public ProcessViewer(final Meal meal, final Inventory inventory)
   {
@@ -133,7 +135,7 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
       private static final long serialVersionUID = 1L;
 
       @Override
-      public boolean isCellEditable(int row, int col)
+      public boolean isCellEditable(final int row, final int col)
       {
         return false;
       }
@@ -162,8 +164,6 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
   /**
    * Sets up to panel for the steps.
    * 
-   * @param steps
-   *          The list of steps used in a recipe
    * @return A scrollable panel with a border and list of steps
    */
   private JScrollPane setUpSteps()
@@ -175,7 +175,7 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
       private static final long serialVersionUID = 1L;
 
       @Override
-      public boolean isCellEditable(int row, int col)
+      public boolean isCellEditable(final int row, final int col)
       {
         return false;
       }
@@ -213,7 +213,7 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
    *          The time in minutes and military time
    * @return A string representation of the time
    */
-  private String convertMinsToTime(int total)
+  private String convertMinsToTime(final int total)
   {
     String indicator;
     int hour;
@@ -245,7 +245,7 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
    * @param amPm
    *          The evening or morning
    */
-  private void setTimes(int hour, int min, String amPm)
+  private void setTimes(int hour, int min, final String amPm)
   {
     if (amPm.equals("PM") && hour != 12)
     {
@@ -273,7 +273,7 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
     removeIngredients.addActionListener(new ActionListener()
     {
       @Override
-      public void actionPerformed(ActionEvent e)
+      public void actionPerformed(final ActionEvent e)
       {
         for (Ingredient tempIngredient : ingredients)
         {
@@ -317,7 +317,7 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
     ActionListener time = new ActionListener()
     {
       @Override
-      public void actionPerformed(ActionEvent e)
+      public void actionPerformed(final ActionEvent e)
       {
         Integer selectedHour = Integer.parseInt((String) hours.getSelectedItem());
         Integer selectedMin = Integer.parseInt((String) minutes.getSelectedItem());
@@ -350,7 +350,7 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
    *          The number of calories in a recipe/meal
    * @return A JPanel with the calories, inventory, and plating time
    */
-  private JPanel setUpCaloriesAndInventory(double calories)
+  private JPanel setUpCaloriesAndInventory(final double calories)
   {
     JPanel p = new JPanel();
     p.setLayout(new BoxLayout(p, BoxLayout.PAGE_AXIS));
@@ -391,29 +391,27 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
     {
       embeddedRecipes.addItem(subRecipe.getName());
     }
-    embeddedRecipes.addItemListener(new eRecipeComboBoxHandler());
+    embeddedRecipes.addItemListener(new ERecipeComboBoxHandler());
     p.add(embeddedRecipes);
-    open.addActionListener(new openHandler());
-    ;
+    open.addActionListener(new OpenHandler());
     p.add(open);
 
     return p;
   }
 
-  private class openHandler implements ActionListener
+  private class OpenHandler implements ActionListener
   {
-
     @Override
-    public void actionPerformed(ActionEvent e)
+    public void actionPerformed(final ActionEvent e)
     {
       int subRecipeIndex = embeddedRecipes.getSelectedIndex() - 1;
       new ProcessViewer(workingRecipe.getSubRecipes().get(subRecipeIndex));
     }
   }
 
-  private class eRecipeComboBoxHandler implements ItemListener
+  private class ERecipeComboBoxHandler implements ItemListener
   {
-    public void itemStateChanged(ItemEvent e)
+    public void itemStateChanged(final ItemEvent e)
     {
       eRecipe = e.getItem().toString();
     }
@@ -470,8 +468,8 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
   /**
    * Sets up the main frame for the process viewer. This adds utensils and steps to the main frame.
    * 
-   * @param recipe
-   *          The recipe the process viewer is looking at
+   * @param meal
+   *          The meal the process viewer is looking at
    */
   private void setUp(final Meal meal)
   {
