@@ -6,13 +6,16 @@ import recipes.Ingredient;
 import recipes.Utensil;
 
 /**
+ * Sort lists of ingredients and utensils.
  * 
- * @author Shelsey Vega
+ * @author Shelsey Vega, KitchIntel
+ * @version
  *
  */
 public class SortLists
 {
   /**
+   * Sort a list of ingredients.
    * 
    * @param ingredients
    */
@@ -32,6 +35,7 @@ public class SortLists
   }
 
   /**
+   * Sort a list of utensils.
    * 
    * @param utensils
    */
