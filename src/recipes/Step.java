@@ -281,7 +281,8 @@ public class Step implements Serializable
         }
       }
 
-      if (recipe != null) {
+      if (recipe != null)
+      {
         return String.format("%s the *%s on the %s %s", action, recipe.getName(),
             destination.getName(), details).strip();
       }

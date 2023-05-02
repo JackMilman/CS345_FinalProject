@@ -24,6 +24,7 @@ import branding.KitchIntelJDialog;
 import config.Translator;
 import recipes.Ingredient;
 import recipes.NutritionInfo;
+import recipes.PriceInfo;
 import recipes.Recipe;
 import recipes.Unit;
 
@@ -408,6 +409,7 @@ public class IngredientEditor extends JPanel
             NutritionInfo.addIngredient(nameField.getText().toLowerCase(),
                 Double.parseDouble(calorieField.getText()),
                 Double.parseDouble(densityField.getText()));
+            PriceInfo.addIngredient(nameField.getText(), Double.parseDouble(priceField.getText()));
             nameField.setText("");
             priceField.setText("");
             calorieField.setText("");
