@@ -90,7 +90,7 @@ public class KiLowBitesController implements ActionListener
     }
     return new JFileChooser(new File("."));
   }
-
+  
   @Override
   public void actionPerformed(final ActionEvent e)
   {
@@ -214,6 +214,8 @@ public class KiLowBitesController implements ActionListener
   {
     recipe = null;
     meal = null;
+    
+    fileChooser = createFileChooser();
 
     fileChooser.setFileFilter(fileFilter);
     int result = fileChooser.showOpenDialog(null);
