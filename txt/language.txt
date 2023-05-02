@@ -26,7 +26,7 @@ On	Sur	En
 Utensil	Ustensile	Utensilio
 Minutes	Compte-rendu	Acta
 Recipes	Recettes	Recetas
-Add recipe	Ajouter une recetter	Añadir receta
+Add recipe	Ajouter une recetter	Anadir receta
 KiLowBites Main Window	Fenetre principale de KiLowBites	Ventana principal de KiLowBites
 KiLowBites Recipe Editor	Editeur de recettes KiLowBites	Editora de recetas KiLowBites
 KiLowBites Meal Editor	Editeur de repas KiLowBites	Editora de comidas KiLowBites
