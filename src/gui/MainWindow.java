@@ -3,7 +3,11 @@ package gui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +24,6 @@ import javax.swing.SwingUtilities;
 import branding.KitchIntelJFrame;
 import branding.KitchIntelMenuBar;
 import branding.Logo;
-import config.CustomAction;
 import config.Translator;
 
 /**
@@ -35,8 +38,7 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
 
   private static final long serialVersionUID = 1L;
   private static ArrayList<Component> allCreatedWindows = new ArrayList<>();
-  private Map<String, CustomAction> actions = new HashMap<>();
-  private Map<String, KeyStroke> shortcutsMap = new HashMap<>();
+  private HashMap<String, String> shortcutsMap;
 
   public MainWindow()
   {
@@ -160,41 +162,60 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     userGuide.addActionListener(controller);
     userGuide.setActionCommand("User Guide");
 
-    // add shortcuts to the menu items
-    edit.setMnemonic(KeyEvent.VK_R);
-    KeyStroke openRecipe = KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
-    recipe.setAccelerator(openRecipe);
-    KeyStroke openMeal = KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_DOWN_MASK);
-    meal.setAccelerator(openMeal);
-    KeyStroke viewList = KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_DOWN_MASK);
-    shoppingList.setAccelerator(viewList);
-    KeyStroke viewProcess = KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK);
-    process.setAccelerator(viewProcess);
-    KeyStroke viewInventory = KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK);
-    inventory.setAccelerator(viewInventory);
-    KeyStroke calCalc = KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK);
-    calorieCalculator.setAccelerator(calCalc);
-    KeyStroke unitC = KeyStroke.getKeyStroke(KeyEvent.VK_U, InputEvent.CTRL_DOWN_MASK);
-    unitsConverter.setAccelerator(unitC);
-    KeyStroke prefs = KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK);
-    preferences.setAccelerator(prefs);
-    KeyStroke keys = KeyStroke.getKeyStroke(KeyEvent.VK_K, InputEvent.CTRL_DOWN_MASK);
-    shortcuts.setAccelerator(keys);
-    KeyStroke guide = KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_DOWN_MASK);
-    userGuide.setAccelerator(guide);
+    // // add shortcuts to the menu items
+    // edit.setMnemonic(KeyEvent.VK_R);
+    // KeyStroke openRecipe = KeyStroke.getKeyStroke(KeyEvent.VK_R, InputEvent.CTRL_DOWN_MASK);
+    // recipe.setAccelerator(openRecipe);
+    // KeyStroke openMeal = KeyStroke.getKeyStroke(KeyEvent.VK_M, InputEvent.CTRL_DOWN_MASK);
+    // meal.setAccelerator(openMeal);
+    // KeyStroke viewList = KeyStroke.getKeyStroke(KeyEvent.VK_L, InputEvent.CTRL_DOWN_MASK);
+    // shoppingList.setAccelerator(viewList);
+    // KeyStroke viewProcess = KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_DOWN_MASK);
+    // process.setAccelerator(viewProcess);
+    // KeyStroke viewInventory = KeyStroke.getKeyStroke(KeyEvent.VK_I, InputEvent.CTRL_DOWN_MASK);
+    // inventory.setAccelerator(viewInventory);
+    // KeyStroke calCalc = KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK);
+    // calorieCalculator.setAccelerator(calCalc);
+    // KeyStroke unitC = KeyStroke.getKeyStroke(KeyEvent.VK_U, InputEvent.CTRL_DOWN_MASK);
+    // unitsConverter.setAccelerator(unitC);
+    // KeyStroke prefs = KeyStroke.getKeyStroke(KeyEvent.VK_F, InputEvent.CTRL_DOWN_MASK);
+    // preferences.setAccelerator(prefs);
+    // KeyStroke keys = KeyStroke.getKeyStroke(KeyEvent.VK_K, InputEvent.CTRL_DOWN_MASK);
+    // shortcuts.setAccelerator(keys);
+    // KeyStroke guide = KeyStroke.getKeyStroke(KeyEvent.VK_G, InputEvent.CTRL_DOWN_MASK);
+    // userGuide.setAccelerator(guide);
 
-    // Fill in the current shortcuts HashMap
-    shortcutsMap.put(KiLowBitesController.RECIPE, openRecipe);
-    shortcutsMap.put(KiLowBitesController.MEAL, openMeal);
-    shortcutsMap.put(KiLowBitesController.SHOPPING, viewList);
-    shortcutsMap.put(KiLowBitesController.PROCESS, viewProcess);
-    shortcutsMap.put(KiLowBitesController.INVENTORY, viewInventory);
-    shortcutsMap.put(KiLowBitesController.CALORIECALCULATOR, calCalc);
-    shortcutsMap.put(KiLowBitesController.UNITSCONVERTER, unitC);
-    shortcutsMap.put(KiLowBitesController.PREFERENCES, prefs);
-    shortcutsMap.put("Shortcuts", keys);
-    shortcutsMap.put(KiLowBitesController.USERGUIDE, guide);
-    
+    try
+    {
+      shortcutsMap = readShortcutsFile();
+    }
+    catch (IOException e)
+    {
+      // handle file reading error
+      e.printStackTrace();
+    }
+
+    for (Component component : menuBar.getComponents())
+    {
+      if (component instanceof JMenu)
+      {
+        JMenu menu = (JMenu) component;
+        for (Component menuItemComponent : menu.getMenuComponents())
+        {
+          if (menuItemComponent instanceof JMenuItem)
+          {
+            JMenuItem menuItem = (JMenuItem) menuItemComponent;
+            String actionCommand = menuItem.getActionCommand();
+            String shortcut = shortcutsMap.get(actionCommand);
+            if (shortcut != null)
+            {
+              menuItem.setAccelerator(KeyStroke.getKeyStroke(shortcut));
+            }
+          }
+        }
+      }
+    }
+
     // add the company logo to the window
     // Josiah's changes:
     ImageIcon logo = new ImageIcon(getClass().getClassLoader().getResource(Logo.path()));
@@ -208,6 +229,25 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     
     setVisible(true);
 
+  }
+
+  private HashMap<String, String> readShortcutsFile() throws IOException
+  {
+    HashMap<String, String> shortcutsMap = new HashMap<>();
+    BufferedReader reader = new BufferedReader(new FileReader("shortcuts.cfg"));
+    String line;
+    while ((line = reader.readLine()) != null)
+    {
+      String[] parts = line.split(":");
+      if (parts.length == 2)
+      {
+        String actionCommand = parts[0].trim();
+        String shortcut = parts[1].trim();
+        shortcutsMap.put(actionCommand, shortcut);
+      }
+    }
+    reader.close();
+    return shortcutsMap;
   }
 
 }
