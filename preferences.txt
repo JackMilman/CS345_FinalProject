@@ -1,6 +1,4 @@
 RECIPE:N/A
 MEAL:N/A
 DEFAULT:/Users/allieokeeffe/Desktop/Test2
-FONT:16
-DEFAULT:N/A
-FONT:24
+FONT:12
