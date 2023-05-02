@@ -9,8 +9,8 @@ import java.util.Scanner;
  * An enumeration of the colors for KitchIntel. The values of each color can be changed during the
  * creation of the jar file for branding purposes.
  * 
- * @author Josiah Leach
- *
+ * @author Josiah Leach, KitchIntel
+ * @version
  */
 public enum KitchIntelColor
 {
@@ -72,7 +72,7 @@ public enum KitchIntelColor
   /**
    * Gets the color for the type of element specified by the color scheme.
    * 
-   * @return A color.
+   * @return color
    */
   public Color getColor()
   {

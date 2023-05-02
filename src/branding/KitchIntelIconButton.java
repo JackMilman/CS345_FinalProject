@@ -6,7 +6,7 @@ import javax.swing.JButton;
 /**
  * A JButton with one of the logos from the Google Material Library.
  * 
- * @author Josiah Leach
+ * @author Josiah Leach, KitchIntel
  * @version 03.29.2023
  */
 public class KitchIntelIconButton extends JButton
@@ -27,6 +27,7 @@ public class KitchIntelIconButton extends JButton
   private static final String PRESSED_MODIFIER = "white_";
 
   /**
+   * Create a KitchIntel button.
    * 
    * @param buttonImage
    */

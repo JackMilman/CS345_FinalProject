@@ -5,6 +5,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
+/**
+ * Represents the user's preferences.
+ * 
+ * @author KitchIntel
+ * @version
+ */
 public class Preferences
 {
   private static final String CONFIG_FILE = "config.properties";
@@ -13,6 +19,9 @@ public class Preferences
 
   private Language selectedLanguage;
 
+  /**
+   * Load the preference from the file.
+   */
   public Preferences()
   {
     loadPreferences();
@@ -39,7 +48,7 @@ public class Preferences
   }
 
   /**
-   * save the preference to a file
+   * Save the preference to a file.
    */
   public void savePreferences()
   {
@@ -56,7 +65,10 @@ public class Preferences
     }
   }
 
-
+  /**
+   * Get the selected language.
+   * @return selected language
+   */
   public Language getSelectedLanguage()
   {
     return selectedLanguage;

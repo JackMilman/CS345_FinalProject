@@ -9,8 +9,8 @@ import gui.MainWindow;
 
 /**
  * Main class of the program.
- * @author Josiah Leach
- *
+ * @author Josiah Leach, KitchIntel
+ * @version
  */
 public class KitchIntel
 {

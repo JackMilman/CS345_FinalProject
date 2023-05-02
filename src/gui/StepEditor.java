@@ -45,12 +45,12 @@ public class StepEditor extends JComponent
    * 
    */
   private static final long serialVersionUID = 1L;
+  public String fileName;
 
   private JComboBox<String> actionSelect, onSelect, utensilSelect;
   private JTextField detailField, timeField;
   private JTable display;
   private JButton addButton, deleteButton, embeddedRecipe;
-  public String fileName;
   private Recipe workingRecipe;
 
   private final RecipeEditor parent;
@@ -176,20 +176,20 @@ public class StepEditor extends JComponent
     }
     if (on.startsWith("*"))
     {
-        Recipe objectRecipe = null;
-        String searchString = on.substring(1);
-        List<Recipe> subRecipes = workingRecipe.getSubRecipes();
-        for (Recipe recipe : subRecipes)
+      Recipe objectRecipe = null;
+      String searchString = on.substring(1);
+      List<Recipe> subRecipes = workingRecipe.getSubRecipes();
+      for (Recipe recipe : subRecipes)
+      {
+        if (searchString.equals(recipe.getName()))
         {
-          if (searchString.equals(recipe.getName()))
-          {
-            objectRecipe = recipe;
-          }
-
+          objectRecipe = recipe;
         }
-        Step step = new Step(action, objectRecipe, sourceUtensil, destinationUtensil, details,
-            time);
-        workingRecipe.addStep(step);
+
+      }
+      Step step = new Step(action, objectRecipe, sourceUtensil, destinationUtensil, details,
+          time);
+      workingRecipe.addStep(step);
     }
     else
     {
@@ -421,11 +421,16 @@ public class StepEditor extends JComponent
    * @param workingRecipe
    *                        The Recipe which this StepEditor will edit.
    */
-  public void setWorkingRecipe(Recipe workingRecipe)
+  public void setWorkingRecipe(final Recipe workingRecipe)
   {
     this.workingRecipe = workingRecipe;
   }
   
+  /**
+   * Update whether buttons and other fields are editable.
+   * 
+   * @param editable
+   */
   public void setEditable(final boolean editable)
   {
     actionSelect.setEnabled(editable);

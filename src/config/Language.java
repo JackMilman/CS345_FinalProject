@@ -10,8 +10,9 @@ import java.util.Scanner;
  * An enumeration of languages supported by the program. To be used, the languages must be loaded in
  * with the loadLanguages() method. Each language, after it has been loaded contains a mapping of
  * English words to words of other languages.
- * @author Josiah Leach
- *
+ * 
+ * @author Josiah Leach, KitchIntel
+ * @version
  */
 public enum Language
 {

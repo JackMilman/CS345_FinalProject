@@ -37,11 +37,6 @@ public class ShoppingListViewer extends KitchIntelJDialog
 
   private static final int DO_NOT_DISPLAY = -1;
   private static final long serialVersionUID = 1L;
-//  private static final Unit[] MASSES = {Unit.DRAM, Unit.OUNCE, Unit.GRAM, 
-//      Unit.POUND};
-//  private static final Unit[] VOLUMES = {Unit.PINCH, Unit.MILLILITER, 
-//      Unit.TEASPOON, Unit.TABLESPOON, Unit.FLUID_OUNCE, Unit.CUP, Unit.PINT, 
-//      Unit.QUART, Unit.GALLON};
 
   private Object obj;
   private JPanel contentPane;

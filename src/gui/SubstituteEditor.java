@@ -25,6 +25,7 @@ import branding.KitchIntelJDialog;
 import config.Translator;
 import recipes.Ingredient;
 import recipes.NutritionInfo;
+import recipes.PriceInfo;
 import recipes.Recipe;
 import recipes.Unit;
 import utilities.SortLists;
@@ -329,9 +330,6 @@ public class SubstituteEditor extends JPanel
   private class MakeNewIngredientEditor extends KitchIntelJDialog
   {
 
-    /**
-     * 
-     */
     private static final long serialVersionUID = 1L;
 
     private static final String DESC = "Make New Ingredient";
@@ -383,6 +381,7 @@ public class SubstituteEditor extends JPanel
             NutritionInfo.addIngredient(nameField.getText().toLowerCase(),
                 Double.parseDouble(calorieField.getText()),
                 Double.parseDouble(densityField.getText()));
+            PriceInfo.addIngredient(nameField.getText(), Double.parseDouble(priceField.getText()));
             nameField.setText("");
             priceField.setText("");
             calorieField.setText("");
@@ -459,11 +458,21 @@ public class SubstituteEditor extends JPanel
     deleteButton.addActionListener(listener);
   }
 
-  public void setWorkingRecipe(Recipe workingRecipe)
+  /**
+   * Set the working recipe.
+   * 
+   * @param workingRecipe
+   */
+  public void setWorkingRecipe(final Recipe workingRecipe)
   {
     this.workingRecipe = workingRecipe;
   }
 
+  /**
+   * Update whether buttons and other fields are editable.
+   * 
+   * @param editable
+   */
   public void setEditable(final boolean editable)
   {
     addButton.setEnabled(editable);

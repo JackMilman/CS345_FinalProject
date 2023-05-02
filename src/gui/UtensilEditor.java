@@ -27,9 +27,6 @@ import recipes.Utensil;
  */
 public class UtensilEditor extends JComponent
 {
-  /**
-   * 
-   */
   private static final long serialVersionUID = 1L;
 
   private static final String ADD = "Add";
@@ -47,6 +44,7 @@ public class UtensilEditor extends JComponent
 
   /**
    * Creates a new UtensilEditor.
+   * 
    * @param workingRecipe the recipe to edit the utensils of.
    * @param stepEditor the corresponding StepEditor
    * @param parent The RecipeEditor which this UtensilEditor belongs to. Required for this to resize
@@ -179,6 +177,7 @@ public class UtensilEditor extends JComponent
 
   /**
    * Returns the utensils in the Recipe being edited by this UtensilEditor.
+   * 
    * @return The List of Utensils in the Recipe referenced by this editor.
    */
   public List<Utensil> getUtensils()
@@ -188,6 +187,7 @@ public class UtensilEditor extends JComponent
 
   /**
    * Replaces the Utensils in the Recipe being edited by this UtensilEditor with the given Utensils.
+   * 
    * @param newUtensils The Utensils to put in the Recipe being edited by this UtensilEditor.
    */
   public void loadUtensils(final List<Utensil> newUtensils)
@@ -242,11 +242,16 @@ public class UtensilEditor extends JComponent
    * Changes the Recipe which this UtensilEditor edits.
    * @param recipe The Recipe which this UtensilEditor will now edit.
    */
-  public void setWorkingRecipe (Recipe recipe) 
+  public void setWorkingRecipe (final Recipe recipe) 
   {
     this.workingRecipe = recipe;
   }
   
+  /**
+   * Update whether buttons and other fields are editable.
+   * 
+   * @param editable
+   */
   public void setEditable(final boolean editable)
   {
     addButton.setEnabled(editable);

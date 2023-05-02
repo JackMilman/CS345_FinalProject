@@ -7,15 +7,12 @@ import javax.swing.JDialog;
 /**
  * The parent class of all JDialogs in KitchIntel. This will always have the correct color scheme.
  * 
- * @author Josiah Leach
- *
+ * @author Josiah Leach, KitchIntel
+ * @version
  */
 public abstract class KitchIntelJDialog extends JDialog
 {
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = 1L;
 
   /**

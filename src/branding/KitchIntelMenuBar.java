@@ -6,15 +6,12 @@ import javax.swing.JMenuBar;
  * The MenuBar which should be used for KitchIntel. The color of this MenuBar will fit the required
  * color scheme.
  * 
- * @author Josiah Leach
- *
+ * @author Josiah Leach, KitchIntel
+ * @version
  */
 public class KitchIntelMenuBar extends JMenuBar
 {
 
-  /**
-   * 
-   */
   private static final long serialVersionUID = 1L;
 
   /**

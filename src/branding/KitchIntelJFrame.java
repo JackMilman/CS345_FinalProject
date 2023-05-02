@@ -13,14 +13,11 @@ import preferences.KitchIntelPreferenceReader;
  * The super class for all JFrames in KitchIntel. This will always have the correct background
  * color.
  * 
- * @author Josiah Leach
- *
+ * @author Josiah Leach, KitchIntel
+ * @version
  */
 public class KitchIntelJFrame extends JFrame
 {
-  /**
-   * 
-   */
   private static final long serialVersionUID = 1L;
   private static int fontSize;
 
@@ -37,7 +34,8 @@ public class KitchIntelJFrame extends JFrame
     getContentPane().setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
     try
     {
-      fontSize = Integer.parseInt(KitchIntelPreferenceReader.returnValue(KitchIntelPreferenceReader.FONT));
+      fontSize = Integer.parseInt(KitchIntelPreferenceReader.returnValue(
+          KitchIntelPreferenceReader.FONT));
       changeFont(this, fontSize);
     }
     catch (NumberFormatException | IOException e)
@@ -57,7 +55,13 @@ public class KitchIntelJFrame extends JFrame
     getContentPane().setBackground(KitchIntelColor.BACKGROUND_COLOR.getColor());
   }
 
-  public static void changeFont(Component component, int fontSize)
+  /**
+   * Change the font.
+   * 
+   * @param component
+   * @param fontSize
+   */
+  public static void changeFont(final Component component, final int fontSize)
   {
     component.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
     if (component instanceof Container)

@@ -6,8 +6,8 @@ import java.util.Scanner;
 /**
  * A class for referencing the logo of the program.
  * 
- * @author Josiah Leach
- *
+ * @author Josiah Leach, KitchIntel
+ * @version
  */
 public class Logo
 {

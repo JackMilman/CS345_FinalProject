@@ -25,9 +25,10 @@ import recipes.Unit;
 import utilities.UnitConversion;
 
 /**
+ * GUI for unit conversions.
  * 
- * @author
- *
+ * @author KitchIntel
+ * @version
  */
 public class UnitConversionWindow extends KitchIntelJFrame
 {
@@ -50,10 +51,6 @@ public class UnitConversionWindow extends KitchIntelJFrame
   private int amountvalue;
   private boolean open = false;
 
-  /**
-   * 
-   * @param main
-   */
   private UnitConversionWindow(final Window main)
   {
     super(Translator.translate("KiLowBites Unit Converter"));
@@ -64,6 +61,11 @@ public class UnitConversionWindow extends KitchIntelJFrame
     setDefaultCloseOperation(HIDE_ON_CLOSE);
   }
 
+  /**
+   * Get the instance of a unit conversion window, or make a new one.
+   * 
+   * @return unit conversion window
+   */
   public static UnitConversionWindow getUnitConversionWindow()
   {
     if (unitWindow == null)
@@ -175,7 +177,7 @@ public class UnitConversionWindow extends KitchIntelJFrame
 
   private class FromComboBoxHandler implements ItemListener
   {
-    public void itemStateChanged(ItemEvent e)
+    public void itemStateChanged(final ItemEvent e)
     {
       fromUnit = Unit.parseUnit((String) e.getItem());
       updateIngredientAvailability();
@@ -184,8 +186,7 @@ public class UnitConversionWindow extends KitchIntelJFrame
 
   private class ToComboBoxHandler implements ItemListener
   {
-
-    public void itemStateChanged(ItemEvent e)
+    public void itemStateChanged(final ItemEvent e)
     {
       toUnit = Unit.parseUnit((String) e.getItem());
       updateIngredientAvailability();
@@ -194,7 +195,7 @@ public class UnitConversionWindow extends KitchIntelJFrame
 
   private class IngredientComboBoxHandler implements ItemListener
   {
-    public void itemStateChanged(ItemEvent e)
+    public void itemStateChanged(final ItemEvent e)
     {
       ingredient = (String) e.getItem();
     }
@@ -211,7 +212,7 @@ public class UnitConversionWindow extends KitchIntelJFrame
     }
 
     @Override
-    public void actionPerformed(ActionEvent e)
+    public void actionPerformed(final ActionEvent e)
     {
       String command = e.getActionCommand();
 
