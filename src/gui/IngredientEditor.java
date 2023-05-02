@@ -147,6 +147,8 @@ public class IngredientEditor extends JPanel
     add(inputFields, BorderLayout.NORTH);
     add(deleteButton, BorderLayout.EAST);
     add(ingredientDisplay, BorderLayout.CENTER);
+    PreferenceWindow.changeFont(this);
+   
     
     delListener = new DeleteEnabler(ingredientDisplay, deleteButton);
     delListener.valueChanged(null);

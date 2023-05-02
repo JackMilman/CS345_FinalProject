@@ -460,7 +460,8 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
     {
       c.add(caloriesAndInventory, BorderLayout.SOUTH);
     }
-
+    
+    PreferenceWindow.changeFont(this);
     setSize(700, 450);
     pack();
     setVisible(true);
@@ -506,6 +507,8 @@ public class ProcessViewer extends KitchIntelJFrame implements Serializable
     JPanel panel = setUpCaloriesAndInventory(meal.calculateCalories());
     panel.setOpaque(false);
     c.add(panel, BorderLayout.SOUTH);
+    
+    PreferenceWindow.changeFont(this);
     setSize(600, 450);
     setVisible(true);
   }

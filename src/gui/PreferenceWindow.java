@@ -24,6 +24,12 @@ import javax.swing.JTextField;
 import config.Translator;
 import preferences.KitchIntelPreferenceReader;
 
+/**
+ * GUI in which the user can enter their preferences. This included font size, default save location, default save location for recipes, and default save location for meals. 
+ * 
+ * @author allieokeeffe
+ *
+ */
 public class PreferenceWindow extends JFrame
 {
   
@@ -34,8 +40,6 @@ public class PreferenceWindow extends JFrame
 
   public PreferenceWindow() {
     super();
-    //files = new ArrayList<File>();
-    //PreferenceWindow.mainWindow = mainWindow;
     setUp();
   }
   
@@ -52,12 +56,12 @@ public class PreferenceWindow extends JFrame
             String enterName = JOptionPane.showInputDialog("Enter directory name: ");
             File newFolder = new File(selectedDirectory, enterName);
             if (newFolder.mkdir()) {
-              try {
-                KitchIntelPreferenceReader.saveItem(saveItem, newFolder.getAbsolutePath());
+//              try {
+                //KitchIntelPreferenceReader.saveItem(saveItem, newFolder.getAbsolutePath());
                 selectedFiles.addItem(newFolder);
-              } catch (IOException ex) {
-                System.out.print("Error, try again.");
-              }
+//              } catch (IOException ex) {
+//                System.out.print("Error, try again.");
+//              }
               } else {
               System.out.print("Error, try again.");
             }
@@ -77,6 +81,23 @@ public class PreferenceWindow extends JFrame
     } catch (IOException e) {
       //No default directory saved -- add nothing
     }
+    ActionListener selected = new ActionListener() {
+
+      @Override
+      public void actionPerformed(ActionEvent e)
+      {
+        try
+        {
+          KitchIntelPreferenceReader.saveItem(savedItem, selectedFiles.getSelectedItem().toString());
+        }
+        catch (IOException e1)
+        {
+          System.out.print("Error");
+        }
+      }
+      
+    };
+    selectedFiles.addActionListener(selected);
     selectedFiles.setPreferredSize(new Dimension(300,30));
     
     JButton newFile = new JButton(Translator.translate("New File"));
@@ -115,6 +136,7 @@ public class PreferenceWindow extends JFrame
       @Override
       public void actionPerformed(ActionEvent e)
       {
+
         String s = textSize.getText();
         int val = Integer.parseInt(s);
         JButton button = (JButton)e.getSource();
@@ -124,7 +146,7 @@ public class PreferenceWindow extends JFrame
           }
           textSize.setText("" + (val + 2));
         } else {
-          if (val - 2 < 10) {
+          if (val - 2 < 8) {
             return;
           }
           textSize.setText("" + (val - 2));
@@ -166,7 +188,19 @@ public class PreferenceWindow extends JFrame
     return p;
   }
   
-  public static void changeFont(Component component, int fontSize)
+  public static void changeFont(Component component) {
+    try
+    {
+      String fontSize = KitchIntelPreferenceReader.returnValue(KitchIntelPreferenceReader.FONT);
+      changeFont(component, Integer.parseInt(fontSize));
+    }
+    catch (IOException e1)
+    {
+      System.out.print("ERROR");
+    }
+  }
+  
+  private static void changeFont(Component component, int fontSize)
   {
       component.setFont(new Font(Font.DIALOG, Font.PLAIN, fontSize));
       if ( component instanceof Container )
@@ -176,7 +210,7 @@ public class PreferenceWindow extends JFrame
               changeFont(child, fontSize);
           }
       }
-      if (component instanceof JFrame) {
+      if (component instanceof JFrame && !(component instanceof MainWindow)) {
         JFrame frame = (JFrame)component;
         frame.pack();
       }
@@ -194,6 +228,8 @@ public class PreferenceWindow extends JFrame
     temp.add(createDirectory(KitchIntelPreferenceReader.RECIPE), BorderLayout.NORTH);
     temp.add(createDirectory(KitchIntelPreferenceReader.MEAL), BorderLayout.SOUTH);
     p.add(temp, BorderLayout.SOUTH);
+    
+    PreferenceWindow.changeFont(this);
     
     setSize(400,200);
     pack();

@@ -70,7 +70,6 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     // set the the frame
     setTitle(Translator.translate("KiLowBites Main Window"));
     getContentPane().setLayout(new BorderLayout());
-    setSize(700, 500);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
 
     // Construct the controller
@@ -202,7 +201,11 @@ public class MainWindow extends KitchIntelJFrame implements Runnable
     JLabel logoLabel = new JLabel(logo);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
     getContentPane().add(logoLabel, BorderLayout.CENTER);
-
+    
+    PreferenceWindow.changeFont(this);
+    MainWindow.addNewWindow(this);
+    setSize(700, 500);
+    
     setVisible(true);
 
   }

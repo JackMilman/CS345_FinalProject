@@ -139,11 +139,14 @@ public class SubstituteEditor extends JPanel
     add(inputFields, BorderLayout.NORTH);
     add(deleteButton, BorderLayout.EAST);
     add(substituteDisplay, BorderLayout.CENTER);
+
+    PreferenceWindow.changeFont(this);
     
     delListener = new DeleteEnabler(substituteDisplay, deleteButton);
     delListener.valueChanged(null);
     
     substituteDisplay.getSelectionModel().addListSelectionListener(delListener);;
+
 
     setVisible(true);
     setOpaque(false);

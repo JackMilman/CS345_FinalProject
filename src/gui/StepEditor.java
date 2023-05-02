@@ -125,11 +125,14 @@ public class StepEditor extends JComponent
     display = new JTable(new DefaultTableModel(1, 1));
     updateStepDisplay();
     add(display, BorderLayout.CENTER);
+    PreferenceWindow.changeFont(this);
+
     
     delListener = new DeleteEnabler(display, deleteButton);
     delListener.valueChanged(null);
     
     display.getSelectionModel().addListSelectionListener(delListener);;
+
 
     setVisible(true);
   }

@@ -59,7 +59,8 @@ public class UnitConversionWindow extends KitchIntelJFrame
     super(Translator.translate("KiLowBites Unit Converter"));
     setUp();
     ingredientBox.setEnabled(false);
-
+    PreferenceWindow.changeFont(this);
+    
     setDefaultCloseOperation(HIDE_ON_CLOSE);
   }
 

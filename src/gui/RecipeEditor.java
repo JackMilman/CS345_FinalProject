@@ -146,7 +146,9 @@ public class RecipeEditor extends Editor
     // Makes the entire window scrollable
     JScrollPane scrollPane = new JScrollPane(p);
     add(scrollPane);
-    
+
+    PreferenceWindow.changeFont(this);
+
     setVisible(true);
     setResizable(true);
     pack();

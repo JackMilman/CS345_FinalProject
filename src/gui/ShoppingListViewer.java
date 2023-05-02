@@ -104,7 +104,9 @@ public class ShoppingListViewer extends KitchIntelJDialog
 
     // create a scroll area with the ingredients
     updateScrollArea(numPeopleField.getText());
-
+    
+    PreferenceWindow.changeFont(this);
+    
     setVisible(true);
 
   }
