@@ -164,9 +164,9 @@ public class CalorieCalculatorWindow extends KitchIntelJFrame
     ingredients = setUpIngredients();
     ingredients.addActionListener(calories);
 
-    amount = new JTextField();
-    units = new JComboBox<>(unitNames);
-    units.addActionListener(calories);
+//    amount = new JTextField();
+//    units = new JComboBox<>();
+//    units.addActionListener(calories);
 
     Container c = getContentPane();
     c.setLayout(new BorderLayout());
