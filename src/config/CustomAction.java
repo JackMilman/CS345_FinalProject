@@ -12,11 +12,13 @@ public class CustomAction extends AbstractAction
   private String name;
   private KeyStroke keyStroke;
   private JFrame frame;
+  private KeyStroke acceleratorKey;
 
-  public CustomAction(String name, JFrame frame)
+
+  public CustomAction(String name, KeyStroke keyStroke)
   {
     this.name = name;
-    this.frame = frame;
+    this.keyStroke = keyStroke;
   }
 
   @Override
@@ -27,6 +29,7 @@ public class CustomAction extends AbstractAction
 
   /**
    * Set the KeyStroke of the shortcut
+   * 
    * @param keyStroke
    */
   public void setAcceleratorKey(KeyStroke keyStroke)
@@ -36,6 +39,7 @@ public class CustomAction extends AbstractAction
 
   /**
    * get the KeyStroke of the shortcut
+   * 
    * @return keyStroke
    */
   public KeyStroke getAcceleratorKey()

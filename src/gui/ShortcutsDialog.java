@@ -29,7 +29,7 @@ public class ShortcutsDialog extends JDialog implements ActionListener
    */
   public ShortcutsDialog(final JFrame parent, final Map<String, KeyStroke> currentShortcuts)
   {
-    super(parent, "Set Custom Shortcuts", true);
+    super(parent, "Shortcuts", true);
     this.currentShortcuts = currentShortcuts;
     setSize(400, 200);
     setLocationRelativeTo(parent);

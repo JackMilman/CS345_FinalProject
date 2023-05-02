@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.Desktop;
+import java.awt.RenderingHints.Key;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -26,7 +27,6 @@ import preferences.KitchIntelPreferenceReader;
 import recipes.Meal;
 import recipes.Recipe;
 import utilities.ResourceCopier;
-import utilities.ShortcutsParser;
 
 /**
  * Class that makes each of the menu bar items do their intended jobs.
@@ -61,9 +61,8 @@ public class KiLowBitesController implements ActionListener
   private Meal meal;
   private JFileChooser fileChooser;
   private FileNameExtensionFilter fileFilter;
-  private Map<String, KeyStroke> shortcuts = new HashMap<>();
+  private Map<String, String> shortcuts = new HashMap<>();
   private CustomAction customAction;
- 
 
   /**
    * 
@@ -75,7 +74,7 @@ public class KiLowBitesController implements ActionListener
     this.fileChooser = createFileChooser();
     this.fileFilter = new FileNameExtensionFilter("Recipes and Meal",
         new String[] {RECIPEEXT, MEALEXT});
-    customAction = new CustomAction("My Custom Action", main);
+    // customAction = new CustomAction("My Custom Action", main);
 
   }
   
@@ -172,15 +171,15 @@ public class KiLowBitesController implements ActionListener
     if (e.getActionCommand().equals(USERGUIDE))
     {
       try
-      {     
+      {
         Path tempFolder = ResourceCopier.copyResourcesToTemp("temp", "guide");
 
         Path fileLocation = Paths.get(tempFolder.toString(), "UserGuide.html");
-        
+
         System.out.println(fileLocation.toString());
-        
+
         URI uri = fileLocation.toUri();
-          
+
         Desktop.getDesktop().browse(uri);
       }
       catch (IOException e1)
@@ -192,7 +191,7 @@ public class KiLowBitesController implements ActionListener
         e2.printStackTrace();
       }
     }
-    
+
     // open preferences
     if (e.getActionCommand().equals(PREFERENCES))
     {
@@ -200,8 +199,8 @@ public class KiLowBitesController implements ActionListener
     }
     // open shortcuts
     if (e.getActionCommand().equals("Shortcuts"))
-    {    
-      MainWindow.addNewWindow(new ShortcutsDialog(main, shortcuts));
+    {
+      MainWindow.addNewWindow(new CustomShortcutsGUI(shortcuts));
     }
 
   }

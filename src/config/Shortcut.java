@@ -1,10 +1,15 @@
 package config;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+import gui.KiLowBitesController;
+import gui.MainWindow;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,7 +35,7 @@ public class Shortcut extends JDialog implements ActionListener
    */
   public Shortcut(final JFrame parent, final Map<String, CustomAction> actions)
   {
-    super(parent, "Set Custom Shortcuts", true);
+    super(parent, "Shortcuts", true);
     this.actions = actions;
     this.textFields = new HashMap<>();
     initializeUI();
@@ -62,7 +67,6 @@ public class Shortcut extends JDialog implements ActionListener
     setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     pack();
     setLocationRelativeTo(getParent());
-    setVisible(true);
   }
 
   @Override
@@ -76,13 +80,90 @@ public class Shortcut extends JDialog implements ActionListener
         KeyStroke keyStroke = KeyStroke.getKeyStroke(textField.getText());
         actions.get(actionName).setAcceleratorKey(keyStroke);
       }
-      dispose();
     }
-    else if (e.getSource() == cancelButton)
+    dispose();
+  }
+
+  /**
+   * Updates the shortcut of the selected action in the actions map with the new key stroke value
+   * entered by the user.
+   */
+  private void updateShortcut()
+  {
+    for (CustomAction action : actions.values())
     {
-      dispose();
+      panel.add(new JLabel(action.toString() + ": "));
+      JTextField textField = new JTextField();
+      textField.setText(action.getAcceleratorKey().toString());
+      textField.getDocument().addDocumentListener(new DocumentListener()
+      {
+        @Override
+        public void insertUpdate(DocumentEvent e)
+        {
+          updateActionShortcut(textField, action);
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e)
+        {
+          updateActionShortcut(textField, action);
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e)
+        {
+          updateActionShortcut(textField, action);
+        }
+
+        private void updateActionShortcut(JTextField textField, CustomAction action)
+        {
+          KeyStroke keyStroke = KeyStroke.getKeyStroke(textField.getText());
+          action.setAcceleratorKey(keyStroke);
+        }
+      });
+      panel.add(textField);
+      textFields.put(action.toString(), textField);
+    }
+
+  }
+
+  /**
+   * Show the dialog and return the updated shortcuts map if the user clicks "Save". Return null if
+   * the user clicks "Cancel".
+   * 
+   * @param parent
+   * @param actions
+   * @return map
+   */
+  public static Map<String, KeyStroke> showDialog(final JFrame parent,
+      final Map<String, CustomAction> actions)
+  {
+    Shortcut shortcutDialog = new Shortcut(parent, actions);
+    shortcutDialog.setVisible(true);
+    if (shortcutDialog.isSaved())
+    {
+      Map<String, KeyStroke> shortcuts = new HashMap<>();
+      for (String actionName : actions.keySet())
+      {
+        CustomAction action = actions.get(actionName);
+        KeyStroke keyStroke = action.getAcceleratorKey();
+        shortcuts.put(actionName, keyStroke);
+      }
+      return shortcuts;
+    }
+    else
+    {
+      return null;
     }
   }
-  
-  
+
+  /**
+   * Check if the user clicked "Save" or "Cancel".
+   * 
+   * @return saved yes or no
+   */
+  private boolean isSaved()
+  {
+    return saveButton.getModel().isPressed();
+  }
 }
