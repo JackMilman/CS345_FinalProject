@@ -1,0 +1,1 @@
+This project was the final project for the Spring 2023 Semester at James Madison University. The goal was to develop an application for a fictitious company, KichIntel, that would provide meal planning services and allow the user to input ingredients and meals and store them for later retrieval, while also determining nutritional contents and various other useful data.
